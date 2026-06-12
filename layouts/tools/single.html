@@ -1,0 +1,20 @@
+{{ define "body-class" }}template-tool-app{{ end }}
+{{ define "main" }}
+    <article class="tool-app-page">
+        <header class="tool-app-header">
+            <h1>{{ .Title }}</h1>
+            {{ with .Description }}<p>{{ . }}</p>{{ end }}
+        </header>
+
+        <div class="tool-app-content">
+            {{ $app := .Resources.GetMatch "app.html" }}
+            {{ if $app }}
+                {{ $app.Content | safeHTML }}
+            {{ else }}
+                {{ .Content }}
+            {{ end }}
+        </div>
+    </article>
+
+    {{ partialCached "footer/footer" . }}
+{{ end }}

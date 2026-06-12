@@ -166,3 +166,8 @@ minify:
       keepQuotes: true
 
 # 搜索功能由 search 页面自身的 outputs: [html, json] 处理
+
+# 安全策略（允许工具页面嵌入 HTML 资源）
+security:
+  allowContent:
+    - ".*"
