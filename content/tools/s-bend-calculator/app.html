@@ -140,7 +140,7 @@
       <div class="ctrl-row">
         <label>分段方式：</label>
         <select id="sb-mode">
-          <option value="straight">直缝</option>
+          <option value="straight">菱角</option>
           <option value="arc" selected>弧形</option>
         </select>
       </div>
@@ -301,9 +301,9 @@
     const len = Math.sqrt(dx * dx + dy * dy);
     if (len < 2) return;
 
-    // 法线方向偏移
-    const nx = -dy / len * offsetPx;
-    const ny = dx / len * offsetPx;
+    // 法线方向偏移（左手法则：正值在行进方向左侧）
+    const nx = dy / len * offsetPx;
+    const ny = -dx / len * offsetPx;
 
     const ax = x1 + nx, ay = y1 + ny;
     const bx = x2 + nx, by = y2 + ny;
@@ -382,6 +382,64 @@
     };
   }
 
+  function drawAngleAnnotation(line1Start, line1End, line2Start, line2End, radiusOffset, angle) {
+    // 1. 计算两条线段的交点
+    const a1 = line1End.y - line1Start.y;
+    const b1 = line1Start.x - line1End.x;
+    const c1 = a1 * line1Start.x + b1 * line1Start.y;
+
+    const a2 = line2End.y - line2Start.y;
+    const b2 = line2Start.x - line2End.x;
+    const c2 = a2 * line2Start.x + b2 * line2Start.y;
+
+    const det = a1 * b2 - a2 * b1;
+    if (Math.abs(det) < 1e-9) return;
+
+    const ix = (b2 * c1 - b1 * c2) / det;
+    const iy = (a1 * c2 - a2 * c1) / det;
+
+    // 2. 计算圆弧半径 = 到起点距离 + 偏移
+    const distToStart = Math.sqrt((line1Start.x - ix) * (line1Start.x - ix) + (line1Start.y - iy) * (line1Start.y - iy));
+    const arcRadius = distToStart + radiusOffset;
+
+    // 3. 计算两条射线方向角（从交点出发指向终点）
+    const dir1 = Math.atan2(line1End.y - iy, line1End.x - ix);
+    const dir2 = Math.atan2(line2End.y - iy, line2End.x - ix);
+
+    // 4. 确定圆弧起止角度（取较小扇区）
+    let startA = dir1, endA = dir2;
+    let diff = endA - startA;
+    while (diff < 0) diff += Math.PI * 2;
+    while (diff > Math.PI * 2) diff -= Math.PI * 2;
+    if (diff > Math.PI) {
+      startA = dir2;
+      endA = dir1;
+      diff = Math.PI * 2 - diff;
+    }
+
+    // 5. 绘制圆弧
+    ctx.save();
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.arc(ix, iy, arcRadius, startA, endA, false);
+    ctx.stroke();
+
+    // 6. 绘制角度文本（圆弧中点）
+    const midA = startA + diff / 2;
+    const textR = arcRadius + 12;
+    const tx = ix + textR * Math.cos(midA);
+    const ty = iy + textR * Math.sin(midA);
+
+    ctx.font = '11px "Microsoft YaHei", sans-serif';
+    ctx.fillStyle = '#ef4444';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(angle.toFixed(1) + '°', tx, ty);
+    ctx.restore();
+  }
+
   function draw() {
     // 获取参数
     const mode = elMode.value;
@@ -395,6 +453,9 @@
     let rs1 = parseFloat(elRS1.value) || 0;
     let rs2 = parseFloat(elRS2.value) || 0;
     let midLength = parseFloat(elMid.value) || 0;
+
+    // 切点/终点变量（供角度标注使用）
+    let ltEndPt = null, lbEndPt = null, rtEndPt = null, rbEndPt = null;
 
     // 计算核心参数
     const calcLength = totalLength - ls1 - rs1;
@@ -511,13 +572,13 @@
       if (bendRadius > 0) {
         // 弧形模式 - 绘制圆弧
         // 左上弧
-        const ltEndPt = drawArc(leftCenter.x, leftCenter.y, leftTopStart.x, leftTopStart.y, -bendAngle, scale);
+        ltEndPt = drawArc(leftCenter.x, leftCenter.y, leftTopStart.x, leftTopStart.y, -bendAngle, scale);
         // 左下弧
-        const lbEndPt = drawArc(leftCenter.x, leftCenter.y, leftBottomStart.x, leftBottomStart.y, -bendAngle, scale);
+        lbEndPt = drawArc(leftCenter.x, leftCenter.y, leftBottomStart.x, leftBottomStart.y, -bendAngle, scale);
         // 右上弧
-        const rtEndPt = drawArc(rightCenter.x, rightCenter.y, rightTopStart.x, rightTopStart.y, -bendAngle, scale);
+        rtEndPt = drawArc(rightCenter.x, rightCenter.y, rightTopStart.x, rightTopStart.y, -bendAngle, scale);
         // 右下弧
-        const rbEndPt = drawArc(rightCenter.x, rightCenter.y, rightBottomStart.x, rightBottomStart.y, -bendAngle, scale);
+        rbEndPt = drawArc(rightCenter.x, rightCenter.y, rightBottomStart.x, rightBottomStart.y, -bendAngle, scale);
 
         // 计算中间段的端点（沿切线方向偏移直位2距离）
         const dx = rbEndPt.x - lbEndPt.x;
@@ -700,18 +761,31 @@
     drawDimension(leftTop.x, leftTop.y, helpPt.x, helpPt.y, offsetVal.toFixed(0), 22);
     drawDimension(helpPt.x, helpPt.y, rightTop.x, rightTop.y, totalLength.toFixed(0), 30);
 
-    // 角度标注文本
-    if (bendAngle > 0) {
-      ctx.save();
-      ctx.font = '12px "Microsoft YaHei", sans-serif';
-      ctx.fillStyle = '#ef4444';
-      ctx.textAlign = 'center';
-      const angleTxt = bendAngle.toFixed(1) + '°';
-      // 左弯头角度
-      ctx.fillText(angleTxt, leftTopStart.x + 35, leftTopStart.y - 15);
-      // 右弯头角度
-      ctx.fillText(angleTxt, rightBottomStart.x - 35, rightBottomStart.y + 20);
-      ctx.restore();
+    // 角度标注（在折角中间位置画圆弧标注）
+    if (bendAngle > 0 && bendAngle < 90) {
+      if (bendRadius > 0 && ltEndPt && lbEndPt && rtEndPt && rbEndPt) {
+        // 弧形模式：标注圆弧与直段之间的夹角
+        drawAngleAnnotation(ltEndPt, lbEndPt, leftTopStart, leftBottomStart, ductWidth / 2 * scale, bendAngle);
+        drawAngleAnnotation(rbEndPt, rtEndPt, rightBottomStart, rightTopStart, ductWidth / 2 * scale, bendAngle);
+      } else {
+        // 菱角模式：标注折线与直段之间的夹角
+        const midDirTop = { x: rightTopStart.x - leftTopStart.x, y: rightTopStart.y - leftTopStart.y };
+        const midDirBot = { x: rightBottomStart.x - leftBottomStart.x, y: rightBottomStart.y - leftBottomStart.y };
+        // 左折角
+        drawAngleAnnotation(
+          leftTopStart, leftBottomStart,
+          { x: leftTopStart.x + midDirTop.x * 0.3, y: leftTopStart.y + midDirTop.y * 0.3 },
+          { x: leftBottomStart.x + midDirBot.x * 0.3, y: leftBottomStart.y + midDirBot.y * 0.3 },
+          ductWidth / 2 * scale, bendAngle
+        );
+        // 右折角
+        drawAngleAnnotation(
+          rightBottomStart, rightTopStart,
+          { x: rightBottomStart.x - midDirBot.x * 0.3, y: rightBottomStart.y - midDirBot.y * 0.3 },
+          { x: rightTopStart.x - midDirTop.x * 0.3, y: rightTopStart.y - midDirTop.y * 0.3 },
+          ductWidth / 2 * scale, bendAngle
+        );
+      }
     }
   }
 
