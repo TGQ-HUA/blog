@@ -3,7 +3,7 @@
 # 主题: Stack | 配色: 蓝橙设计系统
 # ============================================================
 
-baseurl: https://tangguoqi.github.io  # 后续替换为你的实际地址
+baseurl: https://blog.1107982011.workers.dev
 locale: zh-cn
 title: 唐国奇的技术博客
 theme: hugo-theme-stack
