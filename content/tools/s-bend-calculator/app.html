@@ -755,9 +755,25 @@
     };
   }
 
+  // 记录上次模式状态，用于检测切换
+  let lastMode = elMode.value;
+  let lastSegments = elSegments.value;
+
   function onParamChange() {
     const isStraight = elMode.value === 'straight';
     const isTwoSeg = parseInt(elSegments.value) === 2;
+    const defaultS = parseFloat(elStraight.value) || 50;
+
+    // 仅在模式或分段数量切换时重置直位
+    const modeChanged = (elMode.value !== lastMode) || (elSegments.value !== lastSegments);
+    if (modeChanged) {
+      elLS1.value = defaultS;
+      elRS1.value = defaultS;
+      elLS2.value = defaultS;
+      elRS2.value = defaultS;
+      lastMode = elMode.value;
+      lastSegments = elSegments.value;
+    }
 
     // 菱角+两节：全部自动计算（禁用直位2和短节）
     // 菱角+三节：短节可调，直位2自动分配
@@ -768,15 +784,19 @@
       elRS2.disabled = true;
       elMid.disabled = true;
     } else if (isStraight && !isTwoSeg) {
-      elLS2.disabled = true;  // 直位2由短节反推
+      elLS2.disabled = true;
       elRS2.disabled = true;
-      elMid.disabled = false; // 短节可调
+      elMid.disabled = false;
     } else if (!isStraight && isTwoSeg) {
       elLS2.disabled = false;
       elRS2.disabled = false;
       elMid.value = '0';
       elMid.disabled = true;
     } else {
+      // 弧形+三节：重置短节为合理初始值
+      if (parseFloat(elMid.value) === 0 || elMid.disabled) {
+        elMid.value = '500';
+      }
       elLS2.disabled = false;
       elRS2.disabled = false;
       elMid.disabled = false;
