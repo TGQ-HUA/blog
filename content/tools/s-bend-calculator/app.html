@@ -724,6 +724,11 @@
     }
   }
 
+  // 输入框聚焦时自动全选
+  document.querySelectorAll('.s-bend-app input[type="number"]').forEach(el => {
+    el.addEventListener('focus', function() { this.select(); });
+  });
+
   // ========== 事件绑定 ==========
   const allInputs = [elMode, elSegments, elWidth, elLength, elOffset, elStraight,
                      elLS1, elLS2, elRS1, elRS2, elMid];
