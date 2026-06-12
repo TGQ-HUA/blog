@@ -114,6 +114,12 @@ menu:
       weight: 6
       params:
         icon: book
+    - identifier: tools
+      name: 在线工具
+      url: /tools/
+      weight: 7
+      params:
+        icon: tool
 
   social:
     - identifier: wechat
