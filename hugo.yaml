@@ -1,0 +1,153 @@
+# ============================================================
+# 老唐技术博客 - Hugo 站点配置
+# 主题: Stack | 配色: 蓝橙设计系统
+# ============================================================
+
+baseurl: https://tangguoqi.github.io  # 后续替换为你的实际地址
+locale: zh-cn
+title: 唐国奇的技术博客
+theme: hugo-theme-stack
+
+# 中文支持
+defaultContentLanguage: zh-cn
+hasCJKLanguage: true
+
+# 永久链接格式
+permalinks:
+  posts: /p/:slug/
+  portfolio: /portfolio/:slug/
+
+# 分页
+pagination:
+  pagerSize: 10
+
+# 参数配置
+params:
+  # 站点信息
+  mainSections:
+    - posts
+  featuredImageField: image
+  rssFullContent: true
+
+  # 页脚
+  footer:
+    since: 2026
+
+  # 日期格式
+  dateFormat:
+    published: 2006-01-02
+    lastUpdated: 2006-01-02
+
+  # 侧边栏
+  sidebar:
+    subtitle: "暖通风管 · 技术主管 · Delphi 自学者"
+    avatar: img/avatar.jpg
+
+  # 文章设置
+  article:
+    math: false
+    toc: true
+    readingTime: true
+    license:
+      enabled: false
+
+  # 颜色方案
+  colorScheme:
+    toggle: true
+    default: auto
+
+  # 右侧边栏组件
+  widgets:
+    homepage:
+      - type: search
+      - type: archives
+        params:
+          limit: 5
+      - type: categories
+        params:
+          limit: 10
+      - type: tag-cloud
+        params:
+          limit: 20
+    page:
+      - type: toc
+
+# 导航菜单
+menu:
+  main:
+    - identifier: home
+      name: 首页
+      url: /
+      weight: 1
+      params:
+        icon: home
+    - identifier: portfolio
+      name: 成果
+      url: /portfolio/
+      weight: 2
+      params:
+        icon: briefcase
+    - identifier: archives
+      name: 归档
+      url: /archives/
+      weight: 3
+      params:
+        icon: archive
+    - identifier: about
+      name: 关于
+      url: /about/
+      weight: 4
+      params:
+        icon: user
+    - identifier: search
+      name: 搜索
+      url: /search/
+      weight: 5
+      params:
+        icon: search
+    - identifier: knowledge
+      name: 知识库
+      url: /knowledge/
+      weight: 6
+      params:
+        icon: book
+
+  social:
+    - identifier: wechat
+      name: 微信
+      url: "#"
+      params:
+        icon: messages
+    - identifier: email
+      name: 邮箱
+      url: mailto:1107982011@qq.com
+      params:
+        icon: mail
+
+# 相关文章
+related:
+  includeNewer: true
+  threshold: 60
+  toLower: false
+  indices:
+    - name: tags
+      weight: 100
+    - name: categories
+      weight: 200
+
+# Markup 设置
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  tableOfContents:
+    endLevel: 4
+    ordered: true
+    startLevel: 2
+  highlight:
+    noClasses: false
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+
+# 搜索功能由 search 页面自身的 outputs: [html, json] 处理

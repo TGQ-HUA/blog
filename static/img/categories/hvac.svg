@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <rect fill="#eff6ff" width="200" height="200" rx="20"/>
+  <path d="M40 80 h50 v40 h-50 z" fill="none" stroke="#2563eb" stroke-width="6"/>
+  <path d="M90 80 l30 -20 v80 l-30 -20 z" fill="none" stroke="#2563eb" stroke-width="6"/>
+  <path d="M120 60 h40 v80 h-40 z" fill="none" stroke="#2563eb" stroke-width="6"/>
+  <circle cx="100" cy="160" r="4" fill="#f59e0b"/>
+  <text x="100" y="175" font-size="12" fill="#6b7280" text-anchor="middle" font-family="Arial">HVAC</text>
+</svg>

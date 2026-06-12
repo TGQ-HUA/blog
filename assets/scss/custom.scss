@@ -1,0 +1,288 @@
+// ===================================================
+// 老唐技术博客 - 蓝橙设计系统
+// 主色: #2563eb (专业蓝)  衬托色: #f59e0b (实干橙)
+// ===================================================
+
+// ===== 浅色模式变量 =====
+:root {
+    --accent-color: #2563eb;
+    --accent-color-darker: #1d4ed8;
+    --body-background: #f0f2f5;
+    --card-background: #ffffff;
+    --tag-border-radius: 4px;
+}
+
+// ===== 深色模式变量 =====
+[data-scheme="dark"] {
+    --body-background: #0f172a;
+    --card-background: #1e293b;
+    --accent-color: #60a5fa;
+    --accent-color-darker: #3b82f6;
+}
+
+// ===== 全局字体（中文优化）=====
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+// ===== 文章正文排版 =====
+.article-content {
+    font-size: 16px;
+    line-height: 1.85;
+
+    // h2: 蓝色左竖线
+    h2 {
+        border-left: 3px solid #2563eb;
+        padding-left: 12px;
+        margin-top: 2em;
+    }
+
+    // h3: 不加装饰，灰色
+    h3 {
+        color: #374151;
+        margin-top: 1.5em;
+    }
+
+    // 引用块: 浅橙底 + 橙色左边框
+    blockquote {
+        background: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        color: #92400e;
+        padding: 12px 16px;
+        border-radius: 0 8px 8px 0;
+
+        [data-scheme="dark"] & {
+            background: #451a03;
+            color: #fde68a;
+            border-left-color: #fbbf24;
+        }
+    }
+
+    // 行内代码: 橙色调
+    code:not(pre code) {
+        background: #fef3c7;
+        color: #92400e;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+
+        [data-scheme="dark"] & {
+            background: #451a03;
+            color: #fde68a;
+        }
+    }
+
+    // 图片: 圆角 + 阴影
+    img {
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    // 表格: 蓝色表头 + 斑马纹
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1em 0;
+        border-radius: 8px;
+        overflow: hidden;
+
+        thead {
+            background: #2563eb;
+            color: #fff;
+
+            th {
+                padding: 10px 12px;
+                font-weight: 600;
+            }
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8fafc;
+
+            [data-scheme="dark"] & {
+                background: #1e293b;
+            }
+        }
+
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #e5e7eb;
+
+            [data-scheme="dark"] & {
+                border-bottom-color: #334155;
+            }
+        }
+    }
+}
+
+// ===== 分类标签: 蓝底白字 =====
+.article-category a {
+    background: #2563eb !important;
+    color: #fff !important;
+    border-radius: 4px;
+    padding: 2px 8px;
+
+    [data-scheme="dark"] & {
+        background: #1d4ed8 !important;
+    }
+}
+
+// ===== 标签: 橙底白字 =====
+.article-tags a {
+    background: #f59e0b !important;
+    color: #fff !important;
+    border-radius: 4px;
+
+    [data-scheme="dark"] & {
+        background: #b45309 !important;
+    }
+}
+
+// ===== 侧边栏头像: 橙色装饰环 =====
+.sidebar .site-avatar .site-avatar-image {
+    border: 3px solid #f59e0b;
+}
+
+// ===== 右侧栏搜索框修复：文字垂直居中 =====
+form.search-form {
+    p {
+        display: flex;
+        align-items: center;
+    }
+    input {
+        height: 40px !important;
+        line-height: 40px !important;
+        padding: 0 12px !important;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+    button {
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+}
+
+// ===== 侧边栏导航高亮 =====
+.sidebar .menu li.current a {
+    color: #2563eb;
+    font-weight: 600;
+}
+
+// ===== 文章卡片 hover 效果 =====
+.article-list article {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    }
+}
+
+// ===== Portfolio 页面卡片网格 =====
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin: 2em 0;
+}
+
+.portfolio-card {
+    background: var(--card-background);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+    }
+
+    img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .portfolio-card-body {
+        padding: 16px;
+
+        h3 {
+            margin: 0 0 8px;
+            color: var(--accent-color);
+        }
+
+        p {
+            color: #6b7280;
+            font-size: 14px;
+            margin: 0 0 12px;
+        }
+
+        .tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+
+            span {
+                background: #eff6ff;
+                color: #2563eb;
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+
+                [data-scheme="dark"] & {
+                    background: #1e3a5f;
+                    color: #60a5fa;
+                }
+            }
+        }
+    }
+}
+
+// ===== 时间线样式（关于我页面）=====
+.timeline {
+    position: relative;
+    padding-left: 30px;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #2563eb;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 24px;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #f59e0b;
+            border: 2px solid #fff;
+        }
+
+        .year {
+            font-weight: 700;
+            color: #2563eb;
+            font-size: 18px;
+        }
+
+        .event {
+            color: #374151;
+            margin-top: 4px;
+        }
+    }
+}

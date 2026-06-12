@@ -1,0 +1,64 @@
+<!-- 社交链接弹窗 -->
+<div id="social-popup-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; cursor:pointer; align-items:center; justify-content:center;">
+  <div id="social-popup-content" style="background:#fff; border-radius:12px; padding:24px; max-width:360px; width:90%; text-align:center; position:relative; cursor:default; box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+    <button id="social-popup-close" style="position:absolute; top:8px; right:12px; border:none; background:none; font-size:24px; cursor:pointer; color:#6b7280;">×</button>
+    <div id="social-popup-body"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var overlay = document.getElementById('social-popup-overlay');
+  var body = document.getElementById('social-popup-body');
+  var closeBtn = document.getElementById('social-popup-close');
+
+  // 微信弹窗内容
+  var wechatHTML = '<img src="/img/wechat-qr.jpg" style="width:100%; max-width:300px; border-radius:8px; margin-bottom:12px;">' +
+    '<p style="margin:8px 0 0; color:#6b7280; font-size:14px;">微信号：TGQ-liantai</p>';
+
+  // 邮箱弹窗内容
+  var emailHTML = '<div style="padding:20px 0;">' +
+    '<p style="font-size:16px; color:#1a1a2e; margin:0 0 12px;">📬 邮箱地址</p>' +
+    '<p style="font-size:20px; font-weight:bold; color:#2563eb; margin:0 0 16px; word-break:break-all;">1107982011@qq.com</p>' +
+    '<button onclick="navigator.clipboard.writeText(\'1107982011@qq.com\');this.textContent=\'已复制 ✓\';this.style.background=\'#16a34a\'" style="padding:8px 20px; background:#2563eb; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:14px;">点击复制</button>' +
+    '</div>';
+
+  // 拦截社交链接点击
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('.menu-social a, .menu-social li');
+    if (!link) return;
+
+    var anchor = link.tagName === 'A' ? link : link.querySelector('a');
+    if (!anchor) return;
+
+    var title = anchor.getAttribute('title') || anchor.textContent || '';
+
+    if (title.indexOf('微信') >= 0) {
+      e.preventDefault();
+      e.stopPropagation();
+      body.innerHTML = wechatHTML;
+      overlay.style.display = 'flex';
+    } else if (title.indexOf('邮箱') >= 0 || anchor.href.indexOf('mailto:') >= 0) {
+      e.preventDefault();
+      e.stopPropagation();
+      body.innerHTML = emailHTML;
+      overlay.style.display = 'flex';
+    }
+  });
+
+  // 关闭弹窗
+  closeBtn.addEventListener('click', function() {
+    overlay.style.display = 'none';
+  });
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) {
+      overlay.style.display = 'none';
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      overlay.style.display = 'none';
+    }
+  });
+})();
+</script>
