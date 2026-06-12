@@ -1,0 +1,39 @@
+{{ define "body-class" }}template-tools{{ end }}
+{{ define "main" }}
+    <article class="tools-page">
+        <header class="tools-header">
+            <h1>{{ .Title }}</h1>
+            {{ with .Description }}<p class="tools-desc">{{ . }}</p>{{ end }}
+        </header>
+
+        <div class="tools-grid">
+            {{ range .Pages.ByWeight }}
+            <a href="{{ .RelPermalink }}" class="tool-card">
+                <div class="tool-card-icon">
+                    {{ $icon := .Resources.GetMatch "icon.*" }}
+                    {{ if $icon }}
+                        {{ if strings.HasSuffix $icon.Name ".svg" }}
+                            {{ $icon.Content | safeHTML }}
+                        {{ else }}
+                            <img src="{{ $icon.RelPermalink }}" alt="{{ .Title }}">
+                        {{ end }}
+                    {{ else }}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    {{ end }}
+                </div>
+                <div class="tool-card-body">
+                    <h3>{{ .Title }}</h3>
+                    {{ with .Description }}<p>{{ . }}</p>{{ end }}
+                    {{ with .Params.status }}
+                        <span class="tool-status tool-status--{{ . }}">
+                            {{ if eq . "ready" }}可用{{ else if eq . "dev" }}开发中{{ else }}{{ . }}{{ end }}
+                        </span>
+                    {{ end }}
+                </div>
+            </a>
+            {{ end }}
+        </div>
+    </article>
+
+    {{ partialCached "footer/footer" . }}
+{{ end }}

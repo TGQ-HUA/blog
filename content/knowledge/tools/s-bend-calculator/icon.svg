@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- S弯管道外轮廓 -->
+  <path d="M6 36 H12 C20 36 20 20 28 20 C36 20 36 12 36 12 H42" />
+  <path d="M6 42 H12 C22 42 22 26 28 26 C34 26 36 18 36 18 H42" />
+  <!-- 左端口 -->
+  <line x1="6" y1="36" x2="6" y2="42" />
+  <!-- 右端口 -->
+  <line x1="42" y1="12" x2="42" y2="18" />
+  <!-- 尺寸标注箭头 -->
+  <line x1="2" y1="36" x2="2" y2="42" stroke-dasharray="2 2" stroke-width="1" />
+  <line x1="46" y1="12" x2="46" y2="18" stroke-dasharray="2 2" stroke-width="1" />
+</svg>
