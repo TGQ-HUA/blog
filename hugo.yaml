@@ -23,6 +23,9 @@ pagination:
 
 # 参数配置
 params:
+  # 网站图标
+  favicon: img/favicon.png
+
   # 站点信息
   mainSections:
     - posts
