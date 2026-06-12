@@ -14,6 +14,8 @@
 .s-bend-canvas-wrap {
   flex: 1;
   min-width: 0;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
   background: #fff;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
@@ -29,7 +31,6 @@
 .s-bend-canvas-wrap canvas {
   width: 100%;
   height: 100%;
-  min-height: 420px;
 }
 
 /* 控件组 */
@@ -565,166 +566,93 @@
     ctx.closePath();
     ctx.stroke();
 
-    // 绘制弯头圆弧和中间连接段
+    // 绘制弯头圆弧和中间连接段（统一逻辑，菱角模式下内径=0时圆弧不可见）
     if (bendAngle > 0 && bendAngle < 90) {
-      const angleRad = bendAngle * Math.PI / 180;
+      // 绘制圆弧（内径=0时半径为0，不绘制可见弧线，切点=起点）
+      ltEndPt = drawArc(leftCenter.x, leftCenter.y, leftTopStart.x, leftTopStart.y, -bendAngle, scale);
+      lbEndPt = drawArc(leftCenter.x, leftCenter.y, leftBottomStart.x, leftBottomStart.y, -bendAngle, scale);
+      rtEndPt = drawArc(rightCenter.x, rightCenter.y, rightTopStart.x, rightTopStart.y, -bendAngle, scale);
+      rbEndPt = drawArc(rightCenter.x, rightCenter.y, rightBottomStart.x, rightBottomStart.y, -bendAngle, scale);
 
-      if (bendRadius > 0) {
-        // 弧形模式 - 绘制圆弧
-        // 左上弧
-        ltEndPt = drawArc(leftCenter.x, leftCenter.y, leftTopStart.x, leftTopStart.y, -bendAngle, scale);
-        // 左下弧
-        lbEndPt = drawArc(leftCenter.x, leftCenter.y, leftBottomStart.x, leftBottomStart.y, -bendAngle, scale);
-        // 右上弧
-        rtEndPt = drawArc(rightCenter.x, rightCenter.y, rightTopStart.x, rightTopStart.y, -bendAngle, scale);
-        // 右下弧
-        rbEndPt = drawArc(rightCenter.x, rightCenter.y, rightBottomStart.x, rightBottomStart.y, -bendAngle, scale);
+      // 计算中间段的端点（沿切线方向偏移直位2距离）
+      const dx = rbEndPt.x - lbEndPt.x;
+      const dy = rbEndPt.y - lbEndPt.y;
+      const segLen = Math.sqrt(dx * dx + dy * dy);
 
-        // 计算中间段的端点（沿切线方向偏移直位2距离）
-        const dx = rbEndPt.x - lbEndPt.x;
-        const dy = rbEndPt.y - lbEndPt.y;
-        const segLen = Math.sqrt(dx * dx + dy * dy);
-
-        if (segLen > 0) {
-          const ux = dx / segLen, uy = dy / segLen;
-          const ltLeft = { x: ltEndPt.x + ux * ls2 * scale, y: ltEndPt.y + uy * ls2 * scale };
-          const ltRight = { x: rtEndPt.x - ux * rs2 * scale, y: rtEndPt.y - uy * rs2 * scale };
-          const lbLeft = { x: lbEndPt.x + ux * ls2 * scale, y: lbEndPt.y + uy * ls2 * scale };
-          const lbRight = { x: rbEndPt.x - ux * rs2 * scale, y: rbEndPt.y - uy * rs2 * scale };
-
-          // 中间连接段（上线+下线）
-          ctx.beginPath();
-          ctx.moveTo(ltEndPt.x, ltEndPt.y);
-          ctx.lineTo(ltLeft.x, ltLeft.y);
-          ctx.lineTo(ltRight.x, ltRight.y);
-          ctx.lineTo(rtEndPt.x, rtEndPt.y);
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.moveTo(lbEndPt.x, lbEndPt.y);
-          ctx.lineTo(lbLeft.x, lbLeft.y);
-          ctx.lineTo(lbRight.x, lbRight.y);
-          ctx.lineTo(rbEndPt.x, rbEndPt.y);
-          ctx.stroke();
-
-          // 分割线（虚线）
-          if (ls2 > 0) {
-            ctx.save();
-            ctx.strokeStyle = '#ef4444';
-            ctx.setLineDash([4, 3]);
-            ctx.beginPath();
-            ctx.moveTo(lbEndPt.x, lbEndPt.y);
-            ctx.lineTo(ltEndPt.x, ltEndPt.y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(lbLeft.x, lbLeft.y);
-            ctx.lineTo(ltLeft.x, ltLeft.y);
-            ctx.stroke();
-            ctx.restore();
-          }
-          if (rs2 > 0) {
-            ctx.save();
-            ctx.strokeStyle = '#ef4444';
-            ctx.setLineDash([4, 3]);
-            ctx.beginPath();
-            ctx.moveTo(rbEndPt.x, rbEndPt.y);
-            ctx.lineTo(rtEndPt.x, rtEndPt.y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(lbRight.x, lbRight.y);
-            ctx.lineTo(ltRight.x, ltRight.y);
-            ctx.stroke();
-            ctx.restore();
-          }
-
-          // 中间竖线（三节时的短节分隔）
-          if (midLength > 0 && segments === 3) {
-            ctx.beginPath();
-            ctx.moveTo(lbLeft.x, lbLeft.y);
-            ctx.lineTo(ltLeft.x, ltLeft.y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(lbRight.x, lbRight.y);
-            ctx.lineTo(ltRight.x, ltRight.y);
-            ctx.stroke();
-          }
-
-          // 尺寸标注 - 短节
-          if (midLength > 0) {
-            drawDimension(ltLeft.x, ltLeft.y, ltRight.x, ltRight.y, midLength.toFixed(0), -18);
-          }
-          // 直位2标注
-          if (ls2 > 0) {
-            drawDimension(lbEndPt.x, lbEndPt.y, lbLeft.x, lbLeft.y, ls2.toFixed(0), 10);
-          }
-          if (rs2 > 0) {
-            drawDimension(lbRight.x, lbRight.y, rbEndPt.x, rbEndPt.y, rs2.toFixed(0), 10);
-          }
-        }
-      } else {
-        // 直缝模式 - 直线折弯（无圆弧）
-        const cos = Math.cos(angleRad);
-        const sin = Math.sin(angleRad);
-
-        // 切点 = 起点绕圆心旋转角度后的位置
-        // 直缝模式下内径=0，切点就是起点本身向斜方向延伸
-        const ltEnd = rotatePoint(leftTopStart.x, leftTopStart.y - 0.001,
-          leftTopStart.x, leftTopStart.y, -bendAngle);
-        const lbEnd = rotatePoint(leftBottomStart.x, leftBottomStart.y - 0.001,
-          leftBottomStart.x, leftBottomStart.y, -bendAngle);
-        const rtEnd = rotatePoint(rightTopStart.x, rightTopStart.y + 0.001,
-          rightTopStart.x, rightTopStart.y, -bendAngle);
-        const rbEnd = rotatePoint(rightBottomStart.x, rightBottomStart.y + 0.001,
-          rightBottomStart.x, rightBottomStart.y, -bendAngle);
-
-        // 简化绘制：用直线连接左起点到右起点的中间段
-        const dx = rightBottomStart.x - leftBottomStart.x;
-        const dy = rightBottomStart.y - leftBottomStart.y;
-        const segLen = Math.sqrt(dx * dx + dy * dy);
+      if (segLen > 0) {
         const ux = dx / segLen, uy = dy / segLen;
-        // 法线
-        const nx = -uy, ny = ux;
+        const ltLeft = { x: ltEndPt.x + ux * ls2 * scale, y: ltEndPt.y + uy * ls2 * scale };
+        const ltRight = { x: rtEndPt.x - ux * rs2 * scale, y: rtEndPt.y - uy * rs2 * scale };
+        const lbLeft = { x: lbEndPt.x + ux * ls2 * scale, y: lbEndPt.y + uy * ls2 * scale };
+        const lbRight = { x: rbEndPt.x - ux * rs2 * scale, y: rbEndPt.y - uy * rs2 * scale };
 
-        // 上下边线
-        const ltStart = { x: leftTopStart.x, y: leftTopStart.y };
-        const lbStart = { x: leftBottomStart.x, y: leftBottomStart.y };
-        const rtStart = { x: rightTopStart.x, y: rightTopStart.y };
-        const rbStart = { x: rightBottomStart.x, y: rightBottomStart.y };
-
-        // 中间段直接斜着连接
+        // 中间连接段（上线+下线）
         ctx.beginPath();
-        ctx.moveTo(ltStart.x, ltStart.y);
-        ctx.lineTo(rtStart.x, rtStart.y);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(lbStart.x, lbStart.y);
-        ctx.lineTo(rbStart.x, rbStart.y);
+        ctx.moveTo(ltEndPt.x, ltEndPt.y);
+        ctx.lineTo(ltLeft.x, ltLeft.y);
+        ctx.lineTo(ltRight.x, ltRight.y);
+        ctx.lineTo(rtEndPt.x, rtEndPt.y);
         ctx.stroke();
 
-        // 分割虚线
+        ctx.beginPath();
+        ctx.moveTo(lbEndPt.x, lbEndPt.y);
+        ctx.lineTo(lbLeft.x, lbLeft.y);
+        ctx.lineTo(lbRight.x, lbRight.y);
+        ctx.lineTo(rbEndPt.x, rbEndPt.y);
+        ctx.stroke();
+
+        // 分割线（红色虚线）
         if (ls2 > 0) {
-          const p1 = { x: lbStart.x + ux * ls2 * scale, y: lbStart.y + uy * ls2 * scale };
-          const p2 = { x: ltStart.x + ux * ls2 * scale, y: ltStart.y + uy * ls2 * scale };
           ctx.save();
           ctx.strokeStyle = '#ef4444';
           ctx.setLineDash([4, 3]);
           ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
+          ctx.moveTo(lbEndPt.x, lbEndPt.y);
+          ctx.lineTo(ltEndPt.x, ltEndPt.y);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(lbLeft.x, lbLeft.y);
+          ctx.lineTo(ltLeft.x, ltLeft.y);
           ctx.stroke();
           ctx.restore();
         }
         if (rs2 > 0) {
-          const p1 = { x: rbStart.x - ux * rs2 * scale, y: rbStart.y - uy * rs2 * scale };
-          const p2 = { x: rtStart.x - ux * rs2 * scale, y: rtStart.y - uy * rs2 * scale };
           ctx.save();
           ctx.strokeStyle = '#ef4444';
           ctx.setLineDash([4, 3]);
           ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
+          ctx.moveTo(rbEndPt.x, rbEndPt.y);
+          ctx.lineTo(rtEndPt.x, rtEndPt.y);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(lbRight.x, lbRight.y);
+          ctx.lineTo(ltRight.x, ltRight.y);
           ctx.stroke();
           ctx.restore();
+        }
+
+        // 短节分隔线（实线）
+        if (midLength > 0 && segments === 3) {
+          ctx.beginPath();
+          ctx.moveTo(lbLeft.x, lbLeft.y);
+          ctx.lineTo(ltLeft.x, ltLeft.y);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(lbRight.x, lbRight.y);
+          ctx.lineTo(ltRight.x, ltRight.y);
+          ctx.stroke();
+        }
+
+        // 尺寸标注 - 短节
+        if (midLength > 0) {
+          drawDimension(ltLeft.x, ltLeft.y, ltRight.x, ltRight.y, midLength.toFixed(0), -18);
+        }
+        // 直位2标注
+        if (ls2 > 0) {
+          drawDimension(lbEndPt.x, lbEndPt.y, lbLeft.x, lbLeft.y, ls2.toFixed(0), 10);
+        }
+        if (rs2 > 0) {
+          drawDimension(lbRight.x, lbRight.y, rbEndPt.x, rbEndPt.y, rs2.toFixed(0), 10);
         }
       }
     }
@@ -762,29 +690,33 @@
     drawDimension(helpPt.x, helpPt.y, rightTop.x, rightTop.y, totalLength.toFixed(0), 30);
 
     // 角度标注（在折角中间位置画圆弧标注）
-    if (bendAngle > 0 && bendAngle < 90) {
-      if (bendRadius > 0 && ltEndPt && lbEndPt && rtEndPt && rbEndPt) {
-        // 弧形模式：标注圆弧与直段之间的夹角
+    if (bendAngle > 0 && bendAngle < 90 && ltEndPt && lbEndPt && rtEndPt && rbEndPt) {
+      if (bendRadius > 0) {
+        // 弧形模式：切点线 vs 直段边
         drawAngleAnnotation(ltEndPt, lbEndPt, leftTopStart, leftBottomStart, ductWidth / 2 * scale, bendAngle);
         drawAngleAnnotation(rbEndPt, rtEndPt, rightBottomStart, rightTopStart, ductWidth / 2 * scale, bendAngle);
       } else {
-        // 菱角模式：标注折线与直段之间的夹角
-        const midDirTop = { x: rightTopStart.x - leftTopStart.x, y: rightTopStart.y - leftTopStart.y };
-        const midDirBot = { x: rightBottomStart.x - leftBottomStart.x, y: rightBottomStart.y - leftBottomStart.y };
-        // 左折角
-        drawAngleAnnotation(
-          leftTopStart, leftBottomStart,
-          { x: leftTopStart.x + midDirTop.x * 0.3, y: leftTopStart.y + midDirTop.y * 0.3 },
-          { x: leftBottomStart.x + midDirBot.x * 0.3, y: leftBottomStart.y + midDirBot.y * 0.3 },
-          ductWidth / 2 * scale, bendAngle
-        );
-        // 右折角
-        drawAngleAnnotation(
-          rightBottomStart, rightTopStart,
-          { x: rightBottomStart.x - midDirBot.x * 0.3, y: rightBottomStart.y - midDirBot.y * 0.3 },
-          { x: rightTopStart.x - midDirTop.x * 0.3, y: rightTopStart.y - midDirTop.y * 0.3 },
-          ductWidth / 2 * scale, bendAngle
-        );
+        // 菱角模式：中间段方向线 vs 直段边（切点=起点，不能用相同的线）
+        const dx = rbEndPt.x - lbEndPt.x;
+        const dy = rbEndPt.y - lbEndPt.y;
+        const segLen = Math.sqrt(dx * dx + dy * dy);
+        if (segLen > 0) {
+          const ux = dx / segLen, uy = dy / segLen;
+          // 左折角：直段边 vs 中间段方向
+          drawAngleAnnotation(
+            leftTopStart, leftBottomStart,
+            { x: leftTopStart.x + ux * 50, y: leftTopStart.y + uy * 50 },
+            { x: leftBottomStart.x + ux * 50, y: leftBottomStart.y + uy * 50 },
+            ductWidth / 2 * scale, bendAngle
+          );
+          // 右折角
+          drawAngleAnnotation(
+            rightBottomStart, rightTopStart,
+            { x: rightBottomStart.x - ux * 50, y: rightBottomStart.y - uy * 50 },
+            { x: rightTopStart.x - ux * 50, y: rightTopStart.y - uy * 50 },
+            ductWidth / 2 * scale, bendAngle
+          );
+        }
       }
     }
   }
