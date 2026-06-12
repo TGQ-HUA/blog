@@ -153,4 +153,10 @@ markup:
     guessSyntax: true
     lineNos: true
 
+# HTML 压缩设置（保留属性引号，否则百度站长验证会失败）
+minify:
+  tdewolff:
+    html:
+      keepQuotes: true
+
 # 搜索功能由 search 页面自身的 outputs: [html, json] 处理
