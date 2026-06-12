@@ -490,14 +490,17 @@
         rs2 = shortTotal / 2;
         midLength = 0;
       } else {
-        ls2 = defaultStraight;
-        rs2 = defaultStraight;
-        midLength = shortTotal - ls2 - rs2;
+        // 三节：尊重用户的短节长度输入，反推直位2
+        midLength = parseFloat(elMid.value) || 0;
+        if (midLength > shortTotal) midLength = shortTotal;
+        if (midLength < 0) midLength = 0;
+        ls2 = (shortTotal - midLength) / 2;
+        rs2 = (shortTotal - midLength) / 2;
       }
-      // 同步UI（不触发事件）
+      // 同步UI
       elLS2.value = ls2.toFixed(1);
       elRS2.value = rs2.toFixed(1);
-      elMid.value = midLength.toFixed(1);
+      if (segments === 2) elMid.value = midLength.toFixed(1);
     }
 
     // 显示结果
@@ -739,16 +742,30 @@
   }
 
   function onParamChange() {
-    // 直缝模式下禁用直位2和短节输入
     const isStraight = elMode.value === 'straight';
-    elLS2.disabled = isStraight;
-    elRS2.disabled = isStraight;
-    elMid.disabled = isStraight || parseInt(elSegments.value) === 2;
+    const isTwoSeg = parseInt(elSegments.value) === 2;
 
-    // 弧形模式下，两节时短节=0
-    if (elMode.value === 'arc' && parseInt(elSegments.value) === 2) {
+    // 菱角+两节：全部自动计算（禁用直位2和短节）
+    // 菱角+三节：短节可调，直位2自动分配
+    // 弧形+两节：短节=0（禁用）
+    // 弧形+三节：全部可调
+    if (isStraight && isTwoSeg) {
+      elLS2.disabled = true;
+      elRS2.disabled = true;
+      elMid.disabled = true;
+    } else if (isStraight && !isTwoSeg) {
+      elLS2.disabled = true;  // 直位2由短节反推
+      elRS2.disabled = true;
+      elMid.disabled = false; // 短节可调
+    } else if (!isStraight && isTwoSeg) {
+      elLS2.disabled = false;
+      elRS2.disabled = false;
       elMid.value = '0';
       elMid.disabled = true;
+    } else {
+      elLS2.disabled = false;
+      elRS2.disabled = false;
+      elMid.disabled = false;
     }
 
     draw();
