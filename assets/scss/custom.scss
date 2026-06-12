@@ -243,6 +243,21 @@ form.search-form {
     }
 }
 
+// ===== 归档页分类卡片：换行排列，不要横向滚动 =====
+.template-archives {
+    .subsection-list {
+        overflow-x: visible;
+        mask-image: none;
+        -webkit-mask-image: none;
+    }
+
+    .article-list--tile {
+        width: auto;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+}
+
 // ===== 时间线样式（关于我页面）=====
 .timeline {
     position: relative;
