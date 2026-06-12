@@ -729,6 +729,15 @@
     el.addEventListener('focus', function() { this.select(); });
   });
 
+  // 默认直位变化时同步所有直位值
+  elStraight.addEventListener('input', function() {
+    const v = this.value;
+    elLS1.value = v;
+    elRS1.value = v;
+    elLS2.value = v;
+    elRS2.value = v;
+  });
+
   // ========== 事件绑定 ==========
   const allInputs = [elMode, elSegments, elWidth, elLength, elOffset, elStraight,
                      elLS1, elLS2, elRS1, elRS2, elMid];
