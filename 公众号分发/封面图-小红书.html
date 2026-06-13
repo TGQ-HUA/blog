@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>小红书封面图</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #1a1a2e;
+}
+.card {
+    width: 1080px;
+    height: 1440px;
+    background: linear-gradient(160deg, #1e3a5f 0%, #0f2027 50%, #1a1a2e 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 90px;
+    position: relative;
+    overflow: hidden;
+}
+/* 装饰背景 */
+.card::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.card::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.top-label {
+    font-size: 36px;
+    color: #f59e0b;
+    font-weight: 700;
+    letter-spacing: 6px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+}
+.main-title {
+    font-size: 72px;
+    color: #fff;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.4;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 1;
+}
+.main-title span {
+    color: #f59e0b;
+}
+.points {
+    list-style: none;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+.points li {
+    font-size: 42px;
+    color: #e2e8f0;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.points li:last-child {
+    border-bottom: none;
+}
+.points .icon {
+    font-size: 38px;
+    width: 50px;
+    text-align: center;
+}
+.bottom-info {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1;
+}
+.bottom-info .name {
+    font-size: 34px;
+    color: #94a3b8;
+    letter-spacing: 3px;
+}
+.bottom-info .desc {
+    font-size: 28px;
+    color: #64748b;
+    margin-top: 10px;
+}
+.accent-line {
+    width: 80px;
+    height: 4px;
+    background: #f59e0b;
+    margin: 30px auto;
+}
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="top-label">暖通风管 · 技术分享</div>
+    <div class="main-title">
+        12年风管老兵<br>
+        <span>自学编程写工具</span>
+    </div>
+    <ul class="points">
+        <li><span class="icon">🔧</span> 风管制造工艺技巧</li>
+        <li><span class="icon">💻</span> CAMduct 操作实战</li>
+        <li><span class="icon">📊</span> WPS宏 / Delphi 自研工具</li>
+        <li><span class="icon">🏭</span> 中小工厂数字化转型</li>
+    </ul>
+    <div class="bottom-info">
+        <div class="accent-line"></div>
+        <div class="name">奇美星暖通风管制作</div>
+        <div class="desc">tangguoqi.top</div>
+    </div>
+</div>
+</body>
+</html>

@@ -122,6 +122,21 @@ menu:
         icon: tool
 
   social:
+    - identifier: zhihu
+      name: 知乎
+      url: https://www.zhihu.com/people/tgq-39-23
+      params:
+        icon: zhihu
+    - identifier: xiaohongshu
+      name: 小红书
+      url: https://www.xiaohongshu.com/user/profile/5b801341f43cbe00010793d3
+      params:
+        icon: xiaohongshu
+    - identifier: gongzhonghao
+      name: 公众号
+      url: /img/wechat-gzh-qr.jpg
+      params:
+        icon: gongzhonghao
     - identifier: wechat
       name: 微信
       url: "#"

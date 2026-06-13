@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>小红书封面图 - CAMduct小孔</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #1a1a2e;
+}
+.card {
+    width: 1080px;
+    height: 1440px;
+    background: linear-gradient(160deg, #0f2027 0%, #1a1a2e 40%, #2c1810 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 90px;
+    position: relative;
+    overflow: hidden;
+}
+.card::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(239,68,68,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.card::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.warning-badge {
+    background: #ef4444;
+    color: #fff;
+    font-size: 32px;
+    font-weight: 700;
+    padding: 10px 30px;
+    border-radius: 6px;
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 1;
+}
+.main-title {
+    font-size: 68px;
+    color: #fff;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.4;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+.main-title span {
+    color: #f59e0b;
+}
+.main-title .highlight {
+    color: #ef4444;
+}
+.subtitle {
+    font-size: 40px;
+    color: #94a3b8;
+    text-align: center;
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 1;
+}
+.solution-box {
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(245,158,11,0.4);
+    border-radius: 16px;
+    padding: 40px 50px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+.solution-box .label {
+    font-size: 30px;
+    color: #f59e0b;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.solution-box .content {
+    font-size: 38px;
+    color: #e2e8f0;
+    line-height: 1.8;
+}
+.solution-box .path {
+    font-family: Consolas, monospace;
+    font-size: 32px;
+    color: #67e8f9;
+    background: rgba(0,0,0,0.3);
+    padding: 8px 16px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 10px;
+}
+.bottom-info {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1;
+}
+.bottom-info .name {
+    font-size: 34px;
+    color: #94a3b8;
+    letter-spacing: 3px;
+}
+.bottom-info .desc {
+    font-size: 28px;
+    color: #64748b;
+    margin-top: 10px;
+}
+.accent-line {
+    width: 80px;
+    height: 4px;
+    background: #f59e0b;
+    margin: 30px auto;
+}
+.version-tag {
+    font-size: 28px;
+    color: #10b981;
+    border: 1px solid #10b981;
+    padding: 6px 20px;
+    border-radius: 20px;
+    margin-top: 30px;
+    position: relative;
+    z-index: 1;
+}
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="warning-badge">⚠️ 踩坑记录</div>
+    <div class="main-title">
+        CAMduct<br>
+        小孔不出<span class="highlight">NC码</span>？
+    </div>
+    <div class="subtitle">找了2天，竟然是一个参数的事</div>
+    <div class="solution-box">
+        <div class="label">✅ 解决方法：</div>
+        <div class="content">
+            修改 Pierce Size 参数<br>
+            <span class="path">Tool Setup → Global → Pierce Size → 0</span>
+        </div>
+    </div>
+    <div class="version-tag">所有版本通用</div>
+    <div class="bottom-info">
+        <div class="accent-line"></div>
+        <div class="name">奇美星暖通风管制作</div>
+        <div class="desc">tangguoqi.top</div>
+    </div>
+</div>
+</body>
+</html>
