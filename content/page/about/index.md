@@ -6,9 +6,9 @@ slug: "about"
 url: /about/
 ---
 
-## 👋 你好，我是唐国奇
+## 👋 你好，我是奇美星
 
-湖南联泰风管厂**技术部主管**，93 年生，在暖通风管制造行业摸爬滚打了 12 年。
+风管厂**技术部主管**，93 年生，在暖通风管制造行业摸爬滚打了 12 年。
 
 我不是科班出身的程序员，而是一个从车间里干出来的**自学型技术人**——从零开始学 Delphi、学数据库、学自动化，一个人撑起了整个技术部的数字化转型。
 
@@ -37,7 +37,7 @@ url: /about/
   </div>
   <div class="timeline-item">
     <div class="year">2016</div>
-    <div class="event">联泰风管厂技术员 —— 开始接触 CAMduct、风管制造</div>
+    <div class="event">风管厂技术员 —— 开始接触 CAMduct、风管制造</div>
   </div>
   <div class="timeline-item">
     <div class="year">2018</div>
