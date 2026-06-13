@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><title>竖屏封面</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{display:flex;justify-content:center;align-items:center;min-height:100vh;background:#0a0a0a}
+.card{width:1080px;height:1440px;background:linear-gradient(160deg,#0f2027 0%,#0a1628 40%,#1a1a2e 100%);display:flex;flex-direction:column;align-items:center;padding:70px 80px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:-200px;left:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(99,102,241,0.12) 0%,transparent 60%);border-radius:50%}
+.tag{display:inline-block;background:#10b981;color:#fff;font-size:30px;font-weight:700;padding:10px 28px;border-radius:6px;margin-bottom:32px;position:relative;z-index:1}
+.main-title{font-size:58px;color:#fff;font-weight:900;text-align:center;line-height:1.4;margin-bottom:16px;position:relative;z-index:1}
+.main-title .hl{color:#f59e0b}.main-title .green{color:#10b981}
+.subtitle{font-size:32px;color:#94a3b8;text-align:center;margin-bottom:40px;position:relative;z-index:1}
+.sol-box{background:rgba(16,185,129,0.08);border:2px solid rgba(16,185,129,0.4);border-radius:20px;padding:36px 44px;width:100%;margin-bottom:30px;position:relative;z-index:1}
+.sol-box .label{font-size:28px;color:#10b981;font-weight:700;margin-bottom:20px}
+.sol-box .content{font-size:32px;color:#e2e8f0;line-height:1.8}
+.summary{background:rgba(245,158,11,0.08);border:2px solid rgba(245,158,11,0.3);border-radius:16px;padding:20px 30px;width:100%;text-align:center;margin-bottom:30px;position:relative;z-index:1}
+.summary .text{font-size:28px;color:#f59e0b;font-family:Consolas,monospace}
+.ver{font-size:26px;color:#10b981;border:1px solid #10b981;padding:8px 22px;border-radius:20px;margin-bottom:30px;position:relative;z-index:1}
+.bottom{display:flex;align-items:center;gap:28px;margin-top:auto;position:relative;z-index:1}
+.qr-wrapper{width:160px;height:160px;background:#fff;border-radius:12px;padding:10px;box-shadow:0 4px 20px rgba(0,0,0,0.3);flex-shrink:0}
+.qr-wrapper img{width:100%;height:100%;object-fit:contain;border-radius:6px}
+.bt{display:flex;flex-direction:column;gap:8px}.bt .name{font-size:28px;color:#f1f5f9;font-weight:700}
+.bt .desc{font-size:22px;color:#94a3b8}.bt .url{font-size:22px;color:#67e8f9;font-family:Consolas,monospace;background:rgba(0,0,0,0.3);padding:6px 16px;border-radius:16px;display:inline-block}
+</style></head><body>
+<div class="card">
+    <div class="tag">✅ 接缝规则速查</div>
+    <div class="main-title">CAMduct 拼板切割<br><span class="green">接缝规则一张表</span></div>
+    <div class="subtitle">超尺寸管件分割方向+接缝类型全搞定</div>
+    <div class="sol-box">
+        <div class="label">✅ 核心要点：</div>
+        <div class="content">矩形管 → 17+3<br>圆管 → 15-15<br>焊接管 → 无<br>静压箱 → 15-15<br><br>⚠️ 禁止用「套用全部」</div>
+    </div>
+    <div class="summary"><div class="text">超尺寸 → 选分割 → 设方向 → 选接缝 → 套用</div></div>
+    <div class="ver">所有版本 CAMduct 通用</div>
+    <div class="bottom">
+        <div class="qr-wrapper"><img src="公众号二维码.jpg" alt="二维码"></div>
+        <div class="bt">
+            <div class="name">奇美星暖通风管制作</div>
+            <div class="desc">暖通风管制造技术分享 · 每周更新</div>
+            <div class="url">tangguoqi.top</div>
+        </div>
+    </div>
+</div></body></html>

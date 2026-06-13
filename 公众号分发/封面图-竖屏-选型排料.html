@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>竖屏封面 - 选型排料答案版</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #0a0a0a; }
+.card {
+    width: 1080px; height: 1440px;
+    background: linear-gradient(160deg, #0f2027 0%, #0a1628 40%, #1a1a2e 100%);
+    display: flex; flex-direction: column; align-items: center; padding: 70px 80px; position: relative; overflow: hidden;
+}
+.card::before { content: ''; position: absolute; top: -200px; left: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 60%); border-radius: 50%; }
+.card::after { content: ''; position: absolute; bottom: -150px; right: -150px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 60%); border-radius: 50%; }
+.tag { display: inline-block; background: #6366f1; color: #fff; font-size: 30px; font-weight: 700; padding: 10px 28px; border-radius: 6px; margin-bottom: 32px; position: relative; z-index: 1; }
+.main-title { font-size: 60px; color: #fff; font-weight: 900; text-align: center; line-height: 1.4; margin-bottom: 16px; position: relative; z-index: 1; }
+.main-title .accent { color: #f59e0b; }
+.subtitle { font-size: 32px; color: #94a3b8; text-align: center; margin-bottom: 40px; position: relative; z-index: 1; }
+.steps-box { background: rgba(99,102,241,0.08); border: 2px solid rgba(99,102,241,0.3); border-radius: 20px; padding: 36px 44px; width: 100%; margin-bottom: 30px; position: relative; z-index: 1; }
+.steps-box .label { font-size: 28px; color: #6366f1; font-weight: 700; margin-bottom: 20px; }
+.steps-box .step-list { list-style: none; }
+.steps-box .step-list li { font-size: 34px; color: #e2e8f0; padding: 10px 0; display: flex; align-items: center; gap: 14px; }
+.steps-box .step-list li .num { background: #f59e0b; color: #fff; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; flex-shrink: 0; }
+.summary-box { background: rgba(245,158,11,0.08); border: 2px solid rgba(245,158,11,0.3); border-radius: 16px; padding: 20px 30px; width: 100%; text-align: center; margin-bottom: 30px; position: relative; z-index: 1; }
+.summary-box .text { font-size: 28px; color: #f59e0b; font-family: Consolas, monospace; }
+.version-tag { font-size: 26px; color: #10b981; border: 1px solid #10b981; padding: 8px 22px; border-radius: 20px; margin-bottom: 30px; position: relative; z-index: 1; }
+.bottom-area { display: flex; align-items: center; gap: 28px; margin-top: auto; position: relative; z-index: 1; }
+.qr-wrapper { width: 160px; height: 160px; background: #fff; border-radius: 12px; padding: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); flex-shrink: 0; }
+.qr-wrapper img { width: 100%; height: 100%; object-fit: contain; border-radius: 6px; }
+.bottom-text { display: flex; flex-direction: column; gap: 8px; }
+.bottom-text .name { font-size: 28px; color: #f1f5f9; font-weight: 700; }
+.bottom-text .desc { font-size: 22px; color: #94a3b8; }
+.bottom-text .url { font-size: 22px; color: #67e8f9; font-family: Consolas, monospace; background: rgba(0,0,0,0.3); padding: 6px 16px; border-radius: 16px; display: inline-block; }
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="tag">📖 新手保姆级教程</div>
+    <div class="main-title">
+        CAMduct 选型排料<br>
+        <span class="accent">6步搞定</span>
+    </div>
+    <div class="subtitle">从打开软件到输出NC码，一次讲透</div>
+    <div class="steps-box">
+        <div class="label">✅ 完整流程：</div>
+        <ul class="step-list">
+            <li><span class="num">1</span> 打开软件 → 创建新文档</li>
+            <li><span class="num">2</span> 样板图库 → 选管件类型</li>
+            <li><span class="num">3</span> 双击图形 → 填参数</li>
+            <li><span class="num">4</span> 点「完成」→ 继续选下一个</li>
+            <li><span class="num">5</span> 自动排版 → 确定</li>
+            <li><span class="num">6</span> 写出NC码 → 保存</li>
+        </ul>
+    </div>
+    <div class="summary-box">
+        <div class="text">选管件 → 填参数 → 排版 → 出码 → 搞定</div>
+    </div>
+    <div class="version-tag">所有版本 CAMduct 通用</div>
+    <div class="bottom-area">
+        <div class="qr-wrapper">
+            <img src="公众号二维码.jpg" alt="公众号二维码">
+        </div>
+        <div class="bottom-text">
+            <div class="name">奇美星暖通风管制作</div>
+            <div class="desc">暖通风管制造技术分享 · 每周更新</div>
+            <div class="url">tangguoqi.top</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
