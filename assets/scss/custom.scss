@@ -72,6 +72,7 @@ body::before {
     -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
     border-right: 1px solid var(--glass-border) !important;
     box-shadow: var(--glass-shadow);
+    padding: 16px !important;
 }
 
 // 侧边栏头像
@@ -113,6 +114,7 @@ body::before {
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
+    padding: 16px !important;
 
     // 顶部高光（模拟玻璃反射）
     &::before {
@@ -143,6 +145,7 @@ body::before {
     border-radius: var(--glass-radius) !important;
     box-shadow: var(--glass-shadow);
     overflow: hidden;
+    padding: 16px !important;
 }
 
 // ===== 文章正文排版 =====
