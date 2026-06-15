@@ -12,7 +12,7 @@
     --card-background-solid: #ffffff;
     --tag-border-radius: 20px;
     --container-padding: 30px;
-    --section-separation: 16px;
+    --section-separation: 12px;
 
     // 玻璃效果变量
     --glass-bg: rgba(255, 255, 255, 0.4);
@@ -85,11 +85,11 @@ body::before {
 
 // 侧边栏导航菜单
 .sidebar .menu li {
-    margin: 2px 8px;
+    margin: 0 8px;
 
     a {
-        border-radius: 10px;
-        padding: 5px 14px;
+        border-radius: 8px;
+        padding: 3px 12px;
         transition: all 0.25s ease;
 
         &:hover {
@@ -115,7 +115,7 @@ body::before {
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
-    padding: 10px 16px !important;
+    padding: 6px 16px !important;
 
     // 顶部高光（模拟玻璃反射）
     &::before {
