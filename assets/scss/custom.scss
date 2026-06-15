@@ -1,28 +1,146 @@
 // ===================================================
-// 老唐技术博客 - 蓝橙设计系统
-// 主色: #2563eb (专业蓝)  衬托色: #f59e0b (实干橙)
+// 奇美星技术博客 - iOS 26 液态玻璃设计系统
+// 核心：Liquid Glass + 大圆角 + 柔和阴影 + 通透感
 // ===================================================
 
 // ===== 浅色模式变量 =====
 :root {
-    --accent-color: #2563eb;
-    --accent-color-darker: #1d4ed8;
-    --body-background: #f0f2f5;
-    --card-background: #ffffff;
-    --tag-border-radius: 4px;
+    --accent-color: #007AFF;
+    --accent-color-darker: #0056CC;
+    --body-background: #f2f2f7;
+    --card-background: rgba(255, 255, 255, 0.72);
+    --card-background-solid: #ffffff;
+    --tag-border-radius: 20px;
+
+    // 玻璃效果变量
+    --glass-bg: rgba(255, 255, 255, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --glass-blur: 20px;
+    --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --glass-radius: 20px;
+    --glass-highlight: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 60%);
 }
 
 // ===== 深色模式变量 =====
 [data-scheme="dark"] {
-    --body-background: #0f172a;
-    --card-background: #1e293b;
-    --accent-color: #60a5fa;
-    --accent-color-darker: #3b82f6;
+    --body-background: #000000;
+    --card-background: rgba(28, 28, 30, 0.72);
+    --card-background-solid: #1c1c1e;
+    --accent-color: #0A84FF;
+    --accent-color-darker: #409CFF;
+
+    --glass-bg: rgba(44, 44, 46, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+    --glass-highlight: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 60%);
 }
 
-// ===== 全局字体（中文优化）=====
+// ===== 全局背景（渐变底色，让玻璃效果有东西可透）=====
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--body-background) !important;
+}
+
+// 添加微妙的渐变背景层
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(0, 122, 255, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(88, 86, 214, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(255, 149, 0, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+
+    [data-scheme="dark"] & {
+        background:
+            radial-gradient(ellipse at 20% 20%, rgba(10, 132, 255, 0.08) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 80%, rgba(94, 92, 230, 0.06) 0%, transparent 50%);
+    }
+}
+
+// ===== 侧边栏：玻璃面板 =====
+.sidebar {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border-right: 1px solid var(--glass-border) !important;
+    box-shadow: var(--glass-shadow);
+}
+
+// 侧边栏头像
+.sidebar .site-avatar .site-avatar-image {
+    border: 3px solid rgba(0, 122, 255, 0.3);
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(0, 122, 255, 0.15);
+}
+
+// 侧边栏导航菜单
+.sidebar .menu li {
+    margin: 4px 8px;
+
+    a {
+        border-radius: 12px;
+        padding: 8px 14px;
+        transition: all 0.25s ease;
+
+        &:hover {
+            background: rgba(0, 122, 255, 0.08);
+        }
+    }
+
+    &.current a {
+        background: rgba(0, 122, 255, 0.12);
+        color: var(--accent-color);
+        font-weight: 600;
+    }
+}
+
+// ===== 主内容区卡片：液态玻璃 =====
+.article-list article {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--glass-radius) !important;
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+
+    // 顶部高光（模拟玻璃反射）
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: var(--glass-highlight);
+        pointer-events: none;
+        border-radius: var(--glass-radius) var(--glass-radius) 0 0;
+        z-index: 1;
+    }
+
+    &:hover {
+        transform: translateY(-3px) scale(1.005);
+        box-shadow: 0 8px 32px rgba(0, 122, 255, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+}
+
+// ===== 右侧边栏组件：玻璃面板 =====
+.widget {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--glass-radius) !important;
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
 }
 
 // ===== 文章正文排版 =====
@@ -30,120 +148,141 @@ body {
     font-size: 16px;
     line-height: 1.85;
 
-    // h2: 蓝色左竖线
     h2 {
-        border-left: 3px solid #2563eb;
+        border-left: 3px solid var(--accent-color);
         padding-left: 12px;
         margin-top: 2em;
     }
 
-    // h3: 不加装饰，灰色
     h3 {
         color: #374151;
         margin-top: 1.5em;
+
+        [data-scheme="dark"] & {
+            color: #d1d5db;
+        }
     }
 
-    // 引用块: 浅橙底 + 橙色左边框
+    // 引用块：玻璃效果
     blockquote {
-        background: #fef3c7;
-        border-left: 4px solid #f59e0b;
+        background: rgba(255, 149, 0, 0.08);
+        border-left: 4px solid #FF9500;
         color: #92400e;
-        padding: 12px 16px;
-        border-radius: 0 8px 8px 0;
+        padding: 14px 18px;
+        border-radius: 0 14px 14px 0;
+        backdrop-filter: blur(8px);
 
         [data-scheme="dark"] & {
-            background: #451a03;
+            background: rgba(255, 149, 0, 0.1);
             color: #fde68a;
-            border-left-color: #fbbf24;
+            border-left-color: #FF9F0A;
         }
     }
 
-    // 行内代码: 橙色调
+    // 行内代码：玻璃胶囊
     code:not(pre code) {
-        background: #fef3c7;
-        color: #92400e;
-        padding: 2px 6px;
-        border-radius: 4px;
+        background: rgba(0, 122, 255, 0.08);
+        color: #007AFF;
+        padding: 2px 8px;
+        border-radius: 8px;
         font-size: 0.9em;
+        border: 1px solid rgba(0, 122, 255, 0.12);
 
         [data-scheme="dark"] & {
-            background: #451a03;
-            color: #fde68a;
+            background: rgba(10, 132, 255, 0.15);
+            color: #64D2FF;
+            border-color: rgba(10, 132, 255, 0.2);
         }
     }
 
-    // 图片: 圆角 + 阴影
+    // 图片：大圆角 + 玻璃阴影
     img {
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     }
 
-    // 表格: 蓝色表头 + 斑马纹
+    // 表格：玻璃风格
     table {
         width: 100%;
-        border-collapse: collapse;
+        border-collapse: separate;
+        border-spacing: 0;
         margin: 1em 0;
-        border-radius: 8px;
+        border-radius: 14px;
         overflow: hidden;
+        border: 1px solid var(--glass-border);
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
 
         thead {
-            background: #2563eb;
-            color: #fff;
+            background: rgba(0, 122, 255, 0.1);
 
             th {
-                padding: 10px 12px;
+                padding: 12px 14px;
                 font-weight: 600;
+                color: var(--accent-color);
+                border-bottom: 1px solid var(--glass-border);
             }
         }
 
-        tbody tr:nth-child(even) {
-            background: #f8fafc;
-
-            [data-scheme="dark"] & {
-                background: #1e293b;
+        tbody tr {
+            &:hover {
+                background: rgba(0, 122, 255, 0.04);
             }
-        }
 
-        td {
-            padding: 8px 12px;
-            border-bottom: 1px solid #e5e7eb;
+            td {
+                padding: 10px 14px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 
-            [data-scheme="dark"] & {
-                border-bottom-color: #334155;
+                [data-scheme="dark"] & {
+                    border-bottom-color: rgba(255, 255, 255, 0.06);
+                }
             }
         }
     }
 }
 
-// ===== 分类标签: 蓝底白字 =====
+// ===== 分类标签：玻璃胶囊 =====
 .article-category a {
-    background: #2563eb !important;
-    color: #fff !important;
-    border-radius: 4px;
-    padding: 2px 8px;
+    background: rgba(0, 122, 255, 0.1) !important;
+    color: var(--accent-color) !important;
+    border-radius: 20px;
+    padding: 3px 12px;
+    border: 1px solid rgba(0, 122, 255, 0.15);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: rgba(0, 122, 255, 0.18) !important;
+        box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2);
+    }
 
     [data-scheme="dark"] & {
-        background: #1d4ed8 !important;
+        background: rgba(10, 132, 255, 0.15) !important;
+        border-color: rgba(10, 132, 255, 0.25);
     }
 }
 
-// ===== 标签: 橙底白字 =====
+// ===== 标签：玻璃胶囊（橙色系）=====
 .article-tags a {
-    background: #f59e0b !important;
-    color: #fff !important;
-    border-radius: 4px;
+    background: rgba(255, 149, 0, 0.1) !important;
+    color: #C87400 !important;
+    border-radius: 20px;
+    padding: 3px 12px;
+    border: 1px solid rgba(255, 149, 0, 0.15);
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: rgba(255, 149, 0, 0.18) !important;
+    }
 
     [data-scheme="dark"] & {
-        background: #b45309 !important;
+        background: rgba(255, 159, 10, 0.12) !important;
+        color: #FF9F0A !important;
+        border-color: rgba(255, 159, 10, 0.2);
     }
 }
 
-// ===== 侧边栏头像: 橙色装饰环 =====
-.sidebar .site-avatar .site-avatar-image {
-    border: 3px solid #f59e0b;
-}
-
-// ===== 右侧栏搜索框修复：文字垂直居中 =====
+// ===== 搜索框：玻璃输入框 =====
 form.search-form {
     p {
         display: flex;
@@ -152,9 +291,22 @@ form.search-form {
     input {
         height: 40px !important;
         line-height: 40px !important;
-        padding: 0 12px !important;
+        padding: 0 14px !important;
         font-size: 14px;
         box-sizing: border-box;
+        border-radius: 12px !important;
+        background: rgba(255, 255, 255, 0.5) !important;
+        border: 1px solid var(--glass-border) !important;
+        backdrop-filter: blur(8px);
+
+        [data-scheme="dark"] & {
+            background: rgba(44, 44, 46, 0.5) !important;
+        }
+
+        &:focus {
+            border-color: var(--accent-color) !important;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.12);
+        }
     }
     button {
         height: 40px;
@@ -163,23 +315,26 @@ form.search-form {
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        border-radius: 12px;
     }
 }
 
-// ===== 侧边栏导航高亮 =====
-.sidebar .menu li.current a {
-    color: #2563eb;
-    font-weight: 600;
+// ===== 文章页正文卡片 =====
+.article-page .main-article {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--glass-radius);
+    box-shadow: var(--glass-shadow);
 }
 
-// ===== 文章卡片 hover 效果 =====
-.article-list article {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-    &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
-    }
+// ===== TOC 目录：玻璃面板 =====
+#TableOfContents {
+    background: var(--glass-bg);
+    border-radius: 14px;
+    padding: 12px;
+    border: 1px solid var(--glass-border);
 }
 
 // ===== Portfolio 页面卡片网格 =====
@@ -191,15 +346,18 @@ form.search-form {
 }
 
 .portfolio-card {
-    background: var(--card-background);
-    border-radius: 12px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--glass-radius);
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
     &:hover {
         transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+        box-shadow: 0 12px 32px rgba(0, 122, 255, 0.12);
     }
 
     img {
@@ -228,22 +386,73 @@ form.search-form {
             flex-wrap: wrap;
 
             span {
-                background: #eff6ff;
-                color: #2563eb;
-                padding: 2px 8px;
-                border-radius: 4px;
+                background: rgba(0, 122, 255, 0.08);
+                color: var(--accent-color);
+                padding: 2px 10px;
+                border-radius: 20px;
                 font-size: 12px;
+                border: 1px solid rgba(0, 122, 255, 0.1);
 
                 [data-scheme="dark"] & {
-                    background: #1e3a5f;
-                    color: #60a5fa;
+                    background: rgba(10, 132, 255, 0.12);
+                    color: #64D2FF;
                 }
             }
         }
     }
 }
 
-// ===== 在线工具导航页：卡片网格 =====
+// ===== 时间线样式（关于我页面）=====
+.timeline {
+    position: relative;
+    padding-left: 30px;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(180deg, var(--accent-color), rgba(0, 122, 255, 0.2));
+        border-radius: 2px;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 24px;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #FF9500;
+            border: 2px solid var(--card-background-solid);
+            box-shadow: 0 2px 6px rgba(255, 149, 0, 0.3);
+        }
+
+        .year {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 18px;
+        }
+
+        .event {
+            color: #374151;
+            margin-top: 4px;
+
+            [data-scheme="dark"] & {
+                color: #d1d5db;
+            }
+        }
+    }
+}
+
+// ===== 在线工具导航页：玻璃卡片网格 =====
 .tools-page {
     .tools-header {
         margin-bottom: 2em;
@@ -272,20 +481,35 @@ form.search-form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: var(--card-background);
-    border-radius: 16px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--glass-radius);
     padding: 32px 24px;
     text-align: center;
     text-decoration: none;
     color: inherit;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 1px solid transparent;
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: var(--glass-highlight);
+        pointer-events: none;
+    }
 
     &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.12);
-        border-color: var(--accent-color);
+        transform: translateY(-4px) scale(1.01);
+        box-shadow: 0 12px 32px rgba(0, 122, 255, 0.12);
+        border-color: rgba(0, 122, 255, 0.3);
     }
 
     .tool-card-icon {
@@ -296,12 +520,13 @@ form.search-form {
         justify-content: center;
         margin-bottom: 16px;
         color: var(--accent-color);
-        background: #eff6ff;
-        border-radius: 16px;
+        background: rgba(0, 122, 255, 0.08);
+        border-radius: 18px;
         padding: 14px;
+        border: 1px solid rgba(0, 122, 255, 0.12);
 
         [data-scheme="dark"] & {
-            background: #1e3a5f;
+            background: rgba(10, 132, 255, 0.12);
         }
 
         svg {
@@ -333,34 +558,36 @@ form.search-form {
         .tool-status {
             display: inline-block;
             font-size: 0.75em;
-            padding: 2px 10px;
-            border-radius: 12px;
+            padding: 3px 12px;
+            border-radius: 20px;
             font-weight: 600;
 
             &--ready {
-                background: #d1fae5;
-                color: #065f46;
+                background: rgba(52, 199, 89, 0.12);
+                color: #248A3D;
+                border: 1px solid rgba(52, 199, 89, 0.2);
 
                 [data-scheme="dark"] & {
-                    background: #064e3b;
-                    color: #6ee7b7;
+                    background: rgba(48, 209, 88, 0.12);
+                    color: #30D158;
                 }
             }
 
             &--dev {
-                background: #fef3c7;
-                color: #92400e;
+                background: rgba(255, 149, 0, 0.1);
+                color: #C87400;
+                border: 1px solid rgba(255, 149, 0, 0.15);
 
                 [data-scheme="dark"] & {
-                    background: #451a03;
-                    color: #fde68a;
+                    background: rgba(255, 159, 10, 0.12);
+                    color: #FF9F0A;
                 }
             }
         }
     }
 }
 
-// ===== 归档页分类卡片：换行排列，不要横向滚动 =====
+// ===== 归档页分类卡片：换行排列 =====
 .template-archives {
     .subsection-list {
         overflow-x: visible;
@@ -375,46 +602,33 @@ form.search-form {
     }
 }
 
-// ===== 时间线样式（关于我页面）=====
-.timeline {
-    position: relative;
-    padding-left: 30px;
+// ===== 分类卡片：玻璃效果 =====
+.article-list--tile article {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--glass-radius) !important;
+    box-shadow: var(--glass-shadow);
+}
 
-    &::before {
-        content: '';
-        position: absolute;
-        left: 8px;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: #2563eb;
-    }
+// ===== 页脚 =====
+.site-footer {
+    opacity: 0.7;
+}
 
-    .timeline-item {
-        position: relative;
-        margin-bottom: 24px;
+// ===== 滚动条美化 =====
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
 
-        &::before {
-            content: '';
-            position: absolute;
-            left: -26px;
-            top: 6px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #f59e0b;
-            border: 2px solid #fff;
-        }
-
-        .year {
-            font-weight: 700;
-            color: #2563eb;
-            font-size: 18px;
-        }
-
-        .event {
-            color: #374151;
-            margin-top: 4px;
-        }
+    [data-scheme="dark"] & {
+        background: rgba(255, 255, 255, 0.15);
     }
 }
