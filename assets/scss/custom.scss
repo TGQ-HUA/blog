@@ -8,31 +8,32 @@
     --accent-color: #007AFF;
     --accent-color-darker: #0056CC;
     --body-background: #f2f2f7;
-    --card-background: rgba(255, 255, 255, 0.72);
+    --card-background: rgba(255, 255, 255, 0.45);
     --card-background-solid: #ffffff;
     --tag-border-radius: 20px;
+    --container-padding: 30px;
 
     // 玻璃效果变量
-    --glass-bg: rgba(255, 255, 255, 0.65);
-    --glass-border: rgba(255, 255, 255, 0.5);
-    --glass-blur: 20px;
+    --glass-bg: rgba(255, 255, 255, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.45);
+    --glass-blur: 24px;
     --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
     --glass-radius: 20px;
-    --glass-highlight: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 60%);
+    --glass-highlight: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 50%);
 }
 
 // ===== 深色模式变量 =====
 [data-scheme="dark"] {
     --body-background: #000000;
-    --card-background: rgba(28, 28, 30, 0.72);
+    --card-background: rgba(28, 28, 30, 0.5);
     --card-background-solid: #1c1c1e;
     --accent-color: #0A84FF;
     --accent-color-darker: #409CFF;
 
-    --glass-bg: rgba(44, 44, 46, 0.65);
-    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-bg: rgba(44, 44, 46, 0.42);
+    --glass-border: rgba(255, 255, 255, 0.1);
     --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-    --glass-highlight: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 60%);
+    --glass-highlight: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%);
 }
 
 // ===== 全局背景（渐变底色，让玻璃效果有东西可透）=====
@@ -50,16 +51,17 @@ body::before {
     right: 0;
     bottom: 0;
     background:
-        radial-gradient(ellipse at 20% 20%, rgba(0, 122, 255, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(88, 86, 214, 0.05) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(255, 149, 0, 0.03) 0%, transparent 50%);
+        radial-gradient(ellipse at 20% 20%, rgba(0, 122, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(88, 86, 214, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 30%, rgba(255, 149, 0, 0.06) 0%, transparent 40%);
     pointer-events: none;
     z-index: -1;
 
     [data-scheme="dark"] & {
         background:
-            radial-gradient(ellipse at 20% 20%, rgba(10, 132, 255, 0.08) 0%, transparent 50%),
-            radial-gradient(ellipse at 80% 80%, rgba(94, 92, 230, 0.06) 0%, transparent 50%);
+            radial-gradient(ellipse at 20% 20%, rgba(10, 132, 255, 0.12) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 80%, rgba(94, 92, 230, 0.1) 0%, transparent 50%),
+            radial-gradient(ellipse at 50% 60%, rgba(255, 55, 95, 0.06) 0%, transparent 40%);
     }
 }
 
