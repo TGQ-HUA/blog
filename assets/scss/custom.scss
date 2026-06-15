@@ -146,6 +146,34 @@ body::before {
     box-shadow: var(--glass-shadow);
     overflow: hidden;
     padding: 16px !important;
+
+    // 归档/分类/标签云链接交互
+    a {
+        border-radius: 10px;
+        padding: 4px 10px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+
+        &:hover {
+            background: rgba(255, 149, 0, 0.12);
+            color: #C87400 !important;
+
+            [data-scheme="dark"] & {
+                background: rgba(255, 159, 10, 0.15);
+                color: #FFB340 !important;
+            }
+        }
+
+        &:active {
+            background: rgba(255, 149, 0, 0.35);
+            color: #fff !important;
+
+            [data-scheme="dark"] & {
+                background: rgba(255, 159, 10, 0.5);
+                color: #fff !important;
+            }
+        }
+    }
 }
 
 // ===== 文章正文排版 =====
