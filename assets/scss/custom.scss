@@ -85,11 +85,11 @@ body::before {
 
 // 侧边栏导航菜单
 .sidebar .menu li {
-    margin: 4px 8px;
+    margin: 2px 8px;
 
     a {
-        border-radius: 12px;
-        padding: 8px 14px;
+        border-radius: 10px;
+        padding: 5px 14px;
         transition: all 0.25s ease;
 
         &:hover {
@@ -115,7 +115,7 @@ body::before {
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
-    padding: 16px !important;
+    padding: 10px 16px !important;
 
     // 顶部高光（模拟玻璃反射）
     &::before {
