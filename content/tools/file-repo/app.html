@@ -1,0 +1,185 @@
+<style>
+.file-repo { font-family: -apple-system, "Microsoft YaHei", sans-serif; font-size: 14px; }
+
+/* 密码栏 */
+.repo-auth-bar {
+  display: flex; gap: 8px; margin-bottom: 16px; align-items: center;
+}
+.repo-auth-bar input {
+  flex: 1; height: 32px; border: 1px solid #d1d5db; border-radius: 8px;
+  padding: 0 10px; font-size: 13px;
+  background: var(--card-background-solid, #fff); color: inherit;
+}
+[data-scheme="dark"] .repo-auth-bar input {
+  background: #1e293b; border-color: #475569;
+}
+.repo-auth-bar button {
+  height: 32px; padding: 0 14px; border: none; border-radius: 8px;
+  background: var(--accent-color, #007AFF); color: #fff; cursor: pointer; font-size: 13px;
+}
+.repo-auth-bar .status { font-size: 12px; }
+.repo-auth-bar .status.ok { color: #34c759; }
+.repo-auth-bar .status.err { color: #ff3b30; }
+
+/* 文件列表 */
+.repo-file-list { margin-bottom: 20px; }
+.repo-file-item {
+  display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+  background: var(--card-background, rgba(255,255,255,0.45));
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.5));
+  border-radius: 12px; margin-bottom: 6px;
+}
+.repo-file-item .name { flex: 1; font-weight: 500; word-break: break-all; }
+.repo-file-item .size { color: #6b7280; font-size: 12px; white-space: nowrap; }
+.repo-file-item a {
+  display: inline-block; padding: 4px 12px; border-radius: 8px;
+  background: rgba(0,122,255,0.1); color: var(--accent-color, #007AFF);
+  text-decoration: none; font-size: 12px; white-space: nowrap;
+}
+.repo-file-item .btn-del {
+  padding: 4px 12px; border-radius: 8px; border: none;
+  background: rgba(255,59,48,0.1); color: #ff3b30; cursor: pointer; font-size: 12px;
+}
+
+/* 上传区 */
+.repo-upload { display: none; padding: 16px; border: 2px dashed var(--accent-color, #007AFF);
+  border-radius: 14px; text-align: center; margin-top: 12px; }
+.repo-upload.show { display: block; }
+.repo-upload input[type="file"] { margin-bottom: 10px; }
+.repo-upload .upload-status { font-size: 12px; margin-top: 8px; }
+
+/* 加载 */
+.repo-loading { text-align: center; color: #6b7280; padding: 20px; }
+</style>
+
+<div class="file-repo">
+  <p style="color:#6b7280; margin-bottom:12px;">
+    <span id="repoUrl"></span>
+  </p>
+
+  <!-- 密码 -->
+  <div class="repo-auth-bar">
+    <input type="password" id="passInput" placeholder="输入管理密码（下载不需要密码）">
+    <button id="btnLogin" onclick="login()">登录</button>
+    <span class="status" id="authStatus"></span>
+  </div>
+
+  <!-- 文件列表 -->
+  <div id="repoFiles" class="repo-file-list">
+    <div class="repo-loading">加载中...</div>
+  </div>
+
+  <!-- 上传区（登录后显示） -->
+  <div class="repo-upload" id="uploadArea">
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()" style="height:32px;padding:0 16px;border:none;border-radius:8px;
+      background:var(--accent-color,#007AFF);color:#fff;cursor:pointer;">上传</button>
+    <div class="upload-status" id="uploadStatus"></div>
+  </div>
+</div>
+
+<script>
+// ====== 配置 ======
+// TODO: 部署 Worker 后改为实际地址
+const API_BASE = 'https://file-repo.你的域名.workers.dev';
+
+let authToken = '';
+let isAuthed = false;
+
+document.getElementById('repoUrl').textContent = '文件仓库 · ' + API_BASE;
+
+// ====== 文件列表 ======
+async function loadFiles() {
+  const el = document.getElementById('repoFiles');
+  el.innerHTML = '<div class="repo-loading">加载中...</div>';
+  try {
+    const res = await fetch(API_BASE);
+    const data = await res.json();
+    if (!data.files || data.files.length === 0) {
+      el.innerHTML = '<div class="repo-loading">暂无文件</div>';
+      return;
+    }
+    el.innerHTML = data.files.map(f => {
+      const sizeText = f.size < 1024 ? f.size + ' B' :
+                       f.size < 1048576 ? (f.size / 1024).toFixed(1) + ' KB' :
+                       (f.size / 1048576).toFixed(1) + ' MB';
+      return `<div class="repo-file-item">
+        <span class="name">${escapeHtml(f.name)}</span>
+        <span class="size">${sizeText}</span>
+        <a href="${API_BASE}/${encodeURIComponent(f.name)}" download>下载</a>
+        ${isAuthed ? `<button class="btn-del" onclick="deleteFile('${escapeHtml(f.name)}')">删除</button>` : ''}
+      </div>`;
+    }).join('');
+  } catch (e) {
+    el.innerHTML = '<div class="repo-loading">加载失败：' + escapeHtml(e.message) + '</div>';
+  }
+}
+
+// ====== 登录 ======
+function login() {
+  const pw = document.getElementById('passInput').value.trim();
+  if (!pw) return;
+  authToken = pw;
+  isAuthed = true;
+  document.getElementById('authStatus').textContent = '已登录 ✓';
+  document.getElementById('authStatus').className = 'status ok';
+  document.getElementById('uploadArea').classList.add('show');
+  loadFiles();
+}
+
+// ====== 上传 ======
+async function uploadFile() {
+  const input = document.getElementById('fileInput');
+  const status = document.getElementById('uploadStatus');
+  const file = input.files[0];
+  if (!file) { status.textContent = '请选择文件'; return; }
+
+  status.textContent = '上传中...';
+  const form = new FormData();
+  form.append('file', file);
+
+  try {
+    const res = await fetch(API_BASE + '/upload', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + authToken },
+      body: form,
+    });
+    if (res.ok) {
+      const data = await res.json();
+      status.textContent = '上传成功：' + data.name;
+      input.value = '';
+      loadFiles();
+    } else {
+      status.textContent = '上传失败：' + (await res.text());
+    }
+  } catch (e) {
+    status.textContent = '错误：' + e.message;
+  }
+}
+
+// ====== 删除 ======
+async function deleteFile(name) {
+  if (!confirm('确定删除 ' + name + '？')) return;
+  try {
+    const res = await fetch(API_BASE + '/' + encodeURIComponent(name), {
+      method: 'DELETE',
+      headers: { Authorization: 'Bearer ' + authToken },
+    });
+    if (res.ok) {
+      loadFiles();
+    } else {
+      alert('删除失败');
+    }
+  } catch (e) {
+    alert('错误：' + e.message);
+  }
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ====== 初始化 ======
+loadFiles();
+</script>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✅ 任务便签 - TangNotes</title>
+<script>
+// 极简 Markdown 渲染（不依赖外部 CDN）
+function miniMD(text) {
+  if (!text) return '';
+  let html = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  html = html.replace(/\n/g, '<br>');
+  return html;
+}
+</script>
+
+<style>
+:root {
+  --glass-bg: rgba(255,255,255,0.12);
+  --glass-border: rgba(255,255,255,0.2);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  --accent: #34C759;
+  --text: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --radius: 16px;
+  --blur: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  background: transparent;
+  color: var(--text);
+  min-height: 100vh;
+  padding: 12px;
+}
+
+.app {
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: var(--glass-shadow);
+  padding: 20px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.header h1 {
+  font-size: 20px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #34C759, #30B0C7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.header-actions { display: flex; gap: 8px; }
+
+.btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.btn-accent {
+  background: rgba(52,199,89,0.15);
+  color: #34C759;
+  border: 1px solid rgba(52,199,89,0.25);
+}
+.btn-accent:hover { background: rgba(52,199,89,0.25); }
+.btn-ghost {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.18); }
+
+/* ── 标题组 ── */
+.group {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.group-header:hover { background: rgba(255,255,255,0.06); }
+.group-title { font-size: 15px; font-weight: 600; }
+.group-arrow {
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: transform 0.3s;
+}
+.group.collapsed .group-arrow { transform: rotate(-90deg); }
+.group.collapsed .group-body { display: none; }
+
+.group-body { padding: 0 16px 12px; }
+
+/* ── 任务条目 ── */
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+  transition: all 0.2s;
+}
+.task-item.done {
+  opacity: 0.55;
+}
+.task-item.done .task-content {
+  text-decoration: line-through;
+  text-decoration-color: rgba(29,29,31,0.3);
+}
+.task-check {
+  margin-top: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.3);
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 11px;
+}
+.task-check:hover { border-color: var(--accent); }
+.task-item.done .task-check {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.task-body { flex: 1; min-width: 0; }
+.task-content { font-size: 14px; line-height: 1.6; }
+.task-content p { margin: 0; }
+.task-content code {
+  background: rgba(52,199,89,0.12);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.task-content strong { font-weight: 600; }
+.task-time {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.task-time .done-time {
+  color: var(--accent);
+  margin-left: 8px;
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  margin-top: 4px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  background: transparent;
+  border: 1px dashed rgba(255,255,255,0.2);
+  transition: all 0.2s;
+  width: 100%;
+}
+.add-btn:hover {
+  background: rgba(52,199,89,0.08);
+  border-color: rgba(52,199,89,0.3);
+  color: var(--accent);
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.input-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+  backdrop-filter: blur(10px);
+}
+.input-row input:focus { border-color: var(--accent); }
+.input-row input::placeholder { color: var(--text-secondary); }
+
+.new-title {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.new-title input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px dashed rgba(255,255,255,0.3);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.new-title input:focus { border-color: var(--accent); }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+.empty-hint {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 40px 0;
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <h1>✅ 任务便签</h1>
+    <div class="header-actions">
+      <button class="btn btn-ghost" onclick="refresh()">🔄</button>
+    </div>
+  </div>
+
+  <div id="groups"></div>
+
+  <div class="new-title" id="newTitleRow" style="display:none">
+    <input id="newTitleInput" placeholder="新建任务组名称..." onkeydown="if(event.key==='Enter')addTitle()">
+    <button class="btn btn-accent" onclick="addTitle()">创建</button>
+    <button class="btn btn-ghost" onclick="toggleNewTitle()">取消</button>
+  </div>
+  <button class="add-btn" id="showNewTitleBtn" onclick="toggleNewTitle()">+ 新建任务组</button>
+</div>
+
+<script>
+const DATA_URL = '/notes/data.json';
+const API_BASE = 'http://localhost:8765';
+let data = null;
+let retryCount = 0;
+
+async function refresh() {
+  try {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    data = await res.json();
+    retryCount = 0;
+    render();
+  } catch(e) {
+    console.error('加载失败:', e);
+    retryCount++;
+    if (retryCount <= 5) {
+      document.getElementById('groups').innerHTML =
+        '<div class="empty-hint">⏳ 连接服务中...（第 ' + retryCount + ' 次重试）</div>';
+      setTimeout(refresh, 2000);
+    } else {
+      document.getElementById('groups').innerHTML =
+        '<div class="empty-hint">⚠️ 无法连接服务<br><small>请确认 TangNotes 后端已启动<br>（双击 start.bat）</small></div>';
+    }
+  }
+}
+
+function render() {
+  const container = document.getElementById('groups');
+  if (!data || data.task.length === 0) {
+    container.innerHTML = '<div class="empty-hint">还没有任务<br>点击下方「新建任务组」开始</div>';
+    return;
+  }
+  container.innerHTML = data.task.map(g => `
+    <div class="group${g._collapsed ? ' collapsed' : ''}" id="group-${g.id}">
+      <div class="group-header" onclick="toggleGroup('${g.id}')">
+        <span class="group-title">${esc(g.title)}</span>
+        <span class="group-arrow">▼</span>
+      </div>
+      <div class="group-body">
+        ${g.items.map(item => {
+          const isDone = !!item.done;
+          return `
+            <div class="task-item${isDone ? ' done' : ''}" id="item-${item.id}">
+              <div class="task-check" onclick="toggleDone('${item.id}')">
+                ${isDone ? '✓' : ''}
+              </div>
+              <div class="task-body">
+                <div class="task-content">${miniMD(item.content)}</div>
+                <div class="task-time">
+                  📅 ${item.created}
+                  ${isDone ? `<span class="done-time">✅ ${item.done}</span>` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+        <div class="input-row" id="input-${g.id}" style="display:none">
+          <input id="inputVal-${g.id}" placeholder="支持 Markdown 格式..." onkeydown="if(event.key==='Enter')addItem('${g.id}')">
+          <button class="btn btn-accent" onclick="addItem('${g.id}')">添加</button>
+          <button class="btn btn-ghost" onclick="toggleInput('${g.id}')">取消</button>
+        </div>
+        <button class="add-btn" onclick="toggleInput('${g.id}')">+ 添加待办</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleGroup(id) {
+  const el = document.getElementById('group-' + id);
+  el.classList.toggle('collapsed');
+  const g = data.task.find(x => x.id === id);
+  if (g) g._collapsed = el.classList.contains('collapsed');
+}
+
+function toggleInput(id) {
+  const row = document.getElementById('input-' + id);
+  const show = row.style.display === 'none';
+  row.style.display = show ? 'flex' : 'none';
+  if (show) document.getElementById('inputVal-' + id).focus();
+}
+
+function toggleNewTitle() {
+  const row = document.getElementById('newTitleRow');
+  const btn = document.getElementById('showNewTitleBtn');
+  const show = row.style.display === 'none';
+  row.style.display = show ? 'flex' : 'none';
+  btn.style.display = show ? 'none' : 'block';
+  if (show) document.getElementById('newTitleInput').focus();
+}
+
+async function toggleDone(itemId) {
+  const res = await fetch(`${API_BASE}/api/task/toggle`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({item_id: itemId})
+  });
+  await refresh();
+}
+
+async function addItem(titleId) {
+  const inp = document.getElementById('inputVal-' + titleId);
+  const content = inp.value.trim();
+  if (!content) return;
+  await fetch(`${API_BASE}/api/task/add_item`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({title_id: titleId, content})
+  });
+  inp.value = '';
+  await refresh();
+}
+
+async function addTitle() {
+  const inp = document.getElementById('newTitleInput');
+  const title = inp.value.trim();
+  if (!title) return;
+  await fetch(`${API_BASE}/api/task/add_title`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({title})
+  });
+  inp.value = '';
+  toggleNewTitle();
+  await refresh();
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+refresh();
+</script>
+</body>
+</html>

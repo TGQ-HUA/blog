@@ -1,0 +1,8 @@
+name = "blog-file-repo"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# R2 存储桶绑定
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "blog-files"
