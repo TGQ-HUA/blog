@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 记忆便签 - TangNotes</title>
+<script>
+// 极简 Markdown 渲染（不依赖外部 CDN）
+function miniMD(text) {
+  if (!text) return '';
+  let html = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  // 行内代码
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // 加粗
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  // 斜体
+  html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  // 换行
+  html = html.replace(/\n/g, '<br>');
+  return html;
+}
+</script>
+<style>
+:root {
+  --glass-bg: rgba(255,255,255,0.12);
+  --glass-border: rgba(255,255,255,0.2);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  --accent: #007AFF;
+  --text: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --radius: 16px;
+  --blur: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  background: transparent;
+  color: var(--text);
+  min-height: 100vh;
+  padding: 12px;
+  -webkit-app-region: no-drag;
+}
+
+/* ── 窗口容器 ── */
+.app {
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: var(--glass-shadow);
+  padding: 20px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* ── 顶部栏 ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+.header h1 {
+  font-size: 20px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #007AFF, #5856D6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── 按钮 ── */
+.btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.btn-accent {
+  background: rgba(0,122,255,0.15);
+  color: #007AFF;
+  border: 1px solid rgba(0,122,255,0.25);
+}
+.btn-accent:hover {
+  background: rgba(0,122,255,0.25);
+}
+.btn-ghost {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+/* ── 标题组 ── */
+.group {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.group-header:hover {
+  background: rgba(255,255,255,0.06);
+}
+.group-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.group-arrow {
+  font-size: 12px;
+  color: var(--text-secondary);
+  transition: transform 0.3s;
+}
+.group.collapsed .group-arrow {
+  transform: rotate(-90deg);
+}
+.group.collapsed .group-body {
+  display: none;
+}
+
+/* ── 内容列表 ── */
+.group-body {
+  padding: 0 16px 12px;
+}
+.item {
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+  background: rgba(255,255,255,0.04);
+  position: relative;
+}
+.item-time {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.item p { margin: 0; }
+.item code {
+  background: rgba(0,122,255,0.12);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.item strong { font-weight: 600; }
+
+/* ── 添加按钮 ── */
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  margin-top: 4px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  background: transparent;
+  border: 1px dashed rgba(255,255,255,0.2);
+  transition: all 0.2s;
+  width: 100%;
+}
+.add-btn:hover {
+  background: rgba(0,122,255,0.08);
+  border-color: rgba(0,122,255,0.3);
+  color: var(--accent);
+}
+
+/* ── 输入框 ── */
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.input-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+  backdrop-filter: blur(10px);
+}
+.input-row input:focus {
+  border-color: var(--accent);
+}
+.input-row input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* ── 新标题输入 ── */
+.new-title {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.new-title input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px dashed rgba(255,255,255,0.3);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.new-title input:focus {
+  border-color: var(--accent);
+}
+
+/* ── 滚动条 ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+}
+
+.empty-hint {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 40px 0;
+  font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <h1>🧠 记忆便签</h1>
+    <div class="header-actions">
+      <button class="btn btn-ghost" onclick="refresh()" title="刷新数据">🔄</button>
+    </div>
+  </div>
+
+  <div id="groups"></div>
+
+  <div class="new-title" id="newTitleRow" style="display:none">
+    <input id="newTitleInput" placeholder="新建标题名称..." onkeydown="if(event.key==='Enter')addTitle()">
+    <button class="btn btn-accent" onclick="addTitle()">创建</button>
+    <button class="btn btn-ghost" onclick="toggleNewTitle()">取消</button>
+  </div>
+  <button class="add-btn" id="showNewTitleBtn" onclick="toggleNewTitle()">+ 新建标题</button>
+</div>
+
+<script>
+const DATA_URL = '/notes/data.json';
+const API_BASE = 'http://localhost:8765';
+let data = null;
+let retryCount = 0;
+
+async function refresh() {
+  try {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    data = await res.json();
+    retryCount = 0;
+    render();
+  } catch(e) {
+    console.error('加载失败:', e);
+    retryCount++;
+    if (retryCount <= 5) {
+      // 自动重试（每 2 秒）
+      document.getElementById('groups').innerHTML =
+        '<div class="empty-hint">⏳ 连接服务中...（第 ' + retryCount + ' 次重试）</div>';
+      setTimeout(refresh, 2000);
+    } else {
+      document.getElementById('groups').innerHTML =
+        '<div class="empty-hint">⚠️ 无法连接服务<br><small>请确认 TangNotes 后端已启动<br>（双击 start.bat）</small></div>';
+    }
+  }
+}
+
+function render() {
+  const container = document.getElementById('groups');
+  if (!data || data.memory.length === 0) {
+    container.innerHTML = '<div class="empty-hint">还没有记忆笔记<br>点击下方「新建标题」开始</div>';
+    return;
+  }
+  container.innerHTML = data.memory.map(g => `
+    <div class="group${g._collapsed ? ' collapsed' : ''}" id="group-${g.id}">
+      <div class="group-header" onclick="toggleGroup('${g.id}')">
+        <span class="group-title">${esc(g.title)}</span>
+        <span class="group-arrow">▼</span>
+      </div>
+      <div class="group-body">
+        ${g.items.map(item => `
+          <div class="item">
+            <div class="item-content">${miniMD(item.content)}</div>
+            <div class="item-time">${item.created}</div>
+          </div>
+        `).join('')}
+        <div class="input-row" id="input-${g.id}" style="display:none">
+          <input id="inputVal-${g.id}" placeholder="支持 Markdown 格式..." onkeydown="if(event.key==='Enter')addItem('${g.id}')">
+          <button class="btn btn-accent" onclick="addItem('${g.id}')">添加</button>
+          <button class="btn btn-ghost" onclick="toggleInput('${g.id}')">取消</button>
+        </div>
+        <button class="add-btn" onclick="toggleInput('${g.id}')">+ 添加内容</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleGroup(id) {
+  const el = document.getElementById('group-' + id);
+  el.classList.toggle('collapsed');
+  // 记忆折叠状态
+  const g = data.memory.find(x => x.id === id);
+  if (g) g._collapsed = el.classList.contains('collapsed');
+}
+
+function toggleInput(id) {
+  const row = document.getElementById('input-' + id);
+  const show = row.style.display === 'none';
+  row.style.display = show ? 'flex' : 'none';
+  if (show) {
+    const inp = document.getElementById('inputVal-' + id);
+    inp.focus();
+  }
+}
+
+function toggleNewTitle() {
+  const row = document.getElementById('newTitleRow');
+  const btn = document.getElementById('showNewTitleBtn');
+  const show = row.style.display === 'none';
+  row.style.display = show ? 'flex' : 'none';
+  btn.style.display = show ? 'none' : 'block';
+  if (show) document.getElementById('newTitleInput').focus();
+}
+
+async function addItem(titleId) {
+  const inp = document.getElementById('inputVal-' + titleId);
+  const content = inp.value.trim();
+  if (!content) return;
+  await fetch(`${API_BASE}/api/memory/add_item`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({title_id: titleId, content})
+  });
+  inp.value = '';
+  await refresh();
+}
+
+async function addTitle() {
+  const inp = document.getElementById('newTitleInput');
+  const title = inp.value.trim();
+  if (!title) return;
+  await fetch(`${API_BASE}/api/memory/add_title`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({title})
+  });
+  inp.value = '';
+  toggleNewTitle();
+  await refresh();
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// 初始化
+refresh();
+</script>
+</body>
+</html>
