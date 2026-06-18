@@ -22,7 +22,7 @@ weight: 1
 
 <script>
 // 密码哈希（部署前请告诉老唐设密码，我生成 hash 替换下面）
-const PWD_HASH = '123456';
+const PWD_HASH = 'fb54d0d541768b783ecbe1c5f79ad3f5a3f4ebbbcbe2bf958dfe806d1c2ca0bd';
 
 async function sha256(s) {
   const buf = new TextEncoder().encode(s);
