@@ -59,6 +59,22 @@ pre.mermaid { background: transparent; color: #333; padding: 12px 0; }
 <script>mermaid.initialize({startOnLoad:true, theme:'neutral', themeVariables:{primaryColor:'#2980b9', primaryTextColor:'#333', lineColor:'#3498db'}});</script>
 </head>
 <body>
+
+<div id="lock-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#f2f2f7;z-index:99999;display:flex;align-items:center;justify-content:center;">
+  <div style="text-align:center;padding:40px;">
+    <h3>🔒 需要密码</h3>
+    <input type="password" id="pwd" placeholder="请输入密码" style="padding:10px 16px;border-radius:10px;border:1px solid #ccc;font-size:16px;margin:8px;width:200px;">
+    <button onclick="unlock()" style="padding:10px 24px;border-radius:10px;background:#2980b9;color:#fff;border:none;font-size:16px;cursor:pointer;">确认</button>
+    <p id="err" style="color:red;margin-top:8px;display:none;">密码错误</p>
+  </div>
+</div>
+<script>
+var PWD_HASH="fb54d0d541768b783ecbe1c5f79ad3f5a3f4ebbbcbe2bf958dfe806d1c2ca0bd";
+async function sha256(s){var b=new TextEncoder().encode(s);var h=await crypto.subtle.digest("SHA-256",b);return Array.from(new Uint8Array(h)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
+async function unlock(){var h=await sha256(document.getElementById("pwd").value);if(h===PWD_HASH){document.getElementById("lock-overlay").remove();sessionStorage.setItem("pipe_ok","1");}else{document.getElementById("err").style.display="block";}}
+if(sessionStorage.getItem("pipe_ok")==="1"){document.getElementById("lock-overlay").remove();}
+</script>
+
 <div style="position:fixed;top:10px;right:20px;z-index:9999;">
 <a href="/" style="display:inline-block;padding:8px 18px;border-radius:8px;background:#2980b9;color:#fff;text-decoration:none;font-size:14px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,0.15);">← 返回主页</a>
 </div>
