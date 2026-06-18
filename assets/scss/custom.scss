@@ -89,8 +89,8 @@ body::before {
 
     a {
         border-radius: 8px;
-        padding: 3px 12px;
-        font-size: 1.6rem;
+        padding: 6px 12px;
+        font-size: 1.8rem;
         transition: all 0.25s ease;
 
         &:hover {
@@ -102,6 +102,15 @@ body::before {
         background: rgba(0, 122, 255, 0.12);
         color: var(--accent-color);
         font-weight: 600;
+    }
+}
+
+// 侧边栏社交图标间距收紧
+.sidebar .social-menu {
+    gap: 2px;
+
+    li a {
+        padding: 4px 6px;
     }
 }
 
