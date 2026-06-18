@@ -110,7 +110,7 @@ menu:
         icon: search
     - identifier: knowledge
       name: 知识库
-      url: /knowledge/
+      url: /knowledge/管件排版规范手册.html
       weight: 6
       params:
         icon: book
