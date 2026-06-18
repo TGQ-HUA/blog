@@ -73,6 +73,7 @@ pre.mermaid { background: transparent; color: #333; padding: 12px 0; }
     </div>
     <div id="pw-form" style="display:none;">
       <input type="password" id="pwd" placeholder="请输入密码" style="padding:10px 16px;border-radius:10px;border:1px solid #ccc;font-size:16px;margin:8px;width:200px;">
+      <div style="margin:4px 0;"><label style="font-size:12px;color:#999;cursor:pointer;"><input type="checkbox" id="remember" checked> 记住密码（30天内免输入）</label></div>
       <button onclick="unlock()" style="padding:10px 24px;border-radius:10px;background:#2980b9;color:#fff;border:none;font-size:16px;cursor:pointer;">确认</button>
       <p id="err" style="color:red;margin-top:8px;display:none;">密码错误</p>
     </div>
@@ -81,8 +82,8 @@ pre.mermaid { background: transparent; color: #333; padding: 12px 0; }
 <script>
 var PWD_HASH="fb54d0d541768b783ecbe1c5f79ad3f5a3f4ebbbcbe2bf958dfe806d1c2ca0bd";
 async function sha256(s){var b=new TextEncoder().encode(s);var h=await crypto.subtle.digest("SHA-256",b);return Array.from(new Uint8Array(h)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
-async function unlock(){var h=await sha256(document.getElementById("pwd").value);if(h===PWD_HASH){document.getElementById("lock-overlay").remove();sessionStorage.setItem("pipe_ok","1");}else{document.getElementById("err").style.display="block";}}
-if(sessionStorage.getItem("pipe_ok")==="1"){document.getElementById("lock-overlay").remove();}
+async function unlock(){var h=await sha256(document.getElementById("pwd").value);if(h===PWD_HASH){document.getElementById("lock-overlay").remove();var s=document.getElementById("remember").checked?"local":"session";window[s+"Storage"].setItem("pipe_ok","1");}else{document.getElementById("err").style.display="block";}}
+if(localStorage.getItem("pipe_ok")==="1"||sessionStorage.getItem("pipe_ok")==="1"){document.getElementById("lock-overlay").remove();}
 document.addEventListener("DOMContentLoaded",function(){
   var imgs=document.querySelectorAll("img");var total=imgs.length;var loaded=0;var done=false;
   if(total===0){done=true;showForm();return;}
