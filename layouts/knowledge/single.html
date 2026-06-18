@@ -1,0 +1,19 @@
+{{ define "body-class" }}template-knowledge-single{{ end }}
+{{ define "main" }}
+    <article class="knowledge-page">
+        {{ if in .RelPermalink "/pipe-fitting-spec/" }}
+            {{ partial "pipe-password.html" }}
+        {{ end }}
+        <header class="article-header">
+            <h1>{{ .Title }}</h1>
+            {{ with .Description }}<p>{{ . }}</p>{{ end }}
+        </header>
+        <div class="article-content">
+            {{ .Content }}
+        </div>
+    </article>
+    {{ if in .RelPermalink "/pipe-fitting-spec/" }}
+            </div><!-- #protected close -->
+    {{ end }}
+    {{ partialCached "footer/footer" . }}
+{{ end }}
