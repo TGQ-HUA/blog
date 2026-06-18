@@ -1,0 +1,34 @@
+{{ define "body-class" }}template-knowledge-list{{ end }}
+{{ define "main" }}
+    <article class="knowledge-page">
+        <header class="article-header">
+            <h1>{{ .Title }}</h1>
+            {{ with .Description }}<p>{{ . }}</p>{{ end }}
+        </header>
+
+        {{ if in .RelPermalink "/pipe-fitting-spec/" }}
+            {{ partial "pipe-password.html" }}
+        {{ end }}
+
+        <div class="article-content">
+            {{ .Content }}
+        </div>
+
+        {{ if .Pages }}
+        <div class="knowledge-list">
+            {{ range .Pages.ByWeight }}
+                <a href="{{ .RelPermalink }}" class="knowledge-item">
+                    <h3>{{ .Title }}</h3>
+                    {{ with .Description }}<p>{{ . }}</p>{{ end }}
+                </a>
+            {{ end }}
+        </div>
+        {{ end }}
+    </article>
+
+    {{ if in .RelPermalink "/pipe-fitting-spec/" }}
+            </div><!-- #protected close -->
+    {{ end }}
+
+    {{ partialCached "footer/footer" . }}
+{{ end }}
