@@ -24,6 +24,10 @@
         {{ end }}
 
         <article>
+            <div style="position:sticky;top:0;z-index:10;padding:8px 0;margin-bottom:16px;border-bottom:1px solid var(--glass-border);display:flex;align-items:center;gap:12px;">
+                <a href="/" style="padding:6px 16px;border-radius:8px;background:var(--accent-color);color:#fff;text-decoration:none;font-size:13px;font-weight:600;">← 返回主页</a>
+                <a href="/knowledge/" style="padding:6px 16px;border-radius:8px;border:1px solid var(--glass-border);color:var(--accent-color);text-decoration:none;font-size:13px;">☰ 目录</a>
+            </div>
             <h1>{{ .Title }}</h1>
             {{ with .Description }}<p class="desc">{{ . }}</p>{{ end }}
             <div class="article-content">
