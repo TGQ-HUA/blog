@@ -1,0 +1,78 @@
+{{ define "body-class" }}template-pipe-manual{{ end }}
+{{ define "main" }}
+<div class="pipe-manual">
+    <aside class="pipe-manual-sidebar" id="pipeSidebar">
+        <div class="pipe-sidebar-header">
+            <h2>📚 管件排版规范</h2>
+            <input type="text" id="treeSearch" placeholder="🔍 搜索..." oninput="filterTree()">
+        </div>
+        <ul class="pipe-tree" id="pipeTree">
+            {{ $current := .RelPermalink }}
+            {{ range (.Site.GetPage "/knowledge/pipe-fitting-spec").Pages.ByWeight }}
+                <li>
+                    <a href="{{ .RelPermalink }}" class="pipe-file {{ if eq $current .RelPermalink }}active{{ end }}" title="{{ .Title }}">
+                        {{ .Title }}
+                    </a>
+                </li>
+            {{ end }}
+        </ul>
+    </aside>
+
+    <main class="pipe-manual-content" id="pipeContent">
+        {{ partial "pipe-password.html" }}
+
+        <article>
+            <h1>{{ .Title }}</h1>
+            {{ with .Description }}<p class="desc">{{ . }}</p>{{ end }}
+            <div class="article-content">
+                {{ .Content }}
+            </div>
+        </article>
+
+        </div>
+    </main>
+</div>
+
+<script>
+function filterTree() {
+  const q = document.getElementById('treeSearch').value.toLowerCase();
+  document.querySelectorAll('.pipe-file').forEach(el => {
+    const match = el.textContent.toLowerCase().includes(q);
+    el.closest('li').style.display = match ? '' : 'none';
+  });
+}
+</script>
+
+<style>
+.pipe-manual { display: flex; height: calc(100vh - 60px); margin: 0; }
+.pipe-manual-sidebar {
+  width: 280px; min-width: 220px; max-width: 400px;
+  background: var(--glass-bg); backdrop-filter: blur(var(--glass-blur));
+  border-right: 1px solid var(--glass-border); overflow-y: auto;
+  padding: 12px 8px 20px; resize: horizontal;
+}
+.pipe-sidebar-header { margin-bottom: 10px; position: sticky; top: 0; z-index: 1; }
+.pipe-sidebar-header h2 { font-size: 15px; color: var(--accent-color); margin: 0 0 8px; padding: 0 6px; }
+.pipe-sidebar-header input {
+  width: 100%; padding: 6px 10px; border: 1px solid var(--glass-border);
+  border-radius: 8px; font-size: 13px; background: rgba(255,255,255,0.5); outline: none;
+}
+[data-scheme="dark"] .pipe-sidebar-header input { background: rgba(44,44,46,0.5); }
+.pipe-tree { list-style: none; padding: 0; margin: 0; font-size: 13px; }
+.pipe-file {
+  display: block; padding: 5px 10px; border-radius: 6px; text-decoration: none;
+  color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: all 0.15s;
+}
+[data-scheme="dark"] .pipe-file { color: #aaa; }
+.pipe-file:hover { background: rgba(0,122,255,0.06); color: var(--accent-color); }
+.pipe-file.active { background: rgba(0,122,255,0.12); color: var(--accent-color); font-weight: 600; }
+.pipe-manual-content { flex: 1; overflow-y: auto; padding: 20px 30px; }
+
+@media (max-width: 768px) {
+  .pipe-manual { flex-direction: column; }
+  .pipe-manual-sidebar { width: 100%; max-width: none; resize: none; max-height: 40vh; }
+  .pipe-manual-content { flex: none; }
+}
+</style>
+{{ end }}
