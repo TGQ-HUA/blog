@@ -84,13 +84,18 @@ body::before {
 }
 
 // 侧边栏导航菜单
+.sidebar .menu {
+    gap: 0;
+}
+
 .sidebar .menu li {
     margin: 0 8px;
 
     a {
         border-radius: 8px;
-        padding: 6px 12px;
-        font-size: 1.8rem;
+        padding: 8px 14px;
+        font-size: 2rem;
+        line-height: 1;
         transition: all 0.25s ease;
 
         &:hover {
