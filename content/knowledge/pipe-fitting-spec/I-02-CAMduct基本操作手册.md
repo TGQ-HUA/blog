@@ -343,6 +343,6 @@ weight: 72
 
 ## 相关笔记
 
-- [I.01 排版流程与检查清单](/knowledge/pipe-fitting-spec/I-01-排版流程与检查清单/) — 排版前检查/下单核对
-- [I.03 设备下料与管件放样](/knowledge/pipe-fitting-spec/I-03-设备下料与管件放样/) — 放样注意事项
-- [I.05 铣床程序编辑说明](/knowledge/pipe-fitting-spec/I-05-铣床程序编辑说明/) — CAMduct→精雕 转换
+- [I.01 排版流程与检查清单](/knowledge/pipe-fitting-spec/i-01-排版流程与检查清单/) — 排版前检查/下单核对
+- [I.03 设备下料与管件放样](/knowledge/pipe-fitting-spec/i-03-设备下料与管件放样/) — 放样注意事项
+- [I.05 铣床程序编辑说明](/knowledge/pipe-fitting-spec/i-05-铣床程序编辑说明/) — CAMduct→精雕 转换
