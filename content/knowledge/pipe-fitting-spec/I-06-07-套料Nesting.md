@@ -422,4 +422,4 @@ weight: 83
 
 - I.06.05 轮廓处理器Profiler → 套料前零件前处理
 - I.06.06 板材管理 → 库存板材与余料
-- [I.02 CAMduct基本操作手册](/knowledge/pipe-fitting-spec/I-02-CAMduct基本操作手册/)#I.02.2 手工排料与自动排料后的手工调整 → 实操速查
+- [I.02 CAMduct基本操作手册](/knowledge/pipe-fitting-spec/i-02-camduct基本操作手册/)#I.02.2 手工排料与自动排料后的手工调整 → 实操速查

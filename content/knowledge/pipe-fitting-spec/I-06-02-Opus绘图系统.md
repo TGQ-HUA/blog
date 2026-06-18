@@ -289,6 +289,6 @@ weight: 78
 
 ## 相关笔记
 
-- [I.06.03 系统设置](/knowledge/pipe-fitting-spec/I-06-03-系统设置/) → 常规选项与网格选项
+- [I.06.03 系统设置](/knowledge/pipe-fitting-spec/i-06-03-系统设置/) → 常规选项与网格选项
 - I.06.05 轮廓处理器Profiler → Profiler 更多操作
-- [I.02 CAMduct基本操作手册](/knowledge/pipe-fitting-spec/I-02-CAMduct基本操作手册/) → 实操速查
+- [I.02 CAMduct基本操作手册](/knowledge/pipe-fitting-spec/i-02-camduct基本操作手册/) → 实操速查
