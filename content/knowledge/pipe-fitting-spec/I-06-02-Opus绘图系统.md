@@ -251,39 +251,39 @@ weight: 78
 
 ## 📷 配图（截自 Autodesk 官方帮助）
 
-> [图片缺失: GUID-C1869ECA-6D30-4F84-8908-DD742208FE70.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-C1869ECA-6D30-4F84-8908-DD742208FE70.webp)
 
-> [图片缺失: GUID-E02CE682-A822-4E64-A281-5B5C7149FEE2.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-E02CE682-A822-4E64-A281-5B5C7149FEE2.webp)
 
-> [图片缺失: GUID-6F9075E1-BF09-4F3D-B24A-FD5EBE8FE0E9.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-6F9075E1-BF09-4F3D-B24A-FD5EBE8FE0E9.webp)
 
-> [图片缺失: GUID-22E4B4F8-4D1E-450B-9C25-6D4C112E3BEA.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-22E4B4F8-4D1E-450B-9C25-6D4C112E3BEA.webp)
 
-> [图片缺失: GUID-F5D45F28-CBF3-4B3A-AFC4-93518DF454F2.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-F5D45F28-CBF3-4B3A-AFC4-93518DF454F2.webp)
 
-> [图片缺失: GUID-ACB2C043-E35A-4FE7-A711-24AF7B4BA1B7.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-ACB2C043-E35A-4FE7-A711-24AF7B4BA1B7.webp)
 
-> [图片缺失: GUID-616B3B74-331E-4D0D-9293-7F9C7C7DF9A9.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-616B3B74-331E-4D0D-9293-7F9C7C7DF9A9.webp)
 
-> [图片缺失: GUID-1E192169-CB1D-420A-BB01-9DF81314F652.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-1E192169-CB1D-420A-BB01-9DF81314F652.webp)
 
-> [图片缺失: GUID-72CF346C-0634-40A4-879E-5FBC33F54ECC.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-72CF346C-0634-40A4-879E-5FBC33F54ECC.webp)
 
-> [图片缺失: GUID-F403CBC1-171E-4BB3-814C-A62FE610A6FD.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-F403CBC1-171E-4BB3-814C-A62FE610A6FD.webp)
 
-> [图片缺失: GUID-ACCBCEEA-FB89-47EB-8F11-57A7EE2041B9.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-ACCBCEEA-FB89-47EB-8F11-57A7EE2041B9.webp)
 
-> [图片缺失: GUID-445DEF15-F83A-4DCA-BEAC-2DBFB923D407.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-445DEF15-F83A-4DCA-BEAC-2DBFB923D407.webp)
 
-> [图片缺失: GUID-F7EC0559-F195-4F2E-90CC-6CA52D2AEC9F.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-F7EC0559-F195-4F2E-90CC-6CA52D2AEC9F.webp)
 
-> [图片缺失: GUID-B502559D-3786-462B-8829-A649AA712E4D.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-B502559D-3786-462B-8829-A649AA712E4D.webp)
 
-> [图片缺失: GUID-B474BFF2-65C9-4BB8-9E3D-FF3B55E1AB93.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-B474BFF2-65C9-4BB8-9E3D-FF3B55E1AB93.webp)
 
-> [图片缺失: GUID-54F48E1B-A1BB-450C-9442-ED2F8AF0EDF7.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-54F48E1B-A1BB-450C-9442-ED2F8AF0EDF7.webp)
 
-> [图片缺失: GUID-9CC7E263-5443-445B-ABAD-485293623AD6.png]
+> ![](/img/knowledge/pipe-fitting-spec/GUID-9CC7E263-5443-445B-ABAD-485293623AD6.webp)
 
 ---
 
