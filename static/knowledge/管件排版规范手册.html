@@ -62,7 +62,7 @@ pre.mermaid { background: transparent; color: #333; padding: 12px 0; }
 </head>
 <body>
 <div style="position:fixed;top:10px;right:20px;z-index:9999;"><a href="/" style="display:inline-block;padding:8px 18px;border-radius:8px;background:#2980b9;color:#fff;text-decoration:none;font-size:14px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,0.15);">← 返回首页</a></div>
-<div id="lock-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#f2f2f7;z-index:99999;display:flex;align-items:center;justify-content:center;">
+<div id="lock-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#f2f2f7;z-index:99999;display:none;align-items:center;justify-content:center;">
   <div style="text-align:center;padding:40px;max-width:420px;">
     <h3>🔒 需要密码</h3>
     <div id="pw-progress-wrap" style="margin:16px 0;">
@@ -82,7 +82,7 @@ pre.mermaid { background: transparent; color: #333; padding: 12px 0; }
 <script>
 var PWD_HASH="fb54d0d541768b783ecbe1c5f79ad3f5a3f4ebbbcbe2bf958dfe806d1c2ca0bd";
 async function sha256(s){var b=new TextEncoder().encode(s);var h=await crypto.subtle.digest("SHA-256",b);return Array.from(new Uint8Array(h)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
-async function unlock(){var h=await sha256(document.getElementById("pwd").value);if(h===PWD_HASH){document.getElementById("lock-overlay").remove();if(document.getElementById("remember").checked){localStorage.setItem("pipe_ok",Date.now()+"");}else{sessionStorage.setItem("pipe_ok","1");}}else{document.getElementById("err").style.display="block";}}
+async function unlock(){var h=await sha256(document.getElementById("pwd").value);if(h===PWD_HASH){document.getElementById("lock-overlay").style.display="none";if(document.getElementById("remember").checked){localStorage.setItem("pipe_ok",Date.now()+"");}else{sessionStorage.setItem("pipe_ok","1");}}else{document.getElementById("err").style.display="block";}}
 (function(){
   var ok=localStorage.getItem("pipe_ok")||sessionStorage.getItem("pipe_ok");
   if(ok){document.write("<style>#lock-overlay{display:none!important}</style>");}
