@@ -330,4 +330,4 @@ Profiler 菜单栏提供以下命令入口：Auto Repair、Cut Order、Common Li
 
 - I.06.02 Opus绘图系统 → Opus 绘图环境
 - I.06.07 套料Nesting → 套料全流程
-- I.02 CAMduct基本操作手册 → 实操速查（拼板/接缝）
+- [I.02 CAMduct基本操作手册](/knowledge/pipe-fitting-spec/I-02-CAMduct基本操作手册/) → 实操速查（拼板/接缝）
