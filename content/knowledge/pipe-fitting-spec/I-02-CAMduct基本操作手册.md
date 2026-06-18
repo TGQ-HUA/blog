@@ -20,21 +20,21 @@ weight: 72
 ### I.02.1.1 创建新项目排版文件
 
 1. 打开 CAMduct 软件
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102211.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102211.webp)
 2. 左侧选择对应图库
 3. 右侧选择「创建新文档」
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102219.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102219.webp)
 
 ### I.02.1.2 选择风管异形件并输入参数
 
 **方式一：样板图库选择**
 
 1. 进入软件操作界面后，单击菜单栏「样板图库」调出风管样式选择窗口
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102247.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102247.webp)
 2. 左侧单击不同文件夹切换风管分类，右侧窗口选择具体样式
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102256.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102256.webp)
 3. 双击目标图形，出现设置画面
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102306.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102306.webp)
 4. 左侧有 4 个视图：俯视图(顶)、侧视图(右)、正视图(前)、立体图
 5. 右侧有 5 个选项卡：
 
@@ -48,24 +48,24 @@ weight: 72
 | **说明** | 备注信息 |
 
 6. 全部设置完成后，按右下角「完成」确认操作；按「取消」取消操作
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102335.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102335.webp)
 7. 一种异形件设置完成后，可在「样板图库」继续选择下一种类型，重复第 3 步
 
 > **提示**：单击工具栏「工作内容」（或菜单「工具/工作内容」）的项目栏，可查看已设置好的异形件编号、样式、数量及所用板材。如需修改，双击对应图标重新打开设置界面。
 
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102347.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102347.webp)
 
 ### I.02.1.3 风管零件排版
 
 将设置好的风管零件排列到板材中：
 
 1. 单击工具栏「自动排版」（或菜单「工具/自动排版」），弹出窗口选项一般无需调整，直接「确定」
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102402.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102402.webp)
 2. 弹出自动排料进度条，完成后点确认，窗口切换到排料界面，可查看大致的排料情形
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102424.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102424.webp)
 > 在其他界面下，单击「工作内容」→ 第 2 选项卡「排料」，可查看板材排料情况。一个图标对应一张板材，双击排料图标可进入手工排料调整（详见 I.02.2）。
 
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102429.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102429.webp)
 
 ### I.02.1.4 写出 NC 码
 
@@ -93,7 +93,7 @@ weight: 72
    - **左侧**：手工排料工具栏
 4. 在「编辑」工具状态下，从待排料区拖动零件到板材排料区完成排料。一种零件全部拖完后变为 `[×]`
 5. 若需将排料区某零件退回待排料区：单击该零件（框线变黄色）→ Delete 键
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102459.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102459.webp)
 ### I.02.2.2 手工排料工具栏
 
 常规排版掌握两个工具选项即可：
@@ -102,11 +102,11 @@ weight: 72
 |------|------|
 | **编辑工具** | 左键拖动 = 移动零件；右键拖动 = 旋转零件 |
 | **火咀选项** | 设置旋转料件的最小角度，常规 15，微调时改为 3 |
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102508.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102508.webp)
 ### I.02.2.3 切割路径演示
 
 菜单「板料/模拟」或 `Ctrl+T`，弹出工具栏可演示切割路径。单击停止按钮取消演示。
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102529.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102529.webp)
 ### I.02.2.4 输出与自动排版后调整
 
 - 输出排样：单击「写出 NC 码」（或菜单「板料/写出 NC 码」），也可关闭手工界面后再写。（排版报价或文件上传不需要写 NC 码）
@@ -123,7 +123,7 @@ weight: 72
 设置完弯头尺寸后单击「完成」，因展开件超尺寸会弹出拼板设置对话框。
 
 ### I.02.3.1 分割位置
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102602.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102602.webp)
 
 | 选项 | 说明 |
 |------|------|
@@ -131,7 +131,7 @@ weight: 72
 | **等分料件** | 将超尺寸片分成 2/3 等份排版 |
 
 ### I.02.3.2 环境设定
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102624.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102624.webp)
 可调整分片方向及大小：左右分割 / 上下分割，左大右小 / 左小右大 / 上大下小 / 上小下大。
 
 ### I.02.3.3 最小料件尺寸
@@ -166,7 +166,7 @@ weight: 72
 > ⚠️ 接缝位置选定后单击「套用」。禁止选用「套用全部」——不能确定拼接缝位置的可选「忽略」。  
 > 拼板时两块料相差不大选「等分料件」，否则数量多容易拼错板。
 
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102636.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102636.webp)
 ---
 
 ## I.02.4 列印预览项目信息表格图样
@@ -205,7 +205,7 @@ weight: 72
 
 > ⚠️ AutoCAD 绘制的图形在 CAMduct 中修改尺寸很不方便。多个样式相同、比例不同的图形，请在 CAD 中分别按 1:1 绘制、分别保存 DXF、分别导入。
 
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102748.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102748.webp)
 
 ---
 
@@ -215,7 +215,7 @@ weight: 72
 
 菜单「档案/设定/数据库」→「规划」标签 → 左侧「实用程序栏」→ 右侧勾选「显示实用程序栏」
 
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102801.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102801.webp)
 
 ### I.02.6.2 修改默认排料板材尺寸
 
@@ -224,7 +224,7 @@ weight: 72
 3. 列表中双击需要修改的厚度行 → 修改打勾行的长(板宽)和宽(板长)
 4. 「关闭」→「应用」→「完成」
 
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102831.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102831.webp)
 
 ### I.02.6.3 修改接缝规格
 
@@ -233,14 +233,14 @@ weight: 72
 3. **新建**：选中接缝 →「新文件」→「是」→ 输入新名称及设置 → 关闭
 4. **超尺寸接缝**：「形式」下拉 → 选「超尺寸接缝」→ 设置超板宽尺寸拼缝选项
 
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102841.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102841.webp)
 
 ### I.02.6.4 修改法兰接口规格
 
 1. 菜单「档案/设定/数据库」→「接合」标签 → 左侧选「接口」→ 右侧显示法兰列表
 2. 「样板库」下拉可在「矩形」「圆形」「椭圆」三种风管类型间切换
 
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102855.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102855.webp)
 
 ### I.02.6.5 设置剪板线
 
@@ -252,7 +252,7 @@ weight: 72
    - **悬臂轴向** = 板宽度方向添加一条剪板线
 3. 添加后板面上出现两条紫色剪板线
 
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102903.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102903.webp)
 
 ### I.02.6.6 割孔设置 — 最小穿孔直径
 
@@ -273,13 +273,13 @@ weight: 72
 |------|------|
 | 内 R 做棱角 | 「选项」→「管喉型式」→「密合」 |
 | 内 R 做直角 | 「尺寸」→ 内径 = 0，直边长度通过「上伸量」「下伸量」给出 |
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102917.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102917.webp)
 ### I.02.7.2 天圆地方（方变圆）
 
 - 图形「天圆地方（2 片偏心）」可做偏心或正心方变圆，默认 2 片，拼接缝处于长边
 - 修改片数：「选项」→「交错分割」→ 修改数量
 - 修改接缝位置：「选项」→「接缝位置」→ 修改
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102924.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102924.webp)
 ### I.02.7.3 三通 / 四通
 
 | 效果 | 操作 |
@@ -287,14 +287,14 @@ weight: 72
 | 切换咽喉形状 | 「选项」→「右喉形状」「左喉形状」→ 密合(棱形) / 方形(直角) / 半径 |
 | 分支上侧弧改平 | 「选项」→「右跟形状」→「直接」 |
 | 顶口与底口偏移 | 「尺寸」→「顶嵌入量」输入倾斜数值 |
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102935.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521102935.webp)
 ### I.02.7.4 变径（大小头 / 方变径管）
 
 | 参数 | 含义 |
 |------|------|
 | **宽偏移** | 水平偏移或左右偏移（如左平/右平） |
 | **深偏移** | 高差或上下偏移（如平底/平顶） |
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521103020.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521103020.webp)
 
 ### I.02.7.5 变径正三通 T 型
 
@@ -309,7 +309,7 @@ weight: 72
 | 分段数 | 「选项」→「分段数」 |
 | 接缝位置 | 输入 90（90 度），保证两侧合缝 |
 | 单片排版 | 「选项」→「单段」→「是」（常规默认） |
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521103037.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521103037.webp)
 **90° 圆弯头 R 修正**：
 
 | 方式 | 操作 |
@@ -326,7 +326,7 @@ weight: 72
 | **主管** | 用短直管添加孔到指定边 → 设好尺寸位置 → 用特定工具将孔改为锯齿状 |
 | **支咀** | 用短直管排料 → 连接主管端接口用「反大边」→ 另一端为对应法兰接口  |
 
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521103055.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521103055.webp)
 
 ### I.02.7.8 管件直位说明
 
@@ -337,7 +337,7 @@ weight: 72
 | 大小头成型要求长 300，两头直位 50 | 排版长度 300，两头直位 50 |
 | 弯头成型要求内跨 R200，两头直位 50 | 排版内 R150，两头直位 50 |
 
-![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521103103.png)
+![](/img/knowledge/pipe-fitting-spec/Pasted-image-20260521103103.webp)
 
 ---
 
