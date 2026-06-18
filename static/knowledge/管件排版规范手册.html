@@ -7,7 +7,9 @@
 * { box-sizing: border-box; }
 body { font-family: "Microsoft YaHei","微软雅黑",sans-serif; margin:0; display:flex; height:100vh; }
 #sidebar { width: 300px; min-width: 250px; background: #f5f7fa; border-right: 1px solid #dde; 
-           overflow-y: auto; padding: 15px 10px; resize: horizontal; }
+           display: flex; flex-direction: column; height: 100vh; resize: horizontal; }
+#sidebar .sidebar-header { flex-shrink: 0; padding: 15px 10px 8px; border-bottom: 1px solid #dde; }
+#sidebar .sidebar-tree-wrap { flex: 1; overflow-y: auto; padding: 8px 10px 15px; }
 #sidebar h2 { font-size: 16px; color: #1a5276; margin: 0 0 10px; padding: 0 8px; }
 #sidebar input { width: 100%; padding: 8px 10px; margin-bottom: 10px; border: 1px solid #dde; 
                  border-radius: 4px; font-size: 14px; outline: none; }
@@ -75,48 +77,29 @@ async function unlock(){var h=await sha256(document.getElementById("pwd").value)
 if(sessionStorage.getItem("pipe_ok")==="1"){document.getElementById("lock-overlay").remove();}
 </script>
 
-
-<div id="lock-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#f2f2f7;z-index:99999;display:flex;align-items:center;justify-content:center;">
-  <div style="text-align:center;padding:40px;">
-    <h3>🔒 需要密码</h3>
-    <input type="password" id="pwd" placeholder="请输入密码" style="padding:10px 16px;border-radius:10px;border:1px solid #ccc;font-size:16px;margin:8px;width:200px;">
-    <button onclick="unlock()" style="padding:10px 24px;border-radius:10px;background:#2980b9;color:#fff;border:none;font-size:16px;cursor:pointer;">确认</button>
-    <p id="err" style="color:red;margin-top:8px;display:none;">密码错误</p>
-  </div>
-</div>
-<script>
-var PWD_HASH="fb54d0d541768b783ecbe1c5f79ad3f5a3f4ebbbcbe2bf958dfe806d1c2ca0bd";
-async function sha256(s){var b=new TextEncoder().encode(s);var h=await crypto.subtle.digest("SHA-256",b);return Array.from(new Uint8Array(h)).map(function(x){return x.toString(16).padStart(2,"0")}).join("");}
-async function unlock(){var h=await sha256(document.getElementById("pwd").value);if(h===PWD_HASH){document.getElementById("lock-overlay").remove();sessionStorage.setItem("pipe_ok","1");}else{document.getElementById("err").style.display="block";}}
-if(sessionStorage.getItem("pipe_ok")==="1"){document.getElementById("lock-overlay").remove();}
-</script>
-
-<div style="position:fixed;top:10px;right:20px;z-index:9999;">
-<a href="/" style="display:inline-block;padding:8px 18px;border-radius:8px;background:#2980b9;color:#fff;text-decoration:none;font-size:14px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,0.15);">← 返回主页</a>
-</div>
-<div id="sidebar" style="display:flex;flex-direction:column;height:100vh;">
-  <div style="flex-shrink:0;padding-bottom:8px;border-bottom:1px solid #dde;">
-    <h2 style="font-size:16px;color:#1a5276;margin:0 0 8px;padding:0 8px;">📚 风管厂 · 管件排版规范手册</h2>
-    <input type="text" id="search" placeholder="🔍 搜索..." style="width:100%;padding:8px 10px;border:1px solid #dde;border-radius:4px;font-size:14px;outline:none;">
-    <div id="searchNav" style="display:none;justify-content:center;align-items:center;gap:6px;padding:6px 8px;margin:4px 8px;background:#f0f4f8;border-radius:4px;font-size:12px;">
-      <button id="prevBtn" title="上一个" style="background:#fff;border:1px solid #d4d4d4;border-radius:3px;cursor:pointer;padding:2px 12px;font-size:13px;color:#333;line-height:1.5;">◀</button>
-      <span id="searchInfo" style="color:#555;font-size:12px;min-width:44px;text-align:center;"></span>
-      <button id="nextBtn" title="下一个" style="background:#fff;border:1px solid #d4d4d4;border-radius:3px;cursor:pointer;padding:2px 12px;font-size:13px;color:#333;line-height:1.5;">▶</button>
+<div id="sidebar">
+    <div class="sidebar-header">
+        <h2>📚 风管厂 · 管件排版规范手册</h2>
+        <input type="text" id="search" placeholder="🔍 搜索笔记...">
+        <div id="searchNav">
+            <button id="prevBtn" title="上一个">◀</button>
+            <span id="searchInfo"></span>
+            <button id="nextBtn" title="下一个">▶</button>
+        </div>
     </div>
-  </div>
-  <div style="flex:1;overflow-y:auto;padding:8px 0;">
-    <ul id="tree" style="list-style:none;padding:0;margin:0;font-size:14px;">>
-        <li><div class="file" data-id="管件排版规范索引">管件排版规范索引</div></li><li><div class="folder">A) 基础总则</div><ul class="sub"><li><div class="file" data-id="A.01_接口与接缝类型速查">A.01 接口与接缝类型速查</div></li><li><div class="file" data-id="A.02_工艺名称与术语">A.02 工艺名称与术语</div></li><li><div class="file" data-id="A.03_工艺细则">A.03 工艺细则</div></li><li><div class="file" data-id="A.04_风管材质与规格速查">A.04 风管材质与规格速查</div></li><li><div class="file" data-id="A.05_金属风管制作详解">A.05 金属风管制作详解</div></li><li><div class="file" data-id="A.06_矩形法兰口八大类速查">A.06 矩形法兰口八大类速查</div></li><li><div class="file" data-id="A.07_接缝参数总表">A.07 接缝参数总表</div></li></ul></li><li><div class="folder">B) 矩形管件-咬口</div><ul class="sub"><li><div class="folder" style="padding-left:12px;font-size:13px;">B.01) 直管与短节</div><ul class="sub"><li><div class="file" data-id="B.01.01_直管与短节成型决策规则" style="padding-left:32px;">B.01.01 直管与短节成型决策规则</div></li><li><div class="file" data-id="B.01.02_直管与短节做单与算量" style="padding-left:32px;">B.01.02 直管与短节做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.02) 弯头</div><ul class="sub"><li><div class="file" data-id="B.02.01_弯头制造规则" style="padding-left:32px;">B.02.01 弯头制造规则</div></li><li><div class="file" data-id="B.02.02_弯头做单与算量" style="padding-left:32px;">B.02.02 弯头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.03) S弯</div><ul class="sub"><li><div class="file" data-id="B.03.01_S弯制造规则" style="padding-left:32px;">B.03.01 S弯制造规则</div></li><li><div class="file" data-id="B.03.02_S弯做单与算量" style="padding-left:32px;">B.03.02 S弯做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.04) 大小头</div><ul class="sub"><li><div class="file" data-id="B.04.01_大小头制造规则" style="padding-left:32px;">B.04.01 大小头制造规则</div></li><li><div class="file" data-id="B.04.02_大小头做单与算量" style="padding-left:32px;">B.04.02 大小头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.05) 三通</div><ul class="sub"><li><div class="file" data-id="B.05.01_三通制造规则" style="padding-left:32px;">B.05.01 三通制造规则</div></li><li><div class="file" data-id="B.05.02_三通做单与算量" style="padding-left:32px;">B.05.02 三通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.06) 四通</div><ul class="sub"><li><div class="file" data-id="B.06.01_四通制造规则" style="padding-left:32px;">B.06.01 四通制造规则</div></li><li><div class="file" data-id="B.06.02_四通做单与算量" style="padding-left:32px;">B.06.02 四通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.07) 导流片</div><ul class="sub"><li><div class="file" data-id="B.07.01_导流片规则" style="padding-left:32px;">B.07.01 导流片规则</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.08) 共板法兰框</div><ul class="sub"><li><div class="file" data-id="B.08.01_共板法兰框规则" style="padding-left:32px;">B.08.01 共板法兰框规则</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.09) 开口接咀</div><ul class="sub"><li><div class="file" data-id="B.09.01_开口接咀规则" style="padding-left:32px;">B.09.01 开口接咀规则</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.10) 防鸟网</div><ul class="sub"><li><div class="file" data-id="B.10.01_防鸟网规则" style="padding-left:32px;">B.10.01 防鸟网规则</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.11) 消声器</div><ul class="sub"><li><div class="file" data-id="B.11.01_消声器规则" style="padding-left:32px;">B.11.01 消声器规则</div></li><li><div class="file" data-id="B.11.02_消声器消音棉选型建议" style="padding-left:32px;">B.11.02 消声器消音棉选型建议</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.12) 做单与算量</div><ul class="sub"><li><div class="file" data-id="B.12.01_矩形管件做单与算量说明" style="padding-left:32px;">B.12.01 矩形管件做单与算量说明</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.13) 其他附件</div><ul class="sub"><li><div class="file" data-id="B.13.01_矩形管件其他附件速查堵头.顺风咀.裤型三通.任意弯.斜口管过梁弯" style="padding-left:32px;">B.13.01 矩形管件其他附件速查</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.14) 静压箱</div><ul class="sub"><li><div class="file" data-id="B.14.01_静压箱规则" style="padding-left:32px;">B.14.01 静压箱规则</div></li></ul></ul></li><li><div class="folder">C) 圆形管件</div><ul class="sub"><li><div class="folder" style="padding-left:12px;font-size:13px;">C.01) 圆直管</div><ul class="sub"><li><div class="file" data-id="C.01.01_圆管基础设定与接缝规则" style="padding-left:32px;">C.01.01 圆管基础设定与接缝规则</div></li><li><div class="file" data-id="C.01.02_圆直管做单与算量" style="padding-left:32px;">C.01.02 圆直管做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.02) 圆弯头</div><ul class="sub"><li><div class="file" data-id="C.02.01_圆弯头规则" style="padding-left:32px;">C.02.01 圆弯头规则</div></li><li><div class="file" data-id="C.02.02_圆弯头做单与算量" style="padding-left:32px;">C.02.02 圆弯头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.03) 圆S弯</div><ul class="sub"><li><div class="file" data-id="C.03.01_圆S弯规则" style="padding-left:32px;">C.03.01 圆S弯规则</div></li><li><div class="file" data-id="C.03.02_圆S弯做单与算量" style="padding-left:32px;">C.03.02 圆S弯做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.04) 圆大小头</div><ul class="sub"><li><div class="file" data-id="C.04.01_圆大小头规则" style="padding-left:32px;">C.04.01 圆大小头规则</div></li><li><div class="file" data-id="C.04.02_圆大小头做单与算量" style="padding-left:32px;">C.04.02 圆大小头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.05) 方变圆</div><ul class="sub"><li><div class="file" data-id="C.05.01_方变圆规则" style="padding-left:32px;">C.05.01 方变圆规则</div></li><li><div class="file" data-id="C.05.02_方变圆做单与算量" style="padding-left:32px;">C.05.02 方变圆做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.06) 圆三通</div><ul class="sub"><li><div class="file" data-id="C.06.01_圆三通规则" style="padding-left:32px;">C.06.01 圆三通规则</div></li><li><div class="file" data-id="C.06.02_圆三通做单与算量" style="padding-left:32px;">C.06.02 圆三通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.07) 圆四通</div><ul class="sub"><li><div class="file" data-id="C.07.01_圆四通规则" style="padding-left:32px;">C.07.01 圆四通规则</div></li><li><div class="file" data-id="C.07.02_圆四通做单与算量" style="padding-left:32px;">C.07.02 圆四通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.08) 做单与算量</div><ul class="sub"><li><div class="file" data-id="C.08.01_圆形管件做单与算量说明" style="padding-left:32px;">C.08.01 圆形管件做单与算量说明</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.09) 侧支咀</div><ul class="sub"><li><div class="file" data-id="C.09.01_侧支咀规则" style="padding-left:32px;">C.09.01 侧支咀规则</div></li><li><div class="file" data-id="C.09.02_侧支咀做单与算量" style="padding-left:32px;">C.09.02 侧支咀做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.10) 堵头</div><ul class="sub"><li><div class="file" data-id="C.10.01_堵头规则" style="padding-left:32px;">C.10.01 堵头规则</div></li><li><div class="file" data-id="C.10.02_堵头做单与算量" style="padding-left:32px;">C.10.02 堵头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.11) 内接</div><ul class="sub"><li><div class="file" data-id="C.11.01_内接做单与算量" style="padding-left:32px;">C.11.01 内接做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.12) 斜口圆管</div><ul class="sub"><li><div class="file" data-id="C.12.01_斜口圆管做单与算量" style="padding-left:32px;">C.12.01 斜口圆管做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.13) 主方侧圆</div><ul class="sub"><li><div class="file" data-id="C.13.01_主方侧圆做单与算量" style="padding-left:32px;">C.13.01 主方侧圆做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.14) 主圆侧方</div><ul class="sub"><li><div class="file" data-id="C.14.01_主圆侧方做单与算量" style="padding-left:32px;">C.14.01 主圆侧方做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.15) 防雨帽</div><ul class="sub"><li><div class="file" data-id="C.15.01_防雨帽规则" style="padding-left:32px;">C.15.01 防雨帽规则</div></li></ul></ul></li><li><div class="folder">D) 焊接件</div><ul class="sub"><li><div class="file" data-id="D.01_焊接件基础规范与直管弯头">D.01 焊接件基础规范与直管弯头</div></li><li><div class="file" data-id="D.02_焊接方变圆与支咀规则">D.02 焊接方变圆与支咀规则</div></li><li><div class="file" data-id="D.03_焊接大小头与特殊管件">D.03 焊接大小头与特殊管件</div></li></ul></li><li><div class="folder">E) 防火板</div><ul class="sub"><li><div class="folder" style="padding-left:12px;font-size:13px;">E.01) 基础规范</div><ul class="sub"><li><div class="file" data-id="E.01.01_防火板基础规范" style="padding-left:32px;">E.01.01 防火板基础规范</div></li><li><div class="file" data-id="E.01.02_防火板缩尺工艺调整" style="padding-left:32px;">E.01.02 防火板缩尺工艺调整</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.02) 直管</div><ul class="sub"><li><div class="file" data-id="E.02.01_防火板直管做单与算量" style="padding-left:32px;">E.02.01 防火板直管做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.03) 弯头</div><ul class="sub"><li><div class="file" data-id="E.03.01_防火板弯头做单与算量" style="padding-left:32px;">E.03.01 防火板弯头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.04) S弯</div><ul class="sub"><li><div class="file" data-id="E.04.01_防火板S弯做单与算量" style="padding-left:32px;">E.04.01 防火板S弯做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.05) 大小头</div><ul class="sub"><li><div class="file" data-id="E.05.01_防火板大小头做单与算量" style="padding-left:32px;">E.05.01 防火板大小头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.06) 三通</div><ul class="sub"><li><div class="file" data-id="E.06.01_防火板三通做单与算量" style="padding-left:32px;">E.06.01 防火板三通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.07) 四通</div><ul class="sub"><li><div class="file" data-id="E.07.01_防火板四通做单与算量" style="padding-left:32px;">E.07.01 防火板四通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.08) 堵头</div><ul class="sub"><li><div class="file" data-id="E.08.01_防火板堵头做单与算量" style="padding-left:32px;">E.08.01 防火板堵头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.09) 方变圆</div><ul class="sub"><li><div class="file" data-id="E.09.01_防火方变圆做单与算量" style="padding-left:32px;">E.09.01 防火方变圆做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.10) 做单与算量</div><ul class="sub"><li><div class="file" data-id="E.10.01_防火板做单与算量说明" style="padding-left:32px;">E.10.01 防火板做单与算量说明</div></li></ul></ul></li><li><div class="folder">F) 复合风管</div><ul class="sub"><li><div class="file" data-id="F.01_复合风管基础规范">F.01 复合风管基础规范</div></li><li><div class="file" data-id="F.02_复合风管排版规范">F.02 复合风管排版规范</div></li></ul></li><li><div class="folder">G) 保温棉</div><ul class="sub"><li><div class="file" data-id="G.01_保温棉排版规范">G.01 保温棉排版规范</div></li></ul></li><li><div class="folder">H) 共板打孔</div><ul class="sub"><li><div class="file" data-id="H.01_共板打孔规则">H.01 共板打孔规则</div></li></ul></li><li><div class="folder">I) 排版软件与流程</div><ul class="sub"><li><div class="file" data-id="I.01_排版流程与检查清单">I.01 排版流程与检查清单</div></li><li><div class="file" data-id="I.02_CAMduct基本操作手册">I.02 CAMduct基本操作手册</div></li><li><div class="file" data-id="I.03_设备下料与管件放样">I.03 设备下料与管件放样</div></li><li><div class="file" data-id="I.04_管件出图与放样管理要求">I.04 管件出图与放样管理要求</div></li><li><div class="file" data-id="I.05_铣床程序编辑说明">I.05 铣床程序编辑说明</div></li></ul></li><li><div class="folder">J) 图纸管理</div><ul class="sub"><li><div class="file" data-id="J.01_图纸清量与分节指导书">J.01 图纸清量与分节指导书</div></li></ul></li><li><div class="folder">K) 特殊配件与辅材</div><ul class="sub"><li><div class="file" data-id="K.01_特殊配件速查检修口.挡烟垂壁.机制软接.插板阀.圆抱箍.横担.支架.多通">K.01 特殊配件速查</div></li><li><div class="file" data-id="K.02_型材与风帽规格角铁.槽钢.风帽">K.02 型材与风帽规格</div></li><li><div class="file" data-id="K.03_矩形管件分解示例">K.03 矩形管件分解示例</div></li><li><div class="file" data-id="K.04_平板与折件">K.04 平板与折件</div></li><li><div class="file" data-id="K.05_接油盆与套管与沉水弯">K.05 接油盆与套管与沉水弯</div></li></ul></li><li><div class="folder">L) 双层保温管</div><ul class="sub"><li><div class="file" data-id="L.01_双层保温管制作规范">L.01 双层保温管制作规范</div></li></ul></li><li><div class="folder">M) 暖通设备与配件</div><ul class="sub"><li><div class="file" data-id="M.01_风管本体类型补充">M.01 风管本体类型补充</div></li><li><div class="file" data-id="M.02_风阀与防火阀">M.02 风阀与防火阀</div></li><li><div class="file" data-id="M.03_送回风口">M.03 送回风口</div></li><li><div class="file" data-id="M.04_风机">M.04 风机</div></li><li><div class="file" data-id="M.05_过滤器">M.05 过滤器</div></li><li><div class="file" data-id="M.06_排烟罩与油烟罩">M.06 排烟罩与油烟罩</div></li><li><div class="file" data-id="M.07_风口罩">M.07 风口罩</div></li></ul></li><li><div class="folder">N) 指导书附表</div><ul class="sub"><li><div class="file" data-id="N.01_矩形管外形分类上">N.01 矩形管外形分类（上）</div></li><li><div class="file" data-id="N.02_矩形管外形分类下">N.02 矩形管外形分类（下）</div></li><li><div class="file" data-id="N.03_圆形管外形分类">N.03 圆形管外形分类</div></li><li><div class="file" data-id="N.04_防火风管外形分类">N.04 防火风管外形分类</div></li><li><div class="file" data-id="N.05_双层保温管外形分类">N.05 双层保温管外形分类</div></li><li><div class="file" data-id="N.06_三通四通录单方式与异形件图样">N.06 三通四通录单方式与异形件图样</div></li><li><div class="file" data-id="N.07_各类风管料件名称">N.07 各类风管料件名称</div></li></ul></li><li><div class="folder">O) 中国标准</div><ul class="sub"><li><div class="file" data-id="中国标准索引">中国标准索引</div></li><li><div class="folder" style="padding-left:12px;font-size:13px;">GB15930-2007</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB15930-2007_第1章_范围" style="padding-left:32px;">第1章 范围</div></li><li><div class="file" data-id="O_中国标准_GB15930-2007_第2章_规范性引用文件" style="padding-left:32px;">第2章 规范性引用文件</div></li><li><div class="file" data-id="O_中国标准_GB15930-2007_第3章_术语与定义" style="padding-left:32px;">第3章 术语与定义</div></li><li><div class="file" data-id="第4章_分类与标记" style="padding-left:32px;">第4章 分类与标记</div></li><li><div class="file" data-id="第5章_技术要求" style="padding-left:32px;">第5章 技术要求</div></li><li><div class="file" data-id="第6章_试验方法" style="padding-left:32px;">第6章 试验方法</div></li><li><div class="file" data-id="第7章_检验规则+标志" style="padding-left:32px;">第7章 检验规则 + 第8章 标志</div></li><li><div class="file" data-id="GB15930-2007_建筑通风和排烟系统用防火阀门" style="padding-left:32px;">GB 15930-2007 建筑通风和排烟系统用防火阀门</div></li><li><div class="file" data-id="GB15930-2007-章节索引" style="padding-left:32px;">GB 15930-2007 建筑通风和排烟系统用防火阀门 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GB50016-2014</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB50016-2014_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="O_中国标准_GB50016-2014_第2章_术语" style="padding-left:32px;">第2章 术语</div></li><li><div class="file" data-id="第3章_厂房和仓库" style="padding-left:32px;">第3章 厂房和仓库</div></li><li><div class="file" data-id="第4章_储罐和堆场" style="padding-left:32px;">第4章 储罐和堆场</div></li><li><div class="file" data-id="第5章_民用建筑" style="padding-left:32px;">第5章 民用建筑</div></li><li><div class="file" data-id="第6章_建筑构造管道井防火" style="padding-left:32px;">第6章 建筑构造（管道井防火与穿越封堵）</div></li><li><div class="file" data-id="第7章_灭火救援设施" style="padding-left:32px;">第7章 灭火救援设施</div></li><li><div class="file" data-id="第8章_消防设施的设置" style="padding-left:32px;">第8章 消防设施的设置</div></li><li><div class="file" data-id="第10章_防烟排烟概要" style="padding-left:32px;">第10章 防烟和排烟（概要）</div></li><li><div class="file" data-id="第11章_木结构建筑" style="padding-left:32px;">第11章 木结构建筑</div></li><li><div class="file" data-id="第12章_城市交通隧道" style="padding-left:32px;">第12章 城市交通隧道</div></li><li><div class="file" data-id="第9章1节_供暖通风和空气调节—般规定" style="padding-left:32px;">第9.1节 供暖、通风和空气调节 —— 一般规定</div></li><li><div class="file" data-id="第9章2节_通风与空调系统防火阀设置" style="padding-left:32px;">第9.2节 通风与空调系统防火阀设置 ⭐</div></li><li><div class="file" data-id="第9章3节_风管材料与保温燃烧性能" style="padding-left:32px;">第9.3节 风管材料与保温燃烧性能</div></li><li><div class="file" data-id="GB50016-2014_建筑设计防火规范2018版" style="padding-left:32px;">GB 50016-2014 建筑设计防火规范（2018年版）</div></li><li><div class="file" data-id="GB50016-2014-章节索引" style="padding-left:32px;">GB 50016-2014 建筑设计防火规范 — 章节索引（全本）</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GB50231-2009</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB50231-2009_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="第2章_施工准备" style="padding-left:32px;">第2章 施工准备</div></li><li><div class="file" data-id="第3章_设备就位与找正调平" style="padding-left:32px;">第3章 设备就位与找正调平</div></li><li><div class="file" data-id="第4-5章_装配与试运转" style="padding-left:32px;">第4-5章 设备装配与试运转</div></li><li><div class="file" data-id="第6章_风机安装" style="padding-left:32px;">第6章 风机安装</div></li><li><div class="file" data-id="第7章_泵类设备安装" style="padding-left:32px;">第7章 泵类设备安装</div></li><li><div class="file" data-id="第8-9章_工程验收" style="padding-left:32px;">第8-9章 工程验收</div></li><li><div class="file" data-id="GB50231-2009_机械设备安装工程施工及验收通用规范" style="padding-left:32px;">GB50231-2009 机械设备安装工程施工及验收通用规范</div></li><li><div class="file" data-id="GB50231-2009-章节索引" style="padding-left:32px;">GB 50231-2009 机械设备安装工程施工及验收通用规范 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GB50243-2016</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB50243-2016_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="O_中国标准_GB50243-2016_第2章_术语" style="padding-left:32px;">第2章 术语</div></li><li><div class="file" data-id="O_中国标准_GB50243-2016_第3章_基本规定" style="padding-left:32px;">第3章 基本规定</div></li><li><div class="file" data-id="第4章_风管与配件" style="padding-left:32px;">第4章 风管与配件</div></li><li><div class="file" data-id="第5章_风管部件" style="padding-left:32px;">第5章 风管部件</div></li><li><div class="file" data-id="第6章_风管系统安装" style="padding-left:32px;">第6章 风管系统安装</div></li><li><div class="file" data-id="第7章_风机与空气处理设备安装" style="padding-left:32px;">第7章 风机与空气处理设备安装</div></li><li><div class="file" data-id="第8章_空调用冷热源与辅助设备安装" style="padding-left:32px;">第8章 空调用冷热源与辅助设备安装</div></li><li><div class="file" data-id="第9章_空调水系统管道与设备安装" style="padding-left:32px;">第9章 空调水系统管道与设备安装</div></li><li><div class="file" data-id="第10章_防腐与绝热" style="padding-left:32px;">第10章 防腐与绝热</div></li><li><div class="file" data-id="第11章_系统调试" style="padding-left:32px;">第11章 系统调试</div></li><li><div class="file" data-id="第12章_竣工验收" style="padding-left:32px;">第12章 竣工验收</div></li><li><div class="file" data-id="GB50243-2016_通风与空调工程施工质量验收规范" style="padding-left:32px;">GB50243-2016 通风与空调工程施工质量验收规范</div></li><li><div class="file" data-id="GB50243-2016-章节索引" style="padding-left:32px;">GB 50243-2016 通风与空调工程施工质量验收规范 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GB50738-2011</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB50738-2011_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="O_中国标准_GB50738-2011_第2章_术语" style="padding-left:32px;">第2章 术语</div></li><li><div class="file" data-id="O_中国标准_GB50738-2011_第3章_基本规定" style="padding-left:32px;">第3章 基本规定</div></li><li><div class="file" data-id="第4章_金属风管制作" style="padding-left:32px;">第4章 金属风管制作</div></li><li><div class="file" data-id="第5章_非金属与复合材料风管" style="padding-left:32px;">第5章 非金属与复合材料风管制作</div></li><li><div class="file" data-id="第6章_风管部件与消声器制作" style="padding-left:32px;">第6章 风管部件与消声器制作</div></li><li><div class="file" data-id="第7章_风管系统安装" style="padding-left:32px;">第7章 风管系统安装</div></li><li><div class="file" data-id="第8章_风机与空气处理设备安装" style="padding-left:32px;">第8章 风机与空气处理设备安装</div></li><li><div class="file" data-id="第9-10章_空调水系统管道与制冷剂管道" style="padding-left:32px;">第9-10章 空调水系统管道与制冷剂管道</div></li><li><div class="file" data-id="第11章_空调设备安装" style="padding-left:32px;">第11章 空调设备安装</div></li><li><div class="file" data-id="第12章_防腐与绝热" style="padding-left:32px;">第12章 防腐与绝热</div></li><li><div class="file" data-id="第13章_监测与控制系统" style="padding-left:32px;">第13章 监测与控制系统</div></li><li><div class="file" data-id="第14-15章_监测与控制+系统试运行" style="padding-left:32px;">第14-15章 监测与控制 + 系统试运行</div></li><li><div class="file" data-id="第16章_系统试运行与调试" style="padding-left:32px;">第16章 系统试运行与调试</div></li><li><div class="file" data-id="第17-18章_竣工验收+资料归档" style="padding-left:32px;">第17-18章 竣工验收 + 资料归档</div></li><li><div class="file" data-id="GB50738-2011_通风与空调工程施工规范" style="padding-left:32px;">GB50738-2011 通风与空调工程施工规范</div></li><li><div class="file" data-id="GB50738-2011-章节索引" style="padding-left:32px;">GB 50738-2011 通风与空调工程施工规范 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GB51251-2017</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB51251-2017_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="第2章_术语与符号" style="padding-left:32px;">第2章 术语与符号</div></li><li><div class="file" data-id="第3章_防烟系统设计" style="padding-left:32px;">第3章 防烟系统设计</div></li><li><div class="file" data-id="第4章_排烟系统设计" style="padding-left:32px;">第4章 排烟系统设计</div></li><li><div class="file" data-id="第5章_排烟系统设计续" style="padding-left:32px;">第5章 排烟系统设计（续）——排烟口、管道风速、风机选型</div></li><li><div class="file" data-id="第6章_系统控制" style="padding-left:32px;">第6章 系统控制</div></li><li><div class="file" data-id="第7章_系统施工" style="padding-left:32px;">第7章 系统施工</div></li><li><div class="file" data-id="第8章_系统调试与验收" style="padding-left:32px;">第8章 系统调试与验收</div></li><li><div class="file" data-id="第9章_系统维护管理" style="padding-left:32px;">第9章 系统维护管理</div></li><li><div class="file" data-id="GB51251-2017_建筑防烟排烟系统技术标准" style="padding-left:32px;">GB 51251-2017 建筑防烟排烟系统技术标准</div></li><li><div class="file" data-id="GB51251-2017-章节索引" style="padding-left:32px;">GB 51251-2017 建筑防烟排烟系统技术标准 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GBT17428-2009</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GBT17428-2009_第1章_范围" style="padding-left:32px;">第1章 范围</div></li><li><div class="file" data-id="O_中国标准_GBT17428-2009_第2章_规范性引用文件" style="padding-left:32px;">第2章 规范性引用文件</div></li><li><div class="file" data-id="O_中国标准_GBT17428-2009_第3章_术语与定义" style="padding-left:32px;">第3章 术语与定义</div></li><li><div class="file" data-id="第4章_试验设备" style="padding-left:32px;">第4章 试验设备</div></li><li><div class="file" data-id="第5章_试验条件" style="padding-left:32px;">第5章 试验条件</div></li><li><div class="file" data-id="第6章_管道A类试验外部火" style="padding-left:32px;">第6章 管道A类试验（外部火）</div></li><li><div class="file" data-id="第7章_管道B类试验内部火" style="padding-left:32px;">第7章 管道B类试验（内部火）</div></li><li><div class="file" data-id="GBT17428-2009_通风管道耐火试验方法" style="padding-left:32px;">GB/T 17428-2009 通风管道耐火试验方法</div></li><li><div class="file" data-id="GBT17428-2009-章节索引" style="padding-left:32px;">GB/T 17428-2009 通风管道耐火试验方法 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">JGJ141-2017</div><ul class="sub"><li><div class="file" data-id="O_中国标准_JGJ141-2017_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="O_中国标准_JGJ141-2017_第2章_术语" style="padding-left:32px;">第2章 术语</div></li><li><div class="file" data-id="O_中国标准_JGJ141-2017_第3章_基本规定" style="padding-left:32px;">第3章 基本规定</div></li><li><div class="file" data-id="第4章_金属风管" style="padding-left:32px;">第4章 金属风管</div></li><li><div class="file" data-id="第5章_非金属风管" style="padding-left:32px;">第5章 非金属风管</div></li><li><div class="file" data-id="第6章_风管配件与部件" style="padding-left:32px;">第6章 风管配件与部件</div></li><li><div class="file" data-id="第7章_风管制作" style="padding-left:32px;">第7章 风管制作</div></li><li><div class="file" data-id="第8章_风管安装" style="padding-left:32px;">第8章 风管安装</div></li><li><div class="file" data-id="第9章_检验与验收" style="padding-left:32px;">第9章 检验与验收</div></li><li><div class="file" data-id="JGJ141-2017_通风管道技术规程" style="padding-left:32px;">JGJ 141-2017 通风管道技术规程</div></li><li><div class="file" data-id="JGJ141-2017-章节索引" style="padding-left:32px;">JGJ 141-2017 通风管道技术规程 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">JGJT260-2011</div><ul class="sub"><li><div class="file" data-id="O_中国标准_JGJT260-2011_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="O_中国标准_JGJT260-2011_第2章_术语" style="padding-left:32px;">第2章 术语</div></li><li><div class="file" data-id="O_中国标准_JGJT260-2011_第3章_基本规定" style="padding-left:32px;">第3章 基本规定</div></li><li><div class="file" data-id="第4章_风系统检测" style="padding-left:32px;">第4章 风系统检测</div></li><li><div class="file" data-id="第5章_水系统检测" style="padding-left:32px;">第5章 水系统检测</div></li><li><div class="file" data-id="第6章_室内环境检测" style="padding-left:32px;">第6章 室内环境检测</div></li><li><div class="file" data-id="第7章_设备检测" style="padding-left:32px;">第7章 设备检测</div></li><li><div class="file" data-id="JGJT260-2011_采暖通风与空气调节工程检测技术规程" style="padding-left:32px;">JGJ/T 260-2011 采暖通风与空气调节工程检测技术规程</div></li><li><div class="file" data-id="JGJT260-2011-章节索引" style="padding-left:32px;">JGJ/T 260-2011 采暖通风与空气调节工程检测技术规程 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">管道法兰PN系列</div><ul class="sub"><li><div class="file" data-id="管道法兰PN系列国标速查" style="padding-left:32px;">管道法兰 PN 系列国标速查</div></li></ul></ul></li><li><div class="folder">P) 技术成果</div><ul class="sub"><li><div class="file" data-id="P.01_风管加工管理系统">P.01 风管加工管理系统</div></li></ul></li>
-    </ul>
-  </div>
-    <div style="text-align:center;color:#bbb;font-size:12px;margin-top:20px;">
-        共 205 篇笔记
+    <div class="sidebar-tree-wrap">
+        <ul id="tree">
+            <li><div class="file" data-id="管件排版规范索引">管件排版规范索引</div></li><li><div class="folder">A) 基础总则</div><ul class="sub"><li><div class="file" data-id="A.01_接口与接缝类型速查">A.01 接口与接缝类型速查</div></li><li><div class="file" data-id="A.02_工艺名称与术语">A.02 工艺名称与术语</div></li><li><div class="file" data-id="A.03_工艺细则">A.03 工艺细则</div></li><li><div class="file" data-id="A.04_风管材质与规格速查">A.04 风管材质与规格速查</div></li><li><div class="file" data-id="A.05_金属风管制作详解">A.05 金属风管制作详解</div></li><li><div class="file" data-id="A.06_矩形法兰口八大类速查">A.06 矩形法兰口八大类速查</div></li><li><div class="file" data-id="A.07_接缝参数总表">A.07 接缝参数总表</div></li></ul></li><li><div class="folder">B) 矩形管件-咬口</div><ul class="sub"><li><div class="folder" style="padding-left:12px;font-size:13px;">B.01) 直管与短节</div><ul class="sub"><li><div class="file" data-id="B.01.01_直管与短节成型决策规则" style="padding-left:32px;">B.01.01 直管与短节成型决策规则</div></li><li><div class="file" data-id="B.01.02_直管与短节做单与算量" style="padding-left:32px;">B.01.02 直管与短节做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.02) 弯头</div><ul class="sub"><li><div class="file" data-id="B.02.01_弯头制造规则" style="padding-left:32px;">B.02.01 弯头制造规则</div></li><li><div class="file" data-id="B.02.02_弯头做单与算量" style="padding-left:32px;">B.02.02 弯头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.03) S弯</div><ul class="sub"><li><div class="file" data-id="B.03.01_S弯制造规则" style="padding-left:32px;">B.03.01 S弯制造规则</div></li><li><div class="file" data-id="B.03.02_S弯做单与算量" style="padding-left:32px;">B.03.02 S弯做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.04) 大小头</div><ul class="sub"><li><div class="file" data-id="B.04.01_大小头制造规则" style="padding-left:32px;">B.04.01 大小头制造规则</div></li><li><div class="file" data-id="B.04.02_大小头做单与算量" style="padding-left:32px;">B.04.02 大小头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.05) 三通</div><ul class="sub"><li><div class="file" data-id="B.05.01_三通制造规则" style="padding-left:32px;">B.05.01 三通制造规则</div></li><li><div class="file" data-id="B.05.02_三通做单与算量" style="padding-left:32px;">B.05.02 三通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.06) 四通</div><ul class="sub"><li><div class="file" data-id="B.06.01_四通制造规则" style="padding-left:32px;">B.06.01 四通制造规则</div></li><li><div class="file" data-id="B.06.02_四通做单与算量" style="padding-left:32px;">B.06.02 四通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.07) 导流片</div><ul class="sub"><li><div class="file" data-id="B.07.01_导流片规则" style="padding-left:32px;">B.07.01 导流片规则</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.08) 共板法兰框</div><ul class="sub"><li><div class="file" data-id="B.08.01_共板法兰框规则" style="padding-left:32px;">B.08.01 共板法兰框规则</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.09) 开口接咀</div><ul class="sub"><li><div class="file" data-id="B.09.01_开口接咀规则" style="padding-left:32px;">B.09.01 开口接咀规则</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.10) 防鸟网</div><ul class="sub"><li><div class="file" data-id="B.10.01_防鸟网规则" style="padding-left:32px;">B.10.01 防鸟网规则</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.11) 消声器</div><ul class="sub"><li><div class="file" data-id="B.11.01_消声器规则" style="padding-left:32px;">B.11.01 消声器规则</div></li><li><div class="file" data-id="B.11.02_消声器消音棉选型建议" style="padding-left:32px;">B.11.02 消声器消音棉选型建议</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.12) 做单与算量</div><ul class="sub"><li><div class="file" data-id="B.12.01_矩形管件做单与算量说明" style="padding-left:32px;">B.12.01 矩形管件做单与算量说明</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.13) 其他附件</div><ul class="sub"><li><div class="file" data-id="B.13.01_矩形管件其他附件速查堵头.顺风咀.裤型三通.任意弯.斜口管过梁弯" style="padding-left:32px;">B.13.01 矩形管件其他附件速查</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">B.14) 静压箱</div><ul class="sub"><li><div class="file" data-id="B.14.01_静压箱规则" style="padding-left:32px;">B.14.01 静压箱规则</div></li></ul></ul></li><li><div class="folder">C) 圆形管件</div><ul class="sub"><li><div class="folder" style="padding-left:12px;font-size:13px;">C.01) 圆直管</div><ul class="sub"><li><div class="file" data-id="C.01.01_圆管基础设定与接缝规则" style="padding-left:32px;">C.01.01 圆管基础设定与接缝规则</div></li><li><div class="file" data-id="C.01.02_圆直管做单与算量" style="padding-left:32px;">C.01.02 圆直管做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.02) 圆弯头</div><ul class="sub"><li><div class="file" data-id="C.02.01_圆弯头规则" style="padding-left:32px;">C.02.01 圆弯头规则</div></li><li><div class="file" data-id="C.02.02_圆弯头做单与算量" style="padding-left:32px;">C.02.02 圆弯头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.03) 圆S弯</div><ul class="sub"><li><div class="file" data-id="C.03.01_圆S弯规则" style="padding-left:32px;">C.03.01 圆S弯规则</div></li><li><div class="file" data-id="C.03.02_圆S弯做单与算量" style="padding-left:32px;">C.03.02 圆S弯做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.04) 圆大小头</div><ul class="sub"><li><div class="file" data-id="C.04.01_圆大小头规则" style="padding-left:32px;">C.04.01 圆大小头规则</div></li><li><div class="file" data-id="C.04.02_圆大小头做单与算量" style="padding-left:32px;">C.04.02 圆大小头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.05) 方变圆</div><ul class="sub"><li><div class="file" data-id="C.05.01_方变圆规则" style="padding-left:32px;">C.05.01 方变圆规则</div></li><li><div class="file" data-id="C.05.02_方变圆做单与算量" style="padding-left:32px;">C.05.02 方变圆做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.06) 圆三通</div><ul class="sub"><li><div class="file" data-id="C.06.01_圆三通规则" style="padding-left:32px;">C.06.01 圆三通规则</div></li><li><div class="file" data-id="C.06.02_圆三通做单与算量" style="padding-left:32px;">C.06.02 圆三通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.07) 圆四通</div><ul class="sub"><li><div class="file" data-id="C.07.01_圆四通规则" style="padding-left:32px;">C.07.01 圆四通规则</div></li><li><div class="file" data-id="C.07.02_圆四通做单与算量" style="padding-left:32px;">C.07.02 圆四通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.08) 做单与算量</div><ul class="sub"><li><div class="file" data-id="C.08.01_圆形管件做单与算量说明" style="padding-left:32px;">C.08.01 圆形管件做单与算量说明</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.09) 侧支咀</div><ul class="sub"><li><div class="file" data-id="C.09.01_侧支咀规则" style="padding-left:32px;">C.09.01 侧支咀规则</div></li><li><div class="file" data-id="C.09.02_侧支咀做单与算量" style="padding-left:32px;">C.09.02 侧支咀做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.10) 堵头</div><ul class="sub"><li><div class="file" data-id="C.10.01_堵头规则" style="padding-left:32px;">C.10.01 堵头规则</div></li><li><div class="file" data-id="C.10.02_堵头做单与算量" style="padding-left:32px;">C.10.02 堵头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.11) 内接</div><ul class="sub"><li><div class="file" data-id="C.11.01_内接做单与算量" style="padding-left:32px;">C.11.01 内接做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.12) 斜口圆管</div><ul class="sub"><li><div class="file" data-id="C.12.01_斜口圆管做单与算量" style="padding-left:32px;">C.12.01 斜口圆管做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.13) 主方侧圆</div><ul class="sub"><li><div class="file" data-id="C.13.01_主方侧圆做单与算量" style="padding-left:32px;">C.13.01 主方侧圆做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.14) 主圆侧方</div><ul class="sub"><li><div class="file" data-id="C.14.01_主圆侧方做单与算量" style="padding-left:32px;">C.14.01 主圆侧方做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">C.15) 防雨帽</div><ul class="sub"><li><div class="file" data-id="C.15.01_防雨帽规则" style="padding-left:32px;">C.15.01 防雨帽规则</div></li></ul></ul></li><li><div class="folder">D) 焊接件</div><ul class="sub"><li><div class="file" data-id="D.01_焊接件基础规范与直管弯头">D.01 焊接件基础规范与直管弯头</div></li><li><div class="file" data-id="D.02_焊接方变圆与支咀规则">D.02 焊接方变圆与支咀规则</div></li><li><div class="file" data-id="D.03_焊接大小头与特殊管件">D.03 焊接大小头与特殊管件</div></li></ul></li><li><div class="folder">E) 防火板</div><ul class="sub"><li><div class="folder" style="padding-left:12px;font-size:13px;">E.01) 基础规范</div><ul class="sub"><li><div class="file" data-id="E.01.01_防火板基础规范" style="padding-left:32px;">E.01.01 防火板基础规范</div></li><li><div class="file" data-id="E.01.02_防火板缩尺工艺调整" style="padding-left:32px;">E.01.02 防火板缩尺工艺调整</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.02) 直管</div><ul class="sub"><li><div class="file" data-id="E.02.01_防火板直管做单与算量" style="padding-left:32px;">E.02.01 防火板直管做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.03) 弯头</div><ul class="sub"><li><div class="file" data-id="E.03.01_防火板弯头做单与算量" style="padding-left:32px;">E.03.01 防火板弯头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.04) S弯</div><ul class="sub"><li><div class="file" data-id="E.04.01_防火板S弯做单与算量" style="padding-left:32px;">E.04.01 防火板S弯做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.05) 大小头</div><ul class="sub"><li><div class="file" data-id="E.05.01_防火板大小头做单与算量" style="padding-left:32px;">E.05.01 防火板大小头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.06) 三通</div><ul class="sub"><li><div class="file" data-id="E.06.01_防火板三通做单与算量" style="padding-left:32px;">E.06.01 防火板三通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.07) 四通</div><ul class="sub"><li><div class="file" data-id="E.07.01_防火板四通做单与算量" style="padding-left:32px;">E.07.01 防火板四通做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.08) 堵头</div><ul class="sub"><li><div class="file" data-id="E.08.01_防火板堵头做单与算量" style="padding-left:32px;">E.08.01 防火板堵头做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.09) 方变圆</div><ul class="sub"><li><div class="file" data-id="E.09.01_防火方变圆做单与算量" style="padding-left:32px;">E.09.01 防火方变圆做单与算量</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">E.10) 做单与算量</div><ul class="sub"><li><div class="file" data-id="E.10.01_防火板做单与算量说明" style="padding-left:32px;">E.10.01 防火板做单与算量说明</div></li></ul></ul></li><li><div class="folder">F) 复合风管</div><ul class="sub"><li><div class="file" data-id="F.01_复合风管基础规范">F.01 复合风管基础规范</div></li><li><div class="file" data-id="F.02_复合风管排版规范">F.02 复合风管排版规范</div></li></ul></li><li><div class="folder">G) 保温棉</div><ul class="sub"><li><div class="file" data-id="G.01_保温棉排版规范">G.01 保温棉排版规范</div></li></ul></li><li><div class="folder">H) 共板打孔</div><ul class="sub"><li><div class="file" data-id="H.01_共板打孔规则">H.01 共板打孔规则</div></li></ul></li><li><div class="folder">I) 排版软件与流程</div><ul class="sub"><li><div class="file" data-id="I.01_排版流程与检查清单">I.01 排版流程与检查清单</div></li><li><div class="file" data-id="I.02_CAMduct基本操作手册">I.02 CAMduct基本操作手册</div></li><li><div class="file" data-id="I.03_设备下料与管件放样">I.03 设备下料与管件放样</div></li><li><div class="file" data-id="I.04_管件出图与放样管理要求">I.04 管件出图与放样管理要求</div></li><li><div class="file" data-id="I.05_铣床程序编辑说明">I.05 铣床程序编辑说明</div></li><li><div class="file" data-id="I.06_CAMduct官方帮助-Using_CAMduct索引">I.06 CAMduct官方帮助 — Using CAMduct 索引</div></li><li><div class="file" data-id="I.06.01_CAMduct简介">I.06.01 CAMduct 简介</div></li><li><div class="file" data-id="I.06.02_Opus绘图系统">I.06.02 Opus 绘图系统</div></li><li><div class="file" data-id="I.06.03_系统设置">I.06.03 系统设置</div></li><li><div class="file" data-id="I.06.04_DXF导出">I.06.04 DXF 导出</div></li><li><div class="file" data-id="I.06.05_轮廓处理器Profiler">I.06.05 轮廓处理器 Profiler</div></li><li><div class="file" data-id="I.06.06_板材管理">I.06.06 板材管理（Sheet Management）</div></li><li><div class="file" data-id="I.06.07_套料Nesting">I.06.07 套料 Nesting</div></li><li><div class="file" data-id="I.06.08_钢结构导入">I.06.08 钢结构导入（Structural Steel Import）</div></li><li><div class="file" data-id="I.06.09_CAMduct_Components组件">I.06.09 CAMduct Components 组件</div></li></ul></li><li><div class="folder">J) 图纸管理</div><ul class="sub"><li><div class="file" data-id="J.01_图纸清量与分节指导书">J.01 图纸清量与分节指导书</div></li></ul></li><li><div class="folder">K) 特殊配件与辅材</div><ul class="sub"><li><div class="file" data-id="K.01_特殊配件速查检修口.挡烟垂壁.机制软接.插板阀.圆抱箍.横担.支架.多通">K.01 特殊配件速查</div></li><li><div class="file" data-id="K.02_型材与风帽规格角铁.槽钢.风帽">K.02 型材与风帽规格</div></li><li><div class="file" data-id="K.03_矩形管件分解示例">K.03 矩形管件分解示例</div></li><li><div class="file" data-id="K.04_平板与折件">K.04 平板与折件</div></li><li><div class="file" data-id="K.05_接油盆与套管与沉水弯">K.05 接油盆与套管与沉水弯</div></li></ul></li><li><div class="folder">L) 双层保温管</div><ul class="sub"><li><div class="file" data-id="L.01_双层保温管制作规范">L.01 双层保温管制作规范</div></li></ul></li><li><div class="folder">M) 暖通设备与配件</div><ul class="sub"><li><div class="file" data-id="M.01_风管本体类型补充">M.01 风管本体类型补充</div></li><li><div class="file" data-id="M.02_风阀与防火阀">M.02 风阀与防火阀</div></li><li><div class="file" data-id="M.03_送回风口">M.03 送回风口</div></li><li><div class="file" data-id="M.04_风机">M.04 风机</div></li><li><div class="file" data-id="M.05_过滤器">M.05 过滤器</div></li><li><div class="file" data-id="M.06_排烟罩与油烟罩">M.06 排烟罩与油烟罩</div></li><li><div class="file" data-id="M.07_风口罩">M.07 风口罩</div></li></ul></li><li><div class="folder">N) 指导书附表</div><ul class="sub"><li><div class="file" data-id="N.01_矩形管外形分类上">N.01 矩形管外形分类（上）</div></li><li><div class="file" data-id="N.02_矩形管外形分类下">N.02 矩形管外形分类（下）</div></li><li><div class="file" data-id="N.03_圆形管外形分类">N.03 圆形管外形分类</div></li><li><div class="file" data-id="N.04_防火风管外形分类">N.04 防火风管外形分类</div></li><li><div class="file" data-id="N.05_双层保温管外形分类">N.05 双层保温管外形分类</div></li><li><div class="file" data-id="N.06_三通四通录单方式与异形件图样">N.06 三通四通录单方式与异形件图样</div></li><li><div class="file" data-id="N.07_各类风管料件名称">N.07 各类风管料件名称</div></li></ul></li><li><div class="folder">O) 中国标准</div><ul class="sub"><li><div class="file" data-id="中国标准索引">中国标准索引</div></li><li><div class="folder" style="padding-left:12px;font-size:13px;">GB15930-2007</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB15930-2007_第1章_范围" style="padding-left:32px;">第1章 范围</div></li><li><div class="file" data-id="O_中国标准_GB15930-2007_第2章_规范性引用文件" style="padding-left:32px;">第2章 规范性引用文件</div></li><li><div class="file" data-id="O_中国标准_GB15930-2007_第3章_术语与定义" style="padding-left:32px;">第3章 术语与定义</div></li><li><div class="file" data-id="第4章_分类与标记" style="padding-left:32px;">第4章 分类与标记</div></li><li><div class="file" data-id="第5章_技术要求" style="padding-left:32px;">第5章 技术要求</div></li><li><div class="file" data-id="第6章_试验方法" style="padding-left:32px;">第6章 试验方法</div></li><li><div class="file" data-id="第7章_检验规则+标志" style="padding-left:32px;">第7章 检验规则 + 第8章 标志</div></li><li><div class="file" data-id="GB15930-2007_建筑通风和排烟系统用防火阀门" style="padding-left:32px;">GB 15930-2007 建筑通风和排烟系统用防火阀门</div></li><li><div class="file" data-id="GB15930-2007-章节索引" style="padding-left:32px;">GB 15930-2007 建筑通风和排烟系统用防火阀门 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GB50016-2014</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB50016-2014_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="O_中国标准_GB50016-2014_第2章_术语" style="padding-left:32px;">第2章 术语</div></li><li><div class="file" data-id="第3章_厂房和仓库" style="padding-left:32px;">第3章 厂房和仓库</div></li><li><div class="file" data-id="第4章_储罐和堆场" style="padding-left:32px;">第4章 储罐和堆场</div></li><li><div class="file" data-id="第5章_民用建筑" style="padding-left:32px;">第5章 民用建筑</div></li><li><div class="file" data-id="第6章_建筑构造管道井防火" style="padding-left:32px;">第6章 建筑构造（管道井防火与穿越封堵）</div></li><li><div class="file" data-id="第7章_灭火救援设施" style="padding-left:32px;">第7章 灭火救援设施</div></li><li><div class="file" data-id="第8章_消防设施的设置" style="padding-left:32px;">第8章 消防设施的设置</div></li><li><div class="file" data-id="第10章_防烟排烟概要" style="padding-left:32px;">第10章 防烟和排烟（概要）</div></li><li><div class="file" data-id="第11章_木结构建筑" style="padding-left:32px;">第11章 木结构建筑</div></li><li><div class="file" data-id="第12章_城市交通隧道" style="padding-left:32px;">第12章 城市交通隧道</div></li><li><div class="file" data-id="第9章1节_供暖通风和空气调节—般规定" style="padding-left:32px;">第9.1节 供暖、通风和空气调节 —— 一般规定</div></li><li><div class="file" data-id="第9章2节_通风与空调系统防火阀设置" style="padding-left:32px;">第9.2节 通风与空调系统防火阀设置 ⭐</div></li><li><div class="file" data-id="第9章3节_风管材料与保温燃烧性能" style="padding-left:32px;">第9.3节 风管材料与保温燃烧性能</div></li><li><div class="file" data-id="GB50016-2014_建筑设计防火规范2018版" style="padding-left:32px;">GB 50016-2014 建筑设计防火规范（2018年版）</div></li><li><div class="file" data-id="GB50016-2014-章节索引" style="padding-left:32px;">GB 50016-2014 建筑设计防火规范 — 章节索引（全本）</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GB50231-2009</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB50231-2009_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="第2章_施工准备" style="padding-left:32px;">第2章 施工准备</div></li><li><div class="file" data-id="第3章_设备就位与找正调平" style="padding-left:32px;">第3章 设备就位与找正调平</div></li><li><div class="file" data-id="第4-5章_装配与试运转" style="padding-left:32px;">第4-5章 设备装配与试运转</div></li><li><div class="file" data-id="第6章_风机安装" style="padding-left:32px;">第6章 风机安装</div></li><li><div class="file" data-id="第7章_泵类设备安装" style="padding-left:32px;">第7章 泵类设备安装</div></li><li><div class="file" data-id="第8-9章_工程验收" style="padding-left:32px;">第8-9章 工程验收</div></li><li><div class="file" data-id="GB50231-2009_机械设备安装工程施工及验收通用规范" style="padding-left:32px;">GB50231-2009 机械设备安装工程施工及验收通用规范</div></li><li><div class="file" data-id="GB50231-2009-章节索引" style="padding-left:32px;">GB 50231-2009 机械设备安装工程施工及验收通用规范 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GB50243-2016</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB50243-2016_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="O_中国标准_GB50243-2016_第2章_术语" style="padding-left:32px;">第2章 术语</div></li><li><div class="file" data-id="O_中国标准_GB50243-2016_第3章_基本规定" style="padding-left:32px;">第3章 基本规定</div></li><li><div class="file" data-id="第4章_风管与配件" style="padding-left:32px;">第4章 风管与配件</div></li><li><div class="file" data-id="第5章_风管部件" style="padding-left:32px;">第5章 风管部件</div></li><li><div class="file" data-id="第6章_风管系统安装" style="padding-left:32px;">第6章 风管系统安装</div></li><li><div class="file" data-id="第7章_风机与空气处理设备安装" style="padding-left:32px;">第7章 风机与空气处理设备安装</div></li><li><div class="file" data-id="第8章_空调用冷热源与辅助设备安装" style="padding-left:32px;">第8章 空调用冷热源与辅助设备安装</div></li><li><div class="file" data-id="第9章_空调水系统管道与设备安装" style="padding-left:32px;">第9章 空调水系统管道与设备安装</div></li><li><div class="file" data-id="第10章_防腐与绝热" style="padding-left:32px;">第10章 防腐与绝热</div></li><li><div class="file" data-id="第11章_系统调试" style="padding-left:32px;">第11章 系统调试</div></li><li><div class="file" data-id="第12章_竣工验收" style="padding-left:32px;">第12章 竣工验收</div></li><li><div class="file" data-id="GB50243-2016_通风与空调工程施工质量验收规范" style="padding-left:32px;">GB50243-2016 通风与空调工程施工质量验收规范</div></li><li><div class="file" data-id="GB50243-2016-章节索引" style="padding-left:32px;">GB 50243-2016 通风与空调工程施工质量验收规范 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GB50738-2011</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB50738-2011_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="O_中国标准_GB50738-2011_第2章_术语" style="padding-left:32px;">第2章 术语</div></li><li><div class="file" data-id="O_中国标准_GB50738-2011_第3章_基本规定" style="padding-left:32px;">第3章 基本规定</div></li><li><div class="file" data-id="第4章_金属风管制作" style="padding-left:32px;">第4章 金属风管制作</div></li><li><div class="file" data-id="第5章_非金属与复合材料风管" style="padding-left:32px;">第5章 非金属与复合材料风管制作</div></li><li><div class="file" data-id="第6章_风管部件与消声器制作" style="padding-left:32px;">第6章 风管部件与消声器制作</div></li><li><div class="file" data-id="第7章_风管系统安装" style="padding-left:32px;">第7章 风管系统安装</div></li><li><div class="file" data-id="第8章_风机与空气处理设备安装" style="padding-left:32px;">第8章 风机与空气处理设备安装</div></li><li><div class="file" data-id="第9-10章_空调水系统管道与制冷剂管道" style="padding-left:32px;">第9-10章 空调水系统管道与制冷剂管道</div></li><li><div class="file" data-id="第11章_空调设备安装" style="padding-left:32px;">第11章 空调设备安装</div></li><li><div class="file" data-id="第12章_防腐与绝热" style="padding-left:32px;">第12章 防腐与绝热</div></li><li><div class="file" data-id="第13章_监测与控制系统" style="padding-left:32px;">第13章 监测与控制系统</div></li><li><div class="file" data-id="第14-15章_监测与控制+系统试运行" style="padding-left:32px;">第14-15章 监测与控制 + 系统试运行</div></li><li><div class="file" data-id="第16章_系统试运行与调试" style="padding-left:32px;">第16章 系统试运行与调试</div></li><li><div class="file" data-id="第17-18章_竣工验收+资料归档" style="padding-left:32px;">第17-18章 竣工验收 + 资料归档</div></li><li><div class="file" data-id="GB50738-2011_通风与空调工程施工规范" style="padding-left:32px;">GB50738-2011 通风与空调工程施工规范</div></li><li><div class="file" data-id="GB50738-2011-章节索引" style="padding-left:32px;">GB 50738-2011 通风与空调工程施工规范 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GB51251-2017</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GB51251-2017_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="第2章_术语与符号" style="padding-left:32px;">第2章 术语与符号</div></li><li><div class="file" data-id="第3章_防烟系统设计" style="padding-left:32px;">第3章 防烟系统设计</div></li><li><div class="file" data-id="第4章_排烟系统设计" style="padding-left:32px;">第4章 排烟系统设计</div></li><li><div class="file" data-id="第5章_排烟系统设计续" style="padding-left:32px;">第5章 排烟系统设计（续）——排烟口、管道风速、风机选型</div></li><li><div class="file" data-id="第6章_系统控制" style="padding-left:32px;">第6章 系统控制</div></li><li><div class="file" data-id="第7章_系统施工" style="padding-left:32px;">第7章 系统施工</div></li><li><div class="file" data-id="第8章_系统调试与验收" style="padding-left:32px;">第8章 系统调试与验收</div></li><li><div class="file" data-id="第9章_系统维护管理" style="padding-left:32px;">第9章 系统维护管理</div></li><li><div class="file" data-id="GB51251-2017_建筑防烟排烟系统技术标准" style="padding-left:32px;">GB 51251-2017 建筑防烟排烟系统技术标准</div></li><li><div class="file" data-id="GB51251-2017-章节索引" style="padding-left:32px;">GB 51251-2017 建筑防烟排烟系统技术标准 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">GBT17428-2009</div><ul class="sub"><li><div class="file" data-id="O_中国标准_GBT17428-2009_第1章_范围" style="padding-left:32px;">第1章 范围</div></li><li><div class="file" data-id="O_中国标准_GBT17428-2009_第2章_规范性引用文件" style="padding-left:32px;">第2章 规范性引用文件</div></li><li><div class="file" data-id="O_中国标准_GBT17428-2009_第3章_术语与定义" style="padding-left:32px;">第3章 术语与定义</div></li><li><div class="file" data-id="第4章_试验设备" style="padding-left:32px;">第4章 试验设备</div></li><li><div class="file" data-id="第5章_试验条件" style="padding-left:32px;">第5章 试验条件</div></li><li><div class="file" data-id="第6章_管道A类试验外部火" style="padding-left:32px;">第6章 管道A类试验（外部火）</div></li><li><div class="file" data-id="第7章_管道B类试验内部火" style="padding-left:32px;">第7章 管道B类试验（内部火）</div></li><li><div class="file" data-id="GBT17428-2009_通风管道耐火试验方法" style="padding-left:32px;">GB/T 17428-2009 通风管道耐火试验方法</div></li><li><div class="file" data-id="GBT17428-2009-章节索引" style="padding-left:32px;">GB/T 17428-2009 通风管道耐火试验方法 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">JGJ141-2017</div><ul class="sub"><li><div class="file" data-id="O_中国标准_JGJ141-2017_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="O_中国标准_JGJ141-2017_第2章_术语" style="padding-left:32px;">第2章 术语</div></li><li><div class="file" data-id="O_中国标准_JGJ141-2017_第3章_基本规定" style="padding-left:32px;">第3章 基本规定</div></li><li><div class="file" data-id="第4章_金属风管" style="padding-left:32px;">第4章 金属风管</div></li><li><div class="file" data-id="第5章_非金属风管" style="padding-left:32px;">第5章 非金属风管</div></li><li><div class="file" data-id="第6章_风管配件与部件" style="padding-left:32px;">第6章 风管配件与部件</div></li><li><div class="file" data-id="第7章_风管制作" style="padding-left:32px;">第7章 风管制作</div></li><li><div class="file" data-id="第8章_风管安装" style="padding-left:32px;">第8章 风管安装</div></li><li><div class="file" data-id="第9章_检验与验收" style="padding-left:32px;">第9章 检验与验收</div></li><li><div class="file" data-id="JGJ141-2017_通风管道技术规程" style="padding-left:32px;">JGJ 141-2017 通风管道技术规程</div></li><li><div class="file" data-id="JGJ141-2017-章节索引" style="padding-left:32px;">JGJ 141-2017 通风管道技术规程 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">JGJT260-2011</div><ul class="sub"><li><div class="file" data-id="O_中国标准_JGJT260-2011_第1章_总则" style="padding-left:32px;">第1章 总则</div></li><li><div class="file" data-id="O_中国标准_JGJT260-2011_第2章_术语" style="padding-left:32px;">第2章 术语</div></li><li><div class="file" data-id="O_中国标准_JGJT260-2011_第3章_基本规定" style="padding-left:32px;">第3章 基本规定</div></li><li><div class="file" data-id="第4章_风系统检测" style="padding-left:32px;">第4章 风系统检测</div></li><li><div class="file" data-id="第5章_水系统检测" style="padding-left:32px;">第5章 水系统检测</div></li><li><div class="file" data-id="第6章_室内环境检测" style="padding-left:32px;">第6章 室内环境检测</div></li><li><div class="file" data-id="第7章_设备检测" style="padding-left:32px;">第7章 设备检测</div></li><li><div class="file" data-id="JGJT260-2011_采暖通风与空气调节工程检测技术规程" style="padding-left:32px;">JGJ/T 260-2011 采暖通风与空气调节工程检测技术规程</div></li><li><div class="file" data-id="JGJT260-2011-章节索引" style="padding-left:32px;">JGJ/T 260-2011 采暖通风与空气调节工程检测技术规程 — 章节索引</div></li></ul><li><div class="folder" style="padding-left:12px;font-size:13px;">管道法兰PN系列</div><ul class="sub"><li><div class="file" data-id="管道法兰PN系列国标速查" style="padding-left:32px;">管道法兰 PN 系列国标速查</div></li></ul></ul></li><li><div class="folder">P) 技术成果</div><ul class="sub"><li><div class="file" data-id="P.01_风管加工管理系统">P.01 风管加工管理系统</div></li></ul></li>
+        </ul>
+        <div style="text-align:center;color:#bbb;font-size:12px;margin-top:20px;">
+            共 215 篇笔记
+        </div>
     </div>
 </div>
 <div id="content">
     <div id="__welcome__">
 <h1>风管厂 · 管件排版规范手册</h1>
-<p>共 205 篇笔记 · 双击左侧目录浏览</p>
+<p>共 215 篇笔记 · 双击左侧目录浏览</p>
 <p style="margin-top:10px;font-size:14px;color:#999;">
 💡 提示：顶部搜索框可快速定位笔记<br/>
 点击左侧笔记间链接可跳转
@@ -9716,6 +9699,2347 @@ if (规格1a.Value2 &gt; 200) {
 <ul>
 <li><a href="#I.02_CAMduct基本操作手册">I.02 CAMduct基本操作手册</a> — CAMduct 软件操作</li>
 <li><a href="#I.03_设备下料与管件放样">I.03 设备下料与管件放样</a> — 折件限制参考</li>
+</ul></div><div id="I.06_CAMduct官方帮助-Using_CAMduct索引" style="display:none;"><h1>I.06 CAMduct官方帮助 — Using CAMduct 索引</h1>
+<blockquote><b>源文档</b>：Autodesk Fabrication CAMduct 2016 官方帮助  <br/><b>翻译说明</b>：采用暖通风管行业国标术语（JGJ 141-2017），软件专用名词保留原文  <br/><b>总计</b>：38 个页面，含 14 个主主题 + 11 个套料子页面 + 12 个 Profiler 子页面</blockquote>
+<hr>
+<h2>子文件目录</h2>
+<table>
+<thead><tr>
+<th>编号</th>
+<th>笔记</th>
+<th>说明</th>
+<th>页数</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#I.06.01_CAMduct简介">I.06.01 CAMduct简介</a></td>
+<td>软件概述、核心功能清单</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#I.06.02_Opus绘图系统">I.06.02 Opus绘图系统</a></td>
+<td>绘图原理/捕捉模式/绘图命令/快捷方式/打印</td>
+<td>5</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#I.06.03_系统设置">I.06.03 系统设置</a></td>
+<td>常规选项 + 网格选项</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#I.06.04_DXF导出">I.06.04 DXF导出</a></td>
+<td>5 种导出路径详解</td>
+<td>1</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#I.06.05_轮廓处理器Profiler">I.06.05 轮廓处理器Profiler</a></td>
+<td>Profiler 概述 + 12 项子功能详解</td>
+<td>13</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#I.06.06_板材管理">I.06.06 板材管理</a></td>
+<td>板材库存跟踪与余料利用</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#I.06.07_套料Nesting">I.06.07 套料Nesting</a></td>
+<td>套料配置/自动/手动/云端/共线/微连接/余料等</td>
+<td>12</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#I.06.08_钢结构导入">I.06.08 钢结构导入</a></td>
+<td>DSTV/DXF 导入流程与过滤配置</td>
+<td>1</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#I.06.09_CAMduct_Components组件">I.06.09 CAMduct Components组件</a></td>
+<td>轻量版 CAMduct 功能说明</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>快速跳转</h2>
+<h3>Opus 绘图 🔧</h3>
+<ul>
+<li><a href="#I.06.02_Opus绘图系统#21-绘图原理">绘图原理（4种方法）</a></li>
+<li><a href="#I.06.02_Opus绘图系统#24-命令快捷方式">命令快捷方式速查表（100+命令）</a></li>
+</ul>
+<h3>套料 🧩</h3>
+<ul>
+<li><a href="#I.06.07_套料Nesting#71-套料基本配置">套料基本参数配置</a></li>
+<li><a href="#I.06.07_套料Nesting#72-自动套料">自动套料：方法/偏好/微连接/排序</a></li>
+<li><a href="#I.06.07_套料Nesting#73-手动套料">手动套料：编辑/切割顺序/链切/桥接</a></li>
+<li><a href="#I.06.07_套料Nesting#77-共线切割">共线切割（Common Line Cutting）</a></li>
+</ul>
+<h3>Profiler ⚙️</h3>
+<ul>
+<li><a href="#I.06.05_轮廓处理器Profiler#启用-profiler">启用 Profiler</a></li>
+<li><a href="#I.06.05_轮廓处理器Profiler#切片工具-slice-tool">切片工具（超尺寸拼板）</a></li>
+<li><a href="#I.06.05_轮廓处理器Profiler#刀具使用-tool-use">刀具使用（外/内/中心岛定义）</a></li>
+</ul>
+<hr>
+<h2>术语对照</h2>
+<table>
+<thead><tr>
+<th>英文</th>
+<th>中文</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Development</td>
+<td>展开图/展开件</td>
+</tr>
+<tr>
+<td>Fitting</td>
+<td>管件/配件</td>
+</tr>
+<tr>
+<td>Nesting</td>
+<td>套料/排版</td>
+</tr>
+<tr>
+<td>Sheet</td>
+<td>板材</td>
+</tr>
+<tr>
+<td>Island</td>
+<td>零件岛</td>
+</tr>
+<tr>
+<td>Lead-in / Lead-out</td>
+<td>引入线 / 引出线</td>
+</tr>
+<tr>
+<td>Kerf</td>
+<td>切缝/割缝</td>
+</tr>
+<tr>
+<td>Stitch</td>
+<td>微连接/点连</td>
+</tr>
+<tr>
+<td>Remnant</td>
+<td>余料</td>
+</tr>
+<tr>
+<td>Profiler</td>
+<td>轮廓处理器</td>
+</tr>
+<tr>
+<td>Gauge</td>
+<td>板厚</td>
+</tr>
+<tr>
+<td>Torch</td>
+<td>割炬</td>
+</tr>
+<tr>
+<td>Bounding Rectangle</td>
+<td>外接矩形</td>
+</tr>
+<tr>
+<td>Rip-cut</td>
+<td>撕切线</td>
+</tr>
+<tr>
+<td>Ortho mode</td>
+<td>正交模式</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>相关笔记</h2>
+<ul>
+<li><a href="#I.02_CAMduct基本操作手册">I.02 CAMduct基本操作手册</a> — 老唐编制的实操速查手册</li>
+<li><a href="#I.01_排版流程与检查清单">I.01 排版流程与检查清单</a> — 排版前检查与下单核对</li>
+<li><a href="#I.03_设备下料与管件放样">I.03 设备下料与管件放样</a> — 放样注意事项</li>
+<li><a href="#I.05_铣床程序编辑说明">I.05 铣床程序编辑说明</a> — CAMduct → 精雕转换</li>
+</ul></div><div id="I.06.01_CAMduct简介" style="display:none;"><h1>I.06.01 CAMduct 简介</h1>
+<blockquote>Autodesk Fabrication CAMduct 是一款强大的 HVAC 制造与风管加工软件，同时也是生产管理工具，用于高效生产 HVAC 系统。CAMduct 使用全面的三维参数化管件图库来满足制造需求。</blockquote>
+<hr>
+<h2>核心功能一览</h2>
+<table>
+<thead><tr>
+<th>功能</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>扩充的制造商图库与模板</b></td>
+<td>数千种英制内容项与展开图模板（圆形 ductboard、地漏、排气交叉管、堵头等）</td>
+</tr>
+<tr>
+<td><b>按材质差异化套料参数</b></td>
+<td>可为保温、ductboard、金属板材等不同材质设置独立套料参数，避免重复套料</td>
+</tr>
+<tr>
+<td><b>条码与 QR 码</b></td>
+<td>支持在标签和工单上输出数据丰富的条码和 QR 码</td>
+</tr>
+<tr>
+<td><b>配置库导入/导出</b></td>
+<td>单命令完成配置库的导入导出，含保温规格选项</td>
+</tr>
+<tr>
+<td><b>云端套料</b></td>
+<td>利用云端算力，使用 10 种算法同时对单一工单进行套料</td>
+</tr>
+<tr>
+<td><b>共享图库与配置库</b></td>
+<td>所有 Autodesk Fabrication 产品（ESTmep/CADmep/CAMduct）共享图库和配置库，实现估算→深化→制造→安装无缝衔接</td>
+</tr>
+<tr>
+<td><b>风管管件图库</b></td>
+<td>丰富的三维参数化矩形、圆形、椭圆形风管管件及展开图</td>
+</tr>
+<tr>
+<td><b>简洁图形界面</b></td>
+<td>新手与熟练用户均易于操作</td>
+</tr>
+<tr>
+<td><b>板材与线材套料</b></td>
+<td>先进套料算法提高材料利用率</td>
+</tr>
+<tr>
+<td><b>NC 码输出与机床支持</b></td>
+<td>内置后处理器支持多种机床类型，控制任意规模生产线</td>
+</tr>
+<tr>
+<td><b>高级工单成本工具</b></td>
+<td>基于多因素估算工单成本</td>
+</tr>
+<tr>
+<td><b>附加软件工具</b></td>
+<td>CAMduct Components、Tracker、RemoteEntry 等扩展工具</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>学习资源</h2>
+<ul>
+<li>基础培训视频（Fundamental Training Videos）</li>
+<li>在线帮助：左侧面板的目录（Table of Contents）和搜索（Search）选项卡</li>
+<li>Autodesk Fabrication 官方网页：系统要求、视频教程、相关产品（Revit、AutoCAD MEP、Navisworks）</li>
+</ul>
+<hr>
+<h2>相关笔记</h2>
+<ul>
+<li><a href="#I.06.02_Opus绘图系统">I.06.02 Opus绘图系统</a> → CAMduct 内置 CAD 绘图环境</li>
+<li><a href="#I.06.07_套料Nesting">I.06.07 套料Nesting</a> → 自动/手动套料全流程</li>
+<li><a href="#I.06.05_轮廓处理器Profiler">I.06.05 轮廓处理器Profiler</a> → 零件前处理工具</li>
+</ul></div><div id="I.06.02_Opus绘图系统" style="display:none;"><h1>I.06.02 Opus 绘图系统</h1>
+<blockquote>Opus 是 CAMduct 内置的 CAD 工具，用于创建和编辑管件展开图（平板展开件）。</blockquote>
+<hr>
+<h2>2.1 绘图原理</h2>
+<h3>基本概念</h3>
+<ul>
+<li><b>起始角度</b>：0° 始终在 <b>3 点钟方向（正东）</b>（罗盘方位）。</li>
+<li><b>坐标系</b>：首点为绝对坐标 (0,0)；后续点相对于上一个活动点（<b>相对坐标</b>）。</li>
+<li><b>负号 <code>-</code></b> 表示从当前工作点<b>反向</b>绘制线段。</li>
+<li><b><code>C</code> 键</b>：闭合形状（将当前位置连回起点）。</li>
+</ul>
+<h3>四种绘图方法</h3>
+<table>
+<thead><tr>
+<th>方法</th>
+<th>语法</th>
+<th>关键操作</th>
+<th>适用场景</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>相对坐标</b>（默认）</td>
+<td><code>x,y</code></td>
+<td>无需额外操作</td>
+<td>最常用</td>
+</tr>
+<tr>
+<td><b>绝对坐标</b></td>
+<td><code>@x,y</code></td>
+<td><code>@</code> 前缀</td>
+<td>需锁定原点的场景</td>
+</tr>
+<tr>
+<td><b>正交直接输入</b>（推荐新手）</td>
+<td><code>长度</code> 即可</td>
+<td><code>F8</code> 开启正交模式</td>
+<td>简单直线绘图</td>
+</tr>
+<tr>
+<td><b>角度线</b></td>
+<td><code>长度<角度</code></td>
+<td><code><</code> 分隔符</td>
+<td>任意角度线段</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4>方法一：相对坐标（默认）</h4>
+<blockquote>首点绝对，后续相对上一点。</blockquote>
+<p>绘制 500×500 矩形示例：</p>
+<ol>
+<li>启动 Line 命令</li>
+<li>任意位置点击起点</li>
+<li>输入 <code>500,0</code> → 水平线（东）</li>
+<li>输入 <code>0,500</code> → 竖直线（北）</li>
+<li>输入 <code>-500,0</code> → 水平线（西，反向）</li>
+<li>输入 <code>C</code> → 闭合</li>
+</ol>
+<h4>方法二：绝对坐标</h4>
+<blockquote><code>@</code> 前缀强制绝对坐标。</blockquote>
+<p>绘制 500×500 矩形示例：</p>
+<ol>
+<li>启动 Line 命令</li>
+<li>输入 <code>@0,0</code> → 锚定原点</li>
+<li>输入 <code>@500,0</code> → 水平线</li>
+<li>输入 <code>@500,500</code> → 竖直线</li>
+<li>输入 <code>@0,500</code> → 水平线</li>
+<li>输入 <code>C</code> → 闭合</li>
+</ol>
+<h4>方法三：正交直接输入（推荐新手）</h4>
+<blockquote><code>F8</code> 开启正交，只输入长度，光标控制方向。</blockquote>
+<p>绘制 500×500 矩形示例：</p>
+<ol>
+<li>启动 Line，点击起点</li>
+<li>按 <b>F8</b>（正交 ON），光标向右</li>
+<li>输入 <code>500</code> → 水平线</li>
+<li>光标向上，输入 <code>500</code> → 竖直线</li>
+<li>光标向左，输入 <code>500</code> → 水平线</li>
+<li>输入 <code>C</code> → 闭合</li>
+</ol>
+<blockquote>💡 大多数新用户觉得这是最易上手的方法，不熟悉 CAD 环境时无需记忆坐标。</blockquote>
+<h4>方法四：角度线</h4>
+<blockquote><code>长度<角度</code> 语法：<code>500<45</code> = 长度 500mm，角度 45°</blockquote>
+<p>绘制 500×500 旋转 45° 的正方形示例：</p>
+<ol>
+<li>启动 Line，点击起点</li>
+<li>输入 <code>500<45</code> → 45° 线段</li>
+<li>输入 <code>500<135</code> → 下一段</li>
+<li>输入 <code>500<225</code> → 下一段</li>
+<li>输入 <code>C</code> → 闭合</li>
+</ol>
+<hr>
+<h2>2.2 捕捉模式（Snap Modes）</h2>
+<p>通过捕捉工具栏设置 Opus 中的捕捉点类型。</p>
+<h3>敏感度</h3>
+<ul>
+<li><b>Sensitivity</b> 滑块控制光标距离捕捉点多远时自动吸附。右移 → 更易吸附。</li>
+</ul>
+<h3>捕捉模式列表</h3>
+<table>
+<thead><tr>
+<th>捕捉模式</th>
+<th>功能说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>正交模式：完全</b></td>
+<td>只绘制 0°/90°/180°/270° 线段。<code>F8</code> 切换</td>
+</tr>
+<tr>
+<td><b>部分正交</b></td>
+<td>光标吸附到捕捉点后自动应用正交约束</td>
+</tr>
+<tr>
+<td><b>线段起点/终点</b></td>
+<td>吸附到线段或元素的起点与终点</td>
+</tr>
+<tr>
+<td><b>线段中点</b></td>
+<td>吸附到线段或元素的中心点</td>
+</tr>
+<tr>
+<td><b>圆弧圆心</b></td>
+<td>吸附到圆弧或圆的中心点</td>
+</tr>
+<tr>
+<td><b>捕捉到原始范围</b></td>
+<td>吸附到倒角/圆角前的原始角点，或编辑前的原始中心点</td>
+</tr>
+<tr>
+<td><b>圆弧象限点</b></td>
+<td>吸附到圆弧的四个罗盘方向点（0°/90°/180°/270°）</td>
+</tr>
+<tr>
+<td><b>交点</b></td>
+<td>吸附到两个元素交叉点</td>
+</tr>
+<tr>
+<td><b>参考点</b></td>
+<td>吸附到用户自定义的参考点</td>
+</tr>
+<tr>
+<td><b>吸附到最近点</b></td>
+<td>吸附到元素上距离光标最近的点（不常用）</td>
+</tr>
+<tr>
+<td><b>网格点</b></td>
+<td>点击图标开关网格点显示</td>
+</tr>
+<tr>
+<td><b>切点</b></td>
+<td>吸附到圆/圆弧的切点</td>
+</tr>
+<tr>
+<td><b>对象捕捉追踪</b></td>
+<td>沿捕捉点对齐路径追踪，最多同时追踪 7 个点。已获取点显示为黄色方块</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>2.3 常用绘图命令</h2>
+<h3>键盘快捷方式</h3>
+<table>
+<thead><tr>
+<th>按键</th>
+<th>功能</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>F2</b></td>
+<td>以光标为中心</td>
+</tr>
+<tr>
+<td><b>F3</b></td>
+<td>放大</td>
+</tr>
+<tr>
+<td><b>F4</b></td>
+<td>缩小</td>
+</tr>
+<tr>
+<td><b>F5</b></td>
+<td>缩放至全部范围</td>
+</tr>
+<tr>
+<td><b>F6</b></td>
+<td>缩放至选中对象</td>
+</tr>
+<tr>
+<td><b>F8</b></td>
+<td>切换正交模式（或命令行输入 <code>Ortho</code>）</td>
+</tr>
+<tr>
+<td><b>Length</b></td>
+<td>给出所有选中元素的真实组合长度</td>
+</tr>
+<tr>
+<td><b>C</b></td>
+<td>闭合多段线</td>
+</tr>
+<tr>
+<td><b>Ctrl+A</b></td>
+<td>全选</td>
+</tr>
+<tr>
+<td><b>Esc</b></td>
+<td>取消全部选择</td>
+</tr>
+</tbody>
+</table>
+<h3>鼠标操作</h3>
+<ul>
+<li>滚轮缩放 + 组合键可实现更多功能。</li>
+</ul>
+<h3>菜单栏</h3>
+<p>绘图模式下菜单栏提供：<b>Edit / New / Insert / Modify / Tools / View</b>。</p>
+<hr>
+<h2>2.4 命令快捷方式</h2>
+<blockquote>输入命令时注意 CAMduct 窗口左下角状态消息区——它会提示下一步操作要求。</blockquote>
+<table>
+<thead><tr>
+<th>命令</th>
+<th>缩略</th>
+<th>中文说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>LINE</code></td>
+<td><code>L</code></td>
+<td>线段</td>
+</tr>
+<tr>
+<td><code>ARC</code></td>
+<td><code>A</code></td>
+<td>圆弧</td>
+</tr>
+<tr>
+<td><code>ARCCSE</code></td>
+<td><code>ACSE</code></td>
+<td>圆弧-圆心/起点/终点</td>
+</tr>
+<tr>
+<td><code>ARCSCE</code></td>
+<td><code>ASCE</code></td>
+<td>圆弧-起点/圆心/终点</td>
+</tr>
+<tr>
+<td><code>ARCSEC</code></td>
+<td><code>ASEC</code></td>
+<td>圆弧-起点/终点/圆心</td>
+</tr>
+<tr>
+<td><code>ARCSEM</code></td>
+<td><code>ASEM</code></td>
+<td>圆弧-起点/终点/中间点</td>
+</tr>
+<tr>
+<td><code>CIRCLE</code></td>
+<td><code>C</code></td>
+<td>圆</td>
+</tr>
+<tr>
+<td><code>ELLIPSE</code></td>
+<td><code>EL</code></td>
+<td>椭圆</td>
+</tr>
+<tr>
+<td><code>RECTANG</code></td>
+<td><code>REC</code></td>
+<td>矩形</td>
+</tr>
+<tr>
+<td><code>POLYLINE</code></td>
+<td><code>PL</code></td>
+<td>多段线</td>
+</tr>
+<tr>
+<td><code>MOVE</code></td>
+<td><code>M</code></td>
+<td>移动</td>
+</tr>
+<tr>
+<td><code>COPY</code></td>
+<td><code>CO</code></td>
+<td>复制</td>
+</tr>
+<tr>
+<td><code>ROTATE</code></td>
+<td><code>RO</code></td>
+<td>旋转</td>
+</tr>
+<tr>
+<td><code>MIRROR</code></td>
+<td><code>MI</code></td>
+<td>镜像</td>
+</tr>
+<tr>
+<td><code>SCALE</code></td>
+<td><code>SC</code></td>
+<td>缩放</td>
+</tr>
+<tr>
+<td><code>STRETCH</code></td>
+<td><code>S</code></td>
+<td>拉伸</td>
+</tr>
+<tr>
+<td><code>OFFSET</code></td>
+<td><code>O</code></td>
+<td>偏移</td>
+</tr>
+<tr>
+<td><code>TRIM</code></td>
+<td><code>TR</code></td>
+<td>修剪</td>
+</tr>
+<tr>
+<td><code>EXTEND</code></td>
+<td><code>EX</code></td>
+<td>延伸</td>
+</tr>
+<tr>
+<td><code>BREAK</code></td>
+<td><code>BR</code></td>
+<td>打断</td>
+</tr>
+<tr>
+<td><code>CHAMFER</code></td>
+<td><code>CHA</code></td>
+<td>倒角</td>
+</tr>
+<tr>
+<td><code>FILLET</code></td>
+<td><code>F</code></td>
+<td>圆角</td>
+</tr>
+<tr>
+<td><code>ERASE</code> / <code>DELETE</code></td>
+<td><code>E</code> / <code>DEL</code></td>
+<td>删除</td>
+</tr>
+<tr>
+<td><code>ARRAY</code></td>
+<td><code>AR</code></td>
+<td>矩形阵列</td>
+</tr>
+<tr>
+<td><code>ARRAYPOLAR</code></td>
+<td><code>ARP</code></td>
+<td>极轴阵列</td>
+</tr>
+<tr>
+<td><code>UNDO</code></td>
+<td><code>U</code></td>
+<td>撤销</td>
+</tr>
+<tr>
+<td><code>REGEN</code></td>
+<td><code>RG</code></td>
+<td>重新生成图形</td>
+</tr>
+<tr>
+<td><code>REPAIR</code></td>
+<td><code>REP</code></td>
+<td>修复</td>
+</tr>
+<tr>
+<td><code>GROW</code></td>
+<td><code>GW</code></td>
+<td>增长</td>
+</tr>
+<tr>
+<td><code>SLICE</code></td>
+<td><code>SL</code></td>
+<td>轮廓切片</td>
+</tr>
+<tr>
+<td><code>SLIT</code></td>
+<td>—</td>
+<td>开缝</td>
+</tr>
+<tr>
+<td><code>SLOTHOLE</code></td>
+<td><code>SH</code></td>
+<td>长圆孔</td>
+</tr>
+<tr>
+<td><code>PIERCE</code></td>
+<td><code>PI</code></td>
+<td>穿孔点</td>
+</tr>
+<tr>
+<td><code>CIRCCUT</code></td>
+<td><code>CC</code></td>
+<td>圆形切除</td>
+</tr>
+<tr>
+<td><code>RECTCUT</code></td>
+<td><code>RC</code></td>
+<td>矩形切除</td>
+</tr>
+<tr>
+<td><code>RECTNOTCH</code></td>
+<td><code>RN</code></td>
+<td>矩形切口</td>
+</tr>
+<tr>
+<td><code>VEENOTCH</code></td>
+<td><code>VN</code></td>
+<td>V 形切口</td>
+</tr>
+<tr>
+<td><code>SVEENOTCH</code></td>
+<td><code>SVN</code></td>
+<td>斜 V 形切口</td>
+</tr>
+<tr>
+<td><code>TAGNOTCH</code></td>
+<td><code>TN</code></td>
+<td>标记切口</td>
+</tr>
+<tr>
+<td><code>JUNCNOTCH</code></td>
+<td><code>JN</code></td>
+<td>连接切口</td>
+</tr>
+<tr>
+<td><code>MARKINGTEXT</code></td>
+<td><code>MT</code></td>
+<td>标记/打印文字</td>
+</tr>
+<tr>
+<td><code>TRUETYPE</code></td>
+<td><code>TT</code></td>
+<td>TrueType 文字</td>
+</tr>
+<tr>
+<td><code>MODIFYTEXT</code></td>
+<td><code>MT</code></td>
+<td>修改文字</td>
+</tr>
+<tr>
+<td><code>PARTNOTES</code></td>
+<td><code>PN</code></td>
+<td>零件注释</td>
+</tr>
+<tr>
+<td><code>MARKER</code></td>
+<td><code>MK</code></td>
+<td>参考点标记</td>
+</tr>
+<tr>
+<td><code>REFPOINT</code></td>
+<td><code>RP</code></td>
+<td>创建参考点</td>
+</tr>
+<tr>
+<td><code>DELREFPTS</code></td>
+<td><code>DRP</code></td>
+<td>删除全部参考点</td>
+</tr>
+<tr>
+<td><code>DISTANCE</code></td>
+<td><code>D</code></td>
+<td>距离测量</td>
+</tr>
+<tr>
+<td><code>LENGTH</code></td>
+<td><code>LN</code></td>
+<td>长度</td>
+</tr>
+<tr>
+<td><code>DIMALIGNED</code></td>
+<td><code>DAL</code></td>
+<td>对齐标注</td>
+</tr>
+<tr>
+<td><code>DIMANGULAR</code></td>
+<td><code>DAN</code></td>
+<td>角度标注</td>
+</tr>
+<tr>
+<td><code>DIMDIAMETER</code></td>
+<td><code>DIA</code></td>
+<td>直径标注</td>
+</tr>
+<tr>
+<td><code>DIMLINEAR</code></td>
+<td><code>DLN</code></td>
+<td>线性标注</td>
+</tr>
+<tr>
+<td><code>DIMORDINATE</code></td>
+<td><code>DOR</code></td>
+<td>坐标标注</td>
+</tr>
+<tr>
+<td><code>DIMRADIAL</code></td>
+<td><code>DRD</code></td>
+<td>半径标注</td>
+</tr>
+<tr>
+<td><code>DIMLABEL</code></td>
+<td><code>DLB</code></td>
+<td>标签标注</td>
+</tr>
+<tr>
+<td><code>IMPORTITEM</code></td>
+<td><code>II</code></td>
+<td>导入管件</td>
+</tr>
+<tr>
+<td><code>IMPORTVECTOR</code></td>
+<td><code>IV</code></td>
+<td>导入图像转矢量</td>
+</tr>
+<tr>
+<td><code>ITEMPASTE</code></td>
+<td><code>IPST</code></td>
+<td>粘贴为新管件</td>
+</tr>
+<tr>
+<td><code>PARTPASTE</code></td>
+<td><code>PP</code></td>
+<td>粘贴为新零件</td>
+</tr>
+<tr>
+<td><code>PASTECLIP</code></td>
+<td><code>PC</code></td>
+<td>从剪贴板粘贴</td>
+</tr>
+<tr>
+<td><code>COPYCLIP</code></td>
+<td><code>COC</code></td>
+<td>复制到剪贴板</td>
+</tr>
+<tr>
+<td><code>CUTCLIP</code></td>
+<td><code>CU</code></td>
+<td>剪切到剪贴板</td>
+</tr>
+<tr>
+<td><code>SELECTALL</code></td>
+<td><code>SELA</code></td>
+<td>全选</td>
+</tr>
+<tr>
+<td><code>SELECTINV</code></td>
+<td><code>SELI</code></td>
+<td>反选</td>
+</tr>
+<tr>
+<td><code>SELECTNONE</code></td>
+<td><code>SELN</code></td>
+<td>取消选择</td>
+</tr>
+<tr>
+<td><code>ZOOMTOFIT</code></td>
+<td><code>ZF</code></td>
+<td>缩放至适合窗口</td>
+</tr>
+<tr>
+<td><code>ZOOMTOSELECT</code></td>
+<td><code>ZS</code></td>
+<td>缩放至选中项</td>
+</tr>
+<tr>
+<td><code>ZOOMTOWINDOW</code></td>
+<td><code>ZW</code></td>
+<td>窗口缩放</td>
+</tr>
+<tr>
+<td><code>PAN</code></td>
+<td><code>P</code></td>
+<td>平移视图</td>
+</tr>
+<tr>
+<td><code>GRID</code></td>
+<td><code>G</code></td>
+<td>网格间距</td>
+</tr>
+<tr>
+<td><code>GRIDDISPLAY</code></td>
+<td><code>GD</code></td>
+<td>网格显示组件</td>
+</tr>
+<tr>
+<td><code>GRIPS</code></td>
+<td><code>GR</code></td>
+<td>切换拖拽夹点</td>
+</tr>
+<tr>
+<td><code>DXFEXPORT</code></td>
+<td>—</td>
+<td>DXF 导出</td>
+</tr>
+<tr>
+<td><code>PROFILER</code></td>
+<td><code>PR</code></td>
+<td>轮廓处理器</td>
+</tr>
+<tr>
+<td><code>SETTINGS</code></td>
+<td>—</td>
+<td>3D 查看器设置</td>
+</tr>
+<tr>
+<td><code>HELP</code></td>
+<td><code>?</code></td>
+<td>显示命令列表</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>2.5 Opus 打印</h2>
+<p>在 Opus 中打印当前视图窗口中的零件图形（不同于 CAD 绘图输出）。</p>
+<h3>访问方式</h3>
+<ul>
+<li>工具栏 Opus 图标</li>
+<li>菜单 <code>View → General Settings</code>（视图 → 常规设置）</li>
+</ul>
+<h3>打印选项</h3>
+<ul>
+<li><b>Show Cut Layers Only</b>：仅显示切割层</li>
+<li><b>Dimensions and Annotation</b>：显示尺寸标注</li>
+</ul>
+<p>打印前有打印预览可确认。</p>
+<hr>
+<h2>📷 配图（截自 Autodesk 官方帮助）</h2>
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-C1869ECA-6D30-4F84-8908-DD742208FE70.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/14.webp"  alt="GUID-E02CE682-A822-4E64-A281-5B5C7149FEE2.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-6F9075E1-BF09-4F3D-B24A-FD5EBE8FE0E9.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-22E4B4F8-4D1E-450B-9C25-6D4C112E3BEA.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/8.webp"  alt="GUID-F5D45F28-CBF3-4B3A-AFC4-93518DF454F2.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/24.webp"  alt="GUID-ACB2C043-E35A-4FE7-A711-24AF7B4BA1B7.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-616B3B74-331E-4D0D-9293-7F9C7C7DF9A9.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/13.webp"  alt="GUID-1E192169-CB1D-420A-BB01-9DF81314F652.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-72CF346C-0634-40A4-879E-5FBC33F54ECC.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/14.webp"  alt="GUID-F403CBC1-171E-4BB3-814C-A62FE610A6FD.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/8.webp"  alt="GUID-ACCBCEEA-FB89-47EB-8F11-57A7EE2041B9.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/8.webp"  alt="GUID-445DEF15-F83A-4DCA-BEAC-2DBFB923D407.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-F7EC0559-F195-4F2E-90CC-6CA52D2AEC9F.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-B502559D-3786-462B-8829-A649AA712E4D.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-B474BFF2-65C9-4BB8-9E3D-FF3B55E1AB93.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/8.webp"  alt="GUID-54F48E1B-A1BB-450C-9442-ED2F8AF0EDF7.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-9CC7E263-5443-445B-ABAD-485293623AD6.png" style="max-width:100%;"
+<hr>
+<h2>相关笔记</h2>
+<ul>
+<li><a href="#I.06.03_系统设置">I.06.03 系统设置</a> → 常规选项与网格选项</li>
+<li><a href="#I.06.05_轮廓处理器Profiler">I.06.05 轮廓处理器Profiler</a> → Profiler 更多操作</li>
+<li><a href="#I.02_CAMduct基本操作手册">I.02 CAMduct基本操作手册</a> → 实操速查</li>
+</ul></div><div id="I.06.03_系统设置" style="display:none;"><h1>I.06.03 系统设置</h1>
+<blockquote>Opus 工作环境配置——常规选项与网格选项。</blockquote>
+<hr>
+<h2>3.1 常规选项（General Options）</h2>
+<p>路径：<code>View → General Settings</code>，或点击 Opus 窗口底部 <b>Settings</b> 按钮。</p>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Default Work Width</b></td>
+<td>Opus 工作区默认宽度（mm）</td>
+</tr>
+<tr>
+<td><b>Default Work Height</b></td>
+<td>Opus 工作区默认高度（mm）</td>
+</tr>
+<tr>
+<td><b>Location by Mouse</b></td>
+<td>鼠标当前坐标显示开关。也可点击底部坐标按钮切换</td>
+</tr>
+<tr>
+<td><b>Curve Quality</b></td>
+<td>圆/圆弧的线段数。值越大越平滑，但数据量也更大</td>
+</tr>
+<tr>
+<td><b>Cursor Select Threshold</b></td>
+<td>鼠标选择偏移容差。不须精确对准元素即可选中（像素）</td>
+</tr>
+<tr>
+<td><b>Use Hardware Cursor</b></td>
+<td>设为 <b>No</b> 可自定义鼠标光标</td>
+</tr>
+<tr>
+<td><b>Cursor Size</b></td>
+<td>自定义光标大小（像素）。仅关闭硬件光标时可用</td>
+</tr>
+<tr>
+<td><b>Cursor Color</b></td>
+<td>自定义光标颜色。仅关闭硬件光标时可用</td>
+</tr>
+<tr>
+<td><b>Show Directions</b></td>
+<td>在已绘制零件上显示默认切割方向</td>
+</tr>
+<tr>
+<td><b>Show Hints</b></td>
+<td>设为 <b>Yes</b> 时工具提示显示更详细信息</td>
+</tr>
+<tr>
+<td><b>Snaps Override Polar</b></td>
+<td>设为 <b>Yes</b> 时其他捕捉模式可覆盖极轴捕捉</td>
+</tr>
+<tr>
+<td><b>Tool-Tip Delay (ms)</b></td>
+<td>鼠标悬停时工具提示延迟时间（毫秒）。不影响 UI 控件提示</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>3.2 网格选项（Grid Options）</h2>
+<p>路径：<code>View → Grid Settings</code>，或点击窗口底部 Settings / Grid Options 按钮。</p>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Points</b></td>
+<td>使用网格点代替网格线（或组合）。点大小由 Point Size 决定</td>
+</tr>
+<tr>
+<td><b>Lines</b></td>
+<td>开关网格线显示</td>
+</tr>
+<tr>
+<td><b>Pattern</b></td>
+<td>背景棋盘格图案</td>
+</tr>
+<tr>
+<td><b>Transparency</b></td>
+<td>网格线/图案透明度百分比。越低越浅</td>
+</tr>
+<tr>
+<td><b>Grid Spacing</b></td>
+<td>网格点间距（mm）</td>
+</tr>
+<tr>
+<td><b>Point Size</b></td>
+<td>网格点尺寸</td>
+</tr>
+<tr>
+<td><b>Line Color</b></td>
+<td>网格线颜色</td>
+</tr>
+<tr>
+<td><b>Point Color</b></td>
+<td>网格点颜色</td>
+</tr>
+<tr>
+<td><b>Pattern Color</b></td>
+<td>背景图案颜色</td>
+</tr>
+<tr>
+<td><b>Adaptive Zoom-In</b></td>
+<td><b>Yes</b> = 放大视图时自动缩小网格间距</td>
+</tr>
+<tr>
+<td><b>Adaptive Zoom-Out</b></td>
+<td><b>Yes</b> = 缩小视图时自动扩大网格间距</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>📷 配图（截自 Autodesk 官方帮助）</h2>
+<img src="/img/knowledge/pipe-fitting-spec/13.webp"  alt="GUID-6134A12B-A773-4C55-AB07-6E982E304C88.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-0F486C9F-6B62-4E05-9FF8-820F82318154.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/14.webp"  alt="GUID-EF40BF65-1405-4942-B9D3-4B72F35B82C3.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-ABC32CF7-4CD3-4967-AC95-DF186F312616.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/17.webp"  alt="GUID-ED230AF3-72C2-4117-9498-F3EE7A03FE51.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/14.webp"  alt="GUID-168233CE-1A29-477E-8E2D-E4B28B76E144.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-F6858673-74E0-4042-A0C8-2FC9F35B1C91.png" style="max-width:100%;"
+<hr>
+<h2>相关笔记</h2>
+<ul>
+<li><a href="#I.06.02_Opus绘图系统">I.06.02 Opus绘图系统</a> → Opus 绘图环境</li>
+<li><a href="#I.02_CAMduct基本操作手册">I.02 CAMduct基本操作手册</a> → 实操设置参考</li>
+</ul></div><div id="I.06.04_DXF导出" style="display:none;"><h1>I.06.04 DXF 导出</h1>
+<blockquote>DXF 导出工具用于将管件展开图从 CAMduct 导出到 CAD 或第三方套料软件。</blockquote>
+<hr>
+<h2>五种导出路径</h2>
+<h3>4.1 从管件文件夹导出</h3>
+<p><b>前提</b>：管件必须以"样板库管件"（Catalog Item）方式创建。</p>
+<p>导出选项：</p>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Original</b></td>
+<td>原始形状，不施加切缝和引入线</td>
+</tr>
+<tr>
+<td><b>Profiled</b></td>
+<td>施加切缝和引入线（如有）</td>
+</tr>
+</tbody>
+</table>
+<p>多片零件（如组合弯头 → 顶板+底板+侧板）导出为多个 DXF 文件，命名格式：<code>管件名-零件号.DXF</code>。</p>
+<hr>
+<h3>4.2 从管件统计视图 / 快速统计视图导出</h3>
+<p>导出为<b>三维模型</b> DXF 文件，可在 CAD 软件中打开。</p>
+<ul>
+<li><b>No Mesh DXF</b> 选项可简化模型、减小文件体积。</li>
+</ul>
+<hr>
+<h3>4.3 从工单内容窗口导出</h3>
+<p>与从管件文件夹导出格式相同（展开件 DXF），但<b>不需要</b>管件已保存为样板库管件。</p>
+<hr>
+<h3>4.4 从 Opus → Profiler 导出</h3>
+<p>用于将 Opus 中绘制的零件导出给未安装 CAMduct 的同事或其他软件使用。</p>
+<p>路径：<code>Opus → View → Profile → DXF Export</code></p>
+<hr>
+<h3>4.5 导出套料排版图</h3>
+<p>将已排版的板材导出为 DXF 文件，供其他软件使用。通过套料图上的菜单操作。</p>
+<hr>
+<h2>⚠️ 注意事项</h2>
+<ul>
+<li>DXF 导出是<b>二维展开图导出</b>，与 CAMduct 的 MAJ 工单文件<b>不同</b>——MAJ 是完整的工单项目文件。</li>
+<li>DXF 文件中无管件参数信息（尺寸/材质/板厚），仅含几何图形。</li>
+</ul>
+<h2>📷 配图（截自 Autodesk 官方帮助）</h2>
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-8C9D08A2-A891-410D-96D1-BCA36CAA9BE4.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-EADBF536-91CC-4940-9025-B709CB8D5A5E.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/14.webp"  alt="GUID-972718D7-2FFC-4C01-9203-55D8B1486B46.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-EEF5B8B7-BE51-4954-8DA0-3EAED6FF4424.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-8332CECF-DD4A-4725-A35A-6A3D01F4FE23.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/14.webp"  alt="GUID-1E073014-048D-4E54-9961-5F0B47D20D2B.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-DF6B4652-DFFD-4AF4-82F1-87FCA7FBDBE8.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-764E920A-0682-408E-8CC9-189F4E834CA0.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/8.webp"  alt="GUID-5D254B9C-F5B9-40CC-8715-DFA5453B80D3.png" style="max-width:100%;"
+<hr>
+<h2>相关笔记</h2>
+<ul>
+<li><a href="#I.06.05_轮廓处理器Profiler">I.06.05 轮廓处理器Profiler</a> → 导出前零件前处理</li>
+<li><a href="#I.02_CAMduct基本操作手册#I.02.5_导入切割_AutoCAD_绘制的图形">I.02 CAMduct基本操作手册#I.02.5 导入切割 AutoCAD 绘制的图形</a> → DXF 导入实操</li>
+</ul></div><div id="I.06.05_轮廓处理器Profiler" style="display:none;"><h1>I.06.05 轮廓处理器 Profiler</h1>
+<blockquote>Profile 功能（也称 Profiler）是 CAMduct 的<b>前处理工具</b>，用于处理导入的 CAD 图形零件和 Opus 绘制的零件。</blockquote>
+<hr>
+<h2>概述</h2>
+<h3>可处理的文件类型</h3>
+<ul>
+<li>DXF 文件或套料排版图的一部分</li>
+<li>其他软件生成的 NC 码文件</li>
+<li>旧版 "Profile Master" 工具绘制的零件</li>
+<li>Opus 内绘制的零件</li>
+</ul>
+<blockquote>💡 Profiler 不仅处理 CAD 图形——当管件录入工单时也会用到它来确定刀具使用。</blockquote>
+<h3>Profiler 执行的 9 项任务</h3>
+<ol>
+<li>分析几何形状</li>
+<li>删除重复元素</li>
+<li>报告或消除可修复的缺口</li>
+<li>报告多重路径</li>
+<li>将零件排序为零件岛：内岛（Inner）、中心线（Center Line）、外岛（Outer）</li>
+<li>分配默认引入线/引出线（Lead-in / Lead-out）</li>
+<li>分配默认刀具</li>
+<li>为零件岛和刀具分配颜色</li>
+<li>以状态标记保存零件</li>
+</ol>
+<h3>访问方式</h3>
+<ul>
+<li>导入管件时<b>自动触发</b></li>
+<li>Opus 中：<code>View → Profile</code>，或工具栏 Profile 图标</li>
+<li>命令行输入 <code>PROFILER</code> 或 <code>PR</code></li>
+</ul>
+<hr>
+<h2>启用 Profiler</h2>
+<p>Profiler 在导入 CAD 管件时自动打开。零件录入工单后可通过菜单或工具栏访问。</p>
+<blockquote>⚠️ 在 Profiler 中<b>无法修改图形</b>——要修改图形需返回 Opus（点击 View → Opus 或工具栏 Opus 图标，或输入 <code>OPUS</code>）。</blockquote>
+<p>Profiler 菜单栏提供以下命令入口：Auto Repair、Cut Order、Common Line Array、Define Islands、Explode、Simplify、Slice、Stitch Gap、Trim、Tool Use、Write NC。</p>
+<hr>
+<h2>自动修复（Auto Repair）</h2>
+<p>路径：<code>File → Setup → Profile Database → Profiler Options</code></p>
+<p>自动修复尝试按指定参数修复零件上的问题。</p>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Allow Repair</b></td>
+<td>勾选后启用以下修复选项</td>
+</tr>
+<tr>
+<td><b>Error Tolerance</b></td>
+<td>低于此值的错误被忽略</td>
+</tr>
+<tr>
+<td><b>Deliberate Gap Size</b></td>
+<td>低于此值的缺口被忽略</td>
+</tr>
+<tr>
+<td><b>Maximum Lead Size</b></td>
+<td>引入线/引出线的最大尺寸</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>切割顺序（Cut Order）</h2>
+<p>路径：<code>Profiler → Cut Order</code></p>
+<p>显示切割顺序供确认或编辑。每个切割编号显示为绿色方块。</p>
+<p><b>重新排序步骤</b>：</p>
+<ol>
+<li>点击所需引入线位置 → 编号 1 被白框包围</li>
+<li>依次点击各零件岛（<b>内岛和中心线岛应在外岛之前处理</b>）</li>
+<li>如出错或只需从某岛重排：右键点击该岛的切割编号 → 白框高亮已排序岛 → 继续点击后续岛</li>
+<li>使用多刀具时，建议将同一刀具处理的所有岛放在连续位置</li>
+</ol>
+<hr>
+<h2>共线阵列（Common Line Array）</h2>
+<p>路径：<code>Profiler → Common Line Array</code></p>
+<p>从单个零件创建阵列，阵列中各零件<b>尽可能共享切割边</b>。</p>
+<table>
+<thead><tr>
+<th>参数</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Kerf</b></td>
+<td>切缝宽度（默认取自机床刀具设置）</td>
+</tr>
+<tr>
+<td><b>Number of Rows</b></td>
+<td>水平方向重复数</td>
+</tr>
+<tr>
+<td><b>Number of Columns</b></td>
+<td>垂直方向重复数</td>
+</tr>
+<tr>
+<td><b>Mirror(m) / Rotate(r) / Copy(c)</b></td>
+<td>交替行的处理方式：镜像 = 左右翻转；旋转 = 180° 旋转；如选镜像或旋转，交替行同时上下翻转</td>
+</tr>
+</tbody>
+</table>
+<blockquote>阵列完成后可直接 <code>Profiler → Write NC</code> 输出 NC 码，也可保存后正常套料。</blockquote>
+<hr>
+<h2>定义零件岛（Defining Islands）</h2>
+<p>路径：<code>Profiler → Define Islands</code></p>
+<p>自定义零件岛——将指定元素组合为一个岛，共享一个引入/引出线。</p>
+<p><b>操作</b>：</p>
+<ol>
+<li>依次点击要归属同一岛的每个元素</li>
+<li>右键完成选择</li>
+</ol>
+<p><b>适用场景</b>：切割仅需处理两端的零件（如已部分切割的零件）。</p>
+<hr>
+<h2>分解（Explode）</h2>
+<p>路径：<code>Profiler → Explode</code></p>
+<p>当导入的轮廓件包含<b>多个零件</b>时，分解功能将它们分离，使各零件可独立套料。</p>
+<ul>
+<li>点击 Next 可逐一查看分解后的零件。</li>
+</ul>
+<hr>
+<h2>简化零件（Simplify Parts）</h2>
+<p>路径：<code>Profiler → Simplify</code></p>
+<p>降低图形复杂度，减少输出 NC 码的指令量。对含 TrueType 文字、椭圆及扫描图形特别有效。</p>
+<h3>基本参数</h3>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Tolerance（容差）</b></td>
+<td>High = 更精确；Low = 更多简化</td>
+</tr>
+<tr>
+<td><b>Shape Retention（形状保留）</b></td>
+<td>Fine = 更精确；Curvey = 更多简化</td>
+</tr>
+<tr>
+<td><b>Apply Whole Part / Selected Islands</b></td>
+<td>应用到整个零件 / 仅选中岛</td>
+</tr>
+</tbody>
+</table>
+<h3>高级参数</h3>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Inside / Central / Outside Tolerance</b></td>
+<td>指定线段合并为单线的阈值</td>
+</tr>
+<tr>
+<td><b>Restrict Angles</b></td>
+<td>只有夹角在此范围内的两条连续线才考虑合并</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>切片工具（Slice Tool）⭐</h2>
+<blockquote>CAMduct 中<b>超尺寸零件拼板</b>的核心工具。</blockquote>
+<p>路径：<code>Profiler → Slice</code>（工具栏 Slice 图标）</p>
+<h3>工具栏/命令</h3>
+<table>
+<thead><tr>
+<th>模式</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Select</b></td>
+<td>选择并调整已有切片线，确认后点 Go/Slice 执行</td>
+</tr>
+<tr>
+<td><b>Polyline</b></td>
+<td>类似 Opus 的 Line 命令绘制切片线，可用捕捉模式</td>
+</tr>
+<tr>
+<td><b>New Vertical Slicer</b></td>
+<td>附加<b>垂直线</b>到光标，点击固定位置</td>
+</tr>
+<tr>
+<td><b>New Horizontal Slicer</b></td>
+<td>附加<b>水平线</b>到光标，点击固定位置</td>
+</tr>
+<tr>
+<td><b>Auto</b></td>
+<td>下拉比例（1:2 ~ 1:12）定义等份切片数</td>
+</tr>
+<tr>
+<td>└ Horizontal</td>
+<td>水平方向切分为指定份数</td>
+</tr>
+<tr>
+<td>└ Vertical</td>
+<td>垂直方向切分为指定份数</td>
+</tr>
+<tr>
+<td>└ Angular</td>
+<td>按角度切分（适合圆形零件）</td>
+</tr>
+<tr>
+<td><b>Cancel</b></td>
+<td>清除所有切片线</td>
+</tr>
+<tr>
+<td><b>Go / Slice</b></td>
+<td>执行切片</td>
+</tr>
+<tr>
+<td><b>Layers</b></td>
+<td>导入 Opus 绘制图层中的切片线（需在 Profile Database 中预设图层）</td>
+</tr>
+</tbody>
+</table>
+<h3>切片对话框</h3>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Start / End Point / Angle</b></td>
+<td>指定起始/结束点绝对坐标 (X,Y)，或起始点+角度（0°=向右）</td>
+</tr>
+<tr>
+<td><b>Split Horizontal / Vertical</b></td>
+<td>在绝对位置或百分比处单次分割</td>
+</tr>
+</tbody>
+</table>
+<h3>设置选项</h3>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Use Oversize Seam</b></td>
+<td>从超尺寸接缝库中选择拼接接缝</td>
+</tr>
+<tr>
+<td><b>Export Layer</b></td>
+<td>切片线放置的图层</td>
+</tr>
+<tr>
+<td><b>Default Import Layer</b></td>
+<td>图层切片操作的默认图层</td>
+</tr>
+<tr>
+<td><b>Auto Import Slice Lines</b></td>
+<td>启用后自动将默认导入图层上的线显示为切片线</td>
+</tr>
+<tr>
+<td><b>Slice Line Offset Snap</b></td>
+<td>自动偏移切片线指定距离或角度</td>
+</tr>
+</tbody>
+</table>
+<h3>典型工作流</h3>
+<ol>
+<li>选择模式（Polyline / Vertical / Horizontal / Auto）</li>
+<li>绘制或放置切片线</li>
+<li>（可选）用对话框精确设置坐标或分割</li>
+<li>点击 <b>Go/Slice</b> 执行</li>
+</ol>
+<hr>
+<h2>微连接间隙（Stitch Gap）</h2>
+<p>路径：<code>Profiler → Stitch</code></p>
+<p>在切割路径上留下小段未切割金属，使零件保持与板材的连接。</p>
+<h3>三种模式</h3>
+<h4>Stitch Island（零件岛微连接）</h4>
+<ol>
+<li>选择要加微连接的零件岛</li>
+<li>命令行输入微连接间隙（Stitch Gap）长度</li>
+<li>输入微连接数量</li>
+<li><b>Open Ends 选项</b>：</li>
+<ul>
+<li><b>Y（是）</b>：切割从微连接处开始</li>
+<li><b>N（否）</b>：切割以引入线开始</li>
+</ul>
+</ol>
+<h4>Manual Stitch（手动微连接）</h4>
+<ul>
+<li>输入微连接长度</li>
+<li>在命令行输入坐标指定位置，或<b>直接在岛上点击</b>放置</li>
+</ul>
+<h4>Remove Stitch（删除微连接）</h4>
+<ul>
+<li>输入坐标或点击已有微连接将其删除</li>
+</ul>
+<hr>
+<h2>修剪（Trim）</h2>
+<p>路径：<code>Profiler → Trim</code></p>
+<p>修剪<b>超出切割轮廓的标记线</b>。常见于导入含多个零件的 DXF 文件后。如果零件没有被外岛完全包围，会提示：<code>"This part is not enclosed by outer islands."</code></p>
+<hr>
+<h2>刀具使用（Tool Use）</h2>
+<blockquote>Profiler 最重要的配置界面之一——定义每个零件岛的切割方式。</blockquote>
+<h3>零件岛分类</h3>
+<table>
+<thead><tr>
+<th>类型</th>
+<th>默认颜色</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Outer（外岛）</b></td>
+<td>🔵 蓝色</td>
+<td>最外侧连续岛</td>
+</tr>
+<tr>
+<td><b>Inner（内岛）</b></td>
+<td>🔴 红色</td>
+<td>外岛内部的连续岛</td>
+</tr>
+<tr>
+<td><b>Center Cut（中心切割）</b></td>
+<td>🟣 紫色</td>
+<td>未检测为连续的岛（有意或无意）</td>
+</tr>
+</tbody>
+</table>
+<p>可通过 <b>Cut Side</b> 下拉菜单手动更改岛类型。更改时引入线位置也会相应调整。</p>
+<h3>Tool Use 对话框</h3>
+<table>
+<thead><tr>
+<th>项目</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Tool</b></td>
+<td>默认刀具（取自 <code>Profile Database → Tool Defaults</code>）。如有其他刀具可在岛级别分配</td>
+</tr>
+<tr>
+<td><b>Cut Side</b></td>
+<td>决定切缝（kerf）施加在切割线的哪一侧</td>
+</tr>
+<tr>
+<td><b>Kerf</b></td>
+<td>割炬厚度补偿：Kerf Left / Kerf Right / Kerf Off</td>
+</tr>
+<tr>
+<td><b>Leads</b></td>
+<td>默认引入/引出线值</td>
+</tr>
+<tr>
+<td><b>Lead Style</b></td>
+<td>引入线类型（<code>Profile Database → Leads</code> 中用户自定义）</td>
+</tr>
+<tr>
+<td><b>Corner Styles</b></td>
+<td>角部样式：Stop-start、Clover Leaf、Triangular</td>
+</tr>
+</tbody>
+</table>
+<blockquote>💡 若 Profiler 检测到几何限制，半圆引入线可能自动替换为斜角引入线。如 CAD 程序已施加引入线，检测到的值将自动填入引入线尺寸。</blockquote>
+<h3>操作流程</h3>
+<ol>
+<li>导入零件后自动进入 Tool Use 模式（前提是零件无需修复）</li>
+<li>各岛已自动分类和着色</li>
+<li><b>小黄圈</b> = 默认引入/引出线位置</li>
+<li><b>左键点击</b>任意岛元素 → 弹出 Tool Use 对话框确认刀具/切割类型/引入线</li>
+<li>可多岛同时选择和修改</li>
+</ol>
+<hr>
+<h2>输出 NC 码（Write NC）</h2>
+<p>路径：<code>Profiler → Write NC</code></p>
+<p>可直接从 Profiler 中输出 NC 码，无需经过工单套料流程。</p>
+<p>弹出对话框提示输入 NC 码编号或文件名，并选择保存路径。</p>
+<hr>
+<h2>📷 配图（截自 Autodesk 官方帮助）</h2>
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-E846D4A3-4B74-49DB-BA9B-28A15F552FF8.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-1E957D48-549D-4410-BAEA-4BD86C34CED5.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-68DE5B11-E693-43FD-8752-C6E1B298AAC1.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/13.webp"  alt="GUID-35D435FB-2413-4EDF-AFED-3A89BC6E51FC.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-37CED66A-937A-44E3-888F-C37843AA0AD9.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-39F1163A-3D18-4C79-9758-E9584DB7DD0E.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-25841286-2898-454F-A11B-9D6D96A5A32B.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-BB3DEA9A-649F-4A26-BD97-476673BBEE65.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-74E5FFBB-FC01-4475-AFB9-BC836FE3A061.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/8.webp"  alt="GUID-87CC028E-FC3B-495B-BA30-5F1E754C34DD.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-AAC787B9-B600-4677-82E9-A3EC01F936E6.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-AD39A7D5-8F3F-40D1-986C-A9E7F219599E.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/13.webp"  alt="GUID-8BC4FCEB-C68E-411B-A553-2813CC421001.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/8.webp"  alt="GUID-943DCEC5-C9C8-4B33-87AD-C89E38BF9E28.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-D98FB471-8552-42A8-BD5D-68E26584EBEC.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/17.webp"  alt="GUID-E1A67F5A-F17B-48E6-83F7-52E5156A2D4C.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-95FAA385-067A-41FB-9F35-FD9E1BB19EE1.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-B0FBD2E7-C267-4E69-AA5E-B0507BCE9184.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-67343F5B-08AF-42F7-B28F-A2D9D3D7E6F9.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/17.webp"  alt="GUID-59B3C8A1-7EF3-4B9D-BA49-12151523177D.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/17.webp"  alt="GUID-CAAE9EF4-FCDA-4D4F-B871-17D47949B6AD.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-460128BD-3797-4BD7-9C1A-0A83CDB5A336.png" style="max-width:100%;"
+<hr>
+<h2>相关笔记</h2>
+<ul>
+<li><a href="#I.06.02_Opus绘图系统">I.06.02 Opus绘图系统</a> → Opus 绘图环境</li>
+<li><a href="#I.06.07_套料Nesting">I.06.07 套料Nesting</a> → 套料全流程</li>
+<li><a href="#I.02_CAMduct基本操作手册">I.02 CAMduct基本操作手册</a> → 实操速查（拼板/接缝）</li>
+</ul></div><div id="I.06.06_板材管理" style="display:none;"><h1>I.06.06 板材管理（Sheet Management）</h1>
+<blockquote>板材管理系统用于追踪库存板材，并记录板材使用后的剩余部分（余料/Remnant），以最大化板材利用率。</blockquote>
+<hr>
+<h2>核心价值</h2>
+<ul>
+<li>不使用板材管理时，<b>无法知晓已用板材的剩余情况</b>。</li>
+<li>对于<b>厚板、不锈钢等贵重材料</b>尤其重要。</li>
+<li>板材管理中的材质必须已在主配置库（<b>Materials</b> 选项卡）中设置。</li>
+</ul>
+<hr>
+<h2>主要流程</h2>
+<ol>
+<li><b>设置材质及板材尺寸</b> → 在配置库中定义板材规格</li>
+<li><b>套料时使用库存板材</b> → 自动/手动套料可优先使用库存余料</li>
+<li><b>切割后自动记录余料</b> → 系统自动更新余料库</li>
+<li><b>余料可用于后续工单</b> → 新工单套料时优先消耗余料</li>
+</ol>
+<hr>
+<h2>配置关联</h2>
+<ul>
+<li>套料配置中的 <b>New Sheet → Use Stock Sheets from Sheet Management</b> 选项</li>
+<li>余料管理中的 <b>Only Save Sheet if Rip-Cut / Minimum Length / Discard Used Portion</b> 选项</li>
+</ul>
+<blockquote>详见 <a href="#I.06.07_套料Nesting#71-套料基本配置">I.06.07 套料Nesting#71-套料基本配置</a> 和 <a href="#I.06.07_套料Nesting#712-余料管理">I.06.07 套料Nesting#712-余料管理</a></blockquote>
+<hr>
+<h2>📷 配图（截自 Autodesk 官方帮助）</h2>
+<img src="/img/knowledge/pipe-fitting-spec/8.webp"  alt="GUID-EE02732B-3153-4195-82DC-7E98000CFA07.png" style="max-width:100%;"
+<hr>
+<h2>相关笔记</h2>
+<ul>
+<li><a href="#I.06.07_套料Nesting">I.06.07 套料Nesting</a> → 套料与余料联动</li>
+<li><a href="#I.03_设备下料与管件放样">I.03 设备下料与管件放样</a> → 板宽/折件管理</li>
+</ul></div><div id="I.06.07_套料Nesting" style="display:none;"><h1>I.06.07 套料 Nesting</h1>
+<blockquote>在 CAMduct 中，"套料"指将管件展开图在板材上高效排列，以达到最大利用率和最小废料。<br/>支持两种方式：<b>自动套料</b>（桌面或云端）和<b>手动套料</b>。</blockquote>
+<hr>
+<h2>7.1 套料基本配置</h2>
+<p>路径：<code>Database → Manufacturing → Nesting</code></p>
+<h3>间距参数</h3>
+<table>
+<thead><tr>
+<th>参数</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Default margin between nested parts</b>（零件间默认间距）</td>
+<td>所有零件间的最小距离。设 10mm → 至少 10mm。此值也适用于零件到板边的距离。<b>间距不累加</b></td>
+</tr>
+<tr>
+<td><b>Additional Sheet Edge Margin</b>（板边额外边距）</td>
+<td>板材四周附加边距，<b>与最小间距累加</b>。例：最小 10 + 额外 5 = 板边 15，零件间 10</td>
+</tr>
+<tr>
+<td><b>Ignore Lead-ins less than</b>（忽略小于某值引入线）</td>
+<td>允许引入线侵入最小间距。应设得比最小间距小。引入线大于此值则整零件移开</td>
+</tr>
+</tbody>
+</table>
+<h3>新增板材策略（New Sheet）</h3>
+<table>
+<thead><tr>
+<th>策略</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Use default sheet size</b></td>
+<td>使用材质库中打绿勾的默认尺寸</td>
+</tr>
+<tr>
+<td><b>Allow Alternate Sizes to Avoid Oversizing</b></td>
+<td>允许替代尺寸以避免零件超板</td>
+</tr>
+<tr>
+<td><b>Use Stock Sheets from Sheet Management</b></td>
+<td>使用板材管理的库存板材。<code>Use Remnants with <= %</code> 控制（设 100% 则全部可用）</td>
+</tr>
+<tr>
+<td><b>Prompt for new sheet sizes</b></td>
+<td>每次需新板弹窗选择</td>
+</tr>
+<tr>
+<td><b>Load Remnant</b></td>
+<td>选择已保存的余料（仅配合板材管理）</td>
+</tr>
+</tbody>
+</table>
+<h3>自动重排套料</h3>
+<p><b>Re-order Nest Automatically</b>：仅一台机床（或同类机床）时，每次写 NC 码自动重排。省去手动点"选择机床"。</p>
+<hr>
+<h2>7.2 自动套料（Automatic Nesting）</h2>
+<p>对话框含多个选项卡：</p>
+<h3>General（常规）</h3>
+<p>同 <a href="##7.1_套料基本配置">#7.1 套料基本配置</a>。</p>
+<h3>Preferences（偏好）</h3>
+<p>适用于多机床用户。</p>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Nest for Machine</b></td>
+<td>指定目标机床。<code>None</code> = 默认机床</td>
+</tr>
+<tr>
+<td><b>Across Width of Sheet</b></td>
+<td>先填满板宽（推荐——零件更快取走）</td>
+</tr>
+<tr>
+<td><b>Across Length of Sheet</b></td>
+<td>先填满板长</td>
+</tr>
+<tr>
+<td><b>Smallest Bounding Rectangle</b></td>
+<td>最小外接矩形，与板上位置无关</td>
+</tr>
+<tr>
+<td><b>User Item Nest Priorities</b></td>
+<td>按工单组织菜单中设置优先级</td>
+</tr>
+<tr>
+<td><b>Multi-Torch</b></td>
+<td>割炬头数量（用于同时切多个相同零件）</td>
+</tr>
+</tbody>
+</table>
+<h3>Method（方法）</h3>
+<table>
+<thead><tr>
+<th>套料方法</th>
+<th>说明</th>
+<th>余料支持</th>
+<th>间隙填充</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Batching</b></td>
+<td>按分段名/页码分批。选项：None / Item Section Name / Item Page Number</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><b>True-Shape Nesting</b>（默认）⭐</td>
+<td>最常用。条带算法，非常精确。唯一使用 Preferences 设置的方法。需间距>0</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><b>Row Nesting</b></td>
+<td>单一对称零件好，非对称无效</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><b>Rectangular Nesting</b></td>
+<td>每零件外接矩形。<b>最适合矩形展开件</b>（多段组合弯头）。允许零间距和负切缝</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><b>Edge Nesting</b></td>
+<td>从四角向中心排。<b>适合保留最大余料</b></td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead><tr>
+<th>附加选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Try to fill gaps after main nesting</b></td>
+<td>主套料后填充间隙</td>
+</tr>
+<tr>
+<td><b>Create Sheared Nests for Sheared Parts</b></td>
+<td>为标记为剪切的零件激活剪切套料</td>
+</tr>
+<tr>
+<td><b>Nest Insulation Developments</b></td>
+<td>套料保温展开件</td>
+</tr>
+<tr>
+<td><b>Flanged Parts</b></td>
+<td>专门针对翻边零件</td>
+</tr>
+</tbody>
+</table>
+<h3>Auto Stitching（自动微连接）</h3>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Automatically Stitch Nested Islands</b></td>
+<td>启用后显示以下设置</td>
+</tr>
+<tr>
+<td>└ Outer Islands – If Long Side &lt;</td>
+<td>外岛长边小于此值 → 加微连接。<code>Any</code> = 不论尺寸</td>
+</tr>
+<tr>
+<td>└ Outer Islands – If Short Side &lt;</td>
+<td>外岛短边 &lt; 值 → 加微连接</td>
+</tr>
+<tr>
+<td>└ Inner Islands – If Long Side &lt;</td>
+<td>内岛同上</td>
+</tr>
+<tr>
+<td>└ Inner Islands – If Short Side &lt;</td>
+<td>内岛同上</td>
+</tr>
+<tr>
+<td><b>Default Auto Stitching Values</b></td>
+<td>指定微连接长度和数量</td>
+</tr>
+</tbody>
+</table>
+<h3>Sheet Order（板材排序）</h3>
+<p>决定工单内容中板材显示顺序，影响 NC 码编号。可按以下字段排序：<b>材质 → 板厚 → 真实利用率 → 保温标记</b>。</p>
+<hr>
+<h2>7.3 手动套料（Manual Nesting）</h2>
+<p>遇到新材质/板厚组合时弹出手动套料对话框。四区域：</p>
+<h3>零件区（Parts）</h3>
+<ul>
+<li>每个零件显示：<b>零件编号</b>（左上）、<b>毛坯尺寸</b>（外接矩形，下方）、<b>待套料数量</b>（蓝色数字，右下）</li>
+<li>套料后：数量减少，<b>蓝色叉号</b> = 该零件已无待排件</li>
+<li><code>View → Only Show Remaining Parts</code>：直接移出已排完零件</li>
+<li>右键 → 剪切/复制/粘贴</li>
+</ul>
+<h3>板材控制中心（Sheet Control Centre）</h3>
+<table>
+<thead><tr>
+<th>控件</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Material &amp; Gauge 下拉</td>
+<td>选择材质/板厚</td>
+</tr>
+<tr>
+<td>Sheets 下拉</td>
+<td>列出全部板材，显示尺寸和利用率</td>
+</tr>
+<tr>
+<td>New</td>
+<td>新建默认尺寸板材</td>
+</tr>
+<tr>
+<td>Properties</td>
+<td>修改尺寸和多头割炬配置（仅空板）</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td>清除板上零件（板保留）</td>
+</tr>
+<tr>
+<td>Trash</td>
+<td>彻底删除板材</td>
+</tr>
+</tbody>
+</table>
+<h3>菜单操作</h3>
+<h4>切割顺序</h4>
+<table>
+<thead><tr>
+<th>模式</th>
+<th>操作</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Simple Cut Order</b></td>
+<td>按零件级别改顺序。点绿色方块依次单击。重新分配：右键当前号（变黄）→ 左键新位</td>
+</tr>
+<tr>
+<td><b>Advanced Cut Order</b></td>
+<td>按单次切割级别。每刀独立编号</td>
+</tr>
+</tbody>
+</table>
+<h4>链式切割（Chain Cut）</h4>
+<p>多个零件在一次割炬点火中连续切割，<b>减少穿孔点</b>。</p>
+<ul>
+<li>从一个岛拖到另一个建立链</li>
+<li>先切约一半 → 跳下一个 → 路径完成后返回完成</li>
+<li>右键链起始/结束小方块可修改</li>
+</ul>
+<h4>桥接切割（Bridge Cut）</h4>
+<p>也是连续切割，但<b>完整切完一个零件</b>再切下一个。</p>
+<ul>
+<li>仅两个零件可桥接，超过两个用链式切割</li>
+<li>主要用于终止链的末端让切割掉头</li>
+</ul>
+<h4>引入线调整（Leadins）</h4>
+<ul>
+<li>悬停 → 灰圈显示当前位置</li>
+<li>蓝箭头 = 切割方向，黑箭头 = 备选路径。单击切换</li>
+<li>右键 → 查看/更改引入线类型（弧形/直线等）</li>
+</ul>
+<h4>微连接（Stitching）</h4>
+<ul>
+<li><b>自动</b>：拖框选零件 → 右键设置</li>
+<li><b>手动</b>：在零件上点击拖拽</li>
+<li>黑色虚线 = 已加微连接</li>
+<li>设置长度：<code>Operation → Tool Options</code></li>
+</ul>
+<hr>
+<h2>7.4 套料分析（Analyzing Nests）</h2>
+<p><code>View</code> 菜单下的分析选项：</p>
+<table>
+<thead><tr>
+<th>视图</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Large Icons</b></td>
+<td>大图标，同时查看多个套料图</td>
+</tr>
+<tr>
+<td><b>Small Icons</b></td>
+<td>小图标，同上</td>
+</tr>
+<tr>
+<td><b>List Icons</b></td>
+<td>极简列表</td>
+</tr>
+<tr>
+<td><b>Details</b></td>
+<td>详细：小图标+名称+材质+利用率%。可按列排序</td>
+</tr>
+<tr>
+<td><b>Arrange Icons</b></td>
+<td>按 NC 程序/材质/利用率排序</td>
+</tr>
+<tr>
+<td><b>Line Up Icons</b></td>
+<td>对齐图标</td>
+</tr>
+<tr>
+<td><b>Auto Arrange</b></td>
+<td>自动排列</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7.5 云端套料（Cloud Nesting）</h2>
+<h3>前提</h3>
+<ul>
+<li>Autodesk 订阅用户</li>
+<li>在 CAMduct 内直接访问</li>
+</ul>
+<h3>流程</h3>
+<ol>
+<li>上传工单 → 云端用 <b>10 种算法并行套料</b></li>
+<li>完成 → 邮件通知</li>
+<li>下载套料结果到 CAMduct</li>
+<li>已套料工单云端保存 <b>96 小时</b></li>
+</ol>
+<h3>评估指标</h3>
+<table>
+<thead><tr>
+<th>列</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Sheet Qty</b></td>
+<td>该方案使用板材数</td>
+</tr>
+<tr>
+<td><b>Average Usage</b></td>
+<td>材料利用率。<b>越高越高效</b></td>
+</tr>
+</tbody>
+</table>
+<p>选择最优方案 → <code>Merge Nest into CAMduct</code> 下载。</p>
+<hr>
+<h2>7.6 自动填充零件（Auto Fill Parts）</h2>
+<p>将指定管件<b>无限量</b>填充到套料板材剩余空间，替代撕切线。</p>
+<h3>设置</h3>
+<ol>
+<li>管件属性中勾选 Auto Fill</li>
+<li>以数量 1 放入工单 → Nested 列显示 "Auto"</li>
+<li>套料时自动计算最大可放数量</li>
+<li>套料后显示实际放置数量</li>
+</ol>
+<blockquote>💡 适合填充小零件（法兰垫片、小连接件等）。</blockquote>
+<hr>
+<h2>7.7 共线切割（Common Line Cutting）</h2>
+<p>减少切割时间和热变形。<b>沿直线边效果最佳</b>。</p>
+<h3>条件</h3>
+<ul>
+<li>最小零件间距 ≥ 切缝值（Kerf）。如切缝 1mm → 间距 ≥ 1mm</li>
+<li>切缝值查看：<code>Installed Machines → Tools</code></li>
+</ul>
+<h3>流程</h3>
+<ol>
+<li>套料完成 → Sheet Machining Options</li>
+<li>启用共线切割</li>
+<li>NC 编号分配</li>
+<li>NC Reader 预览 → 零件间无间距，共用切割线</li>
+</ol>
+<hr>
+<h2>7.8 自动套料选项（Autonest Options）</h2>
+<h3>精度/速度滑块</h3>
+<table>
+<thead><tr>
+<th>位置</th>
+<th>效果</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>偏左（Accurate）</b></td>
+<td>紧密套料，最小废料，耗时更长</td>
+</tr>
+<tr>
+<td><b>偏右（Faster）</b></td>
+<td>快速完成但废料较多</td>
+</tr>
+<tr>
+<td><b>中间（Optimal）</b></td>
+<td>平衡</td>
+</tr>
+</tbody>
+</table>
+<h3>选项</h3>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Use Existing Sheets In Job</b></td>
+<td>使用工单中已有空板</td>
+</tr>
+<tr>
+<td><b>Try Alternative Solutions if Target not Reached</b></td>
+<td>尝试多方案达到最优</td>
+</tr>
+</tbody>
+</table>
+<h3>优化项</h3>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Rotate Parts to Minimum Rectangles</b></td>
+<td>旋转至最小外接矩形方向贴齐板边</td>
+</tr>
+<tr>
+<td><b>Pre-Nest Parts with Each Other</b></td>
+<td>先将零件拼成矩形再套料</td>
+</tr>
+<tr>
+<td><b>Pre-Nest One-off Part Qties</b></td>
+<td>尝试单件零件互拼</td>
+</tr>
+<tr>
+<td><b>Pre-Nest Parts in Holes</b></td>
+<td>将零件放入其他零件内部（孔中套料）</td>
+</tr>
+<tr>
+<td><b>Allow Nest In Stitched Holes</b></td>
+<td>允许在微连接孔内套料</td>
+</tr>
+<tr>
+<td><b>Allow edge nest parts equal to sheet width</b></td>
+<td>零件宽度等于板宽时贴边切割（特别适用于与板宽相同直管）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7.9 多头割炬属性（MultiTorch Properties）</h2>
+<p>配置<b>同一横梁上多个割炬</b>同时切割。多头割炬共享同一 NC 码（不同于多刀头）。</p>
+<h3>模式</h3>
+<table>
+<thead><tr>
+<th>模式</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Do not Use</b></td>
+<td>取消</td>
+</tr>
+<tr>
+<td><b>Basic Multiple Torch</b></td>
+<td>基础设置</td>
+</tr>
+<tr>
+<td><b>Advanced Multiple Torch</b></td>
+<td>高级设置</td>
+</tr>
+</tbody>
+</table>
+<h3>间距</h3>
+<table>
+<thead><tr>
+<th>方式</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Space Nest for - Torches</b></td>
+<td>指定割炬数，以最大零件尺寸为间距</td>
+</tr>
+<tr>
+<td><b>Use Spacing of - Units</b></td>
+<td>指定固定间距值</td>
+</tr>
+</tbody>
+</table>
+<h3>相似展开件链接</h3>
+<p><code>Allow Multi-Torch of Similar Developments</code>：不同管件中相同形状的展开件可链接为一组同时切割。</p>
+<hr>
+<h2>7.10 翻边（Flanging）</h2>
+<p>配置库中翻边相关选项：</p>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Use Flanged Sheets</b></td>
+<td>使用翻边板材</td>
+</tr>
+<tr>
+<td><b>Flanged Edges</b></td>
+<td>指定哪些边翻边</td>
+</tr>
+<tr>
+<td><b>Allow Margin at Edge</b></td>
+<td>每边边距</td>
+</tr>
+<tr>
+<td><b>Calculate Flanges for Nested Parts</b></td>
+<td>计算已套料零件翻边</td>
+</tr>
+<tr>
+<td><b>Break on Angle Change more than</b></td>
+<td>角度变化超值断开</td>
+</tr>
+<tr>
+<td><b>Break on Radius Change more than</b></td>
+<td>半径变化超值断开</td>
+</tr>
+<tr>
+<td><b>Minimum Reported Length</b></td>
+<td>仅报告大于此最小长度的翻边</td>
+</tr>
+<tr>
+<td><b>Stress Tables</b></td>
+<td>应力表编辑</td>
+</tr>
+<tr>
+<td><b>Outside Tolerance</b></td>
+<td>外侧公差</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7.11 微连接（Stitching）</h2>
+<p>自动将套料零件通过小连接点固定到板材上，防止切割中移位。</p>
+<h3>基本参数</h3>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Default Auto Stitching Values</b></td>
+<td>定义微连接长度和数量</td>
+</tr>
+<tr>
+<td><b>Use Spacing</b></td>
+<td>按指定间距在岛周围分布微连接</td>
+</tr>
+<tr>
+<td><b>Stitch at Start/End of Island(s)</b></td>
+<td>在岛起点/终点加微连接</td>
+</tr>
+</tbody>
+</table>
+<h3>自动微连接条件</h3>
+<table>
+<thead><tr>
+<th>条件</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Outer Islands – If Long Side &lt;</td>
+<td>外岛长边 < 值 → 微连接。<code>Any</code> = 不论尺寸</td>
+</tr>
+<tr>
+<td>Outer Islands – If Short Side &lt;</td>
+<td>外岛短边 &lt; 值</td>
+</tr>
+<tr>
+<td>Inner Islands – If Long Side &lt;</td>
+<td>内岛同上</td>
+</tr>
+<tr>
+<td>Inner Islands – If Short Side &lt;</td>
+<td>内岛同上</td>
+</tr>
+</tbody>
+</table>
+<blockquote>💡 外岛（Outer）= 板材上外部零件；内岛（Inner）= 零件内部的孔洞部分。</blockquote>
+<hr>
+<h2>7.12 余料管理（Remnants）</h2>
+<p>配置自动保存余料的条件。需先在 <code>Database → Nesting</code> 下勾选 Remnants 启用。</p>
+<table>
+<thead><tr>
+<th>选项</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>Only Save Sheet if Rip-Cut</b></td>
+<td>仅当板材被撕切时才保存为余料</td>
+</tr>
+<tr>
+<td><b>Minimum Length</b></td>
+<td>仅保存余料的最小长度</td>
+</tr>
+<tr>
+<td><b>Discard Used Portion</b></td>
+<td>丢弃已切割部分（撕切线后方），避免存不可用小段余料</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>📷 配图（截自 Autodesk 官方帮助）</h2>
+<img src="/img/knowledge/pipe-fitting-spec/13.webp"  alt="GUID-38713C0E-67C2-41CA-8BD5-4AEA3B19A8D2.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-BE65B5F8-9927-466D-8BCF-A6F6F2F32EE6.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/17.webp"  alt="GUID-50D72A9E-AB7D-41E8-975D-D08FFE766170.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-EEA97B2A-A697-473D-A082-111076BBBF30.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-73C821E1-9A22-4663-B5AA-BD75BF4A71DF.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-2E8538FC-A33B-453F-92B3-C3656384DD6B.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-F5C9EC37-46E4-479E-A07A-34A2B03FAAFA.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-8C20F322-E001-40FE-984C-A3600481073B.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-A7AF6BBA-A688-4791-8457-1DD0342FE583.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-B3E0BDAA-E6FF-4767-B428-016CCCEDCB40.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/14.webp"  alt="GUID-C60BFF6C-DA9B-4630-9214-410EDF1A2FCA.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-D24493D1-65E3-47D7-A90C-7A3592B393C1.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/17.webp"  alt="GUID-FE0C4EE0-F050-46AB-85DA-211702FD4A4F.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/8.webp"  alt="GUID-58F19949-B9B4-4A19-B497-0D89BD3BA320.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-4E894EA2-1928-4E41-A561-F1835EC53ACC.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-2D82EA80-3F5F-4315-B129-0AFC360E53FA.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-AEFDC2C9-43F5-4394-A0B6-74F03FFACB16.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/17.webp"  alt="GUID-1AF17F27-68EE-4984-B47B-2A6151CE7BDE.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-5E67B5D4-0C3E-4DC1-957A-E6E30FAD3CE8.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-A9571608-F874-4D02-B8E1-39837FE538EA.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-AA2BC669-252A-40F9-A08E-69FA87C4B38B.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/17.webp"  alt="GUID-E2E3181B-037E-4D07-9A17-F3B7872F8865.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/3.webp"  alt="GUID-A251CC45-1B3C-44F3-BA5A-D40B2C3EA0CC.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-AA2AFDEB-0C9F-42EB-B874-B5DC6CB5185B.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-935B98C3-7C99-42F1-89BA-FFC558065007.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-7FC3BE3F-4D4E-487B-8678-B5830A43A3B0.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-EFFE9279-CB1A-4743-9690-C0EFE9367A8F.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-44724D3D-FDA8-4F41-9E1A-36E2DEE4C842.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-EBA16746-2FFF-4D66-B501-E4AA65D09A6E.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-608933DC-39A9-4E6D-90DA-ED56EAB8C27C.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-A7CDCC1C-6D65-4558-BA5E-F31A9DD4B2C6.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-F3EEE60D-DD27-477A-AB66-966F7520B795.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-61DD5A19-32F5-4856-A0E2-EAEFEBFF7EE1.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/17.webp"  alt="GUID-9917F392-E6B3-4F2B-B84F-28EFED23D406.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/13.webp"  alt="GUID-A03E249B-E4BB-4A13-8DAA-AEDF51834F8F.png" style="max-width:100%;"
+<hr>
+<h2>相关笔记</h2>
+<ul>
+<li><a href="#I.06.05_轮廓处理器Profiler">I.06.05 轮廓处理器Profiler</a> → 套料前零件前处理</li>
+<li><a href="#I.06.06_板材管理">I.06.06 板材管理</a> → 库存板材与余料</li>
+<li><a href="#I.02_CAMduct基本操作手册#I.02.2_手工排料与自动排料后的手工调整">I.02 CAMduct基本操作手册#I.02.2 手工排料与自动排料后的手工调整</a> → 实操速查</li>
+</ul></div><div id="I.06.08_钢结构导入" style="display:none;"><h1>I.06.08 钢结构导入（Structural Steel Import）</h1>
+<blockquote>CAMduct 可从钢结构设计软件（如 XSteel、StruCAD、AutoCAD 插件）导入零件数据进行自动处理。</blockquote>
+<hr>
+<h2>支持格式</h2>
+<ul>
+<li><b>DSTV</b>（最常用，XSteel 默认）</li>
+<li><b>DXF</b></li>
+<li><b>ASCII 文本文件</b></li>
+</ul>
+<p>特殊过滤器可自动处理三种格式的连接板。</p>
+<hr>
+<h2>连接板（Fastening Plates）</h2>
+<ul>
+<li>用途：连接钢结构梁柱的钢板</li>
+<li>厚度范围：<b>2–25 mm</b></li>
+<li>薄矩形板 → 剪切打孔；厚板 → 轮廓切割（激光/氧燃/等离子）</li>
+</ul>
+<hr>
+<h2>CAMduct 钢结构处理功能</h2>
+<table>
+<thead><tr>
+<th>功能</th>
+<th>说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><b>DSTV 过滤器创建</b></td>
+<td>零件几何、孔尺寸/位置、零件编号、材质、厚度、数量</td>
+</tr>
+<tr>
+<td><b>剪切 vs 轮廓</b></td>
+<td>可将特定材质/厚度设为剪切（不经过轮廓切割）</td>
+</tr>
+<tr>
+<td><b>Align Parts</b></td>
+<td>比对长宽 → 设置纹理角，使长边朝向指定方向（水平/垂直）。禁用时零件可自由旋转</td>
+</tr>
+<tr>
+<td><b>Auto-Increment 必须禁用</b></td>
+<td>否则导入零件编号会被覆盖</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>导入流程（DSTV 示例）</h2>
+<ol>
+<li>创建 <b>Installed Filter</b>（安装过滤器）</li>
+<li>File Extension 设为 <code>NC1</code>（XSteel 默认扩展名）</li>
+<li>可选配置<b>剪切材料列表</b>（哪些材质/厚度不经过轮廓切割）</li>
+<li>导入文件（可用 <code>Ctrl+A</code> 全选）</li>
+<li>对话框可<b>逐件更改材质</b></li>
+<li>进入工单内容后可正常编辑和套料</li>
+</ol>
+<blockquote>💡 实测：<b>800+ 零件、约 3 吨的工单 → 处理时间 < 5 分钟</b>（含报表打印和切割）。</blockquote>
+<hr>
+<h2>关键设置速查</h2>
+<table>
+<thead><tr>
+<th>设置</th>
+<th>值</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>板厚范围</td>
+<td>2–25 mm</td>
+</tr>
+<tr>
+<td>典型文件格式</td>
+<td>DSTV（XSteel → 扩展名 <code>.NC1</code>）</td>
+</tr>
+<tr>
+<td>800+ 零件（3 吨）处理时间</td>
+<td>&lt; 5 分钟</td>
+</tr>
+<tr>
+<td>Auto-Increment Item Numbers</td>
+<td><b>必须禁用</b></td>
+</tr>
+<tr>
+<td>Align Parts</td>
+<td>启用 = 控制纹理方向；禁用 = 自由旋转</td>
+</tr>
+<tr>
+<td>材质分配</td>
+<td>导入时可逐件更改</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>📷 配图（截自 Autodesk 官方帮助）</h2>
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-264382B3-9543-4628-BDE3-516C91D8ED7D.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-C328EEAD-AE5A-4BDD-AE88-C2B79615AA18.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/17.webp"  alt="GUID-16129C7A-95BA-4D07-91D9-6612A1173228.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/17.webp"  alt="GUID-84885860-D025-48A6-8AEE-117AB91D0935.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-7CDE59F0-CCAE-4D76-8362-FB9A393919B8.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-F1F3DF7D-DE58-452A-8B75-E7D6675CB3D6.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/8.webp"  alt="GUID-DAAF4473-4893-47C0-A5DA-E9C4B994D55D.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-E6E6B001-487B-40BC-9C76-29316EF84C37.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-5D8B6CC1-DD10-4370-AD5D-3669B84F408E.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/14.webp"  alt="GUID-08914900-1AA9-47D7-9DB2-CAD2DAA4CE3C.png" style="max-width:100%;"
+<img src="/img/knowledge/pipe-fitting-spec/6.webp"  alt="GUID-0F6C722E-A4A7-464D-AA4C-666B100CC2CD.png" style="max-width:100%;"
+<hr>
+<h2>相关笔记</h2>
+<ul>
+<li><a href="#I.06.04_DXF导出">I.06.04 DXF导出</a> → DXF 格式导出</li>
+<li><a href="#I.06.07_套料Nesting">I.06.07 套料Nesting</a> → 导入后套料流程</li>
+</ul></div><div id="I.06.09_CAMduct_Components组件" style="display:none;"><h1>I.06.09 CAMduct Components 组件</h1>
+<blockquote>CAMduct Components 是与 CAMduct 一起自动安装的<b>附加软件</b>。</blockquote>
+<hr>
+<h2>定位</h2>
+<p>它相当于 CAMduct 的<b>"轻量版"</b>——拥有管件选型和工单管理能力，但<b>不负责套料和 NC 码输出</b>。</p>
+<hr>
+<h2>用途</h2>
+<p>让额外操作员<b>管理生产线</b>，提高生产效率和车间灵活性。</p>
+<h3>功能边界</h3>
+<table>
+<thead><tr>
+<th>有</th>
+<th>没有</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>✅ 共享 CAMduct 图库和配置库</td>
+<td>❌ 套料（Nesting）</td>
+</tr>
+<tr>
+<td>✅ 管件选型与参数设置</td>
+<td>❌ 机床接口与 NC 码输出</td>
+</tr>
+<tr>
+<td>✅ 工单创建与管理</td>
+<td>❌ 轮廓处理器 Profiler</td>
+</tr>
+<tr>
+<td>✅ DXF 导出</td>
+<td></td>
+</tr>
+<tr>
+<td>✅ MAJ 工单保存</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>典型工作流</h2>
+<h3>场景一：对接第三方套料软件</h3>
+<ol>
+<li>在 Components 中创建工单</li>
+<li>导出展开件 DXF</li>
+<li>第三方套料软件接收 DXF 进行套料和切割</li>
+</ol>
+<h3>场景二：对接 CAMduct 主站</h3>
+<ol>
+<li>在 Components 中创建工单</li>
+<li>保存为 MAJ 文件</li>
+<li>在 CAMduct 中打开 → 套料 → NC 码输出</li>
+</ol>
+<hr>
+<h2>相关笔记</h2>
+<ul>
+<li><a href="#I.06.01_CAMduct简介">I.06.01 CAMduct简介</a> → CAMduct 全功能概览</li>
+<li><a href="#I.06.04_DXF导出">I.06.04 DXF导出</a> → DXF 导出详细说明</li>
 </ul></div><div id="J.01_图纸清量与分节指导书" style="display:none;"><h1>J.01 图纸清量与分节指导书</h1>
 <p>风管图纸清量（提取量）与系统分节的术语定义、对接流程、交付规范。</p>
 <hr>
@@ -48640,6 +50964,11 @@ CAMduct排版生成.MAJ文件
 <td>5</td>
 <td><a href="#I.05_铣床程序编辑说明">I.05 铣床程序编辑说明</a></td>
 <td>CAMduct→精雕 3种刀路/格式转换</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#I.06_CAMduct官方帮助-Using_CAMduct索引">I.06 CAMduct官方帮助-Using CAMduct索引</a></td>
+<td>Autodesk 官方帮助索引（9个子文件）——Opus绘图/套料/DXF导出/Profiler/钢结构导入</td>
 </tr>
 </tbody>
 </table>
