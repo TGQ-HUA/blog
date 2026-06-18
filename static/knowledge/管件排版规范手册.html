@@ -67,10 +67,10 @@ pre.mermaid { background: transparent; color: #333; padding: 12px 0; }
   <div style="text-align:center;padding:40px;max-width:360px;">
     <h3>🔒 需要密码</h3>
     <div id="pw-progress-wrap" style="margin:16px 0;">
-      <div style="background:#e5e7eb;border-radius:10px;height:6px;overflow:hidden;">
+      <div style="background:#e5e7eb;border-radius:10px;height:8px;overflow:hidden;">
         <div id="pw-progress-bar" style="background:#2980b9;height:100%;width:0%;border-radius:10px;transition:width 0.3s;"></div>
       </div>
-      <div id="pw-progress-text" style="font-size:12px;color:#999;margin-top:4px;">加载中...</div>
+      <div id="pw-progress-text" style="font-size:13px;color:#666;margin-top:6px;">正在加载资源 0%...</div>
     </div>
     <div id="pw-form" style="display:none;">
       <input type="password" id="pwd" placeholder="请输入密码" style="padding:10px 16px;border-radius:10px;border:1px solid #ccc;font-size:16px;margin:8px;width:200px;">
@@ -94,7 +94,7 @@ if(sessionStorage.getItem("pipe_ok")==="1"){document.getElementById("lock-overla
     loaded++;
     var pct=Math.round(loaded/total*100);
     document.getElementById("pw-progress-bar").style.width=pct+"%";
-    document.getElementById("pw-progress-text").textContent="加载完成 "+loaded+"/"+total;
+    document.getElementById("pw-progress-text").textContent="已加载 "+pct+"% ("+loaded+"/"+total+")";
     if(loaded>=total&&!done){done=true;showForm();}
   }
   function showForm(){
