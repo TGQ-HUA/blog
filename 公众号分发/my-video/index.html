@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#fff}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#eff6ff,#f0f9ff,#eef2f2)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4}
+.o1{width:400px;height:400px;top:10%;left:5%;background:radial-gradient(circle,rgba(37,99,235,.6),transparent)}
+.o2{width:350px;height:350px;top:50%;right:8%;background:radial-gradient(circle,rgba(249,115,22,.5),transparent)}
+.o3{width:300px;height:300px;bottom:10%;left:40%;background:radial-gradient(circle,rgba(37,99,235,.4),transparent)}
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:60px}
+.glass{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.05);padding:36px 60px;max-width:1400px;text-align:center}
+.glass .title{font-size:60px;font-weight:900;color:#0f172a;line-height:1.2;margin-bottom:16px}
+.glass .title .red{color:#dc2626}
+.glass .title .orange{color:#f97316}
+.glass .sub{font-size:34px;color:#475569;line-height:1.5;margin-bottom:12px}
+.glass .code{font-family:Consolas,monospace;color:#2563eb;background:rgba(37,99,235,.1);padding:4px 14px;border-radius:6px;font-size:32px}
+.glass .key{font-size:48px;font-weight:900;color:#f97316;font-family:Consolas,monospace;margin-top:16px;padding:12px 32px;background:rgba(249,115,22,.08);border-radius:12px;display:inline-block}
+.warn-full{text-align:center}
+.warn-full .wtag{display:inline-block;background:#dc2626;color:#fff;font-size:32px;font-weight:700;padding:10px 28px;border-radius:8px;margin-bottom:20px}
+.warn-full .wtitle{font-size:72px;font-weight:900;color:#0f172a;line-height:1.3}
+.warn-full .wtitle .r{color:#dc2626}
+.warn-full .wsub{font-size:32px;color:#64748b;margin-top:12px}
+.brand{text-align:center;margin-top:36px}
+.brand .bname{font-size:28px;color:#0f172a;font-weight:700}
+.brand .burl{font-size:24px;color:#2563eb;font-family:Consolas,monospace;margin-top:6px}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="16" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+
+  <!-- Scene 1: 问题 0-4s -->
+  <div class="scene" id="s1">
+    <div class="warn-full">
+      <div class="wtag" id="w1">⚠️ CAMduct 踩坑</div>
+      <div class="wtitle" id="w2">小孔不出 <span class="r">NC码</span>？</div>
+      <div class="wsub" id="w3">大孔正常输出，≤5mm 小孔全部"消失"</div>
+    </div>
+  </div>
+
+  <!-- Scene 2: 原因 4-8s -->
+  <div class="scene" id="s2">
+    <div class="glass" id="g2">
+      <div class="title" style="font-size:40px;color:#dc2626">🔍 根本原因</div>
+      <div class="sub" style="font-size:40px;color:#0f172a;margin-top:16px">
+        参数 <span class="code">Pierce Size</span> = 5mm<br><br>
+        <span style="color:#dc2626;font-weight:700">小于等于该值的孔 → 不切割！</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scene 3: 解决 8-12s -->
+  <div class="scene" id="s3">
+    <div class="glass" id="g3">
+      <div class="title" style="font-size:40px;color:#10b981">✅ 解决方法</div>
+      <div class="sub" style="font-size:34px;color:#0f172a;margin-top:16px;line-height:2">
+        File → Setup → Installed Machines<br>
+        选机床 → <span style="color:#10b981;font-weight:700">Tool Setup → Global</span>
+      </div>
+      <div class="key" id="k3">Pierce Size → 0</div>
+    </div>
+  </div>
+
+  <!-- Scene 4: 品牌 12-16s -->
+  <div class="scene" id="s4">
+    <div class="glass" id="g4">
+      <div class="title" style="font-size:52px">所有版本 <span class="orange">CAMduct</span> 通用</div>
+      <div class="sub" style="margin-top:12px">一个参数，解决所有小孔消失问题</div>
+      <div class="brand">
+        <div class="bname">奇美星暖通风管制作</div>
+        <div class="burl">tangguoqi.top</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var tl = gsap.timeline({paused:true});
+
+function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-15,y:60,scale:.85,filter:"blur(6px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.7,ease:"elastic.out(1,0.4)"},t);tl.to(id,{boxShadow:"0 0 40px rgba(37,99,235,0.25)",duration:.5},">-0.3");tl.to(id,{boxShadow:"0 8px 32px rgba(0,0,0,0.05)",duration:.8},">+0.2");}
+function cardOut(id,t,boundary){tl.to(id,{opacity:0,scale:.88,y:-15,filter:"blur(4px)",duration:.35,ease:"power2.in"},t);tl.set(id,{visibility:"hidden"},boundary);}
+
+// Scene 1 (0-4s): 入场0.3s → 内容3.2s → 退场0.5s
+tl.to("#s1",{opacity:1,duration:.25},0);
+tl.fromTo("#w1",{opacity:0,y:-30},{opacity:1,y:0,duration:.4,ease:"power2.out"},.25);
+tl.fromTo("#w2",{opacity:0,scale:.8},{opacity:1,scale:1,duration:.5,ease:"back.out(1.5)"},.45);
+tl.fromTo("#w3",{opacity:0,y:20},{opacity:1,y:0,duration:.4,ease:"power2.out"},.9);
+tl.to("#s1",{opacity:0,duration:.3},3.8);
+
+// Scene 2 (4-8s): 入场0.7s → 内容2.8s → 退场0.5s
+tl.to("#s2",{opacity:1,duration:.25},4);
+cardIn("#g2",4.25);
+cardOut("#g2",7.6,7.95);
+tl.to("#s2",{opacity:0,duration:.25},7.8);
+
+// Scene 3 (8-12s): 入场0.7s → 内容2.8s → 退场0.5s
+tl.to("#s3",{opacity:1,duration:.25},8);
+cardIn("#g3",8.25);
+tl.fromTo("#k3",{opacity:0,scale:.5},{opacity:1,scale:1,duration:.5,ease:"back.out(1.5)"},8.7);
+cardOut("#g3",11.6,11.95);
+tl.to("#s3",{opacity:0,duration:.25},11.8);
+
+// Scene 4 (12-16s): 入场0.7s → 内容3.3s
+tl.to("#s4",{opacity:1,duration:.25},12);
+cardIn("#g4",12.25);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
