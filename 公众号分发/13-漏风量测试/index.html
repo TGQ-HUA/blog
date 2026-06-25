@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#0f172a}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#eff6ff,#fef7f0,#f0f9ff)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4}
+.o1{width:450px;height:450px;top:5%;left:3%;background:radial-gradient(circle,rgba(37,99,235,.5),transparent)}
+.o2{width:380px;height:380px;top:40%;right:5%;background:radial-gradient(circle,rgba(249,115,22,.4),transparent)}
+.o3{width:320px;height:320px;bottom:5%;left:35%;background:radial-gradient(circle,rgba(249,115,22,.3),transparent)}
+.o4{width:280px;height:280px;top:60%;left:60%;background:radial-gradient(circle,rgba(37,99,235,.25),transparent)}
+
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center}
+.glass{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;padding:36px 44px;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.m{font-size:38px;color:#1e293b;line-height:1.7;margin-bottom:10px;opacity:0}
+.m .accent{color:#2563eb;font-weight:700}
+.m .hl{color:#dc2626;font-weight:700}
+.m-sep{height:14px}
+.btitle{font-size:52px;font-weight:900;color:#0f172a;text-align:center;margin-bottom:28px;opacity:0}
+.btitle .accent{color:#2563eb}
+.brand{position:absolute;bottom:40px;right:80px;text-align:right;opacity:.7}
+.brand .bn{font-size:28px;color:#64748b;font-weight:600}
+.brand .bu{font-size:24px;color:#2563eb;margin-top:4px}
+
+/* 全屏警告 */
+.warn{text-align:center;opacity:0}
+.warn .wl{display:inline-block;background:#dc2626;color:#fff;font-size:32px;font-weight:700;padding:10px 28px;border-radius:10px;margin-bottom:18px}
+.warn .wm{font-size:60px;font-weight:900;color:#0f172a;line-height:1.3}
+.warn .wm .hl{color:#dc2626}
+.warn .ws{font-size:36px;color:#64748b;margin-top:12px}
+
+/* 左右分屏 */
+.split{display:flex;gap:50px;align-items:center;width:88%;opacity:0}
+.split .left{flex:1;text-align:left}
+.split .right{flex:1.2;text-align:left}
+.split .lt{font-size:56px;font-weight:900;color:#0f172a;line-height:1.2}
+.split .lt .accent{color:#2563eb}
+.split .rm{font-size:38px;color:#1e293b;line-height:1.7;margin-bottom:8px}
+
+/* 三栏 */
+.grid3{display:flex;gap:28px;width:88%;opacity:0}
+.gitem{flex:1;background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;padding:30px 26px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.gitem .gh{font-size:36px;font-weight:700;color:#1e293b;margin-bottom:10px}
+.gitem .gd{font-size:30px;color:#475569;line-height:1.6}
+
+/* 裸字数字 */
+.bare{text-align:center;opacity:0}
+.bare .bn{font-size:100px;font-weight:900;color:#2563eb;line-height:1.1}
+.bare .bl{font-size:32px;color:#64748b;margin-top:6px}
+
+/* 竖列 */
+.col3{display:flex;gap:36px;width:88%;opacity:0}
+.ci{flex:1;text-align:center}
+.ci .ico{font-size:52px;margin-bottom:10px}
+.ci .ch{font-size:36px;font-weight:700;color:#1e293b;margin-bottom:8px}
+.ci .cd{font-size:30px;color:#64748b;line-height:1.6}
+
+/* 双卡对比 */
+.dual{display:flex;gap:40px;width:88%;opacity:0}
+.dcard{flex:1;background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;padding:32px 36px;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.dcard .dh{font-size:42px;font-weight:700;color:#0f172a;margin-bottom:16px}
+.dcard .dd{font-size:34px;color:#475569;line-height:1.6}
+
+/* 全屏反问 */
+.ask{text-align:center;opacity:0}
+.ask .aq{font-size:72px;font-weight:900;color:#0f172a;line-height:1.3}
+.ask .aq .hl{color:#dc2626}
+.ask .aa{font-size:40px;color:#64748b;margin-top:16px}
+
+/* 故事卡片 */
+.tale{text-align:center;opacity:0;width:75%}
+.tale .glass{padding:44px 60px}
+.tale .tt{font-size:56px;font-weight:900;color:#0f172a;line-height:1.3;margin-bottom:14px}
+.tale .tt .accent{color:#f97316}
+.tale .ts{font-size:38px;color:#475569;line-height:1.7}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="143" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div>
+  <audio id="n" class="clip" data-start="0" data-duration="143" data-track-index="10" src="narration.mp3" data-volume="1.0"></audio>
+
+  <!-- B0: 片头 0-1s -->
+  <div class="scene" id="b0" style="padding:0"><div class="bare"><div class="bn" style="font-size:96px;color:#0f172a">风管漏风量测试</div><div class="bl" style="font-size:44px;color:#dc2626;font-weight:700">被监理退货那一次</div></div></div>
+
+  <!-- B1: 监理退货 0.1-13.6s | 全屏警告 -->
+  <div class="scene" id="b1" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="b1t">⚠️ <span class="accent">亏了两万块</span></div><div class="warn" id="b1w"><div class="m">去年有个项目，中压排烟系统，风管全部做好运到现场。</div><div class="m">监理来验收，上来就问<span class="hl">严密性试验报告</span>呢。</div><div class="m-sep"></div><div class="m">结果那一批全部拉回车间重检，</div><div class="m"><span class="hl">来回运费加返工料钱，亏了小两万。</span></div></div></div></div>
+
+  <!-- B2: 漏风原理 13.6-33.8s | 左右分屏 -->
+  <div class="scene" id="b2" style="padding:60px 100px"><div style="width:88%"><div class="btitle" id="b2t">风管<span class="accent">为什么会漏风</span></div><div class="split" id="b2s"><div class="left"><div class="lt">不是一体成型<br><span class="accent">接缝就是漏洞</span></div></div><div class="right"><div class="rm m">每节管子四个咬口缝</div><div class="rm m">法兰连接有密封垫</div><div class="rm m">管体还有加固筋铆钉孔</div><div class="m-sep"></div><div class="rm m">漏多了 → 风口风量不够 → 空调打折扣</div><div class="rm m"><span class="hl">排烟系统漏风 — 烟排不出去，要命</span></div></div></div></div></div>
+
+  <!-- B3: GB50243分级 33.8-47.5s | 三栏 -->
+  <div class="scene" id="b3" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="b3t">GB50243-2016 <span class="accent">五级压力</span></div><div class="grid3" id="b3g"><div class="gitem"><div class="gh">🟢 低压 ≤500Pa</div><div class="gd m">抽检 5%</div><div class="gd m">不少于1个系统</div></div><div class="gitem"><div class="gh" style="color:#f97316">🟡 中压 500~1500</div><div class="gd m">抽检 20%</div><div class="gd m">不少于1个系统</div></div><div class="gitem" style="border:2px solid rgba(220,38,38,.3)"><div class="gh" style="color:#dc2626">🔴 高压 >1500Pa</div><div class="gd m"><span class="hl">全数检测</span></div><div class="gd m">一个都不放过</div></div></div></div></div>
+
+  <!-- B4: 漏风量数据 47.5-63.0s | 裸字数字 -->
+  <div class="scene" id="b4" style="padding:60px 100px"><div style="text-align:center"><div class="btitle" id="b4t">允许漏风量 · <span class="accent">查表更简单</span></div><div class="bare" id="b4b" style="display:flex;gap:60px;justify-content:center"><div><div class="bn">≤2.0</div><div class="bl m">500Pa<br>m³/h·m²</div></div><div><div class="bn">≤3.0</div><div class="bl m">1000Pa<br>m³/h·m²</div></div><div><div class="bn" style="color:#dc2626">≤3.8</div><div class="bl m">1500Pa<br>m³/h·m²</div></div></div></div></div>
+
+  <!-- B5: 土办法 63.0-83.3s | 双卡对比 -->
+  <div class="scene" id="b5" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="b5t">小厂的<span class="accent">土办法</span></div><div class="dual" id="b5d"><div class="dcard"><div class="dh">🔦 灯光法</div><div class="dd m">暗环境打强光手电</div><div class="dd m">看法兰缝透不透光</div></div><div class="dcard"><div class="dh">🖐️ 手感法</div><div class="dd m">风机吹起来</div><div class="dd m">手背沿法兰走一圈</div></div></div><div class="m" style="color:#dc2626;font-weight:700;text-align:center;margin-top:24px;font-size:36px">⚠️ 只能定位漏点，出不了数据报告</div></div></div>
+
+  <!-- B6: 漏点三处 83.3-101.9s | 竖列 -->
+  <div class="scene" id="b6" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="b6t">漏风<span class="accent" style="color:#dc2626">80%</span>集中在这三个地方</div><div class="col3" id="b6c"><div class="ci"><div class="ico">📐</div><div class="ch">法兰转角处</div><div class="cd m">密封垫搭接不够</div></div><div class="ci"><div class="ico">🔩</div><div class="ch">加固筋铆钉孔</div><div class="cd m">铆钉没打实</div></div><div class="ci"><div class="ico">✂️</div><div class="ch">咬口缝起止端</div><div class="cd m">咬合强度最弱</div></div></div><div class="m" style="text-align:center;margin-top:24px;font-size:40px;color:#f97316;font-weight:700">口诀：转角打满胶 · 铆钉多敲两下 · 咬口起止切一刀</div></div></div>
+
+  <!-- B7: 为什么不做 101.9-116.0s | 全屏反问 -->
+  <div class="scene" id="b7" style="padding:60px 100px"><div class="ask" id="b7a"><div class="aq">为什么小厂<span class="hl">都不愿做</span><br>严密性试验？</div><div class="aa m">做了大概率不合格 → 返工花钱</div><div class="aa m">干脆不做 → 赌监理不查</div><div class="aa m" style="color:#dc2626;font-weight:700">但排烟和洁净空调，躲不过去</div></div></div>
+
+  <!-- B8: 态度问题 116.0-129.2s | 清单式 -->
+  <div class="scene" id="b8" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="b8t"><span class="accent">不是设备问题</span>，是态度</div><div class="glass" id="b8g" style="text-align:left;width:60%;margin:0 auto"><div class="m">🔧 咬口机调好了吗？</div><div class="m">📏 垫条贴到位了吗？</div><div class="m">🔩 铆钉打实了吗？</div><div class="m-sep"></div><div class="m" style="color:#dc2626;font-weight:700">靠测试仪最后兜底是不行的</div></div></div></div>
+
+  <!-- B9: 老李结尾 129.2-143s | 故事卡片 -->
+  <div class="scene" id="b9" style="padding:60px 100px"><div class="tale" id="b9t"><div class="glass"><div class="tt">老李拿了手电筒<br>蹲在风管旁边<br><span class="accent">一条缝一条缝地照</span></div><div class="ts m">我问他干嘛</div><div class="ts m">他说：上次那两万块的教训，还没忘</div><div class="ts m" style="color:#dc2626;font-weight:700;margin-top:12px">有些坑，踩一次就够了</div></div></div></div>
+
+  <div class="brand"><div class="bn">奇美星暖通风管制作</div><div class="bu">tangguoqi.top</div></div>
+</div>
+<script>
+window.__timelines=window.__timelines||{};const tl=gsap.timeline({paused:true});window.__timelines.main=tl;
+function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-25,y:80,scale:.75,filter:"blur(8px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.7,ease:"elastic.out(1,0.4)"},t);tl.to(id,{boxShadow:"0 0 40px rgba(249,115,22,0.3)",duration:.5},">-0.3");tl.to(id,{boxShadow:"0 8px 32px rgba(0,0,0,0.05)",duration:.8},">+0.2")}
+function cardOut(id,t){tl.to(id,{opacity:0,scale:.85,rotationX:10,y:-20,filter:"blur(4px)",duration:.18,ease:"power2.in"},t);tl.set(id,{opacity:0},t+.25)}
+function mods(id,t,iv){tl.fromTo(id+" .m",{opacity:0,y:24},{opacity:1,y:0,duration:.3,stagger:iv,ease:"power2.out"},t)}
+function fadeIn(id,t){tl.fromTo(id,{opacity:0,scale:.92,filter:"blur(3px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:.5,ease:"power2.out"},t)}
+function fadeOut(id,t){tl.to(id,{opacity:0,duration:.18,ease:"power2.in"},t);tl.set(id,{opacity:0},t+.25)}
+const B=[{id:"b0",t:0,out:1},{id:"b1",t:0.1,out:13.6},{id:"b2",t:13.6,out:33.8},{id:"b3",t:33.8,out:47.5},{id:"b4",t:47.5,out:63},{id:"b5",t:63,out:83.3},{id:"b6",t:83.3,out:101.9},{id:"b7",t:101.9,out:116},{id:"b8",t:116,out:129.2},{id:"b9",t:129.2,out:143}];
+B.forEach((b,i)=>{tl.to("#"+b.id,{opacity:1,duration:.18},b.t);if(i<B.length-1)tl.to("#"+b.id,{opacity:0,duration:.18},b.out)});
+fadeIn("#b0 .bare",0);fadeOut("#b0 .bare",1);
+fadeIn("#b1t",0.1);cardIn("#b1w",0.3);mods("#b1w",0.5,.2);cardOut("#b1w",13.6);fadeOut("#b1t",13.6);
+fadeIn("#b2t",13.6);cardIn("#b2s",13.8);mods("#b2s",14,.25);cardOut("#b2s",33.8);fadeOut("#b2t",33.8);
+fadeIn("#b3t",33.8);cardIn("#b3g",34);mods("#b3g .gitem:nth-child(1)",34.2,.15);mods("#b3g .gitem:nth-child(2)",34.5,.15);mods("#b3g .gitem:nth-child(3)",34.8,.15);cardOut("#b3g",47.5);fadeOut("#b3t",47.5);
+fadeIn("#b4t",47.5);fadeIn("#b4b",47.7);mods("#b4b",47.9,.2);fadeOut("#b4b",63);fadeOut("#b4t",63);
+fadeIn("#b5t",63);cardIn("#b5d",63.2);mods("#b5d",63.5,.18);cardOut("#b5d",83.3);fadeOut("#b5t",83.3);
+fadeIn("#b6t",83.3);cardIn("#b6c",83.5);mods("#b6c",83.8,.18);cardOut("#b6c",101.9);fadeOut("#b6t",101.9);
+fadeIn("#b7a",101.9);mods("#b7a",102.2,.22);fadeOut("#b7a",116);
+fadeIn("#b8t",116);cardIn("#b8g",116.2);mods("#b8g",116.5,.25);cardOut("#b8g",129.2);fadeOut("#b8t",129.2);
+fadeIn("#b9t",129.2);cardIn("#b9t .glass",129.4);mods("#b9t",129.7,.22);cardOut("#b9t .glass",143);
+</script>
+</body>
+</html>
