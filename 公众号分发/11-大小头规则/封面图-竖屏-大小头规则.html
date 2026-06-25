@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><title>竖屏封面</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{display:flex;justify-content:center;align-items:center;min-height:100vh;background:#0a0a0a}
+.card{width:1080px;height:1440px;background:linear-gradient(160deg,#0f2027 0%,#0a1628 40%,#1a1a2e 100%);display:flex;flex-direction:column;align-items:center;padding:70px 80px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:-200px;left:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(16,185,129,0.12) 0%,transparent 60%);border-radius:50%}
+.tag{display:inline-block;background:#10b981;color:#fff;font-size:28px;font-weight:700;padding:10px 28px;border-radius:6px;margin-bottom:32px;position:relative;z-index:1}
+.main-title{font-size:55px;color:#fff;font-weight:900;text-align:center;line-height:1.4;margin-bottom:16px;position:relative;z-index:1}
+.main-title .green{color:#10b981}.main-title .hl{color:#f59e0b}
+.subtitle{font-size:30px;color:#94a3b8;text-align:center;margin-bottom:36px;position:relative;z-index:1}
+.sol-box{background:rgba(16,185,129,0.08);border:2px solid rgba(16,185,129,0.4);border-radius:20px;padding:30px 40px;width:100%;margin-bottom:24px;position:relative;z-index:1}
+.sol-box .label{font-size:26px;color:#10b981;font-weight:700;margin-bottom:16px}
+.sol-box .content{font-size:30px;color:#e2e8f0;line-height:1.8}
+.kv{display:flex;gap:16px;width:100%;margin-bottom:24px;position:relative;z-index:1}
+.kv-item{flex:1;background:rgba(245,158,11,0.08);border:2px solid rgba(245,158,11,0.3);border-radius:14px;padding:16px 20px;text-align:center}
+.kv-item .title{font-size:22px;color:#f59e0b;margin-bottom:8px;font-weight:700}
+.kv-item .value{font-size:26px;color:#fff;font-weight:900}
+.summary{background:rgba(245,158,11,0.08);border:2px solid rgba(245,158,11,0.3);border-radius:16px;padding:16px 28px;width:100%;text-align:center;margin-bottom:28px;position:relative;z-index:1}
+.summary .text{font-size:26px;color:#f59e0b;font-family:Consolas,monospace}
+.bottom{display:flex;align-items:center;gap:24px;margin-top:auto;position:relative;z-index:1}
+.qr-wrapper{width:150px;height:150px;background:#fff;border-radius:12px;padding:10px;box-shadow:0 4px 20px rgba(0,0,0,0.3);flex-shrink:0}
+.qr-wrapper img{width:100%;height:100%;object-fit:contain;border-radius:6px}
+.bt{display:flex;flex-direction:column;gap:6px}.bt .name{font-size:26px;color:#f1f5f9;font-weight:700}
+.bt .desc{font-size:20px;color:#94a3b8}.bt .url{font-size:20px;color:#67e8f9;font-family:Consolas,monospace}
+</style></head><body>
+<div class="card">
+    <div class="tag">✅ 排单必看</div>
+    <div class="main-title">
+        大小头制造规则<br>
+        <span class="green">对中·平边·偏差</span>
+    </div>
+    <div class="subtitle">一张表讲清对齐方式，返工率直降</div>
+    <div class="sol-box">
+        <div class="label">✅ 三步决策：</div>
+        <div class="content">
+            <strong>1. 看对齐：</strong>对中（默认）/ 平边（贴墙）/ 偏差<br>
+            <strong>2. 看尺寸：</strong>四片式 / U+I型<br>
+            <strong>3. 偏差大：</strong>加长管件 / 改S弯
+        </div>
+    </div>
+    <div class="kv">
+        <div class="kv-item"><div class="title">对齐方式</div><div class="value">对中·平边·偏差</div></div>
+        <div class="kv-item"><div class="title">成型</div><div class="value">四片式/U+I</div></div>
+        <div class="kv-item"><div class="title">换S弯</div><div class="value">高差>30%</div></div>
+    </div>
+    <div class="summary"><div class="text">先看对齐 → 再看尺寸 → 别硬做</div></div>
+    <div class="bottom">
+        <div class="qr-wrapper"><img src="公众号二维码.jpg" alt="二维码"></div>
+        <div class="bt">
+            <div class="name">奇美星暖通风管制作</div>
+            <div class="desc">暖通风管制造技术分享 · 每周更新</div>
+            <div class="url">tangguoqi.top</div>
+        </div>
+    </div>
+</div></body></html>
