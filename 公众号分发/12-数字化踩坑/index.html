@@ -8,52 +8,80 @@
 @font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
 *{margin:0;padding:0;box-sizing:border-box}
 body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#0f172a}
-
-/* 浅蓝炫彩背景 */
 .bg{position:absolute;inset:0;background:linear-gradient(150deg,#eff6ff,#f0f9ff,#eef2ff)}
-
-/* 光球 — 3个蓝紫色调 */
 .orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4}
 .o1{width:450px;height:450px;top:5%;left:3%;background:radial-gradient(circle,rgba(37,99,235,.5),transparent)}
 .o2{width:380px;height:380px;top:45%;right:5%;background:radial-gradient(circle,rgba(99,102,241,.4),transparent)}
 .o3{width:320px;height:320px;bottom:5%;left:35%;background:radial-gradient(circle,rgba(37,99,235,.35),transparent)}
 
-.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:60px 100px}
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:0}
 
-/* 半透卡片 — 白底微蓝 */
-.glass{background:rgba(255,255,255,.55);backdrop-filter:blur(24px);border-radius:28px;padding:50px 80px;text-align:center;width:90%;box-shadow:0 8px 32px rgba(37,99,235,.08)}
-.glass .t{font-size:64px;font-weight:900;color:#1e293b;line-height:1.3;margin-bottom:24px}
+/* === 卡片规范 === */
+.glass{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;padding:36px 44px;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.glass .t{font-size:64px;font-weight:900;color:#1e293b;line-height:1.2;margin-bottom:20px}
 .glass .t .accent{color:#2563eb}
-.glass .s{font-size:40px;color:#475569;line-height:1.8}
+.glass .s{font-size:40px;color:#475569;line-height:1.6}
 
-/* 三列卡片 */
-.grid3{display:flex;gap:36px;width:88%}
-.gitem{flex:1;background:rgba(255,255,255,.55);backdrop-filter:blur(20px);border-radius:20px;padding:36px 28px;text-align:center;border:1px solid rgba(37,99,235,.12);box-shadow:0 4px 20px rgba(37,99,235,.05)}
-.gitem .h{font-size:38px;font-weight:700;color:#1e293b;margin-bottom:14px}
-.gitem .h .accent{color:#2563eb}
-.gitem .d{font-size:32px;color:#475569;line-height:1.7}
+/* 三层视觉层级 */
+.beat-title{font-size:56px;font-weight:900;color:#0f172a;line-height:1.2;margin-bottom:8px}
+.beat-title .accent{color:#2563eb}
+.beat-sub{font-size:38px;color:#475569;line-height:1.5}
 
-/* 标题页 */
-.title-scene{flex-direction:column}
-.title-scene .main-title{font-size:96px;font-weight:900;color:#0f172a;text-align:center;line-height:1.2;margin-bottom:20px}
-.title-scene .main-title .accent{color:#2563eb}
-.title-scene .subtitle{font-size:44px;color:#64748b}
+/* 三栏卡片 */
+.grid3{display:flex;gap:28px;width:88%}
+.gitem{flex:1;background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;padding:36px 30px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.gitem .h{font-size:38px;font-weight:700;color:#1e293b;margin-bottom:12px}
+.gitem .d{font-size:32px;color:#475569;line-height:1.6}
 
-/* 数字高亮 */
-.num-big{font-size:100px;font-weight:900;color:#2563eb;line-height:1.1}
-.num-label{font-size:34px;color:#475569;margin-top:10px}
+/* 裸字漂浮 */
+.naked{text-align:center}
+.naked .main{font-size:96px;font-weight:900;color:#0f172a;line-height:1.2}
+.naked .main .accent{color:#2563eb}
+.naked .sub{font-size:44px;color:#64748b;margin-top:12px}
+
+/* 全屏警告框 */
+.warn{text-align:center}
+.warn .wt{display:inline-block;background:#dc2626;color:#fff;font-size:36px;font-weight:700;padding:12px 32px;border-radius:10px;margin-bottom:20px}
+.warn .wtt{font-size:72px;font-weight:900;color:#0f172a;line-height:1.3}
+.warn .wtt .accent{color:#dc2626}
+.warn .ws{font-size:40px;color:#64748b;margin-top:16px}
+
+/* 左右分屏 */
+.split{display:flex;gap:50px;align-items:center;width:88%}
+.split .left{flex:1;text-align:left}
+.split .right{flex:1.2;text-align:left}
+.split .ltitle{font-size:64px;font-weight:900;color:#0f172a;line-height:1.2}
+.split .ltitle .accent{color:#2563eb}
+.split .rdata{font-size:42px;color:#1e293b;line-height:1.7}
+.split .rdata .unit{font-size:30px;color:#64748b}
+.split .rhint{font-size:34px;color:#dc2626;font-weight:700;margin-top:16px}
+
+/* 流程箭头 */
+.flow{display:flex;align-items:center;gap:24px;justify-content:center}
+.flow-box{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:20px;padding:30px 40px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.flow-box .fh{font-size:42px;font-weight:700;color:#0f172a}
+.flow-box .fd{font-size:32px;color:#475569;margin-top:8px}
+.flow-arrow{font-size:52px;color:#2563eb;font-weight:900}
+
+/* 数据裸字 */
+.data-bare{text-align:center}
+.data-bare .num{font-size:100px;font-weight:900;color:#2563eb;line-height:1.1}
+.data-bare .label{font-size:34px;color:#475569;margin-top:6px}
+
+/* 竖列 */
+.col3{display:flex;gap:36px;width:88%}
+.citem{flex:1;text-align:center}
+.citem .ci{font-size:56px;margin-bottom:10px}
+.citem .ch{font-size:38px;font-weight:700;color:#1e293b;margin-bottom:8px}
+.citem .cd{font-size:30px;color:#64748b;line-height:1.6}
 
 /* 品牌 */
-.brand{position:absolute;bottom:40px;right:80px;text-align:right}
+.brand{position:absolute;bottom:40px;right:80px;text-align:right;opacity:.7}
 .brand .bn{font-size:30px;color:#64748b;font-weight:600}
 .brand .bu{font-size:26px;color:#2563eb;margin-top:4px}
 
-/* 大字引用 */
-.big-quote{font-size:56px;color:#0f172a;font-weight:700;line-height:1.5;text-align:center}
-.big-quote .accent{color:#dc2626}
-
-/* 红色强调标记 */
-.highlight-red{color:#dc2626;font-weight:700}
+/* 红色强调 */
+.hl{color:#dc2626;font-weight:700}
 </style>
 </head>
 <body>
@@ -64,83 +92,97 @@ body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Ar
   <div class="orb o3"></div>
   <audio id="narration" class="clip" data-start="0" data-duration="139.6" data-track-index="10" src="narration.mp3" data-volume="1.0"></audio>
 
-  <!-- S0: 片头 0-5s -->
-  <div class="scene title-scene" id="s0">
-    <div class="main-title">老师傅的经验<br><span class="accent">怎么变成系统</span></div>
-    <div class="subtitle">风管厂技术部数字化踩坑记</div>
-  </div>
-
-  <!-- S1: 老刘来问 5-18s -->
-  <div class="scene" id="s1">
-    <div class="glass">
-      <div class="big-quote">"王师傅说加五毫米<br>李师傅说不用加<br><span class="highlight-red">到底听谁的？"</span></div>
-      <div class="s" style="margin-top:28px;font-size:42px">答案在三个人脑子里，各说各的<br>想了一宿，第二天开始动手</div>
+  <!-- B0: 片头 0-5s | 裸字漂浮 -->
+  <div class="scene" id="b0">
+    <div class="naked">
+      <div class="main">老师傅的经验<br><span class="accent">怎么变成系统</span></div>
+      <div class="sub">风管厂技术部数字化踩坑记</div>
     </div>
   </div>
 
-  <!-- S2: 弯头公式 18-41s -->
-  <div class="scene" id="s2">
-    <div class="glass" style="text-align:left">
-      <div style="display:flex;gap:60px;align-items:center">
-        <div style="flex:1">
-          <div class="t" style="text-align:left">弯头展开面积<br><span class="accent">公式很明确</span><br>常数不是死的</div>
+  <!-- B1: 老刘来问 5-18s | 全屏警告框 -->
+  <div class="scene" id="b1">
+    <div class="warn">
+      <div class="wt">⚠️ 到底听谁的？</div>
+      <div class="wtt">"王师傅说加五毫米<br>李师傅说不用加"</div>
+      <div class="ws">答案在三个人脑子里，各说各的<br>想了一宿，第二天开始动手</div>
+    </div>
+  </div>
+
+  <!-- B2: 弯头公式 18-41s | 左右分屏 -->
+  <div class="scene" id="b2" style="padding:80px 100px">
+    <div class="split">
+      <div class="left">
+        <div class="ltitle">弯头展开面积<br><span class="accent">公式明确</span><br>常数不是死的</div>
+      </div>
+      <div class="right">
+        <div class="rdata">
+          +10 <span class="unit">法兰留量</span><br>
+          +45 <span class="unit">咬口折边</span><br>
+          +60 <span class="unit">两面咬口加翻边</span>
         </div>
-        <div style="flex:1.2">
-          <div class="s" style="font-size:38px;text-align:left;color:#1e293b">
-            +10 <span style="color:#64748b;font-size:30px">法兰留量</span><br>
-            +45 <span style="color:#64748b;font-size:30px">咬口折边</span><br>
-            +60 <span style="color:#64748b;font-size:30px">两面咬口加翻边</span>
-          </div>
-          <div class="s" style="margin-top:20px;font-size:34px;text-align:left;color:#dc2626">
-            0.75板和1.0板 — 不一样
-          </div>
-        </div>
+        <div class="rhint">0.75的板和1.0的板 — 不一样</div>
       </div>
     </div>
   </div>
 
-  <!-- S3: 三个方案 41-68s -->
-  <div class="scene" id="s3">
-    <div style="text-align:center;width:90%">
-      <div class="t" style="font-size:60px;font-weight:900;color:#1e293b;margin-bottom:40px">我们试了<span class="accent">三个方案</span></div>
+  <!-- B3: 三个方案 41-68s | 三栏卡片 -->
+  <div class="scene" id="b3" style="padding:80px 100px">
+    <div style="text-align:center;width:88%">
+      <div class="beat-title" style="margin-bottom:36px">我们试了<span class="accent">三个方案</span></div>
       <div class="grid3">
         <div class="gitem"><div class="h">📄 写文档</div><div class="d">二十多页<br>一到车间就废了</div></div>
         <div class="gitem"><div class="h">📊 Excel</div><div class="d">公式套七八层<br>版本越改越多</div></div>
-        <div class="gitem" style="border-color:rgba(37,99,235,.25)"><div class="h"><span class="accent">⚡ WPS JS宏</span></div><div class="d">不穷举数据<br><span style="color:#2563eb;font-weight:700">跑规则不是跑数据</span></div></div>
+        <div class="gitem" style="border:2px solid rgba(37,99,235,.3)"><div class="h"><span style="color:#2563eb">⚡ WPS JS宏</span></div><div class="d">不穷举数据<br><span style="color:#2563eb;font-weight:700">跑规则不跑数据</span></div></div>
       </div>
     </div>
   </div>
 
-  <!-- S4: 三步做法 68-97s -->
-  <div class="scene" id="s4">
-    <div style="text-align:center;width:90%">
-      <div class="t" style="font-size:60px;font-weight:900;color:#1e293b;margin-bottom:40px">落地<span class="accent">三步</span></div>
-      <div class="grid3">
-        <div class="gitem"><div class="h">1️⃣ 拆经验</div><div class="d">泡车间两周<br>每个管件追问<br>说不清就实测</div></div>
-        <div class="gitem"><div class="h">2️⃣ 写代码</div><div class="d">不用Delphi<br>换WPS宏<br>师傅看得懂</div></div>
-        <div class="gitem"><div class="h">3️⃣ 带注释</div><div class="d">每条规则标来源<br>三个月后改代码<br>知道不能乱动</div></div>
+  <!-- B4: 三步做法 68-97s | 横向流程箭头 -->
+  <div class="scene" id="b4" style="padding:80px 100px">
+    <div style="text-align:center;width:88%">
+      <div class="beat-title" style="margin-bottom:40px">落地<span class="accent">三步</span></div>
+      <div class="flow">
+        <div class="flow-box"><div class="fh">1️⃣ 拆经验</div><div class="fd">泡车间两周<br>追问+实测</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box"><div class="fh">2️⃣ 写代码</div><div class="fd">不用Delphi<br>换WPS宏</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box" style="border:2px solid rgba(37,99,235,.3)"><div class="fh" style="color:#2563eb">3️⃣ 带注释</div><div class="fd">每条规则标来源<br>知道不能乱动</div></div>
       </div>
     </div>
   </div>
 
-  <!-- S5: 效果+三个坎 97-131s -->
-  <div class="scene" id="s5">
-    <div style="text-align:center;width:90%">
-      <div class="t" style="font-size:52px;font-weight:900;color:#1e293b;margin-bottom:32px">弯头返工<span class="accent">8%降到2%</span> · 新人上手<span class="accent">两周变三天</span></div>
-      <div class="s" style="font-size:38px;color:#475569;margin-bottom:40px">王师傅休了五天年假，车间照常</div>
-      <div class="grid3" style="width:92%">
-        <div class="gitem"><div class="h">🔸 经验在脑子里</div><div class="d">师傅说不出来<br>得追着问跟着看</div></div>
-        <div class="gitem"><div class="h">🔸 标准 vs 灵活</div><div class="d">八成系统管<br>两成人工判</div></div>
-        <div class="gitem"><div class="h">🔸 车间接受度</div><div class="d">别改师傅习惯<br>界面照手工单做</div></div>
+  <!-- B5: 效果数据 97-112s | 裸字大数字 -->
+  <div class="scene" id="b5" style="padding:80px 100px">
+    <div class="data-bare">
+      <div class="beat-title" style="margin-bottom:50px">跑了一个多月</div>
+      <div style="display:flex;gap:80px;justify-content:center">
+        <div><div class="num">8%→2%</div><div class="label">弯头返工率</div></div>
+        <div><div class="num">两周→三天</div><div class="label">新人上手时间</div></div>
+        <div><div class="num">5天</div><div class="label">王师傅休年假<br>车间照常</div></div>
       </div>
     </div>
   </div>
 
-  <!-- S6: 总结 131-139.6s -->
-  <div class="scene title-scene" id="s6">
-    <div class="main-title" style="font-size:88px">数字化<br><span class="accent">不是技术问题</span></div>
-    <div class="subtitle" style="margin-top:16px;font-size:52px;color:#1e293b">是人的问题</div>
-    <div class="subtitle" style="margin-top:12px;font-size:36px;color:#64748b">系统兜底，师傅才能腾出手</div>
+  <!-- B6: 三个坎 112-131s | 竖列图标式 -->
+  <div class="scene" id="b6" style="padding:80px 100px">
+    <div style="text-align:center;width:88%">
+      <div class="beat-title" style="margin-bottom:36px">风管厂数字化的<span class="accent">三个坎</span></div>
+      <div class="col3">
+        <div class="citem"><div class="ci">🧠</div><div class="ch">经验在脑子里</div><div class="cd">师傅说不出来<br>得追着问跟着看</div></div>
+        <div class="citem"><div class="ci">⚖️</div><div class="ch">标准 vs 灵活</div><div class="cd">八成系统管<br>两成人工判</div></div>
+        <div class="citem"><div class="ci">🤝</div><div class="ch">车间接受度</div><div class="cd">别改师傅习惯<br>界面照手工单做</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B7: 总结 131-139.6s | 裸字漂浮 -->
+  <div class="scene" id="b7">
+    <div class="naked">
+      <div class="main" style="font-size:88px">数字化<br><span class="accent">不是技术问题</span></div>
+      <div class="sub" style="font-size:52px;color:#1e293b;margin-top:16px">是人的问题</div>
+      <div class="sub" style="font-size:36px;color:#64748b;margin-top:8px">系统兜底，师傅才能腾出手</div>
+    </div>
   </div>
 
   <div class="brand">
@@ -150,27 +192,72 @@ body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Ar
 </div>
 
 <script>
+// ===== 动画函数库 =====
 window.__timelines = window.__timelines || {};
 const tl = gsap.timeline({ paused: true });
 window.__timelines["main"] = tl;
 
-const scenes = [
-  { id: "s0", start: 0,    dur: 5    },
-  { id: "s1", start: 5,    dur: 13   },
-  { id: "s2", start: 18,   dur: 23   },
-  { id: "s3", start: 41,   dur: 27   },
-  { id: "s4", start: 68,   dur: 29   },
-  { id: "s5", start: 97,   dur: 34   },
-  { id: "s6", start: 131,  dur: 8.6  },
+function cardIn(id, t) {
+  tl.fromTo(id, {opacity:0, rotationX:-25, y:80, scale:.75, filter:"blur(8px)"},
+    {opacity:1, rotationX:0, y:0, scale:1, filter:"blur(0px)", duration:.7, ease:"elastic.out(1,0.4)"}, t);
+  tl.to(id, {boxShadow:"0 0 40px rgba(59,130,246,0.3)", duration:.5}, ">-0.3");
+  tl.to(id, {boxShadow:"0 8px 32px rgba(0,0,0,0.05)", duration:.8}, ">+0.2");
+}
+function cardOut(id, t) {
+  tl.to(id, {opacity:0, scale:.85, rotationX:10, y:-20, filter:"blur(4px)", duration:.18, ease:"power2.in"}, t);
+  tl.set(id, {opacity:0}, t+.25);
+}
+function mods(id, t, iv) {
+  tl.fromTo(id+" .m", {opacity:0, y:20}, {opacity:1, y:0, duration:.3, stagger:iv, ease:"power2.out"}, t);
+}
+
+// ===== 场景时间线 =====
+const beats = [
+  { id:"b0", t:0,    out:5    },   // 片头 裸字
+  { id:"b1", t:5,    out:18   },   // 老刘 警告框
+  { id:"b2", t:18,   out:41   },   // 公式 左右分屏
+  { id:"b3", t:41,   out:68   },   // 方案 三栏卡片
+  { id:"b4", t:68,   out:97   },   // 做法 流程箭头
+  { id:"b5", t:97,   out:112  },   // 效果 裸字数字
+  { id:"b6", t:112,  out:131  },   // 三坎 竖列图标
+  { id:"b7", t:131,  out:139.6},   // 总结 裸字
 ];
 
-scenes.forEach((s, i) => {
-  const el = document.getElementById(s.id);
+// 需要cardIn动画的beat(有卡片容器的)
+const cardBeats = ["b1","b2","b3","b4","b6"];
+// 裸字beat用简单淡入
+const nakedBeats = ["b0","b5","b7"];
+
+cardBeats.forEach(id => {
+  const el = document.getElementById(id);
   if (!el) return;
-  tl.to(el, { opacity: 1, duration: 0.3 }, s.start);
-  const end = s.start + s.dur;
-  if (i < scenes.length - 1) {
-    tl.to(el, { opacity: 0, duration: 0.3 }, end);
+  const b = beats.find(x => x.id === id);
+  const bNext = beats[beats.indexOf(b)+1];
+  cardIn("#"+id+" .warn, #"+id+" .split, #"+id+" .grid3, #"+id+" .flow, #"+id+" .col3", b.t);
+  if (bNext) cardOut("#"+id+" .warn, #"+id+" .split, #"+id+" .grid3, #"+id+" .flow, #"+id+" .col3", b.out);
+});
+
+nakedBeats.forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const b = beats.find(x => x.id === id);
+  const bNext = beats[beats.indexOf(b)+1];
+  // 裸字：用fromTo保证opacity明确
+  tl.fromTo("#"+id+" .naked, #"+id+" .data-bare", {opacity:0, scale:.9, filter:"blur(4px)"},
+    {opacity:1, scale:1, filter:"blur(0px)", duration:.5, ease:"power2.out"}, b.t);
+  if (bNext) {
+    tl.to("#"+id+" .naked, #"+id+" .data-bare", {opacity:0, scale:.95, filter:"blur(4px)", duration:.18, ease:"power2.in"}, b.out);
+    tl.set("#"+id+" .naked, #"+id+" .data-bare", {opacity:0}, b.out+.25);
+  }
+});
+
+// 场景级淡入淡出（容器本身）
+beats.forEach((b, i) => {
+  const el = document.getElementById(b.id);
+  if (!el) return;
+  tl.to(el, {opacity:1, duration:.18}, b.t);
+  if (i < beats.length-1) {
+    tl.to(el, {opacity:0, duration:.18}, b.out);
   }
 });
 </script>
