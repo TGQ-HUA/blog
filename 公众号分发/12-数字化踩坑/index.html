@@ -9,31 +9,44 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#fff}
 .bg{position:absolute;inset:0;background:linear-gradient(150deg,#0f172a,#1e293b,#0f172a)}
-.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:80px}
-.glass{background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border-radius:20px;padding:40px 60px;text-align:center;max-width:1400px}
-.glass .t{font-size:52px;font-weight:900;color:#f8fafc;line-height:1.3;margin-bottom:20px}
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:60px 100px}
+
+/* 通栏玻璃卡片 */
+.glass{background:rgba(255,255,255,.06);backdrop-filter:blur(20px);border-radius:28px;padding:50px 80px;text-align:center;width:90%}
+.glass .t{font-size:64px;font-weight:900;color:#f8fafc;line-height:1.3;margin-bottom:24px}
 .glass .t .accent{color:#f97316}
-.glass .s{font-size:30px;color:#94a3b8;line-height:1.8}
+.glass .s{font-size:40px;color:#cbd5e1;line-height:1.8}
 
-/* Grid cards */
-.grid3{display:flex;gap:24px;width:100%;max-width:1500px}
-.gitem{flex:1;background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border-radius:16px;padding:24px;text-align:center;border:1px solid rgba(249,115,22,.15)}
-.gitem .h{font-size:28px;font-weight:700;color:#f8fafc;margin-bottom:10px}
+/* Grid cards — 宽屏铺满 */
+.grid3{display:flex;gap:36px;width:88%}
+.gitem{flex:1;background:rgba(255,255,255,.06);backdrop-filter:blur(20px);border-radius:20px;padding:36px 28px;text-align:center;border:1px solid rgba(249,115,22,.1)}
+.gitem .h{font-size:38px;font-weight:700;color:#f8fafc;margin-bottom:14px}
 .gitem .h .accent{color:#f97316}
-.gitem .d{font-size:24px;color:#94a3b8;line-height:1.6}
+.gitem .d{font-size:32px;color:#cbd5e1;line-height:1.7}
 
-/* Title card */
+/* Title card — 大字铺满 */
 .title-scene{flex-direction:column}
-.title-scene .main-title{font-size:72px;font-weight:900;color:#f8fafc;text-align:center;line-height:1.3;margin-bottom:16px}
+.title-scene .main-title{font-size:96px;font-weight:900;color:#f8fafc;text-align:center;line-height:1.2;margin-bottom:20px}
 .title-scene .main-title .accent{color:#f97316}
-.title-scene .subtitle{font-size:36px;color:#64748b}
+.title-scene .subtitle{font-size:44px;color:#64748b}
 
-/* Number highlight */
-.num-big{font-size:80px;font-weight:900;color:#f97316;line-height:1}
+/* Number highlight — 放大 */
+.num-big{font-size:100px;font-weight:900;color:#f97316;line-height:1.1}
+.num-label{font-size:34px;color:#cbd5e1;margin-top:10px}
 
-.brand{position:absolute;bottom:50px;width:100%;text-align:center}
-.brand .bn{font-size:26px;color:#64748b;font-weight:600}
-.brand .bu{font-size:22px;color:#f97316;margin-top:6px}
+/* Brand — 右下角 */
+.brand{position:absolute;bottom:40px;right:80px;text-align:right}
+.brand .bn{font-size:30px;color:#475569;font-weight:600}
+.brand .bu{font-size:26px;color:#f97316;margin-top:4px}
+
+/* 大引用 */
+.big-quote{font-size:56px;color:#f8fafc;font-weight:700;line-height:1.4;text-align:center}
+.big-quote .accent{color:#f97316}
+
+/* 流程箭头 */
+.flow{display:flex;align-items:center;gap:30px;justify-content:center;flex-wrap:wrap}
+.flow-box{background:rgba(255,255,255,.06);backdrop-filter:blur(20px);border-radius:16px;padding:24px 40px;font-size:36px;font-weight:700;color:#f8fafc}
+.flow-arrow{font-size:48px;color:#f97316}
 </style>
 </head>
 <body>
@@ -50,35 +63,48 @@ body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Ar
   <!-- S1: 问题 6-32s -->
   <div class="scene" id="s1">
     <div class="glass">
-      <div class="t">上个月老刘拿着图纸来找我<br><span class="accent">"到底听谁的？"</span></div>
-      <div class="s" style="margin-top:16px">答案在三个人脑子里，各说各的。<br>哪天都不在了，新人怎么办？</div>
+      <div class="big-quote">上个月老刘拿着图纸来找我<br><span class="accent">"到底听谁的？"</span></div>
+      <div class="s" style="margin-top:28px;font-size:42px">答案在三个人脑子里，各说各的<br>哪天都不在了，新人怎么办？</div>
     </div>
   </div>
 
   <!-- S2: 公式 32-58s -->
   <div class="scene" id="s2">
-    <div class="glass">
-      <div class="t">弯头展开面积<br><span class="accent">公式是死的，常数是活的</span></div>
-      <div class="s" style="margin-top:16px">+10法兰留量 +45咬口折边 +60两面咬口<br>0.75板和1.0板不一样<br>师傅眼睛一看就知道调多少</div>
+    <div class="glass" style="text-align:left">
+      <div style="display:flex;gap:60px;align-items:center">
+        <div style="flex:1">
+          <div class="t" style="text-align:left">弯头展开面积<br><span class="accent">公式是死的</span><br><span class="accent">常数是活的</span></div>
+        </div>
+        <div style="flex:1.2">
+          <div class="s" style="font-size:38px;text-align:left">
+            +10 <span style="color:#94a3b8;font-size:30px">法兰留量</span><br>
+            +45 <span style="color:#94a3b8;font-size:30px">咬口折边</span><br>
+            +60 <span style="color:#94a3b8;font-size:30px">两面咬口加翻边</span>
+          </div>
+          <div class="s" style="margin-top:20px;font-size:34px;text-align:left;color:#f97316">
+            0.75板和1.0板 — 不一样
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- S3: 三个方案 58-90s -->
   <div class="scene" id="s3">
-    <div style="text-align:center;max-width:1500px">
-      <div class="t" style="font-size:48px;font-weight:900;color:#f8fafc;margin-bottom:32px">我们试了<span class="accent">三个方案</span></div>
+    <div style="text-align:center;width:90%">
+      <div class="t" style="font-size:60px;font-weight:900;color:#f8fafc;margin-bottom:40px">我们试了<span class="accent">三个方案</span></div>
       <div class="grid3">
         <div class="gitem"><div class="h">📄 第一版</div><div class="d">写文档<br>二十多页<br>一到车间就废了</div></div>
         <div class="gitem"><div class="h">📊 第二版</div><div class="d">Excel计算表<br>公式套七八层<br>版本改到分不清</div></div>
-        <div class="gitem"><div class="h"><span class="accent">⚡ 第三版</span></div><div class="d">WPS JS宏<br>不穷举数据<br>跑规则不跑数据</div></div>
+        <div class="gitem"><div class="h"><span class="accent">⚡ 第三版</span></div><div class="d">WPS JS宏<br>不穷举数据<br><span style="color:#f97316">跑规则不跑数据</span></div></div>
       </div>
     </div>
   </div>
 
   <!-- S4: 三步 90-112s -->
   <div class="scene" id="s4">
-    <div style="text-align:center;max-width:1500px">
-      <div class="t" style="font-size:48px;font-weight:900;color:#f8fafc;margin-bottom:32px">落地<span class="accent">三步走</span></div>
+    <div style="text-align:center;width:90%">
+      <div class="t" style="font-size:60px;font-weight:900;color:#f8fafc;margin-bottom:40px">落地<span class="accent">三步走</span></div>
       <div class="grid3">
         <div class="gitem"><div class="h">1️⃣ 拆经验</div><div class="d">泡车间两周<br>每个管件追问<br>说不清就实测</div></div>
         <div class="gitem"><div class="h">2️⃣ 写代码</div><div class="d">不用Delphi<br>换WPS宏<br>师傅看得懂的界面</div></div>
@@ -89,21 +115,30 @@ body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Ar
 
   <!-- S5: 效果 112-130s -->
   <div class="scene" id="s5">
-    <div style="text-align:center">
-      <div class="t" style="font-size:48px;font-weight:900;color:#f8fafc;margin-bottom:32px">跑了一个多月</div>
-      <div class="grid3" style="max-width:1300px">
-        <div class="gitem"><div class="num-big">8%→2%</div><div class="d" style="margin-top:8px">弯头返工率</div></div>
-        <div class="gitem"><div class="num-big">两周→三天</div><div class="d" style="margin-top:8px">新人上手</div></div>
-        <div class="gitem"><div class="num-big">5天</div><div class="d" style="margin-top:8px">王师傅休年假<br>车间照常</div></div>
+    <div style="text-align:center;width:85%">
+      <div class="t" style="font-size:56px;font-weight:900;color:#f8fafc;margin-bottom:50px">跑了一个多月</div>
+      <div class="grid3" style="gap:50px">
+        <div class="gitem" style="padding:50px 30px">
+          <div class="num-big">8%→2%</div>
+          <div class="num-label">弯头返工率</div>
+        </div>
+        <div class="gitem" style="padding:50px 30px">
+          <div class="num-big">两周→三天</div>
+          <div class="num-label">新人上手时间</div>
+        </div>
+        <div class="gitem" style="padding:50px 30px">
+          <div class="num-big">5天</div>
+          <div class="num-label">王师傅休年假<br>车间照常运转</div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- S6: 总结 130-139.6s -->
   <div class="scene title-scene" id="s6">
-    <div class="main-title" style="font-size:60px">数字化<span class="accent">不是技术问题</span></div>
-    <div class="subtitle" style="margin-top:12px">是人的问题</div>
-    <div class="subtitle" style="margin-top:8px;font-size:28px;color:#64748b">系统兜底，师傅才能腾出手</div>
+    <div class="main-title" style="font-size:88px">数字化<br><span class="accent">不是技术问题</span></div>
+    <div class="subtitle" style="margin-top:16px;font-size:52px;color:#f8fafc">是人的问题</div>
+    <div class="subtitle" style="margin-top:12px;font-size:36px;color:#64748b">系统兜底，师傅才能腾出手</div>
   </div>
 
   <!-- Brand -->
@@ -114,12 +149,10 @@ body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Ar
 </div>
 
 <script>
-// Timeline
 window.__timelines = window.__timelines || {};
 const tl = gsap.timeline({ paused: true });
 window.__timelines["main"] = tl;
 
-// Scene visibility — each scene fades in at its start time
 const scenes = [
   { id: "s0", start: 0,    dur: 6    },
   { id: "s1", start: 6,    dur: 26   },
@@ -133,11 +166,7 @@ const scenes = [
 scenes.forEach((s, i) => {
   const el = document.getElementById(s.id);
   if (!el) return;
-
-  // Fade in quickly at start
   tl.to(el, { opacity: 1, duration: 0.3 }, s.start);
-
-  // Hold until end of its slot, then fade out (overlap slightly with next)
   const end = s.start + s.dur;
   if (i < scenes.length - 1) {
     tl.to(el, { opacity: 0, duration: 0.3 }, end);
