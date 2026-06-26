@@ -1,6 +1,7 @@
 ---
 title: "CAMduct 编码处理助手——把半分钟操作压到一键完成"
 date: 2026-06-26
+slug: camduct-encoding-helper
 description: "自用的 CAMduct 编码小工具，材质/工艺/图库一键替换 + 自动启动 CAMduct 完成全部操作。附开机自启和悬浮窗，用完就缩成圆标不碍事。"
 categories:
   - 编程工具
