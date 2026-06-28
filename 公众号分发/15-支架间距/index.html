@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#0f172a}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#eff6ff,#fef7f0,#f0f9ff)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4}
+.o1{width:450px;height:450px;top:5%;left:3%;background:radial-gradient(circle,rgba(37,99,235,.5),transparent)}
+.o2{width:380px;height:380px;top:40%;right:5%;background:radial-gradient(circle,rgba(249,115,22,.4),transparent)}
+.o3{width:320px;height:320px;bottom:5%;left:35%;background:radial-gradient(circle,rgba(249,115,22,.3),transparent)}
+.o4{width:280px;height:280px;top:60%;left:60%;background:radial-gradient(circle,rgba(37,99,235,.25),transparent)}
+
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center}
+.glass{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;padding:36px 44px;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.m{font-size:38px;color:#1e293b;line-height:1.7;margin-bottom:10px;opacity:0}
+.m .accent{color:#2563eb;font-weight:700}
+.m .hl{color:#dc2626;font-weight:700}
+.m-sep{height:14px}
+.btitle{font-size:52px;font-weight:900;color:#0f172a;text-align:center;margin-bottom:28px;opacity:0}
+.btitle .accent{color:#2563eb}
+.brand{position:absolute;bottom:40px;right:80px;text-align:right;opacity:.7}
+.brand .bn{font-size:28px;color:#64748b;font-weight:600}
+.brand .bu{font-size:24px;color:#2563eb;margin-top:4px}
+
+.warn{text-align:center;opacity:0}
+.warn .wl{display:inline-block;background:#dc2626;color:#fff;font-size:32px;font-weight:700;padding:10px 28px;border-radius:10px;margin-bottom:18px}
+.warn .wm{font-size:60px;font-weight:900;color:#0f172a;line-height:1.3}
+.warn .wm .hl{color:#dc2626}
+.warn .ws{font-size:36px;color:#64748b;margin-top:12px}
+
+.split{display:flex;gap:50px;align-items:center;width:88%;opacity:0}
+.split .left{flex:1;text-align:left}
+.split .right{flex:1.2;text-align:left}
+.split .lt{font-size:56px;font-weight:900;color:#0f172a;line-height:1.2}
+.split .lt .accent{color:#2563eb}
+.split .rm{font-size:38px;color:#1e293b;line-height:1.7;margin-bottom:8px}
+
+.grid3{display:flex;gap:28px;width:88%;opacity:0}
+.gitem{flex:1;background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;padding:30px 26px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.gitem .gh{font-size:36px;font-weight:700;color:#1e293b;margin-bottom:10px}
+.gitem .gd{font-size:30px;color:#475569;line-height:1.6}
+
+.bare{text-align:center;opacity:0}
+.bare .bn{font-size:100px;font-weight:900;color:#2563eb;line-height:1.1}
+.bare .bl{font-size:32px;color:#64748b;margin-top:6px}
+
+.dual{display:flex;gap:40px;width:88%;opacity:0}
+.dcard{flex:1;background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;padding:32px 36px;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.dcard .dh{font-size:42px;font-weight:700;color:#0f172a;margin-bottom:16px}
+.dcard .dd{font-size:34px;color:#475569;line-height:1.6}
+
+.ask{text-align:center;opacity:0}
+.ask .aq{font-size:72px;font-weight:900;color:#0f172a;line-height:1.3}
+.ask .aq .hl{color:#dc2626}
+.ask .aa{font-size:40px;color:#64748b;margin-top:16px}
+
+.tale{text-align:center;opacity:0;width:75%}
+.tale .glass{padding:44px 60px}
+.tale .tt{font-size:56px;font-weight:900;color:#0f172a;line-height:1.3;margin-bottom:14px}
+.tale .tt .accent{color:#f97316}
+.tale .ts{font-size:38px;color:#475569;line-height:1.7}
+
+.ccard{text-align:center;opacity:0;width:88%}
+.ccard .ch{font-size:56px;font-weight:900;color:#0f172a;margin-bottom:24px}
+.ccard .ch .accent{color:#2563eb}
+.ccard .glass{width:65%;margin:0 auto;text-align:left}
+
+.punch{text-align:center;opacity:0;width:88%}
+.punch .ph{font-size:88px;font-weight:900;color:#dc2626;line-height:1.2}
+.punch .ps{font-size:38px;color:#475569;margin-top:18px}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="237" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div>
+  <audio id="n" class="clip" data-start="0" data-duration="237" data-track-index="10" src="narration.mp3" data-volume="1.0"></audio>
+
+  <!-- S00: 片头 0-1.5s | 裸字 -->
+  <div class="scene" id="s00" style="padding:0"><div class="bare"><div class="bn" style="font-size:88px;color:#0f172a">风管支吊架</div><div class="bl" style="font-size:44px;color:#f97316;font-weight:700">规范vs经验</div></div></div>
+
+  <!-- S01: 引子 1.5-14.4s | 故事卡片 -->
+  <div class="scene" id="s01" style="padding:60px 100px"><div class="tale" id="s01t"><div class="glass"><div class="tt">上个月一个<span class="accent">真实案例</span></div><div class="ts m">安装队干了三天，被监理叫停</div><div class="ts m">整个二层风管支架间距全超标</div><div class="ts m" style="color:#dc2626;font-weight:700">最长的一段，隔了5米多</div></div></div></div>
+
+  <!-- S02: 监理发飙 14.4-27.7s | 全屏反问 -->
+  <div class="scene" id="s02" style="padding:60px 100px"><div class="ask" id="s02a"><div class="aq">监理当场<span class="hl">拍照</span><br>发到群里</div><div class="aa m">"你们这是按哪个标准装的？"</div><div class="aa m" style="color:#f97316;font-weight:700">安装队长：图纸没标，按经验装的</div></div></div>
+
+  <!-- S03: 核心矛盾 27.7-42.2s | 左右分屏 -->
+  <div class="scene" id="s03" style="padding:60px 100px"><div class="btitle" id="s03t">风管长边<span class="accent">1250mm</span></div><div class="split" id="s03s"><div class="left"><div class="lt">GB50243<br><span class="accent">第6.1.1条</span></div></div><div class="right"><div class="rm m">金属水平风管</div><div class="rm m">长边 > 400mm</div><div class="rm m" style="color:#dc2626;font-weight:700;font-size:44px">间距 ≤ 3.0m</div><div class="m-sep"></div><div class="rm m" style="color:#f97316">老张装了 4 米</div></div></div></div>
+
+  <!-- S04: 矛盾升级 42.2-53.8s | 居中卡 -->
+  <div class="scene" id="s04" style="padding:60px 100px"><div class="ccard" id="s04c"><div class="ch">车间 vs<span class="accent"> 规范</span></div><div class="glass"><div class="m">车间觉得：挺密了</div><div class="m">规范说：<span class="hl">不够！</span></div><div class="m-sep"></div><div class="m" style="color:#f97316;font-weight:700">中间差的，得让数据说话</div></div></div></div>
+
+  <!-- S05: GB50243表格 53.8-64.2s | 三栏 -->
+  <div class="scene" id="s05" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="s05t">GB50243 <span class="accent">支吊架间距</span></div><div class="grid3" id="s05g"><div class="gitem"><div class="gh">金属 ≤400</div><div class="gd" style="font-size:48px;color:#2563eb;font-weight:900">≤4.0m</div></div><div class="gitem"><div class="gh">非金属 ≤400</div><div class="gd" style="font-size:48px;color:#f97316;font-weight:900">≤3.0m</div></div><div class="gitem"><div class="gh">金属 >400</div><div class="gd" style="font-size:48px;color:#16a34a;font-weight:900">≤3.0m</div></div></div></div></div>
+
+  <!-- S06: 垂直风管 + 非金属 64.2-78.4s | 双卡对比 -->
+  <div class="scene" id="s06" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="s06t">两种<span class="accent">补充</span>情况</div><div class="dual" id="s06d"><div class="dcard"><div class="dh">非金属 >400</div><div class="dd" style="font-size:56px;color:#dc2626;font-weight:900">≤2.5m</div></div><div class="dcard"><div class="dh">垂直风管</div><div class="dd m">金属 ≤4.0m</div><div class="dd m">非金属 ≤3.0m</div><div class="dd m" style="color:#f97316;font-weight:700">单根≥2个固定点</div></div></div></div></div>
+
+  <!-- S07: 易错点1 78.4-92.2s | 居中卡 -->
+  <div class="scene" id="s07" style="padding:60px 100px"><div class="ccard" id="s07c"><div class="ch">第一个<span class="accent">易错点</span></div><div class="glass"><div class="m" style="font-size:44px;font-weight:700">4米只针对 <span class="hl">小风管</span></div><div class="m">长边超过 400mm → 降到 3 米</div><div class="m">市面大部分风管长边都在 400 以上</div><div class="m" style="color:#dc2626;font-weight:700">实际标准就是 3 米</div></div></div></div>
+
+  <!-- S08: 易错点2 92.2-105.2s | 全屏警告 -->
+  <div class="scene" id="s08" style="padding:60px 100px"><div class="warn" id="s08w"><div class="wl">第二个易错点</div><div class="wm">非金属风管<span class="hl">要求更严</span></div><div class="ws m">防火板·玻纤复合板·刚度不如铁皮</div><div class="ws m">但现场常按金属标准装 → 监理较真就是不合格</div></div></div>
+
+  <!-- S09: 三个参数 105.2-123.9s | 三栏 -->
+  <div class="scene" id="s09" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="s09t">三个<span class="accent">隐藏参数</span>别漏</div><div class="grid3" id="s09g"><div class="gitem" style="border:2px solid rgba(220,38,38,.3)"><div class="gh" style="color:#dc2626">吊杆直径</div><div class="gd m">长边>1250mm</div><div class="gd" style="font-size:44px;color:#dc2626;font-weight:900">≥10mm</div><div class="gd m">8mm是在赌博</div></div><div class="gitem"><div class="gh">横担规格</div><div class="gd m">≤630: L25×3</div><div class="gd m">>2000: 上槽钢</div><div class="gd m">中间逐级过渡</div></div><div class="gitem"><div class="gh">防晃支架</div><div class="gd m">末端·转弯·分支</div><div class="gd m">垂直每隔两层</div><div class="gd" style="color:#dc2626;font-weight:700">最容易漏！</div></div></div></div></div>
+
+  <!-- S10: 防晃支架后果 123.9-137.2s | 全屏警告 -->
+  <div class="scene" id="s10" style="padding:60px 100px"><div class="warn" id="s10w"><div class="wl">⚠ 常见疏漏</div><div class="wm">只装承重<br><span class="hl">没装防晃</span></div><div class="ws m">风机一启动，整个管子会晃</div></div></div>
+
+  <!-- S11: WPS方案 137.2-152.7s | 居中卡 -->
+  <div class="scene" id="s11" style="padding:60px 100px"><div class="ccard" id="s11c"><div class="ch">怎么<span class="accent">逐段算</span>？</div><div class="glass"><div class="m">📊 输入风管长边 → 自动匹配间距</div><div class="m">📏 输入直管长度 → 自动算支架个数</div><div class="m">📍 标注管段位置 → 判断要不要防晃</div><div class="m">📋 汇总输出 → 直接出采购清单</div><div class="m-sep"></div><div class="m" style="color:#2563eb;font-weight:700">WPS表格模板，一键搞定</div></div></div></div>
+
+  <!-- S12: IF嵌套逻辑 152.7-164.7s | 裸字 -->
+  <div class="scene" id="s12" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="s12t">核心就<span class="accent">三层判断</span></div><div class="bare" id="s12b" style="display:flex;gap:40px;justify-content:center"><div><div class="bn" style="font-size:72px;color:#2563eb">≤400</div><div class="bl" style="font-size:40px;font-weight:700">→ 4米</div></div><div style="font-size:72px;color:#cbd5e1">→</div><div><div class="bn" style="font-size:72px;color:#f97316">>400</div><div class="bl" style="font-size:40px;font-weight:700">→ 3米</div></div><div style="font-size:72px;color:#cbd5e1">→</div><div><div class="bn" style="font-size:72px;color:#dc2626">非金属</div><div class="bl" style="font-size:40px;font-weight:700">→ -0.5米</div></div></div><div class="m" id="s12m" style="text-align:center;margin-top:20px;font-size:36px;color:#2563eb;font-weight:700">一层 IF 嵌套就搞定</div></div></div>
+
+  <!-- S13: 对比 164.7-176.7s | 左右分屏 -->
+  <div class="scene" id="s13" style="padding:60px 100px"><div class="btitle" id="s13t"><span class="accent">规范</span>翻译成<span class="accent">公式</span></div><div class="split" id="s13s"><div class="left"><div class="lt">以前<br><span class="accent" style="color:#dc2626">靠记忆</span></div></div><div class="right"><div class="rm m">师傅脑子记</div><div class="rm m">容易记混</div><div class="rm m" style="color:#dc2626;font-weight:700">4米还是3米？说不清</div></div></div><div class="split" id="s13s2" style="margin-top:20px"><div class="left"><div class="lt">现在<br><span class="accent" style="color:#16a34a">靠表格</span></div></div><div class="right"><div class="rm m">输入尺寸 → 自动出结果</div><div class="rm m" style="color:#16a34a;font-weight:700">没有"差不多"的空间</div></div></div></div>
+
+  <!-- S14: 行业反思 176.7-188.1s | 全屏反问 -->
+  <div class="scene" id="s14" style="padding:60px 100px"><div class="ask" id="s14a"><div class="aq">为什么<span class="hl">普遍</span><br>存在这个问题？</div><div class="aa m">支架是看不见的成本</div><div class="aa m">业主看漏风、看法兰</div><div class="aa m" style="color:#dc2626;font-weight:700">没人专门量支架间距</div></div></div>
+
+  <!-- S15: 踩坑故事 188.1-200.1s | 故事卡片 -->
+  <div class="scene" id="s15" style="padding:60px 100px"><div class="tale" id="s15t"><div class="glass"><div class="tt">我们早年<br><span class="accent">也吃过这个亏</span></div><div class="ts m">商场空调开机调试</div><div class="ts m">8米风管没装防晃支架</div><div class="ts m" style="color:#dc2626;font-weight:700">风机一启动，管子抖得像筛糠</div></div></div></div>
+
+  <!-- S16: 返工教训 200.1-212.3s | 全屏警告 -->
+  <div class="scene" id="s16" style="padding:60px 100px"><div class="warn" id="s16w"><div class="wl">代价惨重</div><div class="wm"><span class="hl">全部返工</span></div><div class="ws m">人工材料，比一开始做足还贵</div></div></div>
+
+  <!-- S17: 规矩+工具 212.3-226.4s | 居中卡 -->
+  <div class="scene" id="s17" style="padding:60px 100px"><div class="ccard" id="s17c"><div class="ch">从那以后<span class="accent">定了规矩</span></div><div class="glass"><div class="m" style="font-size:44px;font-weight:700;color:#dc2626">支架间距，按规范上限执行</div><div class="m" style="font-size:44px;font-weight:700;color:#dc2626">不能"差不多"</div><div class="m-sep"></div><div class="m">WPS 模板也是从那时开始做的</div><div class="m" style="color:#2563eb;font-weight:700">让数据说话，别让人判断</div></div></div></div>
+
+  <!-- S18: 结尾 226.4-236.1s | 故事卡片 -->
+  <div class="scene" id="s18" style="padding:60px 100px"><div class="tale" id="s18t"><div class="glass"><div class="tt">后来老张<br><span class="accent">主动来问</span></div><div class="ts m">"这次的间距是多少？"</div><div class="ts m">"我让兄弟们按数装。"</div><div class="ts m" style="color:#f97316;font-weight:700;margin-top:12px">这就够了</div></div></div></div>
+
+  <div class="brand"><div class="bn">奇美星暖通风管制作</div><div class="bu">tangguoqi.top</div></div>
+</div>
+<script>
+window.__timelines=window.__timelines||{};const tl=gsap.timeline({paused:true});window.__timelines.main=tl;
+function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-25,y:80,scale:.75,filter:"blur(8px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.7,ease:"elastic.out(1,0.4)"},t);tl.to(id,{boxShadow:"0 0 40px rgba(249,115,22,0.3)",duration:.5},">-0.3");tl.to(id,{boxShadow:"0 8px 32px rgba(0,0,0,0.05)",duration:.8},">+0.2")}
+function cardOut(id,t){tl.to(id,{opacity:0,scale:.85,rotationX:10,y:-20,filter:"blur(4px)",duration:.18,ease:"power2.in"},t);tl.set(id,{opacity:0},t+.25)}
+function mods(id,t,iv){tl.fromTo(id+" .m",{opacity:0,y:24},{opacity:1,y:0,duration:.3,stagger:iv,ease:"power2.out"},t)}
+function fadeIn(id,t){tl.fromTo(id,{opacity:0,scale:.92,filter:"blur(3px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:.5,ease:"power2.out"},t)}
+function fadeOut(id,t){tl.to(id,{opacity:0,duration:.18,ease:"power2.in"},t);tl.set(id,{opacity:0},t+.25)}
+const B=[{id:"s00",t:0,out:1.5},{id:"s01",t:1.5,out:14.4},{id:"s02",t:14.4,out:27.7},{id:"s03",t:27.7,out:42.2},{id:"s04",t:42.2,out:53.8},{id:"s05",t:53.8,out:64.2},{id:"s06",t:64.2,out:78.4},{id:"s07",t:78.4,out:92.2},{id:"s08",t:92.2,out:105.2},{id:"s09",t:105.2,out:123.9},{id:"s10",t:123.9,out:137.2},{id:"s11",t:137.2,out:152.7},{id:"s12",t:152.7,out:164.7},{id:"s13",t:164.7,out:176.7},{id:"s14",t:176.7,out:188.1},{id:"s15",t:188.1,out:200.1},{id:"s16",t:200.1,out:212.3},{id:"s17",t:212.3,out:226.4},{id:"s18",t:226.4,out:236.1}];
+B.forEach((b,i)=>{tl.to("#"+b.id,{opacity:1,duration:.18},b.t);if(i<B.length-1)tl.to("#"+b.id,{opacity:0,duration:.18},b.out)});
+// S00 片头
+fadeIn("#s00 .bare",0);fadeOut("#s00 .bare",1.5);
+// S01 故事卡片
+fadeIn("#s01t",1.5);cardIn("#s01t .glass",1.6);mods("#s01t",1.9,.25);cardOut("#s01t .glass",14.4);
+// S02 全屏反问
+fadeIn("#s02a",14.4);mods("#s02a",14.6,.22);fadeOut("#s02a",27.7);
+// S03 左右分屏
+fadeIn("#s03t",27.7);cardIn("#s03s",27.9);mods("#s03s",28.2,.18);cardOut("#s03s",42.2);fadeOut("#s03t",42.2);
+// S04 居中卡
+fadeIn("#s04c",42.2);mods("#s04c",42.4,.25);fadeOut("#s04c",53.8);
+// S05 三栏
+fadeIn("#s05t",53.8);cardIn("#s05g",54);mods("#s05g .gitem:nth-child(1)",54.3,.12);mods("#s05g .gitem:nth-child(2)",54.6,.12);mods("#s05g .gitem:nth-child(3)",54.9,.12);cardOut("#s05g",64.2);fadeOut("#s05t",64.2);
+// S06 双卡
+fadeIn("#s06t",64.2);cardIn("#s06d",64.4);mods("#s06d",64.7,.18);cardOut("#s06d",78.4);fadeOut("#s06t",78.4);
+// S07 居中卡
+fadeIn("#s07c",78.4);mods("#s07c",78.6,.25);fadeOut("#s07c",92.2);
+// S08 全屏警告
+fadeIn("#s08w",92.2);fadeOut("#s08w",105.2);
+// S09 三栏
+fadeIn("#s09t",105.2);cardIn("#s09g",105.4);mods("#s09g .gitem:nth-child(1)",105.7,.12);mods("#s09g .gitem:nth-child(2)",106,.12);mods("#s09g .gitem:nth-child(3)",106.3,.12);cardOut("#s09g",123.9);fadeOut("#s09t",123.9);
+// S10 全屏警告
+fadeIn("#s10w",123.9);fadeOut("#s10w",137.2);
+// S11 居中卡
+fadeIn("#s11c",137.2);mods("#s11c",137.4,.22);fadeOut("#s11c",152.7);
+// S12 裸字逻辑链
+fadeIn("#s12t",152.7);fadeIn("#s12b",152.9);mods("#s12b",153.1,.15);mods("#s12m",153.5,.2);fadeOut("#s12b",164.7);fadeOut("#s12m",164.7);fadeOut("#s12t",164.7);
+// S13 左右分屏
+fadeIn("#s13t",164.7);cardIn("#s13s",164.9);mods("#s13s",165.2,.18);cardIn("#s13s2",168.5);mods("#s13s2",168.8,.18);cardOut("#s13s",176.7);cardOut("#s13s2",176.7);fadeOut("#s13t",176.7);
+// S14 全屏反问
+fadeIn("#s14a",176.7);mods("#s14a",176.9,.22);fadeOut("#s14a",188.1);
+// S15 故事
+fadeIn("#s15t",188.1);cardIn("#s15t .glass",188.3);mods("#s15t",188.6,.22);cardOut("#s15t .glass",200.1);
+// S16 全屏警告
+fadeIn("#s16w",200.1);fadeOut("#s16w",212.3);
+// S17 居中卡
+fadeIn("#s17c",212.3);mods("#s17c",212.5,.22);fadeOut("#s17c",226.4);
+// S18 结尾
+fadeIn("#s18t",226.4);cardIn("#s18t .glass",226.6);mods("#s18t",226.9,.22);cardOut("#s18t .glass",236.1);
+</script>
+</body>
+</html>
