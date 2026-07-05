@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>风管接口与接缝</title>
+<style>
+  @font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1920px;overflow:hidden;margin:0;font-family:'Microsoft YaHei',sans-serif}
+
+  .orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:0.42}
+  .orb-1{width:420px;height:420px;background:radial-gradient(circle,#60a5fa,transparent);top:-120px;left:-100px}
+  .orb-2{width:350px;height:350px;background:radial-gradient(circle,#c084fc,transparent);top:600px;right:-80px}
+  .orb-3{width:300px;height:300px;background:radial-gradient(circle,#f97316,transparent);bottom:200px;left:-80px}
+  .orb-4{width:280px;height:280px;background:radial-gradient(circle,#34d399,transparent);bottom:-60px;right:80px}
+  .orb-5{width:320px;height:320px;background:radial-gradient(circle,#f472b6,transparent);top:1100px;left:50%;transform:translateX(-50%)}
+
+  .center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:50px}
+
+  .glass{background:rgba(255,255,255,0.22);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.35);box-shadow:0 8px 32px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.4);border-radius:22px;padding:44px 56px;width:90%;max-width:960px}
+
+  /* 片头 */
+  .hero-title{font-size:88px;font-weight:900;color:#1e3a5f;text-align:center;line-height:1.2}
+  .hero-sub{font-size:38px;font-weight:400;color:#64748b;text-align:center;margin-top:14px}
+
+  /* 大字卡 */
+  .big-card{text-align:center}
+  .big-label{font-size:34px;color:#64748b;margin-bottom:8px}
+  .big-num{font-size:100px;font-weight:900;color:#2563eb;line-height:1.1}
+  .big-desc{font-size:34px;color:#475569;margin-top:8px}
+
+  /* 标准卡 */
+  .card-title{font-size:52px;font-weight:800;color:#1e3a5f;margin-bottom:14px;text-align:center}
+  .card-text{font-size:38px;color:#475569;line-height:1.5;text-align:center}
+
+  /* 列表卡 */
+  .list-card{text-align:left;max-width:960px}
+  .list-title{font-size:48px;font-weight:800;color:#1e3a5f;margin-bottom:14px;text-align:center}
+  .list-item{font-size:34px;color:#475569;line-height:1.8;margin-bottom:4px;padding-left:8px}
+
+  /* 对比卡 */
+  .vs-card{display:flex;gap:30px;justify-content:center;align-items:center;width:90%}
+  .vs-left,.vs-right{flex:1;text-align:center;background:rgba(255,255,255,0.18);border-radius:18px;padding:36px 28px}
+  .vs-label{font-size:32px;color:#64748b;margin-bottom:10px}
+  .vs-val{font-size:52px;font-weight:800;color:#1e3a5f}
+  .vs-divider{font-size:48px;color:#94a3b8;font-weight:300}
+
+  /* 警告卡 */
+  .warn-card{text-align:center;border:2px solid rgba(220,38,38,0.3)}
+  .warn-icon{font-size:64px;margin-bottom:8px}
+  .warn-title{font-size:52px;font-weight:800;color:#dc2626;margin-bottom:12px}
+  .warn-text{font-size:36px;color:#475569;line-height:1.5}
+
+  /* 数字条 */
+  .num-strip{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;width:90%}
+  .num-block{background:rgba(255,255,255,0.18);border-radius:18px;padding:28px 36px;text-align:center;min-width:160px}
+  .num-block .nb-num{font-size:64px;font-weight:900;color:#2563eb}
+  .num-block .nb-label{font-size:30px;color:#64748b;margin-top:4px}
+
+  /* 裸字 */
+  .naked{font-size:62px;font-weight:800;color:#1e3a5f;text-align:center;line-height:1.3;padding:0 40px}
+  .naked-em{color:#dc2626}
+
+  /* 片尾 */
+  .end-title{font-size:56px;font-weight:800;color:#1e3a5f;margin-bottom:8px}
+  .end-sub{font-size:32px;color:#64748b}
+  .end-url{font-size:34px;color:#2563eb;font-weight:600;margin-top:12px}
+
+  /* 所有 .m 初始隐藏 */
+  .m{opacity:0}
+</style>
+</head>
+<body>
+
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="155" data-width="1080" data-height="1920" style="position:relative;width:1080px;height:1920px;overflow:hidden;background:linear-gradient(150deg,#d4e8ff 0%,#ddd4ff 18%,#e8d4f8 35%,#d4f0ff 52%,#d8e4ff 70%,#e4d8f8 85%,#d4e8ff 100%);">
+
+<div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div><div class="orb orb-5"></div>
+
+<audio id="narration" class="clip" data-start="0" data-duration="155" data-track-index="20" src="narration.mp3" data-volume="1.0"></audio>
+
+<!-- B0 片头: 0.100-2.318 -->
+<div id="b0" class="clip" data-start="0.100" data-duration="2.218">
+  <div class="center"><div class="glass big-card">
+    <div class="hero-title m">风管这行<br>有个怪现象</div>
+  </div></div>
+</div>
+
+<!-- B1 同名不同名: 2.268-6.319 -->
+<div id="b1" class="clip" data-start="2.268" data-duration="4.051">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-title m">同一个东西</div>
+    <div class="card-text m" style="margin-top:8px">图纸上一个名字<br>车间喊另一个名字<br>客户嘴里又是第三个</div>
+  </div></div>
+</div>
+
+<!-- B2 重灾区: 6.319-8.726 -->
+<div id="b2" class="clip" data-start="6.319" data-duration="2.407">
+  <div class="center"><div class="naked m">
+    接口和接缝<br><span class="naked-em">尤其重灾区</span>
+  </div></div>
+</div>
+
+<!-- B3 客户电话: 8.726-14.074 -->
+<div id="b3" class="clip" data-start="8.726" data-duration="5.348">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">上周三<br>一个老客户打电话过来</div>
+  </div></div>
+</div>
+
+<!-- B4 做错了: 14.074-17.326 -->
+<div id="b4" class="clip" data-start="14.074" data-duration="3.252">
+  <div class="center"><div class="glass warn-card">
+    <div class="warn-text m">图纸写的<strong>共板法兰</strong><br>我们做成了<strong style="color:#dc2626">角铁</strong></div>
+  </div></div>
+</div>
+
+<!-- B5 翻订单: 17.326-21.620 -->
+<div id="b5" class="clip" data-start="17.326" data-duration="4.294">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">翻订单一看<br>小姑娘看到"法兰连接"<br>就默认共板了</div>
+  </div></div>
+</div>
+
+<!-- B6 没看见: 21.620-25.729 -->
+<div id="b6" class="clip" data-start="21.620" data-duration="4.109">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">但图纸后面还有一行小字<br>L50×5角钢法兰<br>她没看见</div>
+  </div></div>
+</div>
+
+<!-- B7 分清: 25.729-27.719 -->
+<div id="b7" class="clip" data-start="25.729" data-duration="1.990">
+  <div class="center"><div class="naked m">
+    先分清<br>接口和接缝
+  </div></div>
+</div>
+
+<!-- B8 接口定义: 27.719-30.428 -->
+<div id="b8" class="clip" data-start="27.719" data-duration="2.709">
+  <div class="center"><div class="glass big-card">
+    <div class="big-label m">接口</div>
+    <div class="big-desc m" style="font-size:38px">管子和管子之间的连接</div>
+  </div></div>
+</div>
+
+<!-- B9 接口举例: 30.428-34.247 -->
+<div id="b9" class="clip" data-start="30.428" data-duration="3.819">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-title m">接口</div>
+    <div class="card-text m">共板 · 角铁 · 插条 · 翻边</div>
+  </div></div>
+</div>
+
+<!-- B10 接缝定义: 34.247-38.287 -->
+<div id="b10" class="clip" data-start="34.247" data-duration="4.040">
+  <div class="center"><div class="glass big-card">
+    <div class="big-label m">接缝</div>
+    <div class="big-desc m" style="font-size:38px">一节管子里面<br>几块板怎么拼成一个框</div>
+  </div></div>
+</div>
+
+<!-- B11 接缝举例: 38.287-42.233 -->
+<div id="b11" class="clip" data-start="38.287" data-duration="3.946">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-title m">接缝</div>
+    <div class="card-text m">咬口 · 螺丝 · 搭边 · 直焊边</div>
+  </div></div>
+</div>
+
+<!-- B12 接口6种: 42.233-43.888 -->
+<div id="b12" class="clip" data-start="42.233" data-duration="1.655">
+  <div class="center"><div class="naked m">
+    接口有<span class="naked-em">6种</span>
+  </div></div>
+</div>
+
+<!-- B13 共板参数: 43.888-48.043 -->
+<div id="b13" class="clip" data-start="43.888" data-duration="4.155">
+  <div class="center"><div class="glass num-strip">
+    <div class="num-block m"><div class="nb-num">45</div><div class="nb-label">mm 料</div></div>
+    <div class="num-block m"><div class="nb-num">65</div><div class="nb-label">mm 剪口</div></div>
+  </div></div>
+</div>
+
+<!-- B14 角铁参数: 48.043-52.465 -->
+<div id="b14" class="clip" data-start="48.043" data-duration="4.422">
+  <div class="center"><div class="glass num-strip">
+    <div class="num-block m"><div class="nb-num">7</div><div class="nb-label">mm 料</div></div>
+    <div class="num-block m"><div class="nb-num">25</div><div class="nb-label">mm 剪口</div></div>
+  </div></div>
+</div>
+
+<!-- B15 翻边: 52.465-55.393 -->
+<div id="b15" class="clip" data-start="52.465" data-duration="2.928">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-title m">翻边</div>
+    <div class="card-text m">内翻 · 外翻<br>30毫米料</div>
+  </div></div>
+</div>
+
+<!-- B16 踩坑: 55.393-57.557 -->
+<div id="b16" class="clip" data-start="55.393" data-duration="2.164">
+  <div class="center"><div class="naked m">
+    我们在这上面<br><span class="naked-em">踩过大坑</span>
+  </div></div>
+</div>
+
+<!-- B17 圆管项目: 57.557-60.439 -->
+<div id="b17" class="clip" data-start="57.557" data-duration="2.882">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">做过一批圆管<br>图纸写翻边连接</div>
+  </div></div>
+</div>
+
+<!-- B18 外翻边: 60.439-63.182 -->
+<div id="b18" class="clip" data-start="60.439" data-duration="2.743">
+  <div class="center"><div class="glass warn-card">
+    <div class="warn-text m">我们默认<strong>外翻边</strong><br>做了50多节</div>
+  </div></div>
+</div>
+
+<!-- B19 内翻边: 63.182-67.094 -->
+<div id="b19" class="clip" data-start="63.182" data-duration="3.912">
+  <div class="center"><div class="glass warn-card">
+    <div class="warn-title m">到现场发现</div>
+    <div class="warn-text m">要<strong style="color:#dc2626">内翻边</strong><br>因为后面要套法兰</div>
+  </div></div>
+</div>
+
+<!-- B20 返工: 67.094-68.518 -->
+<div id="b20" class="clip" data-start="67.094" data-duration="1.424">
+  <div class="center"><div class="naked m">
+    <span class="naked-em">整批返工</span>
+  </div></div>
+</div>
+
+<!-- B21 改进: 68.518-71.805 -->
+<div id="b21" class="clip" data-start="68.518" data-duration="3.287">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">后来把翻边拆成<br><strong>内翻边</strong>和<strong>外翻边</strong></div>
+  </div></div>
+</div>
+
+<!-- B22 配图: 71.805-75.439 -->
+<div id="b22" class="clip" data-start="71.805" data-duration="3.634">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-title m">系统里配了图</div>
+    <div class="card-text m">录单看图选<br>再没错过</div>
+  </div></div>
+</div>
+
+<!-- B23 接缝4种: 75.439-77.071 -->
+<div id="b23" class="clip" data-start="75.439" data-duration="1.632">
+  <div class="center"><div class="naked m">
+    接缝有<span class="naked-em">4种</span>
+  </div></div>
+</div>
+
+<!-- B24 咬口参数: 77.071-80.763 -->
+<div id="b24" class="clip" data-start="77.071" data-duration="3.692">
+  <div class="center"><div class="glass num-strip">
+    <div class="num-block m"><div class="nb-num">7</div><div class="nb-label">公口 mm</div></div>
+    <div class="num-block m"><div style="font-size:48px;color:#94a3b8">+</div></div>
+    <div class="num-block m"><div class="nb-num" style="color:#f97316">30</div><div class="nb-label">母口 mm</div></div>
+  </div></div>
+</div>
+
+<!-- B25 闭眼压: 80.763-82.789 -->
+<div id="b25" class="clip" data-start="80.763" data-duration="2.026">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">师傅闭着眼都能压</div>
+  </div></div>
+</div>
+
+<!-- B26 超尺寸: 82.789-85.057 -->
+<div id="b26" class="clip" data-start="82.789" data-duration="2.268">
+  <div class="center"><div class="naked m">
+    出问题在<br><span class="naked-em">超尺寸拼板</span>
+  </div></div>
+</div>
+
+<!-- B27 1250: 85.057-87.731 -->
+<div id="b27" class="clip" data-start="85.057" data-duration="2.674">
+  <div class="center"><div class="glass big-card">
+    <div class="big-label m">板宽超过</div>
+    <div class="big-num m">1250</div>
+    <div class="big-desc m">就得拆板</div>
+  </div></div>
+</div>
+
+<!-- B28 17+3: 87.731-90.312 -->
+<div id="b28" class="clip" data-start="87.731" data-duration="2.581">
+  <div class="center"><div class="glass num-strip">
+    <div class="num-block m"><div class="nb-num" style="color:#dc2626">17</div><div class="nb-label">公口</div></div>
+    <div class="num-block m"><div style="font-size:48px;color:#94a3b8">+</div></div>
+    <div class="num-block m"><div class="nb-num" style="color:#dc2626">3</div><div class="nb-label">母口</div></div>
+  </div></div>
+</div>
+
+<!-- B29 不一样: 90.312-93.020 -->
+<div id="b29" class="clip" data-start="90.312" data-duration="2.708">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">和平时用的<br><strong style="color:#2563eb">7+30</strong><br>不一样</div>
+  </div></div>
+</div>
+
+<!-- B30 用错: 93.020-95.243 -->
+<div id="b30" class="clip" data-start="93.020" data-duration="2.223">
+  <div class="center"><div class="naked m">
+    车间一不留意<br><span class="naked-em">就用错</span>
+  </div></div>
+</div>
+
+<!-- B31 弯头: 95.243-97.604 -->
+<div id="b31" class="clip" data-start="95.243" data-duration="2.361">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">去年弯头弧板<br>拼接过宽</div>
+  </div></div>
+</div>
+
+<!-- B32 全废: 97.604-101.377 -->
+<div id="b32" class="clip" data-start="97.604" data-duration="3.773">
+  <div class="center"><div class="glass warn-card">
+    <div class="warn-text m">师傅手一顺用了<strong>7+30</strong><br><span style="font-size:52px;color:#dc2626;font-weight:900">两批弯头全废</span></div>
+  </div></div>
+</div>
+
+<!-- B33 试出来: 101.377-103.958 -->
+<div id="b33" class="clip" data-start="101.377" data-duration="2.581">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-title m">17+3</div>
+    <div class="card-text m">是我们自己试出来的</div>
+  </div></div>
+</div>
+
+<!-- B34 过机器: 103.958-106.342 -->
+<div id="b34" class="clip" data-start="103.958" data-duration="2.384">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">既能过机器<br>强度也够</div>
+  </div></div>
+</div>
+
+<!-- B35 规范: 106.342-109.513 -->
+<div id="b35" class="clip" data-start="106.342" data-duration="3.171">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">规范只管形式一致<br>具体参数<strong style="color:#dc2626">没给</strong></div>
+  </div></div>
+</div>
+
+<!-- B36 根源: 109.513-113.206 -->
+<div id="b36" class="clip" data-start="109.513" data-duration="3.693">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-title m">术语乱的根源</div>
+    <div class="card-text m">行业从手工<br>到工业化过渡</div>
+  </div></div>
+</div>
+
+<!-- B37 早期: 113.206-116.018 -->
+<div id="b37" class="clip" data-start="113.206" data-duration="2.812">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">早期现场敲<br>师傅叫啥都行</div>
+  </div></div>
+</div>
+
+<!-- B38 重要了: 116.018-119.641 -->
+<div id="b38" class="clip" data-start="116.018" data-duration="3.623">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">后来有了图纸、ERP<br>名字<strong style="color:#dc2626">突然重要了</strong></div>
+  </div></div>
+</div>
+
+<!-- B39 三个名字: 119.641-123.703 -->
+<div id="b39" class="clip" data-start="119.641" data-duration="4.062">
+  <div class="center"><div class="glass vs-card">
+    <div class="vs-left m"><div class="vs-label">设计师</div><div class="vs-val">A名</div></div>
+    <div class="vs-divider m">≠</div>
+    <div class="vs-left m"><div class="vs-label">ERP</div><div class="vs-val">B名</div></div>
+    <div class="vs-divider m">≠</div>
+    <div class="vs-left m"><div class="vs-label">车间</div><div class="vs-val" style="color:#dc2626">C名</div></div>
+  </div></div>
+</div>
+
+<!-- B40 两年: 123.703-129.027 -->
+<div id="b40" class="clip" data-start="123.703" data-duration="5.324">
+  <div class="center"><div class="glass big-card">
+    <div class="big-label m">我们花了两年</div>
+    <div class="big-num m" style="font-size:80px">148 + 48</div>
+    <div class="big-desc m">接口名 · 接缝名<br>全捋了一遍</div>
+  </div></div>
+</div>
+
+<!-- B41 对照表: 129.027-130.914 -->
+<div id="b41" class="clip" data-start="129.027" data-duration="1.887">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-title m">做了对照表和图示</div>
+  </div></div>
+</div>
+
+<!-- B42 看图选: 130.914-133.287 -->
+<div id="b42" class="clip" data-start="130.914" data-duration="2.373">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">录单不用记术语<br><strong style="color:#2563eb">看图选</strong></div>
+  </div></div>
+</div>
+
+<!-- B43 几千节: 133.287-137.257 -->
+<div id="b43" class="clip" data-start="133.287" data-duration="3.970">
+  <div class="center"><div class="glass big-card">
+    <div class="big-label m">一个月</div>
+    <div class="big-num m">几千节</div>
+    <div class="big-desc m">一个术语搞错<br>能废一批料</div>
+  </div></div>
+</div>
+
+<!-- B44 不值得赌: 137.257-138.900 -->
+<div id="b44" class="clip" data-start="137.257" data-duration="1.643">
+  <div class="center"><div class="naked m">
+    这事<br><span class="naked-em">不值得赌</span>
+  </div></div>
+</div>
+
+<!-- B45 补三节: 138.900-142.372 -->
+<div id="b45" class="clip" data-start="138.900" data-duration="3.472">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">最后给深圳客户<br>补了三节管<br>快递次日到</div>
+  </div></div>
+</div>
+
+<!-- B46 别打电话: 142.372-144.675 -->
+<div id="b46" class="clip" data-start="142.372" data-duration="2.303">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">他说<br>下次别让我打电话了</div>
+  </div></div>
+</div>
+
+<!-- B47 我说行: 144.675-145.798 -->
+<div id="b47" class="clip" data-start="144.675" data-duration="1.123">
+  <div class="center"><div class="naked m">
+    我说<span class="naked-em">行</span>
+  </div></div>
+</div>
+
+<!-- B48 加了一条: 145.798-147.974 -->
+<div id="b48" class="clip" data-start="145.798" data-duration="2.176">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">回手在系统里<br>加了一条</div>
+  </div></div>
+</div>
+
+<!-- B49 弹图示: 147.974-152.048 -->
+<div id="b49" class="clip" data-start="147.974" data-duration="4.074">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-title m">订单接口</div>
+    <div class="card-text m">自动弹图示<br>录单看图确认才算过</div>
+  </div></div>
+</div>
+
+<!-- B50 电话少了: 152.048-154.432 -->
+<div id="b50" class="clip" data-start="152.048" data-duration="2.384">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-title m">改了个小地方</div>
+    <div class="card-text m">电话<strong style="color:#2563eb">少了</strong></div>
+  </div></div>
+</div>
+
+<!-- B51 片尾: 154.432-155 -->
+<div id="b51" class="clip" data-start="154.432" data-duration="0.568">
+  <div class="center"><div class="glass card-layout">
+    <div class="end-title m">奇美星暖通风管制作</div>
+    <div class="end-url m">tangguoqi.top</div>
+  </div></div>
+</div>
+
+</div><!-- #root -->
+
+<script src="gsap.min.js"></script>
+<script>
+function cardIn(tl, id, t) {
+  const els = document.querySelectorAll('#' + id + ' .m');
+  tl.fromTo(els, {opacity:0, scale:.75, filter:'blur(20px)'}, {opacity:1, scale:1, filter:'blur(0px)', duration:.22, stagger:.06, ease:'elastic.out(1,0.4)'}, t);
+}
+function cardOut(tl, id, exitT, boundaryT) {
+  const els = document.querySelectorAll('#' + id + ' .m');
+  tl.to(els, {opacity:0, scale:.9, filter:'blur(12px)', duration:.15, stagger:.03, ease:'power2.in'}, exitT);
+  tl.set(els, {opacity:0}, boundaryT);
+}
+function fadeIn(tl, id, t) {
+  const els = document.querySelectorAll('#' + id + ' .m, #' + id + ' .naked');
+  tl.fromTo(els, {opacity:0, scale:.85, filter:'blur(16px)'}, {opacity:1, scale:1, filter:'blur(0px)', duration:.35, ease:'power2.out'}, t);
+}
+function fadeOut(tl, id, exitT, boundaryT) {
+  const els = document.querySelectorAll('#' + id + ' .m, #' + id + ' .naked');
+  tl.to(els, {opacity:0, scale:.92, filter:'blur(8px)', duration:.18, ease:'power2.in'}, exitT);
+  tl.set(els, {opacity:0}, boundaryT);
+}
+
+window.__timelines = [];
+
+['b0','b2','b7','b12','b16','b20','b23','b26','b30','b44','b47'].forEach(id => {
+  const tl = gsap.timeline({paused:true});
+  const el = document.getElementById(id);
+  const start = parseFloat(el.dataset.start);
+  const dur = parseFloat(el.dataset.duration);
+  fadeIn(tl, id, start);
+  fadeOut(tl, id, start + dur - 0.2, start + dur);
+  window.__timelines.push(tl);
+});
+
+['b1','b3','b5','b6','b8','b9','b10','b11','b13','b14','b15','b17','b18','b19','b21','b22','b24','b25','b27','b28','b29','b31','b32','b33','b34','b35','b36','b37','b38','b39','b40','b41','b42','b43','b45','b46','b48','b49','b50','b51'].forEach(id => {
+  const tl = gsap.timeline({paused:true});
+  const el = document.getElementById(id);
+  const start = parseFloat(el.dataset.start);
+  const dur = parseFloat(el.dataset.duration);
+  cardIn(tl, id, start);
+  cardOut(tl, id, start + dur - 0.2, start + dur);
+  window.__timelines.push(tl);
+});
+</script>
+</body>
+</html>

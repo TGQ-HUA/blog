@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#0f172a}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#eff6ff,#fef7f0,#f0f9ff)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4}
+.o1{width:450px;height:450px;top:5%;left:3%;background:radial-gradient(circle,rgba(37,99,235,.5),transparent)}
+.o2{width:380px;height:380px;top:40%;right:5%;background:radial-gradient(circle,rgba(249,115,22,.4),transparent)}
+.o3{width:320px;height:320px;bottom:5%;left:35%;background:radial-gradient(circle,rgba(249,115,22,.3),transparent)}
+.o4{width:280px;height:280px;top:60%;left:60%;background:radial-gradient(circle,rgba(37,99,235,.25),transparent)}
+
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center}
+.glass{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;padding:36px 44px;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.m{font-size:38px;color:#1e293b;line-height:1.7;margin-bottom:10px;opacity:0}
+.m .accent{color:#2563eb;font-weight:700}
+.m .hl{color:#dc2626;font-weight:700}
+.m-sep{height:14px}
+.btitle{font-size:52px;font-weight:900;color:#0f172a;text-align:center;margin-bottom:28px;opacity:0}
+.btitle .accent{color:#2563eb}
+.brand{position:absolute;bottom:40px;right:80px;text-align:right;opacity:.7}
+.brand .bn{font-size:28px;color:#64748b;font-weight:600}
+.brand .bu{font-size:24px;color:#2563eb;margin-top:4px}
+
+/* 全屏警告 */
+.warn{text-align:center;opacity:0}
+.warn .wl{display:inline-block;background:#dc2626;color:#fff;font-size:32px;font-weight:700;padding:10px 28px;border-radius:10px;margin-bottom:18px}
+.warn .wm{font-size:60px;font-weight:900;color:#0f172a;line-height:1.3}
+.warn .wm .hl{color:#dc2626}
+.warn .ws{font-size:36px;color:#64748b;margin-top:12px}
+
+/* 左右分屏 */
+.split{display:flex;gap:50px;align-items:center;width:88%;opacity:0}
+.split .left{flex:1;text-align:left}
+.split .right{flex:1.2;text-align:left}
+.split .lt{font-size:56px;font-weight:900;color:#0f172a;line-height:1.2}
+.split .lt .accent{color:#2563eb}
+.split .rm{font-size:38px;color:#1e293b;line-height:1.7;margin-bottom:8px}
+
+/* 三栏 */
+.grid3{display:flex;gap:28px;width:88%;opacity:0}
+.gitem{flex:1;background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;padding:30px 26px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.gitem .gh{font-size:36px;font-weight:700;color:#1e293b;margin-bottom:10px}
+.gitem .gd{font-size:30px;color:#475569;line-height:1.6}
+
+/* 裸字数字 */
+.bare{text-align:center;opacity:0}
+.bare .bn{font-size:100px;font-weight:900;color:#2563eb;line-height:1.1}
+.bare .bl{font-size:32px;color:#64748b;margin-top:6px}
+
+/* 双卡对比 */
+.dual{display:flex;gap:40px;width:88%;opacity:0}
+.dcard{flex:1;background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;padding:32px 36px;box-shadow:0 8px 32px rgba(0,0,0,.05)}
+.dcard .dh{font-size:42px;font-weight:700;color:#0f172a;margin-bottom:16px}
+.dcard .dd{font-size:34px;color:#475569;line-height:1.6}
+
+/* 全屏反问 */
+.ask{text-align:center;opacity:0}
+.ask .aq{font-size:72px;font-weight:900;color:#0f172a;line-height:1.3}
+.ask .aq .hl{color:#dc2626}
+.ask .aa{font-size:40px;color:#64748b;margin-top:16px}
+
+/* 故事卡片 */
+.tale{text-align:center;opacity:0;width:75%}
+.tale .glass{padding:44px 60px}
+.tale .tt{font-size:56px;font-weight:900;color:#0f172a;line-height:1.3;margin-bottom:14px}
+.tale .tt .accent{color:#f97316}
+.tale .ts{font-size:38px;color:#475569;line-height:1.7}
+
+/* 居中卡+上面标题 */
+.ccard{text-align:center;opacity:0;width:88%}
+.ccard .ch{font-size:56px;font-weight:900;color:#0f172a;margin-bottom:24px}
+.ccard .ch .accent{color:#2563eb}
+.ccard .glass{width:65%;margin:0 auto;text-align:left}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="102" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div>
+  <audio id="n" class="clip" data-start="0" data-duration="102" data-track-index="10" src="narration.mp3" data-volume="1.0"></audio>
+
+  <!-- S0: 片头 0-1s | 裸字 -->
+  <div class="scene" id="s0" style="padding:0"><div class="bare"><div class="bn" style="font-size:96px;color:#0f172a">风管三通</div><div class="bl" style="font-size:44px;color:#f97316;font-weight:700">制造规则速查</div></div></div>
+
+  <!-- S1: 引子 1.0-10.2s | 故事卡片 -->
+  <div class="scene" id="s1" style="padding:60px 100px"><div class="tale" id="s1t"><div class="glass"><div class="tt">安装队老张的夺命连环call<br><span class="accent">高低差50mm，现场接不上</span></div><div class="ts m">客户标的500×200，支口250×200配250×150</div><div class="ts m" style="color:#dc2626;font-weight:700">不等高三通直接做，根本没法合管</div></div></div></div>
+
+  <!-- S2: 问题分析 10.2-28.6s | 左右分屏 -->
+  <div class="scene" id="s2" style="padding:60px 100px"><div style="width:88%"><div class="btitle" id="s2t">为什么装到现场<span class="accent">总对不上</span></div><div class="split" id="s2s"><div class="left"><div class="lt">不等高<br><span class="accent">三通</span></div></div><div class="right"><div class="rm m">板子要斜切</div><div class="rm m">接口要对偏</div><div class="rm m">费工费时还不美观</div><div class="m-sep"></div><div class="rm m"><span class="hl">风管三通比弯头大小头都容易出问题</span></div></div></div></div></div>
+
+  <!-- S3: 三种类型 28.6-38.0s | 三栏 -->
+  <div class="scene" id="s3" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="s3t">矩形风管三通就<span class="accent">三种</span></div><div class="grid3" id="s3g"><div class="gitem"><div class="gh">🦋 蝴蝶型</div><div class="gd m">正三通</div><div class="gd m">两侧对称分支</div></div><div class="gitem"><div class="gh">T 型</div><div class="gd m">正三通</div><div class="gd m">单侧直分支</div></div><div class="gitem" style="border:2px solid rgba(249,115,22,.3)"><div class="gh" style="color:#f97316">📐 侧三通</div><div class="gd m">斜三通</div><div class="gd m">侧面斜向分支</div></div></div></div></div>
+
+  <!-- S4: 关键区别 38.0-46.9s | 裸字数字 -->
+  <div class="scene" id="s4" style="padding:60px 100px"><div style="text-align:center"><div class="btitle" id="s4t">最容易搞混的地方</div><div class="bare" id="s4b" style="display:flex;gap:80px;justify-content:center"><div><div class="bn" style="color:#2563eb">长</div><div class="bl m">侧三通结尾</div></div><div style="font-size:100px;color:#dc2626;line-height:1.1">≠</div><div><div class="bn" style="color:#dc2626">R角</div><div class="bl m">正三通结尾</div></div></div><div class="m" id="s4m" style="text-align:center;margin-top:20px;font-size:36px;color:#dc2626;font-weight:700">搞反了 → 车间直接做错 → 整批报废</div></div></div>
+
+  <!-- S5: 过渡 46.9-49.3s | 全屏警告 -->
+  <div class="scene" id="s5" style="padding:60px 100px"><div class="warn" id="s5w"><div class="wl">退货换来的</div><div class="wm">三条<span class="hl">规则</span></div></div></div>
+
+  <!-- S6: 规则一 49.3-55.8s | 双卡对比 -->
+  <div class="scene" id="s6" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="s6t">第一条 · <span class="accent">不等高三通</span></div><div class="dual" id="s6d"><div class="dcard" style="border:2px solid rgba(220,38,38,.2)"><div class="dh" style="color:#dc2626">❌ 直接做</div><div class="dd m">不等高合管</div><div class="dd m">板子斜切</div><div class="dd m">现场费工</div></div><div class="dcard"><div class="dh" style="color:#16a34a">✅ 先改等高</div><div class="dd m">等高三通+大小头</div><div class="dd m">板子对齐</div><div class="dd m">一次装好</div></div></div></div></div>
+
+  <!-- S7: 规则二 55.8-64.1s | 居中卡 -->
+  <div class="scene" id="s7" style="padding:60px 100px"><div class="ccard" id="s7c"><div class="ch">第二条 · 默认<span class="accent">对中+底平</span></div><div class="glass"><div class="m">📐 对口默认对中，有图纸按图纸</div><div class="m">📏 有高差默认底平</div><div class="m-sep"></div><div class="m" style="color:#f97316;font-weight:700">客户图纸不写对齐方式，风管厂要有自己的规矩</div></div></div></div>
+
+  <!-- S8: 规则三 64.1-71.0s | 居中卡 -->
+  <div class="scene" id="s8" style="padding:60px 100px"><div class="ccard" id="s8c"><div class="ch">第三条 · <span class="accent">长 vs R角</span></div><div class="glass"><div class="m">📌 侧三通末尾写<span class="hl">长度（mm）</span></div><div class="m">📌 正三通末尾写<span class="hl">R角（mm）</span></div><div class="m-sep"></div><div class="m" style="color:#dc2626;font-weight:700">录单格式不对，师傅看不懂，车间就做错</div></div></div></div>
+
+  <!-- S9: 导流片 71.0-77.5s | 双卡 -->
+  <div class="scene" id="s9" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="s9t">导流片<span class="accent">要不要加</span></div><div class="dual" id="s9d"><div class="dcard"><div class="dh">三通本体</div><div class="dd m">❌ 不需要加</div><div class="dd m">导流片是弯头的事</div></div><div class="dcard"><div class="dh">连弯头时</div><div class="dd m">边长≥500</div><div class="dd m">R/边长≤0.25</div><div class="dd m">→ 弯头侧按规则加</div></div></div></div></div>
+
+  <!-- S10: 面积 77.5-82.2s | 裸字 -->
+  <div class="scene" id="s10" style="padding:60px 100px"><div style="text-align:center;width:88%"><div class="btitle" id="s10t">三通<span class="accent">面积</span>比弯头复杂</div><div class="bare" id="s10b"><div class="bn" style="font-size:52px;line-height:1.5;color:#1e293b">几个口分开算<br>中心线面积再求和</div></div></div></div>
+
+  <!-- S11: 总结 82.2-89.7s | 全屏反问 -->
+  <div class="scene" id="s11" style="padding:60px 100px"><div class="ask" id="s11a"><div class="aq">三通<span class="hl">为什么</span><br>比弯头容易出错？</div><div class="aa m">不是做不出来</div><div class="aa m">是沟通成本太高</div><div class="aa m" style="color:#dc2626;font-weight:700">不如在工艺上把风险消掉</div></div></div>
+
+  <!-- S12: 结尾 89.7-102s | 故事卡片 -->
+  <div class="scene" id="s12" style="padding:60px 100px"><div class="tale" id="s12t"><div class="glass"><div class="tt">老张把规则<br><span class="accent">记在了本子上</span></div><div class="ts m">他说：你们厂的三通，不用猜</div><div class="ts m" style="color:#dc2626;font-weight:700;margin-top:12px">这句话比什么都管用</div></div></div></div>
+
+  <div class="brand"><div class="bn">奇美星暖通风管制作</div><div class="bu">tangguoqi.top</div></div>
+</div>
+<script>
+window.__timelines=window.__timelines||{};const tl=gsap.timeline({paused:true});window.__timelines.main=tl;
+function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-25,y:80,scale:.75,filter:"blur(8px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.7,ease:"elastic.out(1,0.4)"},t);tl.to(id,{boxShadow:"0 0 40px rgba(249,115,22,0.3)",duration:.5},">-0.3");tl.to(id,{boxShadow:"0 8px 32px rgba(0,0,0,0.05)",duration:.8},">+0.2")}
+function cardOut(id,t){tl.to(id,{opacity:0,scale:.85,rotationX:10,y:-20,filter:"blur(4px)",duration:.18,ease:"power2.in"},t);tl.set(id,{opacity:0},t+.25)}
+function mods(id,t,iv){tl.fromTo(id+" .m",{opacity:0,y:24},{opacity:1,y:0,duration:.3,stagger:iv,ease:"power2.out"},t)}
+function fadeIn(id,t){tl.fromTo(id,{opacity:0,scale:.92,filter:"blur(3px)"},{opacity:1,scale:1,filter:"blur(0px)",duration:.5,ease:"power2.out"},t)}
+function fadeOut(id,t){tl.to(id,{opacity:0,duration:.18,ease:"power2.in"},t);tl.set(id,{opacity:0},t+.25)}
+const B=[{id:"s0",t:0,out:1},{id:"s1",t:1,out:10.2},{id:"s2",t:10.2,out:28.6},{id:"s3",t:28.6,out:38},{id:"s4",t:38,out:46.9},{id:"s5",t:46.9,out:49.3},{id:"s6",t:49.3,out:55.8},{id:"s7",t:55.8,out:64.1},{id:"s8",t:64.1,out:71},{id:"s9",t:71,out:77.5},{id:"s10",t:77.5,out:82.2},{id:"s11",t:82.2,out:89.7},{id:"s12",t:89.7,out:102}];
+B.forEach((b,i)=>{tl.to("#"+b.id,{opacity:1,duration:.18},b.t);if(i<B.length-1)tl.to("#"+b.id,{opacity:0,duration:.18},b.out)});
+fadeIn("#s0 .bare",0);fadeOut("#s0 .bare",1);
+fadeIn("#s1t",1);cardIn("#s1t .glass",1.1);mods("#s1t",1.3,.25);cardOut("#s1t .glass",10.2);
+fadeIn("#s2t",10.2);cardIn("#s2s",10.4);mods("#s2s",10.6,.22);cardOut("#s2s",28.6);fadeOut("#s2t",28.6);
+fadeIn("#s3t",28.6);cardIn("#s3g",28.8);mods("#s3g .gitem:nth-child(1)",29,.12);mods("#s3g .gitem:nth-child(2)",29.3,.12);mods("#s3g .gitem:nth-child(3)",29.6,.12);cardOut("#s3g",38);fadeOut("#s3t",38);
+fadeIn("#s4t",38);fadeIn("#s4b",38.2);mods("#s4b",38.4,.15);mods("#s4m",38.8,.2);fadeOut("#s4b",46.9);fadeOut("#s4m",46.9);fadeOut("#s4t",46.9);
+fadeIn("#s5w",46.9);fadeOut("#s5w",49.3);
+fadeIn("#s6t",49.3);cardIn("#s6d",49.5);mods("#s6d",49.8,.18);cardOut("#s6d",55.8);fadeOut("#s6t",55.8);
+fadeIn("#s7c",55.8);mods("#s7c",56,.25);fadeOut("#s7c",64.1);
+fadeIn("#s8c",64.1);mods("#s8c",64.3,.25);fadeOut("#s8c",71);
+fadeIn("#s9t",71);cardIn("#s9d",71.2);mods("#s9d",71.5,.18);cardOut("#s9d",77.5);fadeOut("#s9t",77.5);
+fadeIn("#s10t",77.5);fadeIn("#s10b",77.7);mods("#s10b",77.9,.2);fadeOut("#s10b",82.2);fadeOut("#s10t",82.2);
+fadeIn("#s11a",82.2);mods("#s11a",82.5,.22);fadeOut("#s11a",89.7);
+fadeIn("#s12t",89.7);cardIn("#s12t .glass",89.9);mods("#s12t",90.1,.22);cardOut("#s12t .glass",102);
+</script>
+</body>
+</html>

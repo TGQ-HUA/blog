@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>CAMduct 编码处理助手 · 操作流程</title>
+<style>
+  @font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{
+    width:1080px;height:1920px;overflow:hidden;margin:0;
+    font-family:'Microsoft YaHei',sans-serif;
+  }
+
+  /* 光球 */
+  .orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:0.45}
+  .orb-1{width:420px;height:420px;background:radial-gradient(circle,#60a5fa,transparent);top:-120px;left:-100px}
+  .orb-2{width:350px;height:350px;background:radial-gradient(circle,#c084fc,transparent);top:600px;right:-80px}
+  .orb-3{width:300px;height:300px;background:radial-gradient(circle,#f97316,transparent);bottom:200px;left:-80px}
+  .orb-4{width:280px;height:280px;background:radial-gradient(circle,#34d399,transparent);bottom:-60px;right:80px}
+  .orb-5{width:320px;height:320px;background:radial-gradient(circle,#f472b6,transparent);top:1100px;left:50%;transform:translateX(-50%)}
+
+  /* 容器 */
+  .center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:50px}
+
+  /* iOS 26 Glass */
+  .glass{
+    background:rgba(255,255,255,0.22);
+    backdrop-filter:blur(20px) saturate(180%);
+    -webkit-backdrop-filter:blur(20px) saturate(180%);
+    border:1px solid rgba(255,255,255,0.35);
+    box-shadow:0 8px 32px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.4);
+    border-radius:22px;
+    padding:36px 50px;
+  }
+
+  /* ===== 各 beat 布局 ===== */
+  .clip{position:absolute;inset:0}
+
+  /* B0 片头 */
+  #b0 .hero-title{font-size:72px;font-weight:900;color:#1e3a5f;text-align:center;line-height:1.2}
+  #b0 .hero-sub{font-size:36px;font-weight:400;color:#64748b;text-align:center;margin-top:16px}
+
+  /* B1 简介 */
+  #b1 .intro-glass{max-width:880px;text-align:center}
+  #b1 .intro-title{font-size:44px;font-weight:700;color:#1e3a5f;margin-bottom:20px}
+  #b1 .intro-desc{font-size:30px;color:#475569;line-height:1.5}
+
+  /* B2 界面 */
+  #b2 .ui-layout{display:flex;flex-direction:column;align-items:center;gap:16px;max-width:960px}
+  #b2 .ui-title{font-size:44px;font-weight:700;color:#1e3a5f;text-align:center}
+  #b2 .ui-img-wrap{background:rgba(255,255,255,0.22);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.35);box-shadow:0 8px 32px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.4);border-radius:22px;padding:16px}
+  #b2 .ui-img{display:block;max-width:880px;max-height:1200px;border-radius:12px}
+  #b2 .ui-notes{font-size:28px;color:#64748b;text-align:center;line-height:1.5}
+
+  /* B3/B4/B6/B7 通用步骤布局 */
+  .step-layout{display:flex;flex-direction:column;align-items:center;gap:12px;max-width:960px}
+  .step-title{font-size:40px;font-weight:700;color:#1e3a5f;text-align:center}
+  .step-imgs{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+  .step-img-card{background:rgba(255,255,255,0.22);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.35);box-shadow:0 8px 32px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.4);border-radius:18px;padding:12px}
+  .step-img{display:block;max-width:420px;max-height:700px;border-radius:10px}
+  .step-note{font-size:26px;color:#64748b;text-align:center;line-height:1.4}
+
+  /* B5 轮播 */
+  #b5 .carousel-layout{display:flex;flex-direction:column;align-items:center;gap:14px;max-width:960px}
+  #b5 .carousel-title{font-size:40px;font-weight:700;color:#1e3a5f;text-align:center}
+  #b5 .carousel-frame{position:relative;width:800px;height:600px;background:rgba(255,255,255,0.22);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.35);box-shadow:0 8px 32px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.4);border-radius:22px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  #b5 .carousel-img{position:absolute;max-width:740px;max-height:560px;border-radius:12px;opacity:0}
+  #b5 .carousel-label{font-size:28px;color:#f97316;font-weight:700;text-align:center}
+
+  /* B7 配置 */
+  #b7 .config-glass{max-width:880px;text-align:center}
+  #b7 .config-title{font-size:40px;font-weight:700;color:#1e3a5f;margin-bottom:18px}
+  #b7 .config-list{font-size:28px;color:#475569;line-height:2;text-align:left;display:inline-block}
+  #b7 .config-list li{margin-bottom:6px}
+
+  /* B8 片尾 */
+  #b8 .end-glass{max-width:800px;text-align:center}
+  #b8 .end-title{font-size:48px;font-weight:800;color:#1e3a5f;margin-bottom:12px}
+  #b8 .end-url{font-size:32px;color:#2563eb;font-weight:600}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="59.305" data-width="1080" data-height="1920" style="position:relative;width:1080px;height:1920px;overflow:hidden;background:linear-gradient(150deg,#d4e8ff 0%,#ddd4ff 18%,#e8d4f8 35%,#d4f0ff 52%,#d8e4ff 70%,#e4d8f8 85%,#d4e8ff 100%);">
+
+<!-- 光球 -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="orb orb-4"></div>
+<div class="orb orb-5"></div>
+
+<!-- 音频 -->
+<audio id="narration" class="clip" data-start="0" data-duration="59.305"
+  data-track-index="20" src="narration.mp3" data-volume="1.0"></audio>
+
+<!-- B0 片头 0.100-3.279 -->
+<div id="b0" class="clip" data-start="0.100" data-duration="3.179">
+  <div class="center">
+    <div class="glass" style="padding:50px 80px">
+      <div class="hero-title">CAMduct</div>
+      <div class="hero-sub">编码处理助手 · 操作流程</div>
+    </div>
+  </div>
+</div>
+
+<!-- B1 简介 3.229-9.432 -->
+<div id="b1" class="clip" data-start="3.229" data-duration="6.203">
+  <div class="center">
+    <div class="glass intro-glass">
+      <div class="intro-title">📋 一键处理风管排料编码</div>
+      <div class="intro-desc">自动材质替换 · 工艺设置 · 接口批量替换</div>
+    </div>
+  </div>
+</div>
+
+<!-- B2 界面速览 9.432-17.291 -->
+<div id="b2" class="clip" data-start="9.432" data-duration="7.859">
+  <div class="center">
+    <div class="ui-layout">
+      <div class="ui-title">🖥️ 六大功能区 + 底部执行</div>
+      <div class="ui-img-wrap">
+        <img class="ui-img" src="images/01-主界面.png" alt="主界面" />
+      </div>
+      <div class="ui-notes">编码处理流程 · 接口调整 · 软件设置 · 启动设置</div>
+    </div>
+  </div>
+</div>
+
+<!-- B3 WPS准备 17.291-23.773 -->
+<div id="b3" class="clip" data-start="17.291" data-duration="6.482">
+  <div class="center">
+    <div class="step-layout">
+      <div class="step-title">❶ 表格选「常规排版」→ ❷ Ctrl+C 复制编码</div>
+      <div class="step-imgs">
+        <div class="step-img-card">
+          <img class="step-img" src="images/02-选排版.png" alt="选择常规排版" />
+        </div>
+        <div class="step-img-card">
+          <img class="step-img" src="images/03-复制编码.png" alt="复制编码" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- B4 加载检查 23.773-31.018 -->
+<div id="b4" class="clip" data-start="23.773" data-duration="7.245">
+  <div class="center">
+    <div class="step-layout">
+      <div class="step-title">❸ 加载剪切板 → ❹ 检查名称和标签</div>
+      <div class="step-imgs">
+        <div class="step-img-card">
+          <img class="step-img" src="images/04-加载剪贴板.png" alt="加载剪切板" />
+        </div>
+        <div class="step-img-card">
+          <img class="step-img" src="images/05-名称设置.png" alt="名称设置" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- B5 参数设置 31.018-38.958 — 五图轮播 -->
+<div id="b5" class="clip" data-start="31.018" data-duration="7.940">
+  <div class="center">
+    <div class="carousel-layout">
+      <div class="carousel-title">⚙️ 参数五连设</div>
+      <div class="carousel-frame">
+        <img class="carousel-img" id="cimg0" src="images/06-材质设置.png" alt="材质" />
+        <img class="carousel-img" id="cimg1" src="images/07-工艺设置.png" alt="工艺" />
+        <img class="carousel-img" id="cimg2" src="images/08-图库设置.png" alt="图库" />
+        <img class="carousel-img" id="cimg3" src="images/09-启动时间.png" alt="启动时间" />
+        <img class="carousel-img" id="cimg4" src="images/10-接口替换.png" alt="接口替换" />
+      </div>
+      <div class="carousel-label" id="clabel">材质 → 工艺 → 图库 → 秒数 → 接口</div>
+    </div>
+  </div>
+</div>
+
+<!-- B6 执行完成 38.958-47.303 -->
+<div id="b6" class="clip" data-start="38.958" data-duration="8.345">
+  <div class="center">
+    <div class="step-layout">
+      <div class="step-title">❿ 点击「执行操作」→ 等待进度 → 悬浮圆标</div>
+      <div class="step-imgs">
+        <div class="step-img-card">
+          <img class="step-img" src="images/11-执行按钮.png" alt="执行按钮" />
+        </div>
+        <div class="step-img-card">
+          <img class="step-img" src="images/12-悬浮图标.png" alt="悬浮图标" />
+        </div>
+      </div>
+      <div class="step-note">进度走完自动保存 BM.txt · 窗口缩为右下角悬浮圆标</div>
+    </div>
+  </div>
+</div>
+
+<!-- B7 配置 47.303-54.872 -->
+<div id="b7" class="clip" data-start="47.303" data-duration="7.569">
+  <div class="center">
+    <div class="glass config-glass">
+      <div class="config-title">💾 配置自动持久化</div>
+      <ul class="config-list">
+        <li>📁 所有设置存入「编码导入数据.ini」</li>
+        <li>🔄 下次启动自动恢复所有配置</li>
+        <li>🚀 支持开机自启，配合悬浮窗右下角待命</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- B8 片尾 54.872-59.305 -->
+<div id="b8" class="clip" data-start="54.872" data-duration="4.433">
+  <div class="center">
+    <div class="glass end-glass">
+      <div class="end-title">风管厂技术部</div>
+      <div class="end-url">tangguoqi.top</div>
+    </div>
+  </div>
+</div>
+
+<!-- GSAP -->
+<script src="gsap.min.js"></script>
+<script>
+var tl = gsap.timeline({paused:true});
+
+// clip data-start offsets
+var s0=0.100, s1=3.229, s2=9.432, s3=17.291, s4=23.773, s5=31.018, s6=38.958, s7=47.303, s8=54.872;
+var ci={opacity:0,scale:.85,y:40,filter:"blur(6px)"}, co={opacity:1,scale:1,y:0,filter:"blur(0px)"};
+var xo={opacity:0,scale:.9,y:-20,filter:"blur(4px)"}, xi={opacity:0,scale:.9,y:-15,filter:"blur(3px)"};
+
+// ===== B0 片头 =====
+tl.fromTo("#b0 .glass",ci,co,s0+0.15);
+tl.to("#b0 .glass",xo,s0+2.85);
+tl.set("#b0 .glass",{opacity:0},s0+3.179);
+
+// ===== B1 简介 =====
+tl.fromTo("#b1 .glass",ci,co,s1+0.15);
+tl.to("#b1 .glass",xo,s1+5.8);
+tl.set("#b1 .glass",{opacity:0},s1+6.203);
+
+// ===== B2 界面 =====
+tl.fromTo("#b2 .ui-title",{opacity:0,y:20},{opacity:1,y:0,duration:0.5,ease:"back.out(1.5)"},s2+0.1);
+tl.fromTo("#b2 .ui-img-wrap",ci,co,s2+0.3);
+tl.fromTo("#b2 .ui-notes",{opacity:0,y:15},{opacity:1,y:0,duration:0.4,ease:"power2.out"},s2+0.6);
+tl.to("#b2 .ui-layout",xi,s2+7.5);
+tl.set("#b2 .ui-layout",{opacity:0},s2+7.859);
+
+// ===== B3 WPS准备 =====
+tl.fromTo("#b3 .step-title",{opacity:0,y:25},{opacity:1,y:0,duration:0.5,ease:"back.out(1.5)"},s3+0.1);
+tl.fromTo("#b3 .step-img-card:first-child",ci,co,s3+0.35);
+tl.fromTo("#b3 .step-img-card:last-child",ci,co,s3+2.2);
+tl.to("#b3 .step-layout",xi,s3+6.1);
+tl.set("#b3 .step-layout",{opacity:0},s3+6.482);
+
+// ===== B4 加载检查 =====
+tl.fromTo("#b4 .step-title",{opacity:0,y:25},{opacity:1,y:0,duration:0.5,ease:"back.out(1.5)"},s4+0.1);
+tl.fromTo("#b4 .step-img-card:first-child",ci,co,s4+0.35);
+tl.fromTo("#b4 .step-img-card:last-child",ci,co,s4+2.5);
+tl.to("#b4 .step-layout",xi,s4+6.9);
+tl.set("#b4 .step-layout",{opacity:0},s4+7.245);
+
+// ===== B5 五图轮播 (clip内相对偏移: 材质0→工艺1.19→图库2.58→秒数3.97→接口5.96) =====
+tl.fromTo("#b5 .carousel-title",{opacity:0,y:25},{opacity:1,y:0,duration:0.5,ease:"back.out(1.5)"},s5+0.1);
+
+tl.fromTo("#cimg0",{opacity:0,scale:.85},{opacity:1,scale:1,duration:.25,ease:"power2.out"},s5+0.35);
+tl.to("#cimg0",{opacity:0,scale:.9,duration:.2,ease:"power2.in"},s5+1.19);
+
+tl.fromTo("#cimg1",{opacity:0,scale:.85},{opacity:1,scale:1,duration:.25,ease:"power2.out"},s5+1.19);
+tl.to("#cimg1",{opacity:0,scale:.9,duration:.2,ease:"power2.in"},s5+2.58);
+
+tl.fromTo("#cimg2",{opacity:0,scale:.85},{opacity:1,scale:1,duration:.25,ease:"power2.out"},s5+2.58);
+tl.to("#cimg2",{opacity:0,scale:.9,duration:.2,ease:"power2.in"},s5+3.97);
+
+tl.fromTo("#cimg3",{opacity:0,scale:.85},{opacity:1,scale:1,duration:.25,ease:"power2.out"},s5+3.97);
+tl.to("#cimg3",{opacity:0,scale:.9,duration:.2,ease:"power2.in"},s5+5.96);
+
+tl.fromTo("#cimg4",{opacity:0,scale:.85},{opacity:1,scale:1,duration:.25,ease:"power2.out"},s5+5.96);
+tl.to("#cimg4",{opacity:0,scale:.9,duration:.2,ease:"power2.in"},s5+7.64);
+
+tl.fromTo("#clabel",{opacity:0},{opacity:1,duration:.3},s5+0.35);
+tl.to("#clabel",{opacity:0,duration:.2},s5+7.64);
+
+tl.to("#b5 .carousel-layout",xi,s5+7.6);
+tl.set("#b5 .carousel-layout",{opacity:0},s5+7.94);
+
+// ===== B6 执行完成 =====
+tl.fromTo("#b6 .step-title",{opacity:0,y:25},{opacity:1,y:0,duration:0.5,ease:"back.out(1.5)"},s6+0.1);
+tl.fromTo("#b6 .step-img-card:first-child",ci,co,s6+0.35);
+tl.fromTo("#b6 .step-img-card:last-child",ci,co,s6+2.5);
+tl.fromTo("#b6 .step-note",{opacity:0,y:15},{opacity:1,y:0,duration:0.4,ease:"power2.out"},s6+3.5);
+tl.to("#b6 .step-layout",xi,s6+8.0);
+tl.set("#b6 .step-layout",{opacity:0},s6+8.345);
+
+// ===== B7 配置 =====
+tl.fromTo("#b7 .glass",ci,co,s7+0.15);
+tl.fromTo("#b7 .config-list li:nth-child(1)",{opacity:0,x:-30},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},s7+0.6);
+tl.fromTo("#b7 .config-list li:nth-child(2)",{opacity:0,x:-30},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},s7+1.5);
+tl.fromTo("#b7 .config-list li:nth-child(3)",{opacity:0,x:-30},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},s7+2.5);
+tl.to("#b7 .glass",xo,s7+7.2);
+tl.set("#b7 .glass",{opacity:0},s7+7.569);
+
+// ===== B8 片尾 =====
+tl.fromTo("#b8 .glass",ci,co,s8+0.15);
+tl.to("#b8 .glass",xo,s8+4.1);
+tl.set("#b8 .glass",{opacity:0},s8+4.433);
+
+// 注册时间线
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+
+</div>
+</body>
+</html>

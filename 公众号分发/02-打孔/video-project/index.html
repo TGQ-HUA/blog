@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>共板法兰打孔规则</title>
+<style>
+  @font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1920px;height:1080px;overflow:hidden;margin:0;font-family:'Microsoft YaHei',sans-serif}
+
+  .orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:0.42}
+  .orb-1{width:420px;height:420px;background:radial-gradient(circle,#60a5fa,transparent);top:-120px;left:-100px}
+  .orb-2{width:350px;height:350px;background:radial-gradient(circle,#c084fc,transparent);top:200px;right:-80px}
+  .orb-3{width:300px;height:300px;background:radial-gradient(circle,#f97316,transparent);bottom:-60px;left:-80px}
+  .orb-4{width:280px;height:280px;background:radial-gradient(circle,#34d399,transparent);bottom:-60px;right:80px}
+  .orb-5{width:320px;height:320px;background:radial-gradient(circle,#f472b6,transparent);top:500px;left:50%;transform:translateX(-50%)}
+
+  .center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:40px}
+
+  .glass{background:rgba(255,255,255,0.22);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.35);box-shadow:0 8px 32px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.4);border-radius:22px;padding:36px 50px;width:88%;max-width:1680px}
+
+  .hero-title{font-size:96px;font-weight:900;color:#1e3a5f;text-align:center;line-height:1.3}
+  .hero-sub{font-size:40px;font-weight:400;color:#64748b;text-align:center;margin-top:14px}
+
+  .big-card{text-align:center}
+  .big-label{font-size:36px;color:#64748b;margin-bottom:8px}
+  .big-num{font-size:100px;font-weight:900;color:#2563eb;line-height:1.1}
+  .big-desc{font-size:40px;color:#475569;margin-top:8px}
+
+  .card-title{font-size:56px;font-weight:800;color:#1e3a5f;margin-bottom:12px;text-align:center}
+  .card-text{font-size:42px;color:#475569;line-height:1.5;text-align:center}
+
+  .list-card{text-align:left;max-width:1680px}
+  .list-title{font-size:52px;font-weight:800;color:#1e3a5f;margin-bottom:14px;text-align:center}
+  .list-item{font-size:38px;color:#475569;line-height:1.8;margin-bottom:4px;padding-left:8px}
+
+  .vs-card{display:flex;gap:40px;justify-content:center;align-items:center;width:88%}
+  .vs-left,.vs-right{flex:1;text-align:center;background:rgba(255,255,255,0.18);border-radius:18px;padding:32px 28px}
+  .vs-label{font-size:34px;color:#64748b;margin-bottom:10px}
+  .vs-val{font-size:56px;font-weight:800;color:#1e3a5f}
+  .vs-divider{font-size:48px;color:#94a3b8;font-weight:300}
+
+  .warn-card{text-align:center;border:2px solid rgba(220,38,38,0.3)}
+  .warn-icon{font-size:64px;margin-bottom:8px}
+  .warn-title{font-size:56px;font-weight:800;color:#dc2626;margin-bottom:12px}
+  .warn-text{font-size:40px;color:#475569;line-height:1.5}
+
+  .num-strip{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;width:88%}
+  .num-block{background:rgba(255,255,255,0.18);border-radius:18px;padding:28px 36px;text-align:center;min-width:160px}
+  .num-block .nb-num{font-size:68px;font-weight:900;color:#2563eb}
+  .num-block .nb-label{font-size:32px;color:#64748b;margin-top:4px}
+
+  .naked{font-size:68px;font-weight:800;color:#1e3a5f;text-align:center;line-height:1.3;padding:0 40px}
+  .naked-em{color:#dc2626}
+
+  .end-title{font-size:60px;font-weight:800;color:#1e3a5f;margin-bottom:8px}
+  .end-sub{font-size:34px;color:#64748b}
+  .end-url{font-size:36px;color:#2563eb;font-weight:600;margin-top:12px}
+
+  .m{opacity:0}
+</style>
+</head>
+<body>
+
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="157" data-width="1920" data-height="1080" style="position:relative;width:1920px;height:1080px;overflow:hidden;background:linear-gradient(150deg,#d4e8ff 0%,#ddd4ff 18%,#e8d4f8 35%,#d4f0ff 52%,#d8e4ff 70%,#e4d8f8 85%,#d4e8ff 100%);">
+
+<div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div><div class="orb orb-5"></div>
+
+<audio id="narration" class="clip" data-start="0" data-duration="157" data-track-index="20" src="narration.mp3" data-volume="1.0"></audio>
+
+<!-- B0 片头: 0.100-2.503 -->
+<div id="b0" class="clip" data-start="0.100" data-duration="2.403">
+  <div class="center"><div class="glass big-card">
+    <div class="hero-title m">安装队老刘<br>又打电话来了</div>
+  </div></div>
+</div>
+
+<!-- B1 嗓门不小: 2.453-3.784 -->
+<div id="b1" class="clip" data-start="2.453" data-duration="1.331">
+  <div class="center"><div class="naked m">
+    嗓门不小
+  </div></div>
+</div>
+
+<!-- B2 怎么回事: 3.784-5.682 -->
+<div id="b2" class="clip" data-start="3.784" data-duration="1.898">
+  <div class="center"><div class="glass warn-card">
+    <div class="warn-text m">你们打的孔<br>怎么回事</div>
+  </div></div>
+</div>
+
+<!-- B3 法兰对不上: 5.682-7.731 -->
+<div id="b3" class="clip" data-start="5.682" data-duration="2.049">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">法兰对着<br>孔对不上</div>
+  </div></div>
+</div>
+
+<!-- B4 差了几毫米: 7.731-9.444 -->
+<div id="b4" class="clip" data-start="7.731" data-duration="1.713">
+  <div class="center"><div class="naked m">
+    差了好几个<span class="naked-em">毫米</span>
+  </div></div>
+</div>
+
+<!-- B5 跑去车间: 9.444-11.030 -->
+<div id="b5" class="clip" data-start="9.444" data-duration="1.586">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">跑去车间一看</div>
+  </div></div>
+</div>
+
+<!-- B6 机器没毛病: 11.030-12.870 -->
+<div id="b6" class="clip" data-start="11.030" data-duration="1.840">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">机器设置没问题</div>
+  </div></div>
+</div>
+
+<!-- B7 设备没跑偏: 12.870-14.502 -->
+<div id="b7" class="clip" data-start="12.870" data-duration="1.632">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">设备也没跑偏</div>
+  </div></div>
+</div>
+
+<!-- B8 量法兰: 14.502-16.446 -->
+<div id="b8" class="clip" data-start="14.502" data-duration="1.944">
+  <div class="center"><div class="naked m">
+    量了一下法兰上的孔
+  </div></div>
+</div>
+
+<!-- B9 问题在哪: 16.446-18.032 -->
+<div id="b9" class="clip" data-start="16.446" data-duration="1.586">
+  <div class="center"><div class="glass big-card">
+    <div class="big-label m">问题出在哪呢</div>
+  </div></div>
+</div>
+
+<!-- B10 800mm: 18.032-20.601 -->
+<div id="b10" class="clip" data-start="18.032" data-duration="2.569">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">两根管子<br>同样八百毫米宽</div>
+  </div></div>
+</div>
+
+<!-- B11 孔距140: 20.601-23.542 -->
+<div id="b11" class="clip" data-start="20.601" data-duration="2.941">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">同样要求孔距<br>不超过一百四</div>
+  </div></div>
+</div>
+
+<!-- B12 5个孔: 23.542-25.243 -->
+<div id="b12" class="clip" data-start="23.542" data-duration="1.701">
+  <div class="center"><div class="glass big-card">
+    <div class="big-label m">一根打了</div>
+    <div class="big-num m">5</div>
+    <div class="big-desc m">个孔</div>
+  </div></div>
+</div>
+
+<!-- B13 6个孔: 25.243-26.874 -->
+<div id="b13" class="clip" data-start="25.243" data-duration="1.631">
+  <div class="center"><div class="glass big-card">
+    <div class="big-label m">另一根打了</div>
+    <div class="big-num m" style="color:#dc2626">6</div>
+    <div class="big-desc m">个孔</div>
+  </div></div>
+</div>
+
+<!-- B14 差十几毫米: 26.874-29.050 -->
+<div id="b14" class="clip" data-start="26.874" data-duration="2.176">
+  <div class="center"><div class="glass warn-card">
+    <div class="warn-text m">端头对上<br>差十几毫米</div>
+  </div></div>
+</div>
+
+<!-- B15 不是机器问题: 29.050-30.914 -->
+<div id="b15" class="clip" data-start="29.050" data-duration="1.864">
+  <div class="center"><div class="naked m">
+    这不是机器的问题
+  </div></div>
+</div>
+
+<!-- B16 是规则问题: 30.914-32.789 -->
+<div id="b16" class="clip" data-start="30.914" data-duration="1.875">
+  <div class="center"><div class="glass big-card">
+    <div class="big-desc m" style="font-size:52px;font-weight:800;color:#dc2626">是打孔规则的问题</div>
+  </div></div>
+</div>
+
+<!-- B17 固定首孔: 32.789-35.555 -->
+<div id="b17" class="clip" data-start="32.789" data-duration="2.766">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">风管厂原来用的<br>叫固定首孔</div>
+  </div></div>
+</div>
+
+<!-- B18 留110: 35.555-37.777 -->
+<div id="b18" class="clip" data-start="35.555" data-duration="2.222">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">每边两端各留<span class="naked-em">一百一</span><br>中间剩余再均分</div>
+  </div></div>
+</div>
+
+<!-- B19 怎么来的: 37.777-39.699 -->
+<div id="b19" class="clip" data-start="37.777" data-duration="1.922">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">但这个一百一<br>怎么来的</div>
+  </div></div>
+</div>
+
+<!-- B20 没人说得清: 39.699-41.851 -->
+<div id="b20" class="clip" data-start="39.699" data-duration="2.152">
+  <div class="center"><div class="naked m">
+    没人说得清
+  </div></div>
+</div>
+
+<!-- B21 国标: 41.851-43.240 -->
+<div id="b21" class="clip" data-start="41.851" data-duration="1.389">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">GB50243只规定了螺栓间距</div>
+  </div></div>
+</div>
+
+<!-- B22 国标数字: 43.240-46.967 -->
+<div id="b22" class="clip" data-start="43.240" data-duration="3.727">
+  <div class="center"><div class="glass num-strip">
+    <div class="num-block"><div class="nb-num m" style="font-size:80px">≤100</div><div class="nb-label m">小边mm</div></div>
+    <div class="num-block"><div class="nb-num m" style="font-size:80px;color:#f97316">≤150</div><div class="nb-label m">大边mm</div></div>
+  </div></div>
+</div>
+
+<!-- B23 没提首孔: 46.967-49.479 -->
+<div id="b23" class="clip" data-start="46.967" data-duration="2.512">
+  <div class="center"><div class="glass warn-card">
+    <div class="warn-text m">压根没提<br>首孔边距</div>
+  </div></div>
+</div>
+
+<!-- B24 抄设备厂: 49.479-51.446 -->
+<div id="b24" class="clip" data-start="49.479" data-duration="1.967">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">一百一是早年<br>抄设备厂的标准</div>
+  </div></div>
+</div>
+
+<!-- B25 各家不一样: 51.446-54.363 -->
+<div id="b25" class="clip" data-start="51.446" data-duration="2.917">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">各家不一样</div>
+  </div></div>
+</div>
+
+<!-- B26 你厂他厂: 54.363-55.775 -->
+<div id="b26" class="clip" data-start="54.363" data-duration="1.412">
+  <div class="center"><div class="glass vs-card">
+    <div class="vs-left"><div class="vs-label m">你厂</div><div class="vs-val m">110mm</div></div>
+    <div class="vs-divider m">≠</div>
+    <div class="vs-right"><div class="vs-label m">他厂</div><div class="vs-val m" style="color:#dc2626">100mm</div></div>
+  </div></div>
+</div>
+
+<!-- B27 对不上: 55.775-58.171 -->
+<div id="b27" class="clip" data-start="55.775" data-duration="2.396">
+  <div class="center"><div class="glass warn-card">
+    <div class="warn-text m">工地上一对<br>就对不上</div>
+  </div></div>
+</div>
+
+<!-- B28 反复出现: 58.171-60.289 -->
+<div id="b28" class="clip" data-start="58.171" data-duration="2.118">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">去年我们发现<br>这个问题反复出现</div>
+  </div></div>
+</div>
+
+<!-- B29 决定改: 60.289-62.986 -->
+<div id="b29" class="clip" data-start="60.289" data-duration="2.697">
+  <div class="center"><div class="naked m">
+    决定<span class="naked-em">改</span>
+  </div></div>
+</div>
+
+<!-- B30 整边均分: 62.986-64.131 -->
+<div id="b30" class="clip" data-start="62.986" data-duration="1.145">
+  <div class="center"><div class="glass big-card">
+    <div class="big-label m">改成</div>
+    <div class="big-desc m" style="font-size:52px;font-weight:800;color:#2563eb">整边均分</div>
+  </div></div>
+</div>
+
+<!-- B31 等分: 64.131-65.810 -->
+<div id="b31" class="clip" data-start="64.131" data-duration="1.679">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">整条边<br>从头到尾等分</div>
+  </div></div>
+</div>
+
+<!-- B32 孔距一样: 65.810-67.986 -->
+<div id="b32" class="clip" data-start="65.810" data-duration="2.176">
+  <div class="center"><div class="naked m">
+    孔距<span class="naked-em">全部一样</span>
+  </div></div>
+</div>
+
+<!-- B33 800x140: 67.986-69.629 -->
+<div id="b33" class="clip" data-start="67.986" data-duration="1.643">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">八百毫米边<br>一百四孔距</div>
+  </div></div>
+</div>
+
+<!-- B34 6段5孔: 69.629-72.025 -->
+<div id="b34" class="clip" data-start="69.629" data-duration="2.396">
+  <div class="center"><div class="glass num-strip">
+    <div class="num-block"><div class="nb-num m">6</div><div class="nb-label m">段数</div></div>
+    <div class="num-block"><div class="nb-num m" style="color:#dc2626">5</div><div class="nb-label m">个孔</div></div>
+  </div></div>
+</div>
+
+<!-- B35 133mm: 71.025-72.530 wait, let me recalculate -->
+<div id="b35" class="clip" data-start="72.025" data-duration="1.505">
+  <div class="center"><div class="glass big-card">
+    <div class="big-num m" style="font-size:80px">133</div>
+    <div class="big-desc m">毫米每孔 ✓</div>
+  </div></div>
+</div>
+
+<!-- B36 谁做都一样: 73.530-75.347 -->
+<div id="b36" class="clip" data-start="73.530" data-duration="1.817">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">两根管子<br>谁做都一样</div>
+  </div></div>
+</div>
+
+<!-- B37 边界也调了: 75.347-77.604 -->
+<div id="b37" class="clip" data-start="75.347" data-duration="2.257">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">边界条件<br>也调了</div>
+  </div></div>
+</div>
+
+<!-- B38 150不打: 77.604-79.328 -->
+<div id="b38" class="clip" data-start="77.604" data-duration="1.724">
+  <div class="center"><div class="glass big-card">
+    <div class="big-num m" style="font-size:72px;color:#f97316">＜150</div>
+    <div class="big-desc m">不打孔</div>
+  </div></div>
+</div>
+
+<!-- B39 旧规则兜底: 79.328-81.145 -->
+<div id="b39" class="clip" data-start="79.328" data-duration="1.817">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">孔距太小<br>用旧规则兜底</div>
+  </div></div>
+</div>
+
+<!-- B40 改不难: 81.145-83.622 -->
+<div id="b40" class="clip" data-start="81.145" data-duration="2.477">
+  <div class="center"><div class="glass big-card">
+    <div class="big-desc m" style="font-size:44px">改规则<br>技术上很简单</div>
+  </div></div>
+</div>
+
+<!-- B41 几行代码: 83.622-85.763 -->
+<div id="b41" class="clip" data-start="83.622" data-duration="2.141">
+  <div class="center"><div class="naked m">
+    改几行代码的事
+  </div></div>
+</div>
+
+<!-- B42 车间跟上: 85.763-87.511 -->
+<div id="b42" class="clip" data-start="85.763" data-duration="1.748">
+  <div class="center"><div class="glass warn-card">
+    <div class="warn-text m">真正难的<br>是让车间跟上</div>
+  </div></div>
+</div>
+
+<!-- B43 CAMduct: 87.511-89.965 -->
+<div id="b43" class="clip" data-start="87.511" data-duration="2.454">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">CAMduct接口参数<br>要重新配</div>
+  </div></div>
+</div>
+
+<!-- B44 设备更新: 89.965-92.928 -->
+<div id="b44" class="clip" data-start="89.965" data-duration="2.963">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">设备打孔程序<br>要更新</div>
+  </div></div>
+</div>
+
+<!-- B45 老师傅: 92.928-95.208 -->
+<div id="b45" class="clip" data-start="92.928" data-duration="2.280">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">老师傅干了八年</div>
+  </div></div>
+</div>
+
+<!-- B46 改习惯: 95.208-96.956 -->
+<div id="b46" class="clip" data-start="95.208" data-duration="1.748">
+  <div class="center"><div class="naked m">
+    改习惯<br><span class="naked-em">比改代码难三倍</span>
+  </div></div>
+</div>
+
+<!-- B47 库存标记: 96.956-99.398 -->
+<div id="b47" class="clip" data-start="96.956" data-duration="2.442">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">库存半成品<br>要标记防混用</div>
+  </div></div>
+</div>
+
+<!-- B48 定了方案: 99.398-102.013 -->
+<div id="b48" class="clip" data-start="99.398" data-duration="2.615">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">我们定了个方案</div>
+  </div></div>
+</div>
+
+<!-- B49 1月6号: 102.013-103.564 -->
+<div id="b49" class="clip" data-start="102.013" data-duration="1.551">
+  <div class="center"><div class="glass big-card">
+    <div class="big-label m">新项目</div>
+    <div class="big-desc m" style="font-size:48px;font-weight:800;color:#2563eb">1月6日后</div>
+    <div class="big-desc m">统一用新规则</div>
+  </div></div>
+</div>
+
+<!-- B50 老项目继续: 103.564-106.446 -->
+<div id="b50" class="clip" data-start="103.564" data-duration="2.882">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">没完结的老项目<br>继续走旧规则</div>
+  </div></div>
+</div>
+
+<!-- B51 三个月过渡: 106.446-109.305 -->
+<div id="b51" class="clip" data-start="106.446" data-duration="2.859">
+  <div class="center"><div class="glass big-card">
+    <div class="big-num m" style="font-size:72px;color:#f97316">3个月</div>
+    <div class="big-desc m">过渡期</div>
+  </div></div>
+</div>
+
+<!-- B52 配置项: 109.305-111.400 -->
+<div id="b52" class="clip" data-start="109.305" data-duration="2.095">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">系统里加了配置项</div>
+  </div></div>
+</div>
+
+<!-- B53 一眼看清: 111.400-113.298 -->
+<div id="b53" class="clip" data-start="111.400" data-duration="1.898">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">工人一眼看清<br>走哪套规则</div>
+  </div></div>
+</div>
+
+<!-- B54 道理很简单: 113.298-115.381 -->
+<div id="b54" class="clip" data-start="113.298" data-duration="2.083">
+  <div class="center"><div class="naked m">
+    打孔这事的道理<br>其实很简单
+  </div></div>
+</div>
+
+<!-- B55 历史遗留: 115.381-117.870 -->
+<div id="b55" class="clip" data-start="115.381" data-duration="2.489">
+  <div class="center"><div class="glass warn-card">
+    <div class="warn-text m">太多参数是<br>历史遗留</div>
+  </div></div>
+</div>
+
+<!-- B56 不是标准: 117.870-120.914 -->
+<div id="b56" class="clip" data-start="117.870" data-duration="3.044">
+  <div class="center"><div class="naked m">
+    不是标准定义的
+  </div></div>
+</div>
+
+<!-- B57 问十家: 120.914-122.604 -->
+<div id="b57" class="clip" data-start="120.914" data-duration="1.690">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">你去问十家风管厂<br>的首孔距</div>
+  </div></div>
+</div>
+
+<!-- B58 五种数: 122.604-125.069 -->
+<div id="b58" class="clip" data-start="122.604" data-duration="2.465">
+  <div class="center"><div class="glass big-card">
+    <div class="big-label m">可能问出</div>
+    <div class="big-num m" style="font-size:72px">5</div>
+    <div class="big-desc m">种不同的数</div>
+  </div></div>
+</div>
+
+<!-- B59 五个数: 125.069-127.245 -->
+<div id="b59" class="clip" data-start="125.069" data-duration="2.176">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">110、100、90、80、75</div>
+  </div></div>
+</div>
+
+<!-- B60 一直这么干: 127.245-131.018 -->
+<div id="b60" class="clip" data-start="127.245" data-duration="3.773">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">每家都说<br>一直这么干的</div>
+  </div></div>
+</div>
+
+<!-- B61 依据是啥: 131.018-133.379 -->
+<div id="b61" class="clip" data-start="131.018" data-duration="2.361">
+  <div class="center"><div class="naked m">
+    问依据是什么
+  </div></div>
+</div>
+
+<!-- B62 没人说清: 133.379-134.965 -->
+<div id="b62" class="clip" data-start="133.379" data-duration="1.586">
+  <div class="center"><div class="glass big-card">
+    <div class="big-desc m" style="font-size:52px;color:#64748b">没人说得清</div>
+  </div></div>
+</div>
+
+<!-- B63 整边均分后: 134.965-136.354 -->
+<div id="b63" class="clip" data-start="134.965" data-duration="1.389">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">换成整边均分之后</div>
+  </div></div>
+</div>
+
+<!-- B64 不需要记: 136.354-138.321 -->
+<div id="b64" class="clip" data-start="136.354" data-duration="1.967">
+  <div class="center"><div class="glass big-card">
+    <div class="big-desc m" style="font-size:48px">现场师傅<br>不需要记任何数</div>
+  </div></div>
+</div>
+
+<!-- B65 给边长孔距: 138.321-140.671 -->
+<div id="b65" class="clip" data-start="138.321" data-duration="2.350">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">给边长和孔距</div>
+  </div></div>
+</div>
+
+<!-- B66 标准答案: 140.671-142.465 -->
+<div id="b66" class="clip" data-start="140.671" data-duration="1.794">
+  <div class="center"><div class="glass big-card">
+    <div class="big-desc m" style="font-size:52px;font-weight:800;color:#2563eb">算出来<br>就是标准答案</div>
+  </div></div>
+</div>
+
+<!-- B67 老刘没再打: 142.465-144.467 -->
+<div id="b67" class="clip" data-start="142.465" data-duration="2.002">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">老刘后来<br>再没打过电话</div>
+  </div></div>
+</div>
+
+<!-- B68 来提货: 144.467-146.655 -->
+<div id="b68" class="clip" data-start="144.467" data-duration="2.188">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">有一次来提货</div>
+  </div></div>
+</div>
+
+<!-- B69 看了一眼: 146.655-148.194 -->
+<div id="b69" class="clip" data-start="146.655" data-duration="1.539">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">看了一眼法兰上的孔</div>
+  </div></div>
+</div>
+
+<!-- B70 顺眼了: 148.194-150.196 -->
+<div id="b70" class="clip" data-start="148.194" data-duration="2.002">
+  <div class="center"><div class="naked m">
+    这次<span class="naked-em">顺眼了</span>
+  </div></div>
+</div>
+
+<!-- B71 搞技术的: 150.196-152.210 -->
+<div id="b71" class="clip" data-start="150.196" data-duration="2.014">
+  <div class="center"><div class="glass card-layout">
+    <div class="card-text m">搞技术的</div>
+  </div></div>
+</div>
+
+<!-- B72 这种顺眼了: 152.210-153.483 -->
+<div id="b72" class="clip" data-start="152.210" data-duration="1.273">
+  <div class="center"><div class="naked m">
+    这种顺眼了
+  </div></div>
+</div>
+
+<!-- B73 比规范好使: 153.483-155.048 -->
+<div id="b73" class="clip" data-start="153.483" data-duration="1.565">
+  <div class="center"><div class="glass big-card">
+    <div class="big-desc m" style="font-size:48px;color:#1e3a5f">比什么规范条文<br>都好使</div>
+  </div></div>
+</div>
+
+</div>
+
+<script src="gsap.min.js"></script>
+<script>
+const cardIn = (id, d) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const m = el.querySelector('.m');
+  if (!m) return;
+  gsap.set(m, {opacity:0, scale:0.85, rotateY:15, filter:'blur(8px)'});
+  gsap.to(m, {opacity:1, scale:1, rotateY:0, filter:'blur(0px)', duration:Math.min(d,0.35), ease:'back.out(1.7)'});
+};
+const cardOut = (id, d) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const m = el.querySelector('.m');
+  if (!m) return;
+  gsap.to(m, {opacity:0, scale:0.9, rotateY:-10, filter:'blur(4px)', duration:Math.min(d,0.18), ease:'power2.in'});
+};
+const fadeIn = (id, d) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const m = el.querySelector('.m');
+  if (!m) return;
+  gsap.set(m, {opacity:0});
+  gsap.to(m, {opacity:1, duration:Math.min(d,0.3), ease:'power1.out'});
+};
+const fadeOut = (id, d) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const m = el.querySelector('.m');
+  if (!m) return;
+  gsap.to(m, {opacity:0, duration:Math.min(d,0.15), ease:'power1.in'});
+};
+const mods = (id, d, type) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if(type==='in') cardIn(id, d);
+  else if(type==='out') cardOut(id, d);
+};
+
+// Beat transitions - all .m start hidden, revealed on in
+const beats = [
+  {id:'b0', d:2.403, t:'card'},
+  {id:'b1', d:1.331, t:'bare'},
+  {id:'b2', d:1.898, t:'card'},
+  {id:'b3', d:2.049, t:'card'},
+  {id:'b4', d:1.713, t:'bare'},
+  {id:'b5', d:1.586, t:'card'},
+  {id:'b6', d:1.840, t:'card'},
+  {id:'b7', d:1.632, t:'card'},
+  {id:'b8', d:1.944, t:'bare'},
+  {id:'b9', d:1.586, t:'card'},
+  {id:'b10', d:2.569, t:'card'},
+  {id:'b11', d:2.941, t:'card'},
+  {id:'b12', d:1.701, t:'card'},
+  {id:'b13', d:1.631, t:'card'},
+  {id:'b14', d:2.176, t:'card'},
+  {id:'b15', d:1.864, t:'bare'},
+  {id:'b16', d:1.875, t:'card'},
+  {id:'b17', d:2.766, t:'card'},
+  {id:'b18', d:2.222, t:'card'},
+  {id:'b19', d:1.922, t:'card'},
+  {id:'b20', d:2.152, t:'bare'},
+  {id:'b21', d:1.389, t:'card'},
+  {id:'b22', d:3.727, t:'card'},
+  {id:'b23', d:2.512, t:'card'},
+  {id:'b24', d:1.967, t:'card'},
+  {id:'b25', d:2.917, t:'card'},
+  {id:'b26', d:1.412, t:'card'},
+  {id:'b27', d:2.396, t:'card'},
+  {id:'b28', d:2.118, t:'card'},
+  {id:'b29', d:2.697, t:'bare'},
+  {id:'b30', d:1.145, t:'card'},
+  {id:'b31', d:1.679, t:'card'},
+  {id:'b32', d:2.176, t:'bare'},
+  {id:'b33', d:1.643, t:'card'},
+  {id:'b34', d:2.396, t:'card'},
+  {id:'b35', d:1.505, t:'card'},
+  {id:'b36', d:1.817, t:'card'},
+  {id:'b37', d:2.257, t:'card'},
+  {id:'b38', d:1.724, t:'card'},
+  {id:'b39', d:1.817, t:'card'},
+  {id:'b40', d:2.477, t:'card'},
+  {id:'b41', d:2.141, t:'bare'},
+  {id:'b42', d:1.748, t:'card'},
+  {id:'b43', d:2.454, t:'card'},
+  {id:'b44', d:2.963, t:'card'},
+  {id:'b45', d:2.280, t:'card'},
+  {id:'b46', d:1.748, t:'bare'},
+  {id:'b47', d:2.442, t:'card'},
+  {id:'b48', d:2.615, t:'card'},
+  {id:'b49', d:1.551, t:'card'},
+  {id:'b50', d:2.882, t:'card'},
+  {id:'b51', d:2.859, t:'card'},
+  {id:'b52', d:2.095, t:'card'},
+  {id:'b53', d:1.898, t:'card'},
+  {id:'b54', d:2.083, t:'bare'},
+  {id:'b55', d:2.489, t:'card'},
+  {id:'b56', d:3.044, t:'bare'},
+  {id:'b57', d:1.690, t:'card'},
+  {id:'b58', d:2.465, t:'card'},
+  {id:'b59', d:2.176, t:'card'},
+  {id:'b60', d:3.773, t:'card'},
+  {id:'b61', d:2.361, t:'bare'},
+  {id:'b62', d:1.586, t:'card'},
+  {id:'b63', d:1.389, t:'card'},
+  {id:'b64', d:1.967, t:'card'},
+  {id:'b65', d:2.350, t:'card'},
+  {id:'b66', d:1.794, t:'card'},
+  {id:'b67', d:2.002, t:'card'},
+  {id:'b68', d:2.188, t:'card'},
+  {id:'b69', d:1.539, t:'card'},
+  {id:'b70', d:2.002, t:'bare'},
+  {id:'b71', d:2.014, t:'card'},
+  {id:'b72', d:1.273, t:'bare'},
+  {id:'b73', d:1.565, t:'card'}
+];
+
+function execBeat(idx){
+  if(idx>=beats.length) return;
+  const b=beats[idx];
+  cardOut(b.id, 0.15);
+  setTimeout(()=>{
+    if(b.t==='bare') fadeIn(b.id, b.d);
+    else cardIn(b.id, b.d);
+  }, 160);
+}
+let cur=0;
+const audio=document.getElementById('narration');
+audio.addEventListener('timeupdate', ()=>{
+  const t=audio.currentTime;
+  while(cur<beats.length){
+    const el=document.getElementById(beats[cur].id);
+    const start=parseFloat(el.dataset.start);
+    if(t>=start-0.05){
+      execBeat(cur);
+      cur++;
+    } else break;
+  }
+});
+audio.addEventListener('loadedmetadata', ()=>{
+  // init first beat
+  if(beats.length>0){
+    const b=beats[0];
+    if(b.t==='bare') fadeIn(b.id, 0.3);
+    else cardIn(b.id, 0.3);
+    cur=1;
+  }
+});
+</script>
+</body>
+</html>

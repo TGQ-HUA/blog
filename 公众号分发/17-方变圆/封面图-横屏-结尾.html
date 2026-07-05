@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#fff}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#f0f9ff,#eff6ff,#eef2f2)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4}
+.o1{width:450px;height:450px;top:8%;right:3%;background:radial-gradient(circle,rgba(37,99,235,.5),transparent)}
+.o2{width:350px;height:350px;bottom:5%;left:5%;background:radial-gradient(circle,rgba(16,185,129,.4),transparent)}
+.content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 100px}
+.slogan{font-size:80px;font-weight:900;color:#0f172a;text-align:center;line-height:1.4}
+.slogan .o{color:#f97316}
+.slogan .g{color:#10b981}
+.sub{font-size:36px;color:#64748b;text-align:center;margin-top:26px}
+.brand{margin-top:50px;text-align:center}
+.brand .bn{font-size:34px;color:#0f172a;font-weight:700}
+.brand .bu{font-size:28px;color:#2563eb;font-family:Consolas,monospace;margin-top:8px}
+.tag{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-size:24px;color:#94a3b8}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="content">
+  <div class="slogan">做单的<span class="o">多打一个问号</span><br>车间<span class="g">少焊半小时</span></div>
+  <div class="sub">风管厂实操经验 · 排版规范速查</div>
+  <div class="brand">
+    <div class="bn">奇美星暖通风管制作</div>
+    <div class="bu">tangguoqi.top</div>
+  </div>
+  <div class="tag">#暖通 #风管 #方变圆 #技术干货</div>
+</div>
+</body>
+</html>

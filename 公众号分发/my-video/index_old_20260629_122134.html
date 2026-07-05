@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#fff}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#eff6ff,#f0f9ff,#eef2f2)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4}
+.o1{width:400px;height:400px;top:10%;left:5%;background:radial-gradient(circle,rgba(37,99,235,.6),transparent)}
+.o2{width:350px;height:350px;top:50%;right:8%;background:radial-gradient(circle,rgba(249,115,22,.5),transparent)}
+.o3{width:300px;height:300px;bottom:10%;left:40%;background:radial-gradient(circle,rgba(37,99,235,.4),transparent)}
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:60px}
+.glass{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.05);padding:36px 55px;text-align:center}
+.glass .t{font-size:52px;font-weight:900;color:#0f172a;line-height:1.2;margin-bottom:16px}
+.glass .t .o{color:#f97316}.glass .t .r{color:#dc2626}.glass .t .g{color:#10b981}
+.glass .s{font-size:32px;color:#475569;line-height:1.7}
+.warn-full{text-align:center}
+.warn-full .wt{display:inline-block;background:#dc2626;color:#fff;font-size:30px;font-weight:700;padding:10px 28px;border-radius:8px;margin-bottom:18px}
+.warn-full .wtt{font-size:64px;font-weight:900;color:#0f172a;line-height:1.3}
+.warn-full .wtt .o{color:#f97316}
+.warn-full .ws{font-size:32px;color:#64748b;margin-top:14px}
+
+/* 三行要点 */
+.grid3{display:flex;gap:24px;width:100%;max-width:1500px}
+.gitem{flex:1;background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:18px;padding:26px 22px;text-align:center}
+.gitem .h{font-size:30px;font-weight:700;color:#0f172a;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid rgba(249,115,22,.3)}
+.gitem .h .o{color:#f97316}
+.gitem .d{font-size:24px;color:#64748b;line-height:1.5}
+
+/* 决策流程 */
+.flow{display:flex;align-items:center;gap:20px;justify-content:center}
+.flow-box{background:rgba(255,255,255,.22);backdrop-filter:blur(20px);border-radius:14px;padding:20px 28px;font-size:28px;font-weight:700;color:#0f172a}
+.flow-arrow{font-size:40px;color:#f97316}
+
+.brand{text-align:center;margin-top:36px}
+.brand .bn{font-size:28px;color:#0f172a;font-weight:700}
+.brand .bu{font-size:24px;color:#2563eb;font-family:Consolas,monospace;margin-top:6px}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="63" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+
+  <audio id="narration" class="clip" data-start="0" data-duration="63" data-track-index="10" src="narration.mp3" data-volume="1.0"></audio>
+
+  <!-- S1: 返工率+对齐方式 0-21.2s -->
+  <div class="scene" id="s1">
+    <div class="warn-full">
+      <div class="wt" id="w1">⚠️ 返工率排第二的管件</div>
+      <div class="wtt" id="w2">大小头排单<br><span class="o">八成是选错了对齐方式</span></div>
+      <div class="ws" id="w3">把两段不同大小的风管连起来——看着简单，坑最多</div>
+    </div>
+    <div class="grid3" id="g1s" style="position:absolute;bottom:120px;left:50%;transform:translateX(-50%);width:1400px;opacity:0">
+      <div class="gitem"><div class="h">🔹 <span class="o">对中</span></div><div class="d">默认选项<br>图纸没标注就走这个</div></div>
+      <div class="gitem"><div class="h">🔹 <span class="o">平边</span></div><div class="d">贴墙贴顶<br>一边对齐</div></div>
+      <div class="gitem"><div class="h">🔹 <span class="o">偏差</span></div><div class="d">两端不在线上<br>需要处理</div></div>
+    </div>
+  </div>
+
+  <!-- S2: 成型决策+偏差危害 21.2-34.8s -->
+  <div class="scene" id="s2">
+    <div class="glass" id="g2" style="max-width:1200px">
+      <div class="t" style="font-size:42px">成型决策 &amp; 偏差危害</div>
+      <div class="s" style="margin-top:10px;text-align:left;font-size:30px">
+        <span style="color:#f97316;font-weight:700">成型：</span><br>
+        宽高都不同 → <strong>四片式</strong>下料<br>
+        只变宽或只变高 → <strong>U+I型</strong>就行<br><br>
+        <span style="color:#dc2626;font-weight:700">偏差过大的后果：</span><br>
+        中段变小 → 风阻增大 → 风量减小 → 风机白做功
+      </div>
+    </div>
+  </div>
+
+  <!-- S3: 改善+换S弯 34.8-54.4s -->
+  <div class="scene" id="s3">
+    <div class="glass" id="g3" style="max-width:1300px">
+      <div class="t" style="font-size:42px;color:#10b981">三条改善措施</div>
+      <div class="s" style="margin-top:10px;text-align:left;font-size:30px">
+        <span style="color:#10b981;font-weight:700">①</span> 加长管件——五百改一千<br>
+        <span style="color:#10b981;font-weight:700">②</span> 查偏移量——对中两边一致，平边一边为零<br>
+        <span style="color:#10b981;font-weight:700">③</span> 高差太大，别硬做变径，<span style="color:#f97316;font-weight:700">改S弯</span>
+      </div>
+      <div style="margin-top:16px;padding:12px 20px;background:rgba(249,115,22,0.12);border-radius:10px;font-size:28px;color:#0f172a;text-align:center">
+        <span style="color:#dc2626;font-weight:700">什么时候换S弯？</span><br>
+        宽高同时变+有偏移 → S弯优先<br>
+        高差 &gt; 截面三成 → 果断换
+      </div>
+    </div>
+  </div>
+
+  <!-- S4: 口诀+品牌 54.4-58.6s -->
+  <div class="scene" id="s4">
+    <div class="glass" id="g4">
+      <div class="t" style="font-size:50px"><span class="o">先看对齐</span> → 再看尺寸 → 别硬做</div>
+      <div class="s" style="margin-top:10px">大小头排单三步口诀</div>
+      <div class="brand">
+        <div class="bn">奇美星暖通风管制作</div>
+        <div class="bu">tangguoqi.top</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var tl = gsap.timeline({paused:true});
+function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-15,y:60,scale:.85,filter:"blur(6px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.7,ease:"elastic.out(1,0.4)"},t);tl.to(id,{boxShadow:"0 0 40px rgba(37,99,235,0.25)",duration:.5},">-0.3");tl.to(id,{boxShadow:"0 8px 32px rgba(0,0,0,0.05)",duration:.8},">+0.2");}
+function cardOut(id,t,boundary){tl.to(id,{opacity:0,scale:.88,y:-15,filter:"blur(4px)",duration:.35,ease:"power2.in"},t);tl.set(id,{visibility:"hidden"},boundary);}
+
+// S1 (0-21.2s): Hook + 对齐方式
+// S1 (0-22.3s): Hook + 对齐方式
+tl.to("#s1",{opacity:1,duration:.25},0);
+tl.fromTo("#w1",{opacity:0,y:-30},{opacity:1,y:0,duration:.4,ease:"power2.out"},.2);
+tl.fromTo("#w2",{opacity:0,scale:.8},{opacity:1,scale:1,duration:.5,ease:"back.out(1.5)"},.5);
+tl.fromTo("#w3",{opacity:0,y:20},{opacity:1,y:0,duration:.4,ease:"power2.out"},1.2);
+cardIn("#g1s",6);
+cardOut("#g1s",21.9,22.15);
+tl.to("#s1",{opacity:0,duration:.2},22.0);
+
+// S2 (22.3-36.5s): 成型+偏差危害
+tl.to("#s2",{opacity:1,duration:.2},22.3);
+cardIn("#g2",22.5);
+cardOut("#g2",36.1,36.35);
+tl.to("#s2",{opacity:0,duration:.2},36.2);
+
+// S3 (36.5-57.2s): 改善+换S弯
+tl.to("#s3",{opacity:1,duration:.2},36.5);
+cardIn("#g3",36.7);
+cardOut("#g3",56.8,57.05);
+tl.to("#s3",{opacity:0,duration:.2},56.9);
+
+// S4 (57.2-62.3s): 口诀+品牌
+tl.to("#s4",{opacity:1,duration:.2},57.2);
+cardIn("#g4",57.4);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

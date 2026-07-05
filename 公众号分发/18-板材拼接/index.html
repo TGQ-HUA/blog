@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#fff;background:#0f172a}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#1e293b,#0f172a,#020617)}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35}
+.o1{width:500px;height:500px;top:5%;left:-8%;background:radial-gradient(circle,rgba(37,99,235,.5),transparent)}
+.o2{width:400px;height:400px;top:55%;right:5%;background:radial-gradient(circle,rgba(249,115,22,.45),transparent)}
+.o3{width:350px;height:350px;bottom:8%;left:45%;background:radial-gradient(circle,rgba(16,185,129,.4),transparent)}
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:50px 80px}
+.glass{background:rgba(255,255,255,.08);backdrop-filter:blur(24px);border-radius:26px;box-shadow:0 8px 40px rgba(0,0,0,.15);padding:40px 60px;text-align:center;max-width:1600px;width:88%}
+.glass .t{font-size:56px;font-weight:900;color:#f1f5f9;line-height:1.3;margin-bottom:18px}
+.glass .s{font-size:38px;color:#94a3b8;line-height:1.6}
+.sml{font-size:32px;color:#94a3b8;line-height:1.6}
+.num{font-size:100px;font-weight:900;color:#f97316;line-height:1.1;margin-bottom:10px}
+.num-label{font-size:38px;color:#cbd5e1;line-height:1.4}
+.warn{background:rgba(220,38,38,.12);border-left:6px solid #dc2626;padding:36px 50px;border-radius:18px;max-width:1500px;width:88%}
+.warn .wt{font-size:60px;font-weight:900;color:#fca5a5;line-height:1.3;margin-bottom:10px}
+.warn .ws{font-size:34px;color:#94a3b8;line-height:1.5}
+.big-note{text-align:center;max-width:1500px;width:90%}
+.big-note .bn{font-size:80px;font-weight:900;color:#f1f5f9;line-height:1.2;margin-bottom:20px}
+.big-note .bn2{font-size:44px;color:#94a3b8;line-height:1.5}
+.big-note .hl{color:#f97316}
+.two-cols{display:flex;gap:28px;max-width:1600px;width:90%;justify-content:center}
+.two-cols .col{flex:1;background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border-radius:22px;padding:36px 32px;text-align:center}
+.two-cols .col .ch{font-size:34px;font-weight:700;color:#f97316;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid rgba(249,115,22,.2)}
+.two-cols .col .cd{font-size:30px;color:#94a3b8;line-height:1.5}
+.brand{text-align:center}
+.brand .bn2{font-size:42px;font-weight:700;color:#f1f5f9;margin-bottom:10px}
+.brand .bu{font-size:36px;color:#2563eb;font-family:Consolas,monospace}
+.brand .tag{font-size:30px;color:#94a3b8;margin-top:14px}
+.check{display:inline-block;background:rgba(16,185,129,.15);color:#6ee7b7;font-size:28px;font-weight:700;padding:8px 24px;border-radius:8px;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="77" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+
+  <audio id="narration" class="clip" data-start="0" data-duration="77" data-track-index="10" src="narration.mp3" data-volume="1.0"></audio>
+
+  <!-- S1: 板材拼接的问题 (0-7.3s) -->
+  <div class="scene" id="s1">
+    <div class="big-note" id="s1c">
+      <div class="bn">风管板材拼接<br><span class="hl">钢卷不够宽</span></div>
+      <div class="bn2">标准的镀锌板钢卷就1250mm<br>截面一大就得拼</div>
+    </div>
+  </div>
+
+  <!-- S2: 常见踩坑 (7.3-20.3s) -->
+  <div class="scene" id="s2">
+    <div class="warn" id="s2c">
+      <div class="wt">⚠️ 常见踩坑</div>
+      <div class="ws" style="margin-top:12px">
+        硬拼→缝没对齐→返工<br>
+        现场焊→镀锌层烧没→生锈
+      </div>
+      <div style="margin-top:24px;font-size:44px;font-weight:700;color:#f1f5f9">问题出在拼接缝参数上</div>
+    </div>
+  </div>
+
+  <!-- S3: 触发条件 (20.3-31.0s) -->
+  <div class="scene" id="s3">
+    <div class="glass" id="s3c" style="text-align:left">
+      <div style="font-size:48px;font-weight:900;color:#f1f5f9;margin-bottom:24px;text-align:center">什么情况要拼？</div>
+      <div style="display:flex;gap:40px;justify-content:center">
+        <div style="text-align:center;background:rgba(37,99,235,.1);padding:24px 36px;border-radius:16px">
+          <div class="num">1250</div>
+          <div class="num-label">展开宽度超1250mm → 拆板</div>
+        </div>
+        <div style="text-align:center;background:rgba(16,185,129,.1);padding:24px 36px;border-radius:16px">
+          <div class="num" style="color:#10b981">4080</div>
+          <div class="num-label">展开长度超4080mm → 换长料或拼</div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:24px;font-size:36px;color:#94a3b8">拼接缝统一用平咬口</div>
+    </div>
+  </div>
+
+  <!-- S4: 拼接参数 (31.0-43.9s) -->
+  <div class="scene" id="s4">
+    <div class="glass" id="s4c">
+      <div class="t">平咬口参数</div>
+      <div style="text-align:center">
+        <div style="display:inline-block;background:rgba(249,115,22,.12);padding:20px 60px;border-radius:14px;margin:16px auto">
+          <div class="num" style="font-size:80px">20 + 20</div>
+          <div class="num-label">公口20mm + 母口20mm = 吃掉40mm</div>
+        </div>
+      </div>
+      <div class="s" style="margin-top:20px">方向：弯头S弯不得妨碍滚圆<br>矩形风管拼缝力求对称，不单边受力</div>
+    </div>
+  </div>
+
+  <!-- S5: 国标怎么说 (43.9-57.1s) -->
+  <div class="scene" id="s5">
+    <div class="two-cols" id="s5c">
+      <div class="col">
+        <div class="ch">GB50243-2016</div>
+        <div class="cd" style="font-size:28px">
+          <div style="color:#f1f5f9;font-weight:700;font-size:32px">第4.2.3条</div>
+          咬口缝应错开<br>不得形成十字形拼接缝
+        </div>
+      </div>
+      <div class="col">
+        <div class="ch">JGJ141-2017</div>
+        <div class="cd" style="font-size:28px">
+          <div style="color:#f1f5f9;font-weight:700;font-size:32px">第5.1.4条</div>
+          边长＞1500mm<br>拼完还需加固
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S6: 车间经验 (57.1-70.4s) -->
+  <div class="scene" id="s6">
+    <div class="big-note" id="s6c">
+      <div class="check">✅ 车间经验</div>
+      <div class="bn" style="font-size:68px">20+20最稳当</div>
+      <div class="bn2" style="margin-top:16px">
+        排板多算<span class="hl">40mm</span><br>
+        现场少焊<span class="hl">2小时</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- S7: 金句+品牌 (70.4-77s) -->
+  <div class="scene" id="s7">
+    <div class="glass" id="s7c" style="padding:50px 60px">
+      <div class="t" style="font-size:48px;color:#f97316">会排板的跟不会排板的</div>
+      <div class="t" style="font-size:60px">差的就是这40mm的提前量</div>
+      <div class="brand" style="margin-top:40px">
+        <div class="bn2">奇美星暖通风管制作</div>
+        <div class="bu">tangguoqi.top</div>
+        <div class="tag">每天学一招风管干货</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var tl = gsap.timeline({paused:true});
+function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-15,y:60,scale:.8,filter:"blur(8px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.7,ease:"elastic.out(1,0.4)"},t);tl.to(id,{boxShadow:"0 0 50px rgba(37,99,235,0.2)",duration:.5},">-0.3");tl.to(id,{boxShadow:"0 8px 40px rgba(0,0,0,0.15)",duration:.8},">+0.2");}
+function cardOut(id,t,boundary){tl.to(id,{opacity:0,scale:.88,y:-15,filter:"blur(4px)",duration:.35,ease:"power2.in"},t);tl.set(id,{visibility:"hidden"},boundary);}
+
+// S1 (0-7.3s): Hook
+tl.to("#s1",{opacity:1,duration:.25},0);
+cardIn("#s1c",.3);
+cardOut("#s1c",6.9,7.15);
+tl.to("#s1",{opacity:0,duration:.2},7.0);
+
+// S2 (7.3-20.3s): 踩坑
+tl.to("#s2",{opacity:1,duration:.2},7.3);
+cardIn("#s2c",7.5);
+cardOut("#s2c",19.9,20.15);
+tl.to("#s2",{opacity:0,duration:.2},20.0);
+
+// S3 (20.3-31.0s): 触发条件
+tl.to("#s3",{opacity:1,duration:.2},20.3);
+cardIn("#s3c",20.5);
+cardOut("#s3c",30.6,30.85);
+tl.to("#s3",{opacity:0,duration:.2},30.7);
+
+// S4 (31.0-43.9s): 拼接参数
+tl.to("#s4",{opacity:1,duration:.2},31.0);
+cardIn("#s4c",31.2);
+cardOut("#s4c",43.5,43.75);
+tl.to("#s4",{opacity:0,duration:.2},43.6);
+
+// S5 (43.9-57.1s): 国标
+tl.to("#s5",{opacity:1,duration:.2},43.9);
+cardIn("#s5c",44.1);
+cardOut("#s5c",56.7,56.95);
+tl.to("#s5",{opacity:0,duration:.2},56.8);
+
+// S6 (57.1-70.4s): 车间经验
+tl.to("#s6",{opacity:1,duration:.2},57.1);
+cardIn("#s6c",57.3);
+cardOut("#s6c",70.0,70.25);
+tl.to("#s6",{opacity:0,duration:.2},70.1);
+
+// S7 (70.4-77s): 金句+品牌
+tl.to("#s7",{opacity:1,duration:.2},70.4);
+cardIn("#s7c",70.6);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

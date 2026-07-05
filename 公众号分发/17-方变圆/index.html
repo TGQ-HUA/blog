@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#fff}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#eff6ff,#f0f9ff,#eef2f2)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4}
+.o1{width:420px;height:420px;top:8%;left:3%;background:radial-gradient(circle,rgba(37,99,235,.6),transparent)}
+.o2{width:360px;height:360px;top:48%;right:6%;background:radial-gradient(circle,rgba(249,115,22,.5),transparent)}
+.o3{width:320px;height:320px;bottom:8%;left:38%;background:radial-gradient(circle,rgba(37,99,235,.4),transparent)}
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:50px 80px}
+.glass{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.05);padding:36px 55px;text-align:center}
+
+/* 大标题 - BIG layer */
+.btitle{font-size:88px;font-weight:900;color:#0f172a;line-height:1.25;text-align:center;max-width:1600px}
+.btitle .o{color:#f97316}
+.btitle .r{color:#dc2626}
+.btitle .g{color:#10b981}
+
+/* MID数字强调 */
+.mid-num{text-align:center}
+.mid-num .num{font-size:100px;font-weight:900;color:#f97316;line-height:1.1;margin-bottom:10px}
+.mid-num .nl{font-size:44px;font-weight:700;color:#0f172a;line-height:1.3}
+.mid-num .ns{font-size:34px;color:#64748b;line-height:1.5;margin-top:8px}
+
+/* .m 卡片正文 - SMALL layer */
+.m{font-size:38px;color:#334155;line-height:1.7;text-align:center;max-width:1550px;padding:0 20px}
+.m .o{color:#f97316;font-weight:700}
+.m .r{color:#dc2626;font-weight:700}
+.m .g{color:#10b981;font-weight:700}
+.m .b{color:#0f172a;font-weight:700}
+.m-sep{height:14px}
+
+/* 品牌层 */
+.brand{text-align:center;padding:12px 0;width:100%}
+.brand .bn{font-size:36px;color:#0f172a;font-weight:700}
+.brand .bu{font-size:30px;color:#2563eb;font-family:Consolas,monospace;margin-top:8px}
+
+/* 公式强调 */
+.formula{background:rgba(37,99,235,.08);border-radius:14px;padding:20px 36px;margin:10px auto;max-width:1400px;font-size:36px;color:#0f172a;font-weight:600;text-align:center;line-height:1.5}
+.formula .o{color:#f97316}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="95" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+
+  <audio id="narration" class="clip" data-start="0" data-duration="95" data-track-index="10" src="narration.mp3" data-volume="1.0"></audio>
+
+  <!-- S1: 引子 hook 0-3.8s BIG -->
+  <div class="scene" id="s1">
+    <div class="btitle">方变圆这玩意儿<br><span class="o">看着简单</span>，踩坑的人可不少</div>
+  </div>
+
+  <!-- S2: 翻车故事 3.8-10.09s .m -->
+  <div class="scene" id="s2">
+    <div class="glass" style="max-width:1500px">
+      <div class="m">上周做单的小姑娘差点翻车——<br>图纸上标了个共板法兰的方变圆，长度才<span class="r">六百</span>。</div>
+    </div>
+  </div>
+
+  <!-- S3: 规范公式 10.09-16.78s .m+formula -->
+  <div class="scene" id="s3">
+    <div class="glass" style="max-width:1500px">
+      <div class="m">按<span class="b">JGJ141</span>规范，过渡长度得是<br>方口长边减去圆直径，再乘以<span class="o">一点五倍</span>。</div>
+      <div class="m-sep"></div>
+      <div class="formula">L ≥ (长边 − 圆直径) <span class="o">× 1.5</span></div>
+    </div>
+  </div>
+
+  <!-- S4: 具体数字 16.78-21.62s MID -->
+  <div class="scene" id="s4">
+    <div class="mid-num">
+      <div class="num">短了150mm</div>
+      <div class="nl">1000的方口 → Φ500的圆口，最少要750</div>
+      <div class="ns">还没算法兰占位</div>
+    </div>
+  </div>
+
+  <!-- S5: 幸亏发现早 21.62-26.45s .m -->
+  <div class="scene" id="s5">
+    <div class="glass" style="max-width:1400px">
+      <div class="m">好在发现得早——<br>不然板都下好了才发现<span class="r">怼不上</span>，那叫一个尴尬。</div>
+    </div>
+  </div>
+
+  <!-- S6: 六种类型 26.45-30.59s BIG -->
+  <div class="scene" id="s6">
+    <div class="btitle">方变圆分<span class="o">六种类型</span><br>每种长度都不一样</div>
+  </div>
+
+  <!-- S7: 共板+咀 -80 30.59-34.42s .m+number -->
+  <div class="scene" id="s7">
+    <div class="glass" style="max-width:1400px">
+      <div class="mid-num">
+        <div class="num" style="font-size:80px">−80mm</div>
+        <div class="nl">共板 + 圆咀，最常用的方案</div>
+        <div class="ns">主体长度减八十毫米</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S8: 选错差70 34.42-39.18s .m+number -->
+  <div class="scene" id="s8">
+    <div class="glass" style="max-width:1400px">
+      <div class="m">要是选错成<span class="b">共板加法兰</span>，只减十毫米</div>
+      <div class="m-sep"></div>
+      <div class="mid-num">
+        <div class="num" style="font-size:80px;color:#dc2626">−10 vs −80</div>
+        <div class="nl">两者差了 <span class="r">70mm</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S9: 废料 39.18-42.82s MID -->
+  <div class="scene" id="s9">
+    <div class="mid-num">
+      <div class="num" style="color:#dc2626">700</div>
+      <div class="nl">一张板才一米二五宽</div>
+      <div class="ns">差了七十就是<span class="r" style="font-weight:700">废料</span></div>
+    </div>
+  </div>
+
+  <!-- S10: 三种变径 42.82-47.70s BIG -->
+  <div class="scene" id="s10">
+    <div class="btitle">三种变径形态<br><span class="o">对中 · 平边 · 偏差</span></div>
+  </div>
+
+  <!-- S11: 对中 47.70-50.61s MID -->
+  <div class="scene" id="s11">
+    <div class="mid-num">
+      <div class="num" style="font-size:80px">对中</div>
+      <div class="nl">轴线重合，最常见</div>
+    </div>
+  </div>
+
+  <!-- S12: 平边 50.61-54.04s BIG-title variant -->
+  <div class="scene" id="s12">
+    <div class="btitle" style="font-size:80px">平边</div>
+    <div class="m" style="position:absolute;bottom:380px">一边对齐，<span class="o">贴墙贴顶</span>的时候用</div>
+  </div>
+
+  <!-- S13: 偏差 54.04-58.04s .m -->
+  <div class="scene" id="s13">
+    <div class="glass" style="max-width:1400px">
+      <div class="m"><span class="b">偏差</span>是圆口有偏移<br>高差大了得<span class="o">加长过渡段</span></div>
+    </div>
+  </div>
+
+  <!-- S14: 方口接缝 58.04-62.87s .m+rule -->
+  <div class="scene" id="s14">
+    <div class="glass" style="max-width:1400px">
+      <div class="m">方口接缝以 <span class="b">250mm</span> 为分水岭：</div>
+      <div class="m-sep"></div>
+      <div class="mid-num">
+        <div class="num" style="font-size:60px">≥250 → 咬口 &nbsp;|&nbsp; &lt;250 → 碰焊</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S15: 圆咀长度 62.87-65.98s MID -->
+  <div class="scene" id="s15">
+    <div class="mid-num">
+      <div class="num" style="font-size:80px">80mm</div>
+      <div class="nl">圆咀默认长度，含翻边</div>
+    </div>
+  </div>
+
+  <!-- S16: 角铁直伸 65.98-71.60s .m -->
+  <div class="scene" id="s16">
+    <div class="glass" style="max-width:1400px">
+      <div class="m">角铁直伸量跟着型号走：<br><span class="o">30#→40</span> &nbsp; <span class="g">40#→50</span> &nbsp; <span class="r">50#→60</span></div>
+    </div>
+  </div>
+
+  <!-- S17: 面积公式 71.60-80.07s .m+formula -->
+  <div class="scene" id="s17">
+    <div class="glass" style="max-width:1600px">
+      <div class="m">报价面积公式：</div>
+      <div class="m-sep"></div>
+      <div class="formula" style="font-size:32px;line-height:1.6">
+        (宽×2 + 高×2 + 3.14×圆直径 + 接缝×4) ÷ 2 <span class="o">×</span> (长 + 方接口)
+      </div>
+    </div>
+  </div>
+
+  <!-- S18: 排列组合 80.07-87.20s BIG -->
+  <div class="scene" id="s18">
+    <div class="btitle">六种连接 × 三种形态 × 两种接缝<br><span class="r">一个字写错</span>，车间改半天</div>
+  </div>
+
+  <!-- S19: 口号punchline 87.20-90.62s .m -->
+  <div class="scene" id="s19">
+    <div class="glass" style="max-width:1400px">
+      <div class="m" style="font-size:44px;font-weight:700;color:#0f172a">做单的<span class="o">多打一个问号</span><br>车间<span class="g">少焊半小时</span></div>
+    </div>
+  </div>
+
+  <!-- S20: 品牌 90.62-94.84s .m+brand -->
+  <div class="scene" id="s20">
+    <div class="glass" style="max-width:1200px">
+      <div class="brand">
+        <div class="bn">奇美星暖通风管制作</div>
+        <div class="bu">tangguoqi.top</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var tl = gsap.timeline({paused:true});
+function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-12,y:50,scale:.88,filter:"blur(6px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.6,ease:"elastic.out(1,0.4)"},t);tl.to(id,{boxShadow:"0 0 30px rgba(37,99,235,0.2)",duration:.4},">-0.2");tl.to(id,{boxShadow:"0 8px 32px rgba(0,0,0,0.05)",duration:.6},">+0.2");}
+function cardOut(id,t,boundary){tl.to(id,{opacity:0,scale:.85,y:-12,filter:"blur(4px)",duration:.3,ease:"power2.in"},t);tl.set(id,{visibility:"hidden"},boundary);}
+function fadeIn(id,t){tl.fromTo(id,{opacity:0},{opacity:1,duration:.2},t);}
+function fadeOut(id,t,b){tl.to(id,{opacity:0,duration:.15},t);tl.set(id,{visibility:"hidden"},b);}
+
+// S1: 引子 0-3.8s
+tl.to("#s1",{opacity:1,duration:.2},0);
+cardIn("#s1 .btitle",.3);
+cardOut("#s1",3.3,3.55);
+
+// S2: 翻车故事 3.8-10.09s
+tl.to("#s2",{opacity:1,duration:.2},3.8);
+cardIn("#s2 .glass",4.1);
+cardOut("#s2",9.6,9.85);
+
+// S3: 规范公式 10.09-16.78s
+tl.to("#s3",{opacity:1,duration:.2},10.09);
+cardIn("#s3 .glass",10.4);
+cardOut("#s3",16.3,16.55);
+
+// S4: 数字 16.78-21.62s
+tl.to("#s4",{opacity:1,duration:.2},16.78);
+cardIn("#s4 .mid-num",17.1);
+cardOut("#s4",21.15,21.4);
+
+// S5: 幸亏发现早 21.62-26.45s
+tl.to("#s5",{opacity:1,duration:.2},21.62);
+cardIn("#s5 .glass",21.9);
+cardOut("#s5",26.0,26.25);
+
+// S6: 六种类型 26.45-30.59s
+tl.to("#s6",{opacity:1,duration:.2},26.45);
+cardIn("#s6 .btitle",26.75);
+cardOut("#s6",30.1,30.35);
+
+// S7: 共板+咀 -80 30.59-34.42s
+tl.to("#s7",{opacity:1,duration:.2},30.59);
+cardIn("#s7 .glass",30.9);
+cardOut("#s7",34.0,34.25);
+
+// S8: 选错差70 34.42-39.18s
+tl.to("#s8",{opacity:1,duration:.2},34.42);
+cardIn("#s8 .glass",34.7);
+cardOut("#s8",38.7,38.95);
+
+// S9: 废料 39.18-42.82s
+tl.to("#s9",{opacity:1,duration:.2},39.18);
+cardIn("#s9 .mid-num",39.5);
+cardOut("#s9",42.35,42.6);
+
+// S10: 三种变径 42.82-47.70s
+tl.to("#s10",{opacity:1,duration:.2},42.82);
+cardIn("#s10 .btitle",43.1);
+cardOut("#s10",47.2,47.45);
+
+// S11: 对中 47.70-50.61s
+tl.to("#s11",{opacity:1,duration:.2},47.70);
+cardIn("#s11 .mid-num",48.0);
+cardOut("#s11",50.15,50.4);
+
+// S12: 平边 50.61-54.04s
+tl.to("#s12",{opacity:1,duration:.2},50.61);
+cardIn("#s12 .btitle",50.9);
+cardOut("#s12",53.55,53.8);
+
+// S13: 偏差 54.04-58.04s
+tl.to("#s13",{opacity:1,duration:.2},54.04);
+cardIn("#s13 .glass",54.35);
+cardOut("#s13",57.55,57.8);
+
+// S14: 方口接缝 58.04-62.87s
+tl.to("#s14",{opacity:1,duration:.2},58.04);
+cardIn("#s14 .glass",58.35);
+cardOut("#s14",62.4,62.65);
+
+// S15: 圆咀长度 62.87-65.98s
+tl.to("#s15",{opacity:1,duration:.2},62.87);
+cardIn("#s15 .mid-num",63.2);
+cardOut("#s15",65.5,65.75);
+
+// S16: 角铁直伸 65.98-71.60s
+tl.to("#s16",{opacity:1,duration:.2},65.98);
+cardIn("#s16 .glass",66.3);
+cardOut("#s16",71.1,71.35);
+
+// S17: 面积公式 71.60-80.07s
+tl.to("#s17",{opacity:1,duration:.2},71.60);
+cardIn("#s17 .glass",71.9);
+cardOut("#s17",79.6,79.85);
+
+// S18: 总结 80.07-87.20s
+tl.to("#s18",{opacity:1,duration:.2},80.07);
+cardIn("#s18 .btitle",80.4);
+cardOut("#s18",86.7,86.95);
+
+// S19: 口号 87.20-90.62s
+tl.to("#s19",{opacity:1,duration:.2},87.20);
+cardIn("#s19 .glass",87.5);
+cardOut("#s19",90.15,90.4);
+
+// S20: 品牌 90.62-94.84s
+tl.to("#s20",{opacity:1,duration:.2},90.62);
+cardIn("#s20 .glass",90.9);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

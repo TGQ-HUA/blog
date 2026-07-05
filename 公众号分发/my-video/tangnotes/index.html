@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>TangNotes 便签工具 · 操作流程</title>
+<style>
+  @font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1080px;height:1920px;overflow:hidden;margin:0;font-family:'Microsoft YaHei',sans-serif}
+
+  .orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:0.45}
+  .orb-1{width:420px;height:420px;background:radial-gradient(circle,#60a5fa,transparent);top:-120px;left:-100px}
+  .orb-2{width:350px;height:350px;background:radial-gradient(circle,#c084fc,transparent);top:600px;right:-80px}
+  .orb-3{width:300px;height:300px;background:radial-gradient(circle,#f97316,transparent);bottom:200px;left:-80px}
+  .orb-4{width:280px;height:280px;background:radial-gradient(circle,#34d399,transparent);bottom:-60px;right:80px}
+  .orb-5{width:320px;height:320px;background:radial-gradient(circle,#f472b6,transparent);top:1100px;left:50%;transform:translateX(-50%)}
+
+  .center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:50px}
+  .clip{position:absolute;inset:0}
+
+  .glass{background:rgba(255,255,255,0.22);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.35);box-shadow:0 8px 32px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.4);border-radius:22px;padding:36px 50px}
+
+  /* B0 片头 */
+  #b0 .hero{font-size:72px;font-weight:900;color:#1e3a5f;text-align:center;line-height:1.2}
+  #b0 .hero-sub{font-size:36px;font-weight:400;color:#64748b;text-align:center;margin-top:16px}
+
+  /* 通用卡片 */
+  .card-layout{max-width:960px;text-align:center}
+  .card-title{font-size:44px;font-weight:700;color:#1e3a5f;margin-bottom:16px}
+  .card-desc{font-size:28px;color:#475569;line-height:1.6}
+
+  /* 截图卡片 */
+  .screen-layout{display:flex;flex-direction:column;align-items:center;gap:14px;max-width:960px}
+  .screen-title{font-size:40px;font-weight:700;color:#1e3a5f;text-align:center}
+  .screen-wrap{background:rgba(255,255,255,0.22);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,0.35);box-shadow:0 8px 32px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.4);border-radius:18px;padding:14px}
+  .screen-img{display:block;max-width:880px;max-height:1100px;border-radius:10px}
+  .screen-note{font-size:26px;color:#64748b;text-align:center;line-height:1.5}
+
+  /* 列表 */
+  .list-glass{max-width:880px;text-align:left}
+  .list-title{font-size:40px;font-weight:700;color:#1e3a5f;margin-bottom:14px;text-align:center}
+  .list-item{font-size:26px;color:#475569;line-height:1.8;margin-bottom:4px;padding-left:8px}
+
+  /* 片尾 */
+  #b6 .end-title{font-size:48px;font-weight:800;color:#1e3a5f;margin-bottom:10px}
+  #b6 .end-url{font-size:32px;color:#2563eb;font-weight:600}
+</style>
+</head>
+<body>
+
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="52.083" data-width="1080" data-height="1920" style="position:relative;width:1080px;height:1920px;overflow:hidden;background:linear-gradient(150deg,#d4e8ff 0%,#ddd4ff 18%,#e8d4f8 35%,#d4f0ff 52%,#d8e4ff 70%,#e4d8f8 85%,#d4e8ff 100%);">
+
+<div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div><div class="orb orb-5"></div>
+
+<audio id="narration" class="clip" data-start="0" data-duration="52.083" data-track-index="20" src="narration.mp3" data-volume="1.0"></audio>
+
+<!-- B0 片头 0.100-3.082 -->
+<div id="b0" class="clip" data-start="0.100" data-duration="2.982">
+  <div class="center">
+    <div class="glass" style="padding:50px 80px">
+      <div class="hero">TangNotes</div>
+      <div class="hero-sub">便签工具 · 操作流程</div>
+    </div>
+  </div>
+</div>
+
+<!-- B1 简介 3.032-13.055 -->
+<div id="b1" class="clip" data-start="3.032" data-duration="10.023">
+  <div class="center">
+    <div class="screen-layout">
+      <div class="screen-title">🧠 四大标签页 + 窗口操作</div>
+      <div class="screen-wrap">
+        <img class="screen-img" src="images/01-主界面.png" alt="主界面" />
+      </div>
+      <div class="screen-note">记忆 · 任务 · 回收站 · 时间线 — 拖拽 · 缩放 · 卷起 · 切主题 · 开机自启</div>
+    </div>
+  </div>
+</div>
+
+<!-- B2 记忆便签 13.055-26.620 -->
+<div id="b2" class="clip" data-start="13.055" data-duration="13.565">
+  <div class="center">
+    <div class="screen-layout">
+      <div class="screen-title">📝 记忆便签 — 核心操作</div>
+      <div class="screen-wrap">
+        <img class="screen-img" src="images/01-主界面.png" alt="记忆便签" />
+      </div>
+      <div class="screen-note">双击重命名 · 加号添加 · Markdown 编辑 · 字号颜色 · 序号排序 · 右键移动 · 搜索过滤</div>
+    </div>
+  </div>
+</div>
+
+<!-- B3 编辑弹窗 26.620-36.608 -->
+<div id="b3" class="clip" data-start="26.620" data-duration="9.988">
+  <div class="center">
+    <div class="screen-layout">
+      <div class="screen-title">✏️ 编辑弹窗 · 实时预览</div>
+      <div class="screen-wrap">
+        <img class="screen-img" src="images/02-编辑弹窗.png" alt="编辑弹窗" />
+      </div>
+      <div class="screen-note">加粗 · 倾斜 · 下划线 · 代码块 · 字号 12~20 · 颜色红橙蓝</div>
+    </div>
+  </div>
+</div>
+
+<!-- B4 任务+回收+时间线 36.608-42.662 -->
+<div id="b4" class="clip" data-start="36.608" data-duration="6.054">
+  <div class="center">
+    <div class="glass list-glass">
+      <div class="list-title">✅ 任务 · 🗑 回收站 · 📊 时间线</div>
+      <div class="list-item">✅ 点击圆圈标记完成 / 时间线取消恢复</div>
+      <div class="list-item">🗑 回收站可恢复或彻底删除</div>
+      <div class="list-item">📊 时间线按年月分组，支持搜索过滤</div>
+    </div>
+  </div>
+</div>
+
+<!-- B5 数据存储 42.662-47.025 -->
+<div id="b5" class="clip" data-start="42.662" data-duration="6.782">
+  <div class="center">
+    <div class="glass card-layout">
+      <div class="card-title">💾 纯本地 · 不联网</div>
+      <div class="card-desc">数据存本地 JSON 文件<br>安装不覆盖已有数据</div>
+    </div>
+  </div>
+</div>
+
+<!-- B6 片尾 47.025-51.458 -->
+<div id="b6" class="clip" data-start="49.444" data-duration="2.639">
+  <div class="center">
+    <div class="glass card-layout">
+      <div class="end-title">风管厂技术部</div>
+      <div class="end-url">tangguoqi.top</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script src="gsap.min.js"></script>
+<script>
+var tl = gsap.timeline({paused:true});
+
+var s0=0.100, s1=3.032, s2=13.055, s3=26.620, s4=36.608, s5=42.662, s6=49.444;
+var ci={opacity:0,scale:.85,y:40,filter:"blur(6px)"}, co={opacity:1,scale:1,y:0,filter:"blur(0px)"};
+var xo={opacity:0,scale:.9,y:-20,filter:"blur(4px)"}, xi={opacity:0,scale:.9,y:-15,filter:"blur(3px)"};
+
+// B0
+tl.fromTo("#b0 .glass",ci,co,s0+0.15);
+tl.to("#b0 .glass",xo,s0+2.65);
+tl.set("#b0 .glass",{opacity:0},s0+2.982);
+
+// B1
+tl.fromTo("#b1 .screen-title",{opacity:0,y:25},{opacity:1,y:0,duration:0.5,ease:"back.out(1.5)"},s1+0.1);
+tl.fromTo("#b1 .screen-wrap",ci,co,s1+0.3);
+tl.fromTo("#b1 .screen-note",{opacity:0,y:15},{opacity:1,y:0,duration:0.4,ease:"power2.out"},s1+0.6);
+tl.to("#b1 .screen-layout",xi,s1+9.6);
+tl.set("#b1 .screen-layout",{opacity:0},s1+10.023);
+
+// B2
+tl.fromTo("#b2 .screen-title",{opacity:0,y:25},{opacity:1,y:0,duration:0.5,ease:"back.out(1.5)"},s2+0.1);
+tl.fromTo("#b2 .screen-wrap",ci,co,s2+0.4);
+tl.fromTo("#b2 .screen-note",{opacity:0,y:15},{opacity:1,y:0,duration:0.4,ease:"power2.out"},s2+0.7);
+tl.to("#b2 .screen-layout",xi,s2+13.1);
+tl.set("#b2 .screen-layout",{opacity:0},s2+13.565);
+
+// B3
+tl.fromTo("#b3 .screen-title",{opacity:0,y:25},{opacity:1,y:0,duration:0.5,ease:"back.out(1.5)"},s3+0.1);
+tl.fromTo("#b3 .screen-wrap",ci,co,s3+0.3);
+tl.fromTo("#b3 .screen-note",{opacity:0,y:15},{opacity:1,y:0,duration:0.4,ease:"power2.out"},s3+0.6);
+tl.to("#b3 .screen-layout",xi,s3+9.5);
+tl.set("#b3 .screen-layout",{opacity:0},s3+9.988);
+
+// B4
+tl.fromTo("#b4 .glass",ci,co,s4+0.15);
+tl.fromTo("#b4 .list-item:nth-child(1)",{opacity:0,x:-25},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},s4+0.6);
+tl.fromTo("#b4 .list-item:nth-child(2)",{opacity:0,x:-25},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},s4+1.4);
+tl.fromTo("#b4 .list-item:nth-child(3)",{opacity:0,x:-25},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},s4+2.2);
+tl.to("#b4 .glass",xo,s4+5.7);
+tl.set("#b4 .glass",{opacity:0},s4+6.054);
+
+// B5
+tl.fromTo("#b5 .glass",ci,co,s5+0.15);
+tl.to("#b5 .glass",xo,s5+6.4);
+tl.set("#b5 .glass",{opacity:0},s5+6.782);
+
+// B6
+tl.fromTo("#b6 .glass",ci,co,s6+0.15);
+tl.to("#b6 .glass",xo,s6+2.3);
+tl.set("#b6 .glass",{opacity:0},s6+2.639);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
