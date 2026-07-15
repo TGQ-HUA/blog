@@ -1,5 +1,6 @@
 // 博客邮箱登录 — 无数据库方案（token 签名验证）
 export async function onRequest(context) {
+  try {
   const { request, env } = context;
   const url = new URL(request.url);
   const path = url.pathname.replace('/auth', '');
@@ -12,6 +13,9 @@ export async function onRequest(context) {
   if (path === '/logout' && request.method === 'POST') return handleLogout();
 
   return cors(new Response('Not Found', { status: 404 }));
+  } catch(e) {
+    return cors(json({error:'服务器错误: '+e.message}, 500));
+  }
 }
 
 // ====== 登录：发验证码 ======
