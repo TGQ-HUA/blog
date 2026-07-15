@@ -1,0 +1,89 @@
+<!-- 博客邮箱登录组件 -->
+<div id="auth-widget" style="display:none">
+  <!-- 未登录：输入邮箱 -->
+  <div id="auth-login">
+    <div style="background:var(--glass-bg);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:16px;padding:20px;max-width:400px;margin:2em auto;text-align:center">
+      <h3 style="margin:0 0 12px;color:var(--accent-color)">登录 / 注册</h3>
+      <p style="font-size:14px;color:#6b7280;margin:0 0 16px">输入邮箱，发送验证码</p>
+      <input id="auth-email" type="email" placeholder="your@email.com" style="width:100%;padding:10px 14px;border:1px solid var(--glass-border);border-radius:10px;font-size:15px;margin-bottom:12px;box-sizing:border-box;background:rgba(255,255,255,0.6)" />
+      <button id="auth-send" onclick="sendCode()" style="width:100%;padding:10px;background:var(--accent-color);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer">发送验证码</button>
+      <p id="auth-msg" style="font-size:13px;margin-top:10px;min-height:20px"></p>
+    </div>
+  </div>
+
+  <!-- 已登录 -->
+  <div id="auth-user" style="display:none">
+    <div style="background:var(--glass-bg);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:16px;padding:14px 20px;max-width:400px;margin:2em auto;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:14px;color:#374151"><span id="auth-username"></span> 已登录</span>
+      <button onclick="logout()" style="padding:6px 14px;background:none;border:1px solid var(--glass-border);border-radius:8px;font-size:13px;color:#6b7280;cursor:pointer">退出</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const AUTH_URL = 'https://tangguoqi.top/auth';
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('auth-widget').style.display = 'block';
+  fetch(AUTH_URL + '/me', { credentials: 'include' })
+    .then(r => r.json())
+    .then(d => {
+      if (d.user) showUser(d.user);
+    });
+});
+
+function sendCode() {
+  const email = document.getElementById('auth-email').value;
+  const msg = document.getElementById('auth-msg');
+  const btn = document.getElementById('auth-send');
+  if (!email) { msg.textContent = '请输入邮箱'; msg.style.color = '#dc2626'; return; }
+
+  msg.textContent = '发送中...'; msg.style.color = '#6b7280';
+  btn.disabled = true;
+
+  fetch(AUTH_URL + '/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+    credentials: 'include'
+  }).then(r => r.json()).then(d => {
+    btn.disabled = false;
+    if (d.ok) {
+      msg.textContent = '验证码已发送，请查收邮件并输入验证码'; msg.style.color = '#10b981';
+      showCodeInput();
+    } else {
+      msg.textContent = d.error || '发送失败'; msg.style.color = '#dc2626';
+    }
+  });
+}
+
+function showCodeInput() {
+  const loginDiv = document.getElementById('auth-login');
+  loginDiv.innerHTML += '<input id="auth-code" type="text" placeholder="输入6位验证码" style="width:100%;padding:10px 14px;border:1px solid var(--glass-border);border-radius:10px;font-size:15px;margin-bottom:12px;box-sizing:border-box;background:rgba(255,255,255,0.6);text-align:center;letter-spacing:4px;font-size:20px" maxlength="6" /><button onclick="verifyCode()" style="width:100%;padding:10px;background:#10b981;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer">验证登录</button>';
+}
+
+function verifyCode() {
+  const code = document.getElementById('auth-code').value;
+  const msg = document.getElementById('auth-msg');
+  fetch(AUTH_URL + '/verify?token=' + code, { credentials: 'include' })
+    .then(r => r.json())
+    .then(d => {
+      if (d.ok) {
+        showUser(d);
+      } else {
+        msg.textContent = d.error || '验证失败'; msg.style.color = '#dc2626';
+      }
+    });
+}
+
+function showUser(d) {
+  document.getElementById('auth-login').style.display = 'none';
+  document.getElementById('auth-user').style.display = 'block';
+  document.getElementById('auth-username').textContent = d.email;
+}
+
+function logout() {
+  fetch(AUTH_URL + '/logout', { method: 'POST', credentials: 'include' })
+    .then(() => location.reload());
+}
+</script>
