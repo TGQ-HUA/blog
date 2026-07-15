@@ -1,0 +1,9 @@
+# Cloudflare Pages 配置 — tangguoqi.top
+name = "blog"
+compatibility_date = "2025-01-01"
+
+# D1 数据库
+[[d1_databases]]
+binding = "DB"
+database_name = "blog-auth-db"
+database_id = "3f23d5ab-028f-46bf-b913-b882750d0057"
