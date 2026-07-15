@@ -29,7 +29,7 @@ async function handleLogin(request, env) {
   const sig = await sign(payload, env.SECRET || 'blog-secret-key');
   const token = `${payload}|${sig}`;
 
-  await sendEmail(email, code, env);
+  try { await sendEmail(email, code, env); } catch(e) { console.error('sendEmail failed:', e); }
 
   return cors(json({ ok: true, message: '验证码已发送，请查收邮件', _t: token }));
 }
