@@ -67,7 +67,7 @@ function showCodeInput() {
 function verifyCode() {
   const code = document.getElementById('auth-code').value;
   const msg = document.getElementById('auth-msg');
-  fetch(AUTH_URL + '/verify?token=' + code + '&t=' + encodeURIComponent(authToken), { credentials: 'include' })
+  fetch(AUTH_URL + '/verify?token=' + code + '&t=' + authToken, { credentials: 'include' })
     .then(r => r.json())
     .then(d => {
       if (d.ok) {
