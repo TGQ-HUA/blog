@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+let authToken = '';
 function sendCode() {
   const email = document.getElementById('auth-email').value;
   const msg = document.getElementById('auth-msg');
@@ -49,6 +50,7 @@ function sendCode() {
   }).then(r => r.json()).then(d => {
     btn.disabled = false;
     if (d.ok) {
+      authToken = d._t; // 存签名 token
       msg.textContent = '验证码已发送，请查收邮件并输入验证码'; msg.style.color = '#10b981';
       showCodeInput();
     } else {
@@ -65,7 +67,7 @@ function showCodeInput() {
 function verifyCode() {
   const code = document.getElementById('auth-code').value;
   const msg = document.getElementById('auth-msg');
-  fetch(AUTH_URL + '/verify?token=' + code, { credentials: 'include' })
+  fetch(AUTH_URL + '/verify?token=' + code + '&t=' + encodeURIComponent(authToken), { credentials: 'include' })
     .then(r => r.json())
     .then(d => {
       if (d.ok) {

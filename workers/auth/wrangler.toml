@@ -9,7 +9,6 @@ binding = "DB"
 database_name = "blog-auth-db"
 database_id = "3f23d5ab-028f-46bf-b913-b882750d0057"
 
-# 环境变量（部署后通过 wrangler secret 设置）
+# 环境变量（RESEND_API_KEY 使用 wrangler secret 设置）
 [vars]
-RESEND_API_KEY = ""
 FROM_EMAIL = "noreply@tangguoqi.top"

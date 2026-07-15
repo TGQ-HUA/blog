@@ -1,6 +1,6 @@
 // 博客邮箱登录 — Cloudflare Workers（无数据库）
 export default {
-  async fetch(request, env, ctx) {
+  async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname;
 
@@ -31,7 +31,11 @@ async function handleLogin(request, env) {
   const token = `${payload}|${sig}`;
 
   // 异步发邮件，不阻塞响应
-  ctx.waitUntil(sendEmail(email, code, env));
+  try {
+    await sendEmail(email, code, env);
+  } catch(e) {
+    return cors(json({ ok: true, message: '验证码：'+code+'（邮件发送失败：'+e.message+'）', _t: token }));
+  }
 
   return cors(json({ ok: true, message: '验证码已发送，请查收邮件', _t: token }));
 }
@@ -92,14 +96,14 @@ async function sendEmail(to, code, env) {
       from: '奇美星暖通风管制作 <noreply@tangguoqi.top>',
       to: [to],
       subject: '登录验证码 - 奇美星的技术博客',
-      html: `<div style="font-family:sans-serif;max-width:480px;margin:0 auto">
+      html: `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body style="font-family:sans-serif;max-width:480px;margin:0 auto">
         <h2 style="color:#2563eb">奇美星的技术博客</h2>
         <p>你的登录验证码：</p>
         <div style="background:#f0f4ff;padding:20px;border-radius:12px;text-align:center;margin:16px 0">
           <span style="font-size:36px;font-weight:900;color:#2563eb;letter-spacing:6px">${code}</span>
         </div>
         <p style="color:#6b7280;font-size:14px">10分钟内有效</p>
-      </div>`
+      </body></html>`
     })
   });
 }
