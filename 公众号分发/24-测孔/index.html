@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#fff}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#0f172a,#1e293b,#0f172a)}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.3}
+.o1{width:500px;height:500px;top:5%;left:2%;background:radial-gradient(circle,rgba(37,99,235,.6),transparent)}
+.o2{width:400px;height:400px;top:55%;right:5%;background:radial-gradient(circle,rgba(249,115,22,.5),transparent)}
+.o3{width:350px;height:350px;bottom:5%;left:45%;background:radial-gradient(circle,rgba(16,185,129,.4),transparent)}
+.scene{position:absolute;inset:0;opacity:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 80px}
+.m{font-size:38px;color:#f1f5f9;line-height:1.6;text-align:center;max-width:1500px;padding:20px 30px;opacity:0}
+.m .hl{color:#f97316;font-weight:700}.m .r{color:#ef4444;font-weight:700}.m .b{color:#60a5fa;font-weight:700}.m .g{color:#34d399;font-weight:700}
+.btitle{font-size:88px;font-weight:900;color:#f8fafc;line-height:1.2;text-align:center;max-width:1600px;padding:30px 40px;opacity:0}
+.btitle .hl{color:#f97316}.btitle .r{color:#ef4444}.btitle .b{color:#60a5fa}.btitle .g{color:#34d399}
+.glass{background:rgba(255,255,255,.08);backdrop-filter:blur(22px) saturate(180%);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.2);padding:44px 58px;text-align:center;opacity:0;max-width:1550px}
+.glass .t{font-size:52px;font-weight:900;color:#f8fafc;line-height:1.2;margin-bottom:16px}
+.glass .t .hl{color:#f97316}.glass .t .r{color:#ef4444}.glass .t .b{color:#60a5fa}
+.glass .s{font-size:32px;color:#cbd5e1;line-height:1.7}.glass .s .hl{color:#f97316;font-weight:700}
+.big-num{text-align:center;opacity:0}
+.big-num .num{font-size:120px;font-weight:900;color:#ef4444;line-height:1;letter-spacing:-2px}
+.big-num .num .hl{color:#f97316}
+.big-num .label{font-size:44px;color:#f8fafc;font-weight:700;margin-top:12px}
+.big-num .sub{font-size:32px;color:#94a3b8;margin-top:8px}
+.warn-full{text-align:center;opacity:0}
+.warn-full .wt{display:inline-block;background:#ef4444;color:#fff;font-size:34px;font-weight:700;padding:12px 32px;border-radius:8px;margin-bottom:20px}
+.warn-full .wtt{font-size:72px;font-weight:900;color:#f8fafc;line-height:1.3}
+.warn-full .wtt .hl{color:#f97316}.warn-full .wtt .r{color:#ef4444}
+.brand{text-align:center;padding:40px;opacity:0}
+.brand .bn{font-size:34px;color:#f8fafc;font-weight:700;margin-bottom:8px}
+.brand .bu{font-size:28px;color:#60a5fa;font-family:Consolas,monospace}
+.progress{position:absolute;bottom:20px;left:60px;right:60px;height:4px;background:rgba(255,255,255,.1);border-radius:2px}
+.progress .bar{height:100%;background:linear-gradient(90deg,#f97316,#ef4444);border-radius:2px;width:0%}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="105.5" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <audio id="narration" class="clip" data-start="0" data-duration="105.5" data-track-index="10" src="narration.mp3" data-volume="1.0"></audio>
+
+  <!-- S1: 开篇 0-18s -->
+  <div class="scene" id="s1">
+    <div class="btitle" id="b1">安装队又打电话<br><span class="r">来骂人了</span></div>
+    <div class="m" id="b2">风管装完了<br>发现一个测试孔都没有</div>
+    <div class="warn-full" id="b3"><div class="wt">🔥 现场切割</div><div class="wtt">保温<span class="r">全废了</span></div></div>
+    <div class="m" id="b4">一个孔折腾大半天</div>
+    <div class="glass" id="b5"><div class="t">这种电话</div><div class="s">干这行的都接过</div></div>
+    <div class="m" id="b6">问题根子在<span class="hl">技术部</span></div>
+    <div class="glass" id="b7"><div class="t">出图时没标</div><div class="s">测定孔的位置</div></div>
+  </div>
+
+  <!-- S2: 测定孔 18-42s -->
+  <div class="scene" id="s2">
+    <div class="btitle" id="c1">国标<span class="hl">GB50243</span><br>把它列为功能部件</div>
+    <div class="m" id="c2">不是可选配件</div>
+    <div class="m" id="c3">是<span class="r">标准配置</span></div>
+    <div class="glass" id="c4"><div class="t">测定孔是干嘛的？</div><div class="s">风管上预留的小口子<br>接检测仪表用的</div></div>
+    <div class="big-num" id="c5"><div class="num">Φ<span class="hl">100</span></div><div class="label">检测管规格</div><div class="sub">管径100mm × 长100mm</div></div>
+    <div class="m" id="c6">加法兰盘和盖板<br><span class="hl">三件套</span></div>
+    <div class="glass" id="c7"><div class="t">平时盖板拧紧</div><div class="s">检测时拆盖板接仪表</div></div>
+  </div>
+
+  <!-- S3: 位置 42-59s -->
+  <div class="scene" id="s3">
+    <div class="btitle" id="d1">但是<br>测试孔<span class="r">不能随便开</span></div>
+    <div class="glass" id="d2"><div class="t"><span class="hl">JGJ260</span> 规范</div><div class="s">有明确位置要求</div></div>
+    <div class="glass" id="d3"><div class="t">必须开在<span class="hl">直管段</span></div><div class="s">弯头三通处气流是乱的</div></div>
+    <div class="m" id="d4">离上游弯头<span class="hl">≥5倍管径</span></div>
+    <div class="glass" id="d5"><div class="t">让气流稳定下来</div><div class="s">测出来的数据才准</div></div>
+    <div class="m" id="d6">靠近封堵端也不行</div>
+    <div class="glass" id="d7"><div class="t"><span class="r">端部效应</span></div><div class="s">读数能差几十帕</div></div>
+  </div>
+
+  <!-- S4: 三个原因 59-77s -->
+  <div class="scene" id="s4">
+    <div class="btitle" id="e1">车间为什么<br><span class="r">总漏掉</span>？</div>
+    <div class="glass" id="e2"><div class="t"><span class="r">①</span> 图纸没标</div><div class="s">设计师默认施工单位会自己搞</div></div>
+    <div class="m" id="e3">② 排版软件不帮忙</div>
+    <div class="glass" id="e4"><div class="t">CAMduct</div><div class="s">不自动生成测定孔</div></div>
+    <div class="m" id="e5">③ 师傅按习惯做</div>
+    <div class="glass" id="e6"><div class="t">做了十几年</div><div class="s">没人告诉他要留孔</div></div>
+  </div>
+
+  <!-- S5: 三步走 77-96s -->
+  <div class="scene" id="s5">
+    <div class="btitle" id="f1">我们的做法<br><span class="hl">三步走</span></div>
+    <div class="m" id="f2"><span class="hl">第一步</span> · CAD强制标注</div>
+    <div class="glass" id="f3"><div class="t">排版图必须标出</div><div class="s">测定孔位置</div></div>
+    <div class="m" id="f4"><span class="hl">第二步</span> · 清单打勾</div>
+    <div class="glass" id="f5"><div class="t">排版检查单</div><div class="s">加了一条测定孔检查项</div></div>
+    <div class="m" id="f6"><span class="hl">第三步</span> · 提前预埋</div>
+    <div class="glass" id="f7"><div class="t">咬口完成后</div><div class="s">上法兰之前焊接检测管</div></div>
+    <div class="glass" id="f8"><div class="t"><span class="g">三个项目</span></div><div class="s">一个都没漏过</div></div>
+  </div>
+
+  <!-- S6: 结尾 96-105.5s -->
+  <div class="scene" id="s6">
+    <div class="glass" id="g1"><div class="t">好风管不是<span class="b">算出来</span>的</div></div>
+    <div class="glass" id="g2"><div class="t">是<span class="hl">干出来</span>的</div><div class="s">但怎么干，得先想明白</div></div>
+    <div class="brand" id="g3"><div class="bn">奇美星暖通风管制作</div><div class="bu">tangguoqi.top</div></div>
+  </div>
+
+  <div class="progress"><div class="bar" id="progressBar"></div></div>
+</div>
+
+<script>
+var tl = gsap.timeline({paused:true});
+function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-15,y:50,scale:.85,filter:"blur(6px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.7,ease:"elastic.out(1,0.4)"},t)}
+function cardOut(id,t,b){tl.to(id,{opacity:0,scale:.88,y:-15,filter:"blur(4px)",duration:.3,ease:"power2.in"},t);tl.set(id,{visibility:"hidden"},b)}
+function fadeIn(id,t){tl.fromTo(id,{opacity:0},{opacity:1,duration:.4,ease:"power2.out"},t)}
+function fadeOut(id,t,b){tl.to(id,{opacity:0,duration:.25,ease:"power2.in"},t);tl.set(id,{visibility:"hidden"},b)}
+
+// S1: 0-18s
+tl.to("#s1",{opacity:1,duration:.2},0.1);
+cardIn("#b1",0.3);   cardOut("#b1",2.0,2.2);
+fadeIn("#b2",2.3);   fadeOut("#b2",5.2,5.4);
+cardIn("#b3",5.5);   cardOut("#b3",8.3,8.5);
+fadeIn("#b4",8.6);   fadeOut("#b4",10.2,10.4);
+cardIn("#b5",10.5);  cardOut("#b5",12.8,13.0);
+fadeIn("#b6",13.1);  fadeOut("#b6",15.1,15.3);
+cardIn("#b7",15.4);  
+tl.to("#s1",{opacity:0,duration:.15},17.8);
+
+// S2: 18-42s
+tl.to("#s2",{opacity:1,duration:.2},18);
+cardIn("#c1",18.3);  cardOut("#c1",22.3,22.5);
+fadeIn("#c2",22.6);  fadeOut("#c2",24.9,25.1);
+fadeIn("#c3",25.2);  fadeOut("#c3",27.0,27.2);
+cardIn("#c4",27.3);  cardOut("#c4",31.0,31.2);
+cardIn("#c5",31.3);  cardOut("#c5",36.0,36.2);
+fadeIn("#c6",36.3);  fadeOut("#c6",38.7,38.9);
+cardIn("#c7",39.0);  
+tl.to("#s2",{opacity:0,duration:.15},41.8);
+
+// S3: 42-59s
+tl.to("#s3",{opacity:1,duration:.2},42);
+cardIn("#d1",42.3);  cardOut("#d1",44.5,44.7);
+cardIn("#d2",44.8);  cardOut("#d2",47.5,47.7);
+cardIn("#d3",47.8);  cardOut("#d3",49.5,49.7);
+fadeIn("#d4",49.8);  fadeOut("#d4",52.1,52.3);
+cardIn("#d5",52.4);  cardOut("#d5",54.1,54.3);
+fadeIn("#d6",54.4);  fadeOut("#d6",56.2,56.4);
+cardIn("#d7",56.5);  
+tl.to("#s3",{opacity:0,duration:.15},58.8);
+
+// S4: 59-77s
+tl.to("#s4",{opacity:1,duration:.2},59);
+cardIn("#e1",59.3);  cardOut("#e1",60.7,60.9);
+cardIn("#e2",61.0);  cardOut("#e2",65.8,66.0);
+fadeIn("#e3",66.1);  fadeOut("#e3",68.5,68.7);
+cardIn("#e4",68.8);  cardOut("#e4",71.3,71.5);
+fadeIn("#e5",71.6);  fadeOut("#e5",73.9,74.1);
+cardIn("#e6",74.2);  
+tl.to("#s4",{opacity:0,duration:.15},76.8);
+
+// S5: 77-96s
+tl.to("#s5",{opacity:1,duration:.2},77);
+cardIn("#f1",77.3);  cardOut("#f1",78.5,78.7);
+fadeIn("#f2",78.8);  fadeOut("#f2",81.0,81.2);
+cardIn("#f3",81.3);  cardOut("#f3",83.7,83.9);
+fadeIn("#f4",84.0);  fadeOut("#f4",85.6,85.8);
+cardIn("#f5",85.9);  cardOut("#f5",88.0,88.2);
+fadeIn("#f6",88.3);  fadeOut("#f6",90.0,90.2);
+cardIn("#f7",90.3);  cardOut("#f7",93.1,93.3);
+cardIn("#f8",93.4);  
+tl.to("#s5",{opacity:0,duration:.15},96.0);
+
+// S6: 96-105.5s
+tl.to("#s6",{opacity:1,duration:.2},96);
+cardIn("#g1",96.5);  cardOut("#g1",98.5,98.7);
+cardIn("#g2",98.8);  cardOut("#g2",101.8,102.0);
+tl.to("#g3",{opacity:1,duration:.4},102.1);
+</script>
+</body>
+</html>

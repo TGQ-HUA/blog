@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>25-接咀</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0d1117; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color: #fff; }
+#stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.m { position: absolute; opacity: 0; font-size: 38px; line-height: 1.5; text-align: left; width: 86%; left: 7%; color: #e6edf3; }
+.m-sep { height: 14px; }
+.btitle { font-size: 88px; font-weight: 900; text-align: center; width: 90%; left: 5%; color: #f0883e; letter-spacing: 4px; text-shadow: 0 0 40px rgba(240,136,62,0.3); }
+.num { font-size: 100px; font-weight: 900; text-align: center; width: 90%; left: 5%; color: #58a6ff; }
+.num-orange { font-size: 100px; font-weight: 900; text-align: center; width: 90%; left: 5%; color: #f0883e; }
+.num-green { font-size: 100px; font-weight: 900; text-align: center; width: 90%; left: 5%; color: #3fb950; }
+.card { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border-radius: 22px; padding: 36px 44px; width: 88%; left: 6%; }
+.card .m { position: relative; opacity: 0; width: 100%; left: 0; }
+.highlight { color: #f0883e; font-weight: 700; }
+.highlight-blue { color: #58a6ff; font-weight: 700; }
+.highlight-green { color: #3fb950; font-weight: 700; }
+.subtle { color: #8b949e; font-size: 30px; }
+.p-title { font-size: 52px; font-weight: 700; color: #f0883e; margin-bottom: 12px; }
+.p-sub { font-size: 34px; color: #8b949e; margin-top: 8px; }
+.bg-circle { position: absolute; border-radius: 50%; opacity: 0.05; pointer-events: none; }
+.bg-circle-1 { width: 600px; height: 600px; background: #f0883e; top: -200px; right: -200px; }
+.bg-circle-2 { width: 400px; height: 400px; background: #58a6ff; bottom: -100px; left: -100px; }
+</style>
+</head>
+<body>
+<div id="stage" data-composition-id="25-jiezui" data-duration="106">
+  <div class="bg-circle bg-circle-1"></div>
+  <div class="bg-circle bg-circle-2"></div>
+
+  <!-- 00:00 - 标题 -->
+  <div class="m" id="b1" style="top:50%; transform:translateY(-50%); text-align:center;">
+    <div style="font-size:52px; font-weight:700; color:#f0883e; margin-bottom:16px;">开口接咀</div>
+    <div style="font-size:34px; color:#e6edf3; line-height:1.6;">
+      图纸上标个Φ200<br>车间做起来可不止钻个孔那么简单
+    </div>
+    <div class="subtle" style="margin-top:20px;">奇美星暖通风管制作</div>
+  </div>
+
+  <!-- 00:04 - 引子：工地电话 -->
+  <div class="m card" id="b2" style="top:30%;">
+    <div class="p-title">📞 工地来电</div>
+    <div style="font-size:38px; line-height:1.6;">
+      上个月一批风管到了工地<br>
+      <span class="highlight">安装队打电话说</span>接咀插不进去，差了2毫米
+    </div>
+  </div>
+
+  <!-- 00:10 - 问题描述 -->
+  <div class="m card" id="b3" style="top:28%;">
+    <div class="p-title">❓ 问题</div>
+    <div style="font-size:38px; line-height:1.6;">
+      圆孔开的Φ300，圆咀也是Φ300<br>
+      但板厚<span class="highlight">1.2毫米</span>，做完咬口就是塞不进去
+    </div>
+  </div>
+
+  <!-- 00:17 - 秘密揭示 -->
+  <div class="m" id="b4" style="top:44%; text-align:center; font-size:44px;">
+    这里有个秘密：<br>
+    <span class="highlight" style="font-size:52px;">圆孔开多大</span><br>
+    <span style="font-size:36px; color:#8b949e;">要看你怎么连接</span>
+  </div>
+
+  <!-- 00:20 - 咬口厚板+1mm -->
+  <div class="m" id="b5" style="top:34%; text-align:center;">
+    <div class="num-orange">+1 mm</div>
+    <div class="m-sep"></div>
+    <div style="font-size:38px;">
+      <span class="highlight">咬口连接</span> · 料厚 &gt; 0.75mm<br>
+      圆孔要比咀径大<span class="highlight">1毫米</span>
+    </div>
+  </div>
+
+  <!-- 00:25 - 挤压缩量 -->
+  <div class="m card" id="b6" style="top:30%;">
+    <div class="p-title">🔧 为什么？</div>
+    <div style="font-size:38px; line-height:1.6;">
+      厚板咬口有<span class="highlight">挤压缩量</span><br>
+      不留这个间隙，圆咀<span class="highlight-blue">死活进不去</span>
+    </div>
+  </div>
+
+  <!-- 00:30 - 薄板正尺寸 -->
+  <div class="m" id="b7" style="top:38%; text-align:center;">
+    <div class="num-green">0</div>
+    <div class="m-sep"></div>
+    <div style="font-size:38px;">
+      料厚 ≤ 0.75mm 的薄板<br>
+      <span class="highlight-green">正尺寸</span>就够了
+    </div>
+  </div>
+
+  <!-- 00:34 - 焊接缩小料厚 -->
+  <div class="m" id="b8" style="top:36%; text-align:center;">
+    <div style="font-size:60px; font-weight:900; color:#58a6ff;">− 料厚</div>
+    <div class="m-sep"></div>
+    <div style="font-size:38px;">
+      <span class="highlight-blue">焊接连接</span>更特别<br>
+      圆孔反而要<span class="highlight-blue">缩小一个料厚</span>
+    </div>
+  </div>
+
+  <!-- 00:38 - 焊丝填充 -->
+  <div class="m card" id="b9" style="top:30%;">
+    <div class="p-title">💡 原因</div>
+    <div style="font-size:38px; line-height:1.6;">
+      因为<span class="highlight">焊丝会填充</span><br>
+      开正尺寸焊完内径就小了，接不上
+    </div>
+  </div>
+
+  <!-- 00:42 - 方孔 -->
+  <div class="m" id="b10" style="top:42%; text-align:center; font-size:46px;">
+    <span class="highlight" style="font-size:54px;">方孔</span>接方咀<br>
+    <span style="font-size:36px; color:#8b949e;">更麻烦</span>
+  </div>
+
+  <!-- 00:44 - 锯齿工艺 -->
+  <div class="m card" id="b11" style="top:26%;">
+    <div class="p-title" style="font-size:44px;">✂️ 锯齿 + 反大边</div>
+    <div style="font-size:38px; line-height:1.6;">
+      方孔边缘要冲成<span class="highlight">锯齿状</span><br>
+      每个锯齿翻起来，和方咀的<span class="highlight">反大边</span>咬在一起
+    </div>
+  </div>
+
+  <!-- 00:50 - 均匀密封 -->
+  <div class="m" id="b12" style="top:42%; text-align:center; font-size:40px;">
+    均匀 · 密封 · <span class="highlight-green">不用满焊</span>
+  </div>
+
+  <!-- 00:53 - 静压箱 -->
+  <div class="m" id="b13" style="top:42%; text-align:center;">
+    <div style="font-size:54px; font-weight:700; color:#f0883e;">静压箱</div>
+    <div class="m-sep"></div>
+    <div style="font-size:38px;">的接咀是<span class="highlight">最坑的</span></div>
+  </div>
+
+  <!-- 00:55 - 角铁法兰 -->
+  <div class="m" id="b14" style="top:36%; text-align:center;">
+    <div class="num-orange">+5 mm</div>
+    <div class="m-sep"></div>
+    <div style="font-size:38px;">
+      <span class="highlight">角铁法兰</span><br>
+      箱体开口要放大<span class="highlight">5毫米</span>
+    </div>
+  </div>
+
+  <!-- 00:59 - 共板法兰 -->
+  <div class="m" id="b15" style="top:36%; text-align:center;">
+    <div class="num" style="font-size:80px;">−3 mm</div>
+    <div class="m-sep"></div>
+    <div style="font-size:38px;">
+      <span class="highlight-blue">共板法兰</span><br>
+      接咀反而要做小<span class="highlight-blue">3毫米</span>
+    </div>
+  </div>
+
+  <!-- 01:02 - 第一次正尺寸 -->
+  <div class="m card" id="b16" style="top:30%;">
+    <div class="p-title">😅 第一次</div>
+    <div style="font-size:38px; line-height:1.6;">
+      做静压箱全部按<span class="highlight">正尺寸</span>来了<br>
+      结果——
+    </div>
+  </div>
+
+  <!-- 01:05 - 磨了一下午 -->
+  <div class="m card" id="b17" style="top:30%;">
+    <div class="p-title">😤 现场</div>
+    <div style="font-size:38px; line-height:1.6;">
+      工地角铁法兰装不进去<br>
+      <span class="highlight">两个师傅磨了一下午</span>
+    </div>
+  </div>
+
+  <!-- 01:10 - 圆咀长度 -->
+  <div class="m" id="b18" style="top:44%; text-align:center; font-size:44px;">
+    圆咀的<span class="highlight">长度</span><br>
+    <span style="font-size:36px; color:#8b949e;">也要算好</span>
+  </div>
+
+  <!-- 01:12 - 咬口公式 -->
+  <div class="m card" id="b19" style="top:28%;">
+    <div class="p-title" style="font-size:44px;">📐 咬口公式</div>
+    <div style="font-size:38px; line-height:1.8;">
+      长度 = 设计要求<br>
+      <span class="highlight">+ 10毫米</span>（咬口余量）<br>
+      + 法兰口用料量
+    </div>
+  </div>
+
+  <!-- 01:17 - 10mm搭接量 -->
+  <div class="m" id="b20" style="top:40%; text-align:center;">
+    <div class="num-orange">10 mm</div>
+    <div class="m-sep"></div>
+    <div style="font-size:36px; color:#8b949e;">是咬口的搭接量</div>
+  </div>
+
+  <!-- 01:19 - 不预留就短 -->
+  <div class="m" id="b21" style="top:44%; text-align:center; font-size:40px;">
+    不预留，做完就<span class="highlight">短了</span>
+  </div>
+
+  <!-- 01:21 - 行业思考 -->
+  <div class="m" id="b22" style="top:34%; text-align:center;">
+    <div class="num-orange" style="font-size:80px;">几百次</div>
+    <div class="m-sep"></div>
+    <div style="font-size:38px;">
+      一个项目几百个接咀<br>
+      每个差一点，到现场就是<span class="highlight">几百次返工</span>
+    </div>
+  </div>
+
+  <!-- 01:26 - GB50243 -->
+  <div class="m card" id="b23" style="top:30%;">
+    <div class="p-title">📋 规范怎么说？</div>
+    <div style="font-size:36px; line-height:1.6;">
+      GB50243只说开孔要<span class="highlight-blue">准确平整</span><br>
+      但<span class="highlight">没告诉你放大还是缩小</span>
+    </div>
+    <div class="subtle" style="margin-top:14px;">第5章 风管部件</div>
+  </div>
+
+  <!-- 01:32 - 各厂试错 -->
+  <div class="m" id="b24" style="top:42%; text-align:center; font-size:38px;">
+    这些细节<br>
+    全靠各厂自己<span class="highlight">试错总结</span>
+  </div>
+
+  <!-- 01:36 - 排版系统写死 -->
+  <div class="m card" id="b25" style="top:32%;">
+    <div class="p-title">✅ 现在</div>
+    <div style="font-size:38px; line-height:1.6;">
+      排版系统已经把<span class="highlight-green">尺寸调整写死了</span>
+    </div>
+  </div>
+
+  <!-- 01:39 - 自动算好 -->
+  <div class="m card" id="b26" style="top:32%;">
+    <div class="p-title">⚡ 自动化</div>
+    <div style="font-size:38px; line-height:1.6;">
+      自动算好出图<br>
+      师傅照着做就行
+    </div>
+  </div>
+
+  <!-- 01:43 - 结尾 -->
+  <div class="m" id="b27" style="top:42%; text-align:center;">
+    <div style="font-size:44px; line-height:1.8;">
+      下次开孔前<br>
+      <span class="highlight" style="font-size:52px;">先看一眼料厚</span>
+    </div>
+    <div class="subtle" style="margin-top:30px;">奇美星暖通风管制作</div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+// HyperFrames standard: create a PAUSED timeline, register on window.__timelines
+var tl = gsap.timeline({ paused: true });
+
+// All positioning is absolute (3rd arg = time in seconds)
+// fadeIn/Out and cardIn/Out are simplified to just use .to() with position
+
+// Beat 1: 0.0s - Title
+tl.set('#b1', { opacity:1 });
+tl.to('#b1', { opacity:0, duration:0.18, ease:'power2.in' }, 4.5);
+
+// Beat 2: 4.6s - 工地电话
+tl.set('#b2', { opacity:1, transformPerspective:1200, rotationX:-15, scale:0.92, transformOrigin:'50% 50%' });
+tl.to('#b2', { rotationX:0, scale:1, duration:0.5, ease:'back.out(1.2)', clearProps:'transform' }, 4.6);
+tl.to('#b2', { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, 9.5);
+
+// Beat 3: 10.6s - 问题
+tl.set('#b3', { opacity:1, transformPerspective:1200, rotationX:-15, scale:0.92, transformOrigin:'50% 50%' });
+tl.to('#b3', { rotationX:0, scale:1, duration:0.5, ease:'back.out(1.2)', clearProps:'transform' }, 10.6);
+tl.to('#b3', { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, 16.0);
+
+// Beat 4: 17.1s - 秘密
+tl.set('#b4', { opacity:1 });
+tl.to('#b4', { opacity:0, duration:0.18, ease:'power2.in' }, 19.5);
+
+// Beat 5: 20.7s - +1mm
+tl.set('#b5', { opacity:1 });
+tl.to('#b5', { opacity:0, duration:0.18, ease:'power2.in' }, 24.7);
+
+// Beat 6: 25.9s - 挤压缩量
+tl.set('#b6', { opacity:1, transformPerspective:1200, rotationX:-15, scale:0.92, transformOrigin:'50% 50%' });
+tl.to('#b6', { rotationX:0, scale:1, duration:0.5, ease:'back.out(1.2)', clearProps:'transform' }, 25.9);
+tl.to('#b6', { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, 29.4);
+
+// Beat 7: 30.6s - 薄板正尺寸
+tl.set('#b7', { opacity:1 });
+tl.to('#b7', { opacity:0, duration:0.18, ease:'power2.in' }, 33.3);
+
+// Beat 8: 34.5s - 焊接缩小
+tl.set('#b8', { opacity:1 });
+tl.to('#b8', { opacity:0, duration:0.18, ease:'power2.in' }, 37.2);
+
+// Beat 9: 38.4s - 焊丝填充
+tl.set('#b9', { opacity:1, transformPerspective:1200, rotationX:-15, scale:0.92, transformOrigin:'50% 50%' });
+tl.to('#b9', { rotationX:0, scale:1, duration:0.5, ease:'back.out(1.2)', clearProps:'transform' }, 38.4);
+tl.to('#b9', { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, 41.7);
+
+// Beat 10: 42.9s - 方孔更麻烦
+tl.set('#b10', { opacity:1 });
+tl.to('#b10', { opacity:0, duration:0.18, ease:'power2.in' }, 43.8);
+
+// Beat 11: 45.0s - 锯齿
+tl.set('#b11', { opacity:1, transformPerspective:1200, rotationX:-15, scale:0.92, transformOrigin:'50% 50%' });
+tl.to('#b11', { rotationX:0, scale:1, duration:0.5, ease:'back.out(1.2)', clearProps:'transform' }, 45.0);
+tl.to('#b11', { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, 49.6);
+
+// Beat 12: 50.8s - 均匀密封
+tl.set('#b12', { opacity:1 });
+tl.to('#b12', { opacity:0, duration:0.18, ease:'power2.in' }, 52.1);
+
+// Beat 13: 53.3s - 静压箱
+tl.set('#b13', { opacity:1 });
+tl.to('#b13', { opacity:0, duration:0.18, ease:'power2.in' }, 54.5);
+
+// Beat 14: 55.7s - 角铁+5
+tl.set('#b14', { opacity:1 });
+tl.to('#b14', { opacity:0, duration:0.18, ease:'power2.in' }, 58.1);
+
+// Beat 15: 59.3s - 共板-3
+tl.set('#b15', { opacity:1 });
+tl.to('#b15', { opacity:0, duration:0.18, ease:'power2.in' }, 61.5);
+
+// Beat 16: 62.7s - 第一次正尺寸
+tl.set('#b16', { opacity:1, transformPerspective:1200, rotationX:-15, scale:0.92, transformOrigin:'50% 50%' });
+tl.to('#b16', { rotationX:0, scale:1, duration:0.5, ease:'back.out(1.2)', clearProps:'transform' }, 62.7);
+tl.to('#b16', { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, 64.6);
+
+// Beat 17: 65.9s - 磨了一下午
+tl.set('#b17', { opacity:1, transformPerspective:1200, rotationX:-15, scale:0.92, transformOrigin:'50% 50%' });
+tl.to('#b17', { rotationX:0, scale:1, duration:0.5, ease:'back.out(1.2)', clearProps:'transform' }, 65.9);
+tl.to('#b17', { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, 69.0);
+
+// Beat 18: 70.2s - 长度要算好
+tl.set('#b18', { opacity:1 });
+tl.to('#b18', { opacity:0, duration:0.18, ease:'power2.in' }, 71.1);
+
+// Beat 19: 72.3s - 咬口公式
+tl.set('#b19', { opacity:1, transformPerspective:1200, rotationX:-15, scale:0.92, transformOrigin:'50% 50%' });
+tl.to('#b19', { rotationX:0, scale:1, duration:0.5, ease:'back.out(1.2)', clearProps:'transform' }, 72.3);
+tl.to('#b19', { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, 76.3);
+
+// Beat 20: 77.6s - 10mm
+tl.set('#b20', { opacity:1 });
+tl.to('#b20', { opacity:0, duration:0.18, ease:'power2.in' }, 78.6);
+
+// Beat 21: 79.8s - 不预留就短
+tl.set('#b21', { opacity:1 });
+tl.to('#b21', { opacity:0, duration:0.18, ease:'power2.in' }, 80.7);
+
+// Beat 22: 81.9s - 几百次返工
+tl.set('#b22', { opacity:1 });
+tl.to('#b22', { opacity:0, duration:0.18, ease:'power2.in' }, 85.5);
+
+// Beat 23: 86.8s - GB50243
+tl.set('#b23', { opacity:1, transformPerspective:1200, rotationX:-15, scale:0.92, transformOrigin:'50% 50%' });
+tl.to('#b23', { rotationX:0, scale:1, duration:0.5, ease:'back.out(1.2)', clearProps:'transform' }, 86.8);
+tl.to('#b23', { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, 91.5);
+
+// Beat 24: 92.8s - 各厂试错
+tl.set('#b24', { opacity:1 });
+tl.to('#b24', { opacity:0, duration:0.18, ease:'power2.in' }, 94.8);
+
+// Beat 25: 96.0s - 排版系统写死
+tl.set('#b25', { opacity:1, transformPerspective:1200, rotationX:-15, scale:0.92, transformOrigin:'50% 50%' });
+tl.to('#b25', { rotationX:0, scale:1, duration:0.5, ease:'back.out(1.2)', clearProps:'transform' }, 96.0);
+tl.to('#b25', { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, 98.7);
+
+// Beat 26: 99.9s - 自动算好
+tl.set('#b26', { opacity:1, transformPerspective:1200, rotationX:-15, scale:0.92, transformOrigin:'50% 50%' });
+tl.to('#b26', { rotationX:0, scale:1, duration:0.5, ease:'back.out(1.2)', clearProps:'transform' }, 99.9);
+tl.to('#b26', { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, 101.8);
+
+// Beat 27: 103.0s - 结尾
+tl.set('#b27', { opacity:1 });
+// No fade-out, hold to end
+
+// Register timeline with HyperFrames
+window.__timelines = window.__timelines || {};
+window.__timelines["25-jiezui"] = tl;
+</script>
+</body>
+</html>

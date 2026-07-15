@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>技术交底不是靠吼</title>
+<style>
+  @font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1920px;height:1080px;overflow:hidden;margin:0;font-family:'Microsoft YaHei',sans-serif}
+
+  .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.35}
+  .orb-1{width:500px;height:500px;background:radial-gradient(circle,#f97316,transparent);top:-150px;right:-100px}
+  .orb-2{width:450px;height:450px;background:radial-gradient(circle,#3b82f6,transparent);bottom:-120px;left:-80px}
+  .orb-3{width:380px;height:380px;background:radial-gradient(circle,#8b5cf6,transparent);top:50%;left:50%;transform:translate(-50%,-50%)}
+
+  .center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:60px}
+  .clip{position:absolute;inset:0}
+
+  .glass{background:rgba(255,255,255,0.22);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.35);box-shadow:0 8px 32px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.4);border-radius:22px;padding:44px 60px}
+
+  /* 场景布局 */
+  .hero-layout{text-align:center;max-width:90%}
+  .hero-main{font-size:92px;font-weight:900;color:#1e3a5f;line-height:1.15;margin-bottom:12px}
+  .hero-sub{font-size:38px;font-weight:400;color:#64748b;margin-top:8px}
+
+  .story-layout{max-width:88%;text-align:left}
+  .story-line{font-size:38px;color:#1e293b;line-height:1.55;margin-bottom:8px;opacity:0}
+
+  .big-num-layout{text-align:center;max-width:88%}
+  .big-num{font-size:100px;font-weight:900;color:#f97316;line-height:1.1}
+  .big-label{font-size:38px;color:#475569;margin-top:12px}
+
+  .list-layout{max-width:88%;text-align:left}
+  .list-title{font-size:52px;font-weight:900;color:#1e3a5f;margin-bottom:20px}
+  .list-item{font-size:36px;color:#475569;line-height:1.7;margin-bottom:6px;padding-left:12px}
+
+  .quote-layout{text-align:center;max-width:88%}
+  .quote-text{font-size:56px;font-weight:800;color:#1e3a5f;line-height:1.3;font-style:italic}
+
+  .end-layout{text-align:center;max-width:86%}
+  .end-title{font-size:52px;font-weight:800;color:#1e3a5f;margin-bottom:12px}
+  .end-url{font-size:36px;color:#2563eb;font-weight:600}
+</style>
+</head>
+<body>
+
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="144.408" data-width="1920" data-height="1080" style="position:relative;width:1920px;height:1080px;overflow:hidden;background:linear-gradient(135deg,#eff6ff 0%,#f0f4ff 25%,#faf5ff 50%,#fef7ed 75%,#eff6ff 100%);">
+<div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+
+<audio id="narration" class="clip" data-start="0" data-duration="144.408" data-track-index="20" src="narration.mp3" data-volume="1.0"></audio>
+
+<!-- B0 片头 0.1-3.0 -->
+<div id="b0" class="clip" data-start="0.100" data-duration="2.9">
+  <div class="center">
+    <div class="glass hero-layout">
+      <div class="hero-main">技术交底不是靠吼</div>
+      <div class="hero-sub">风管厂车间检查清单是怎么建起来的</div>
+    </div>
+  </div>
+</div>
+
+<!-- B1 故事 3.0-22.0 -->
+<div id="b1" class="clip" data-start="3.0" data-duration="19.0">
+  <div class="center">
+    <div class="glass story-layout">
+      <div class="story-line">上个月，车间出了个事。</div>
+      <div class="story-line">防火板弯头，排版是4片式，师傅做成了U+I式。</div>
+      <div class="story-line">三张板子报废，一千多块钱没了。</div>
+      <div class="story-line">师傅说："你们没人跟我说啊。"</div>
+      <div class="story-line">技术员说："清单上写着呢——四片式下料。"</div>
+      <div class="story-line">师傅翻了翻："这么多字，我就看了尺寸和数量。"</div>
+    </div>
+  </div>
+</div>
+
+<!-- B2 分析 22.0-33.0 -->
+<div id="b2" class="clip" data-start="22.0" data-duration="11.0">
+  <div class="center">
+    <div class="glass story-layout">
+      <div class="story-line">后来我慢慢想明白了。</div>
+      <div class="story-line">技术员排版时脑子里过的是完整模型：</div>
+      <div class="story-line">什么接口、什么接缝、几片下料。</div>
+      <div class="story-line">在CAMduct里设置完，觉得都弄好了。</div>
+      <div class="story-line">但清单到师傅手上——密密麻麻几十行。</div>
+      <div class="story-line">师傅的习惯：扫一眼尺寸，扫一眼数量，开工。</div>
+    </div>
+  </div>
+</div>
+
+<!-- B3 数据 33.0-57.0 -->
+<div id="b3" class="clip" data-start="33.0" data-duration="24.0">
+  <div class="center">
+    <div class="glass" style="padding:50px 70px;display:flex;align-items:center;gap:60px;max-width:88%">
+      <div class="big-num-layout" style="flex-shrink:0">
+        <div class="big-num">四成以上</div>
+        <div class="big-label">接口/接缝搞错</div>
+      </div>
+      <div class="story-layout" style="max-width:100%;margin:0">
+        <div class="story-line" style="margin-bottom:10px">我们有个出错登记系统，用了半年多。</div>
+        <div class="story-line" style="margin-bottom:10px">接口接缝搞错占所有生产错误四成以上。</div>
+        <div class="story-line" style="margin-bottom:10px">信息不缺。</div>
+        <div class="story-line">缺的是怎么让该看的人一眼看到。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- B4 同行做法 57.0-85.0 -->
+<div id="b4" class="clip" data-start="57.0" data-duration="28.0">
+  <div class="center">
+    <div class="glass list-layout">
+      <div class="list-title">去同行厂里看过</div>
+      <div class="list-item">🔸 小作坊：技术员去车间吼一嗓子，吼了就算交了</div>
+      <div class="list-item">🔸 中等规模：微信里发一句"注意角铁法兰"，一小时刷没</div>
+      <div class="list-item">🔸 正规一点的：清单上写备注，但写法没规矩</div>
+      <div class="list-item" style="margin-top:20px;font-weight:700;color:#1e3a5f">结果都一样：出错互相推，吵不出结果。</div>
+    </div>
+  </div>
+</div>
+
+<!-- B5 三样东西 85.0-104.0 -->
+<div id="b5" class="clip" data-start="85.0" data-duration="19.0">
+  <div class="center">
+    <div class="glass list-layout" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="list-title">我们建了三样东西</div>
+      <div class="list-item" style="font-size:40px;font-weight:700;color:#f97316">① 清单标注规则 —— 接口、接缝、特殊要求必须标注</div>
+      <div class="list-item" style="font-size:34px;margin-left:28px">两头不一样的用红色，一眼就能看到</div>
+      <div class="list-item" style="font-size:40px;font-weight:700;color:#3b82f6;margin-top:12px">② 车间检查表 —— 只查最容易出错的三个点</div>
+      <div class="list-item" style="font-size:34px;margin-left:28px">节数超五节的、接口标红的、增修单重走一遍</div>
+      <div class="list-item" style="font-size:40px;font-weight:700;color:#8b5cf6;margin-top:12px">③ 出错登记 —— 每次出错记下来，每月复盘</div>
+      <div class="list-item" style="font-size:34px;margin-left:28px">哪种错最多，下个月就重点盯那块改</div>
+    </div>
+  </div>
+</div>
+
+<!-- B6 总结 104.0-124.0 -->
+<div id="b6" class="clip" data-start="104.0" data-duration="20.0">
+  <div class="center">
+    <div class="glass quote-layout">
+      <div class="quote-text" style="margin-bottom:20px">"就是把吼换成了写</div>
+      <div class="quote-text">把感觉换成了数"</div>
+      <div style="font-size:34px;color:#64748b;margin-top:30px">车间师傅不是不想好好做<br>是信息到他手里已被压缩得只剩尺寸和数量</div>
+    </div>
+  </div>
+</div>
+
+<!-- B7 结尾 124.0-136.0 -->
+<div id="b7" class="clip" data-start="124.0" data-duration="12.0">
+  <div class="center">
+    <div class="glass story-layout" style="text-align:center">
+      <div class="story-line" style="font-size:42px;font-weight:600;text-align:center">老刘现在拿到清单先看红色标注。</div>
+      <div class="story-line" style="font-size:38px;text-align:center;margin-top:12px">他说："看着麻烦点，但确实少错了。"</div>
+      <div class="story-line" style="font-size:38px;text-align:center;margin-top:12px">我觉得，这就够了。</div>
+    </div>
+  </div>
+</div>
+
+<!-- B8 片尾 136.0-144.4 -->
+<div id="b8" class="clip" data-start="136.0" data-duration="8.408">
+  <div class="center">
+    <div class="glass end-layout">
+      <div class="end-title">奇美星暖通风管制作</div>
+      <div class="end-url">tangguoqi.top</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script src="gsap.min.js"></script>
+<script>
+var tl = gsap.timeline({paused:true});
+
+var ci={opacity:0,scale:.85,y:40,filter:"blur(6px)"}, co={opacity:1,scale:1,y:0,filter:"blur(0px)"};
+var xo={opacity:0,scale:.9,y:-20,filter:"blur(4px)"};
+
+// B0 片头
+tl.fromTo("#b0 .glass",ci,co,0.25);
+tl.to("#b0 .glass",xo,2.6);
+tl.set("#b0 .glass",{opacity:0},2.9);
+
+// B1 故事
+tl.fromTo("#b1 .glass",ci,co,3.15);
+tl.fromTo("#b1 .story-line:nth-child(1)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},3.5);
+tl.fromTo("#b1 .story-line:nth-child(2)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},6.5);
+tl.fromTo("#b1 .story-line:nth-child(3)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},9.0);
+tl.fromTo("#b1 .story-line:nth-child(4)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},12.0);
+tl.fromTo("#b1 .story-line:nth-child(5)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},15.5);
+tl.fromTo("#b1 .story-line:nth-child(6)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},18.5);
+tl.to("#b1 .glass",xo,21.0);
+tl.set("#b1 .glass",{opacity:0},22.0);
+
+// B2 分析
+tl.fromTo("#b2 .glass",ci,co,22.15);
+tl.fromTo("#b2 .story-line:nth-child(1)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},22.5);
+tl.fromTo("#b2 .story-line:nth-child(2)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},24.5);
+tl.fromTo("#b2 .story-line:nth-child(3)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},26.5);
+tl.fromTo("#b2 .story-line:nth-child(4)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},28.5);
+tl.fromTo("#b2 .story-line:nth-child(5)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},30.5);
+tl.fromTo("#b2 .story-line:nth-child(6)",{opacity:0,y:20},{opacity:1,y:0,duration:0.3},31.5);
+tl.to("#b2 .glass",xo,32.0);
+tl.set("#b2 .glass",{opacity:0},33.0);
+
+// B3 数据（大字+旁白）
+tl.fromTo("#b3 .glass",ci,co,33.15);
+tl.fromTo("#b3 .big-num",{opacity:0,scale:0.5},{opacity:1,scale:1,duration:0.6,ease:"back.out(1.7)"},33.5);
+tl.fromTo("#b3 .big-label",{opacity:0},{opacity:1,duration:0.3},34.2);
+tl.fromTo("#b3 .story-line:nth-child(3)",{opacity:0,y:15},{opacity:1,y:0,duration:0.3},37.0);
+tl.fromTo("#b3 .story-line:nth-child(4)",{opacity:0,y:15},{opacity:1,y:0,duration:0.3},40.0);
+tl.fromTo("#b3 .story-line:nth-child(5)",{opacity:0,y:15},{opacity:1,y:0,duration:0.3},45.0);
+tl.fromTo("#b3 .story-line:nth-child(6)",{opacity:0,y:15},{opacity:1,y:0,duration:0.3},48.0);
+tl.to("#b3 .glass",xo,55.0);
+tl.set("#b3 .glass",{opacity:0},57.0);
+
+// B4 同行
+tl.fromTo("#b4 .glass",ci,co,57.15);
+tl.fromTo("#b4 .list-title",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},57.5);
+tl.fromTo("#b4 .list-item:nth-child(2)",{opacity:0,x:-30},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},59.5);
+tl.fromTo("#b4 .list-item:nth-child(3)",{opacity:0,x:-30},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},63.5);
+tl.fromTo("#b4 .list-item:nth-child(4)",{opacity:0,x:-30},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},68.0);
+tl.fromTo("#b4 .list-item:nth-child(5)",{opacity:0,scale:0.9},{opacity:1,scale:1,duration:0.5,ease:"back.out(1.5)"},74.0);
+tl.to("#b4 .glass",xo,83.0);
+tl.set("#b4 .glass",{opacity:0},85.0);
+
+// B5 三样东西
+tl.fromTo("#b5 .glass",ci,co,85.15);
+tl.fromTo("#b5 .list-title",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},85.5);
+tl.fromTo("#b5 .list-item:nth-child(2)",{opacity:0,x:-30},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},87.5);
+tl.fromTo("#b5 .list-item:nth-child(3)",{opacity:0},{opacity:1,duration:0.3},89.0);
+tl.fromTo("#b5 .list-item:nth-child(4)",{opacity:0,x:-30},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},91.5);
+tl.fromTo("#b5 .list-item:nth-child(5)",{opacity:0},{opacity:1,duration:0.3},93.0);
+tl.fromTo("#b5 .list-item:nth-child(6)",{opacity:0,x:-30},{opacity:1,x:0,duration:0.4,ease:"back.out(1.5)"},95.5);
+tl.fromTo("#b5 .list-item:nth-child(7)",{opacity:0},{opacity:1,duration:0.3},97.0);
+tl.to("#b5 .glass",xo,102.0);
+tl.set("#b5 .glass",{opacity:0},104.0);
+
+// B6 总结
+tl.fromTo("#b6 .glass",ci,co,104.15);
+tl.fromTo("#b6 .quote-text:nth-child(1)",{opacity:0,scale:0.8},{opacity:1,scale:1,duration:0.6,ease:"back.out(1.7)"},105.0);
+tl.fromTo("#b6 .quote-text:nth-child(2)",{opacity:0,scale:0.8},{opacity:1,scale:1,duration:0.6,ease:"back.out(1.7)"},108.0);
+tl.fromTo("#b6 div:nth-child(3)",{opacity:0,y:20},{opacity:1,y:0,duration:0.5},112.0);
+tl.to("#b6 .glass",xo,122.0);
+tl.set("#b6 .glass",{opacity:0},124.0);
+
+// B7 结尾
+tl.fromTo("#b7 .glass",ci,co,124.15);
+tl.fromTo("#b7 .story-line:nth-child(1)",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},124.6);
+tl.fromTo("#b7 .story-line:nth-child(2)",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},128.0);
+tl.fromTo("#b7 .story-line:nth-child(3)",{opacity:0,y:20},{opacity:1,y:0,duration:0.4},131.0);
+tl.to("#b7 .glass",xo,134.0);
+tl.set("#b7 .glass",{opacity:0},136.0);
+
+// B8 片尾
+tl.fromTo("#b8 .glass",ci,co,136.15);
+tl.to("#b8 .glass",xo,142.5);
+tl.set("#b8 .glass",{opacity:0},144.4);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#fff}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#0f172a,#1e293b,#1e3a5f)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.35}
+.o1{width:420px;height:420px;top:8%;left:3%;background:radial-gradient(circle,rgba(37,99,235,.55),transparent)}
+.o2{width:360px;height:360px;top:45%;right:5%;background:radial-gradient(circle,rgba(249,115,22,.5),transparent)}
+.o3{width:300px;height:300px;bottom:8%;left:35%;background:radial-gradient(circle,rgba(16,185,129,.4),transparent)}
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:60px}
+.glass{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.08);padding:44px 60px}
+.glass .t{font-size:52px;font-weight:900;color:#f1f5f9;line-height:1.3;margin-bottom:12px}
+.glass .t .o{color:#f97316}.glass .t .r{color:#ef4444}.glass .t .g{color:#10b981}
+.glass .s{font-size:34px;color:#cbd5e1;line-height:1.7;margin-top:10px}
+.warn-full{text-align:center;width:100%}
+.warn-full .wt{display:inline-block;background:#ef4444;color:#fff;font-size:32px;font-weight:700;padding:12px 32px;border-radius:8px;margin-bottom:22px}
+.warn-full .wtt{font-size:72px;font-weight:900;color:#f1f5f9;line-height:1.3;max-width:1600px}
+.warn-full .wtt .o{color:#f97316}.warn-full .wtt .g{color:#10b981}
+.warn-full .ws{font-size:34px;color:#94a3b8;margin-top:20px}
+/* 三列卡片 */
+.grid3{display:flex;gap:28px;width:100%;max-width:1600px}
+.gitem{flex:1;background:rgba(255,255,255,.18);backdrop-filter:blur(18px);border-radius:18px;padding:30px 24px;text-align:center;border:1px solid rgba(255,255,255,.1)}
+.gitem .h{font-size:34px;font-weight:700;color:#f1f5f9;margin-bottom:10px;padding-bottom:10px;border-bottom:2px solid rgba(249,115,22,.4)}
+.gitem .h .o{color:#f97316}
+.gitem .d{font-size:28px;color:#94a3b8;line-height:1.5}
+/* 表格样式 */
+.table-wrap{background:rgba(255,255,255,.15);backdrop-filter:blur(18px);border-radius:18px;padding:24px 32px;width:100%;max-width:1650px}
+.table-wrap .ttl{font-size:30px;font-weight:700;color:#f97316;margin-bottom:16px;text-align:center}
+.tbl{width:100%;border-collapse:collapse;font-size:26px;color:#e2e8f0}
+.tbl th{background:rgba(249,115,22,.25);padding:10px 12px;text-align:center;font-weight:700;border:1px solid rgba(255,255,255,.12);color:#fbd38d}
+.tbl td{padding:8px 12px;text-align:center;border:1px solid rgba(255,255,255,.08)}
+.tbl .hl{color:#f97316;font-weight:700}
+.tbl .hl2{color:#10b981;font-weight:700}
+/* 关键点卡片 */
+.key-points{display:flex;flex-direction:column;gap:16px;width:100%;max-width:1400px}
+.kp-item{display:flex;align-items:center;gap:18px;background:rgba(255,255,255,.18);backdrop-filter:blur(18px);border-radius:16px;padding:22px 30px;border-left:6px solid #f97316}
+.kp-num{font-size:44px;font-weight:900;color:#f97316;min-width:60px;text-align:center}
+.kp-txt{font-size:36px;color:#f1f5f9;font-weight:600}
+/* 流程条 */
+.flow{display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap}
+.flow-box{background:rgba(255,255,255,.18);backdrop-filter:blur(14px);border-radius:14px;padding:20px 28px;font-size:30px;font-weight:700;color:#f1f5f9;border:1px solid rgba(255,255,255,.1)}
+.flow-arrow{font-size:42px;color:#f97316;font-weight:700}
+/* 品牌 */
+.brand{text-align:center;margin-top:36px}
+.brand .bn{font-size:36px;color:#f1f5f9;font-weight:700}
+.brand .bu{font-size:30px;color:#3b82f6;font-family:Consolas,monospace;margin-top:8px}
+/* 双栏对比 */
+.double-col{display:flex;gap:40px;width:100%;max-width:1600px}
+.col-item{flex:1;background:rgba(255,255,255,.15);backdrop-filter:blur(18px);border-radius:18px;padding:30px 28px;text-align:center;border:1px solid rgba(255,255,255,.1)}
+.col-item .ch{font-size:38px;font-weight:900;color:#f97316;margin-bottom:12px}
+.col-item .cs{font-size:32px;color:#cbd5e1;line-height:1.6}
+/* 简单文字居中 */
+.big-text{text-align:center;width:100%}
+.big-text .bt{font-size:88px;font-weight:900;color:#f1f5f9;line-height:1.2;padding:0 40px}
+.big-text .bt .o{color:#f97316}
+.big-text .bs{font-size:34px;color:#94a3b8;margin-top:24px}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="255" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+
+  <audio id="narration" class="clip" data-start="0" data-duration="255" data-track-index="10" src="../narration.mp3" data-volume="1.0"></audio>
+
+  <!-- S1: 开场 0-7.5s -->
+  <div class="scene" id="s1">
+    <div class="warn-full">
+      <div class="wtt" id="s1t1">风管板材选多厚<br><span class="o">看起来简单的问题</span></div>
+      <div class="ws" id="s1t2">但在风管厂，隔三差五就要闹一次</div>
+    </div>
+  </div>
+
+  <!-- S2: 小刘的故事 7.5-28s -->
+  <div class="scene" id="s2">
+    <div class="glass" style="max-width:1300px" id="s2c">
+      <div class="s">上周技术部的小刘</div>
+      <div class="t" style="font-size:44px">这个一米乘四十的风管<br>用<span class="o">零点七五</span>的板行不行？</div>
+      <div class="s" style="margin-top:16px">图纸上只标了尺寸，没标风压类别</div>
+    </div>
+  </div>
+
+  <!-- S3: 盲猜厚度 28-33s -->
+  <div class="scene" id="s3">
+    <div class="warn-full">
+      <div class="wtt" id="s3t" style="font-size:76px">这就是<span class="r">盲猜厚度</span><br>一张表能解决的事</div>
+    </div>
+  </div>
+
+  <!-- S4: 三要素 33-50s -->
+  <div class="scene" id="s4">
+    <div class="glass" style="max-width:1400px;width:100%" id="s4c">
+      <div class="t" style="font-size:40px">国标GB50243第4.2.1条<br>选厚度就看<span class="o">三样东西</span></div>
+      <div class="grid3" style="margin-top:20px">
+        <div class="gitem"><div class="h">1 <span class="o">长边尺寸</span></div><div class="d">越长越厚</div></div>
+        <div class="gitem"><div class="h">2 <span class="o">风压类别</span></div><div class="d">压力越高越厚</div></div>
+        <div class="gitem"><div class="h">3 <span class="o">材质</span></div><div class="d">各有一套表</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5: 小刘案例对比 50-62s -->
+  <div class="scene" id="s5">
+    <div class="double-col" id="s5c">
+      <div class="col-item">
+        <div class="ch">低压送风</div>
+        <div class="cs" style="font-size:80px;font-weight:900;color:#10b981">0.75mm</div>
+        <div class="cs" style="margin-top:10px">够了</div>
+      </div>
+      <div class="col-item">
+        <div class="ch" style="color:#ef4444">排烟高压</div>
+        <div class="cs" style="font-size:80px;font-weight:900;color:#ef4444">1.0mm</div>
+        <div class="cs" style="margin-top:10px">少了不行</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S6: 风压类别 62-79s -->
+  <div class="scene" id="s6">
+    <div class="glass" style="max-width:1500px;width:100%" id="s6c">
+      <div class="t" style="font-size:38px;margin-bottom:20px">风压类别分四种</div>
+      <div class="grid3">
+        <div class="gitem"><div class="h"><span class="g">微压</span></div><div class="d">≤125Pa<br>一般通风</div></div>
+        <div class="gitem"><div class="h"><span class="g">低压</span></div><div class="d">125~500Pa<br>空调通风</div></div>
+        <div class="gitem"><div class="h"><span class="o">中压</span></div><div class="d">500~1500Pa<br>空调主风管</div></div>
+      </div>
+      <div class="s" style="text-align:center;margin-top:18px;font-size:36px"><span class="r">高压</span> 1500~2500Pa → 排烟系统</div>
+    </div>
+  </div>
+
+  <!-- S7: 排烟压力 79-82s -->
+  <div class="scene" id="s7">
+    <div class="big-text">
+      <div class="bt" id="s7t">排烟口一启动<br>那个压力<span class="o">不是送风能比的</span></div>
+    </div>
+  </div>
+
+  <!-- S8: 速查表标题 82-86s -->
+  <div class="scene" id="s8">
+    <div class="warn-full">
+      <div class="wtt" style="font-size:64px" id="s8t">矩形镀锌风管<br><span class="o">板材厚度速查表</span></div>
+    </div>
+  </div>
+
+  <!-- S9: 表格上半 86-110s -->
+  <div class="scene" id="s9">
+    <div class="table-wrap" id="s9t">
+      <div class="ttl">长边 ≤ 630mm</div>
+      <table class="tbl">
+        <tr><th>长边 b</th><th>低/微压</th><th>中压</th><th>高压</th></tr>
+        <tr><td>b ≤ 320</td><td class="hl2">0.5</td><td class="hl2">0.5</td><td class="hl">0.75</td></tr>
+        <tr><td>320 &lt; b ≤ 450</td><td class="hl2">0.5</td><td class="hl">0.6</td><td class="hl">0.75</td></tr>
+        <tr><td>450 &lt; b ≤ 630</td><td class="hl">0.6</td><td class="hl">0.75</td><td class="r">1.0</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- S10: 表格下半 110-142s -->
+  <div class="scene" id="s10">
+    <div class="table-wrap" id="s10t">
+      <div class="ttl">长边 &gt; 630mm</div>
+      <table class="tbl">
+        <tr><th>长边 b</th><th>低/微压</th><th>中压</th><th>高压</th></tr>
+        <tr><td>630 &lt; b ≤ 1000</td><td class="hl">0.75</td><td class="hl">0.75</td><td class="r">1.0</td></tr>
+        <tr><td>1000 &lt; b ≤ 1500</td><td class="r">1.0</td><td class="r">1.0</td><td class="hl">1.2</td></tr>
+        <tr><td>1500 &lt; b ≤ 2000</td><td class="r">1.0</td><td class="hl">1.2</td><td class="hl">1.5</td></tr>
+        <tr><td>2000 &lt; b ≤ 4000</td><td class="hl">1.2</td><td class="hl">1.2</td><td>按设计</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- S11: 关键分界点 142-152s -->
+  <div class="scene" id="s11">
+    <div class="key-points" id="s11c">
+      <div class="kp-item"><div class="kp-num">❶</div><div class="kp-txt">边长超过<span class="o">630</span>，低压就要上<span class="o">0.75</span></div></div>
+      <div class="kp-item"><div class="kp-num">❷</div><div class="kp-txt">边长超过<span class="o">1000</span>，低压最少<span class="o">1.0</span></div></div>
+      <div class="kp-item"><div class="kp-num">❸</div><div class="kp-txt">高压系统，最低<span class="r">0.75</span>起步</div></div>
+    </div>
+  </div>
+
+  <!-- S12: 不锈钢+圆管 152-165s -->
+  <div class="scene" id="s12">
+    <div class="double-col" id="s12c">
+      <div class="col-item">
+        <div class="ch">不锈钢</div>
+        <div class="cs">常用<span class="hl">0.5→0.75</span>跳级<br>没有0.6这个厚度</div>
+      </div>
+      <div class="col-item">
+        <div class="ch">圆形风管</div>
+        <div class="cs">可用更薄的板<br>但<span class="r">负压系统</span>要求更厚</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S13: 行业怪现象 165-195s -->
+  <div class="scene" id="s13">
+    <div class="warn-full">
+      <div class="wt" id="s13w">行业怪现象</div>
+      <div class="wtt" style="font-size:60px" id="s13t">很多小厂<span class="o">统一用0.75</span><br>碰上大的再加</div>
+      <div class="ws" id="s13s">以前低压通风多，边长≤1000，问题不大</div>
+    </div>
+  </div>
+
+  <!-- S14: 三变化 195-215s -->
+  <div class="scene" id="s14">
+    <div class="glass" style="max-width:1500px;width:100%" id="s14c">
+      <div class="t" style="font-size:38px;margin-bottom:20px">现在<span class="r">不一样了</span></div>
+      <div class="grid3">
+        <div class="gitem"><div class="h">排烟<span class="o">↑</span></div><div class="d">排烟系统越来越多<br>高压风管占比明显上升</div></div>
+        <div class="gitem"><div class="h">规模<span class="o">↑</span></div><div class="d">边长1500、2000<br>的风管很常见</div></div>
+        <div class="gitem"><div class="h">验收<span class="o">↑</span></div><div class="d">游标卡尺一量<br>板厚不够当场退货</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S15: 我们的教训 215-232s -->
+  <div class="scene" id="s15">
+    <div class="glass" style="max-width:1300px" id="s15c">
+      <div class="t" style="font-size:42px">我们厂也吃过这个亏</div>
+      <div class="s" style="margin-top:14px;text-align:center;font-size:36px">
+        排烟风管用了0.75的板<br>
+        <span class="r">开机鼓包了</span><br>
+        甲方要求<span class="r">全部拆掉重做</span><br>
+        光拆就花了一周
+      </div>
+    </div>
+  </div>
+
+  <!-- S16: 我们的做法 232-252s -->
+  <div class="scene" id="s16">
+    <div class="glass" style="max-width:1500px;width:100%" id="s16c">
+      <div class="t" style="font-size:38px;margin-bottom:20px">现在我们的做法</div>
+      <div class="flow">
+        <div class="flow-box">来图先确认系统</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">不明确直接问</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">红字标注厚度</div>
+      </div>
+      <div class="s" style="text-align:center;margin-top:20px;font-size:34px;color:#f97316">直接问，别猜！猜错了返工的是整个车间</div>
+    </div>
+  </div>
+
+  <!-- S17: 结尾+品牌 252-255s -->
+  <div class="scene" id="s17">
+    <div class="glass" id="s17c">
+      <div class="t" style="font-size:44px">一张厚度表能解决的事<br>前提是得知道<span class="o">查的是哪个系统</span></div>
+      <div class="s" style="margin-top:12px;font-size:30px">做风管这行，最难的不是记数据<br>是把该问的问清楚</div>
+      <div class="brand">
+        <div class="bn">奇美星暖通风管制作</div>
+        <div class="bu">tangguoqi.top</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var tl = gsap.timeline({paused:true});
+function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-15,y:60,scale:.85,filter:"blur(6px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.7,ease:"elastic.out(1,0.4)"},t);tl.to(id,{boxShadow:"0 0 40px rgba(37,99,235,0.25)",duration:.5},">-0.3");tl.to(id,{boxShadow:"0 8px 32px rgba(0,0,0,0.05)",duration:.8},">+0.2");}
+function cardOut(id,t,boundary){tl.to(id,{opacity:0,scale:.88,y:-15,filter:"blur(4px)",duration:.35,ease:"power2.in"},t);tl.set(id,{visibility:"hidden"},boundary);}
+
+// S1 (0-7.5s): 开场
+tl.to("#s1",{opacity:1,duration:.25},0);
+tl.fromTo("#s1t1",{opacity:0,scale:.8},{opacity:1,scale:1,duration:.5,ease:"back.out(1.5)"},.2);
+tl.fromTo("#s1t2",{opacity:0,y:20},{opacity:1,y:0,duration:.4,ease:"power2.out"},1.2);
+tl.to("#s1",{opacity:0,duration:.2},7.3);
+
+// S2 (7.5-28s): 小刘
+tl.to("#s2",{opacity:1,duration:.2},7.5);
+cardIn("#s2c",7.7);
+cardOut("#s2c",27.6,27.85);
+tl.to("#s2",{opacity:0,duration:.2},27.7);
+
+// S3 (28-33s): 盲猜厚度
+tl.to("#s3",{opacity:1,duration:.2},28);
+tl.fromTo("#s3t",{opacity:0,y:-30},{opacity:1,y:0,duration:.4,ease:"power2.out"},28.3);
+tl.to("#s3",{opacity:0,duration:.2},32.8);
+
+// S4 (33-50s): 三要素
+tl.to("#s4",{opacity:1,duration:.2},33);
+cardIn("#s4c",33.2);
+cardOut("#s4c",49.6,49.85);
+tl.to("#s4",{opacity:0,duration:.2},49.7);
+
+// S5 (50-62s): 对比
+tl.to("#s5",{opacity:1,duration:.2},50);
+cardIn("#s5c",50.2);
+cardOut("#s5c",61.6,61.85);
+tl.to("#s5",{opacity:0,duration:.2},61.7);
+
+// S6 (62-79s): 风压类别
+tl.to("#s6",{opacity:1,duration:.2},62);
+cardIn("#s6c",62.2);
+cardOut("#s6c",78.6,78.85);
+tl.to("#s6",{opacity:0,duration:.2},78.7);
+
+// S7 (79-82s): 排烟压力
+tl.to("#s7",{opacity:1,duration:.2},79);
+tl.fromTo("#s7t",{opacity:0,y:20},{opacity:1,y:0,duration:.4,ease:"power2.out"},79.3);
+tl.to("#s7",{opacity:0,duration:.2},81.8);
+
+// S8 (82-86s): 速查表标题
+tl.to("#s8",{opacity:1,duration:.2},82);
+tl.fromTo("#s8t",{opacity:0,scale:.9},{opacity:1,scale:1,duration:.4,ease:"back.out(1.2)"},82.3);
+tl.to("#s8",{opacity:0,duration:.2},85.8);
+
+// S9 (86-110s): 表格上半
+tl.to("#s9",{opacity:1,duration:.2},86);
+cardIn("#s9t",86.2);
+cardOut("#s9t",109.6,109.85);
+tl.to("#s9",{opacity:0,duration:.2},109.7);
+
+// S10 (110-142s): 表格下半
+tl.to("#s10",{opacity:1,duration:.2},110);
+cardIn("#s10t",110.2);
+cardOut("#s10t",141.6,141.85);
+tl.to("#s10",{opacity:0,duration:.2},141.7);
+
+// S11 (142-152s): 关键分界点
+tl.to("#s11",{opacity:1,duration:.2},142);
+cardIn("#s11c",142.2);
+cardOut("#s11c",151.6,151.85);
+tl.to("#s11",{opacity:0,duration:.2},151.7);
+
+// S12 (152-165s): 不锈钢+圆管
+tl.to("#s12",{opacity:1,duration:.2},152);
+cardIn("#s12c",152.2);
+cardOut("#s12c",164.6,164.85);
+tl.to("#s12",{opacity:0,duration:.2},164.7);
+
+// S13 (165-195s): 行业怪现象
+tl.to("#s13",{opacity:1,duration:.2},165);
+tl.fromTo("#s13w",{opacity:0,y:-20},{opacity:1,y:0,duration:.3,ease:"power2.out"},165.3);
+tl.fromTo("#s13t",{opacity:0,scale:.8},{opacity:1,scale:1,duration:.5,ease:"back.out(1.5)"},165.8);
+tl.fromTo("#s13s",{opacity:0,y:20},{opacity:1,y:0,duration:.4,ease:"power2.out"},166.8);
+tl.to("#s13",{opacity:0,duration:.2},194.7);
+
+// S14 (195-215s): 三变化
+tl.to("#s14",{opacity:1,duration:.2},195);
+cardIn("#s14c",195.2);
+cardOut("#s14c",214.6,214.85);
+tl.to("#s14",{opacity:0,duration:.2},214.7);
+
+// S15 (215-232s): 教训
+tl.to("#s15",{opacity:1,duration:.2},215);
+cardIn("#s15c",215.2);
+cardOut("#s15c",231.6,231.85);
+tl.to("#s15",{opacity:0,duration:.2},231.7);
+
+// S16 (232-252s): 做法
+tl.to("#s16",{opacity:1,duration:.2},232);
+cardIn("#s16c",232.2);
+cardOut("#s16c",251.6,251.85);
+tl.to("#s16",{opacity:0,duration:.2},251.7);
+
+// S17 (252-255s): 结尾品牌
+tl.to("#s17",{opacity:1,duration:.2},252);
+cardIn("#s17c",252.2);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

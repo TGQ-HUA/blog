@@ -1,0 +1,11 @@
+{
+  "name": "25-jiezui-video",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "render": "npx --yes hyperframes@0.6.121 render"
+  },
+  "dependencies": {
+    "hyperframes": "0.6.121"
+  }
+}

@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#fff;background:#0c1222}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#1a2332,#0c1222,#060d18)}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.3}
+.o1{width:550px;height:550px;top:-5%;left:-10%;background:radial-gradient(circle,rgba(59,130,246,.4),transparent)}
+.o2{width:420px;height:420px;top:50%;right:-5%;background:radial-gradient(circle,rgba(249,115,22,.35),transparent)}
+.o3{width:380px;height:380px;bottom:5%;left:40%;background:radial-gradient(circle,rgba(16,185,129,.3),transparent)}
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:50px 80px}
+.glass{background:rgba(255,255,255,.06);backdrop-filter:blur(22px);border-radius:26px;box-shadow:0 8px 40px rgba(0,0,0,.15);padding:44px 64px;text-align:center;max-width:1600px;width:88%}
+.glass .t{font-size:56px;font-weight:900;color:#f1f5f9;line-height:1.3;margin-bottom:18px}
+.glass .s{font-size:38px;color:#94a3b8;line-height:1.6}
+.big-note{text-align:center;max-width:1550px;width:90%}
+.big-note .bn{font-size:88px;font-weight:900;color:#f1f5f9;line-height:1.15;margin-bottom:24px}
+.big-note .bn2{font-size:44px;color:#94a3b8;line-height:1.5}
+.big-note .hl{color:#f97316}
+.num{font-size:110px;font-weight:900;color:#f97316;line-height:1.1;margin-bottom:8px}
+.num-label{font-size:38px;color:#cbd5e1;line-height:1.4}
+.warn{background:rgba(239,68,68,.1);border-left:6px solid #ef4444;padding:38px 52px;border-radius:18px;max-width:1550px;width:88%}
+.warn .wt{font-size:62px;font-weight:900;color:#fca5a5;line-height:1.3;margin-bottom:10px}
+.warn .ws{font-size:34px;color:#94a3b8;line-height:1.5}
+.two-cols{display:flex;gap:32px;max-width:1650px;width:90%;justify-content:center}
+.two-cols .col{flex:1;background:rgba(255,255,255,.07);backdrop-filter:blur(18px);border-radius:22px;padding:38px 34px;text-align:center}
+.two-cols .col .ch{font-size:36px;font-weight:700;color:#f97316;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid rgba(249,115,22,.2)}
+.two-cols .col .cd{font-size:30px;color:#94a3b8;line-height:1.55}
+.brand{text-align:center}
+.brand .bn2{font-size:42px;font-weight:700;color:#f1f5f9;margin-bottom:10px}
+.brand .bu{font-size:36px;color:#3b82f6;font-family:Consolas,monospace}
+.brand .tag{font-size:30px;color:#94a3b8;margin-top:14px}
+.check{display:inline-block;background:rgba(16,185,129,.15);color:#6ee7b7;font-size:28px;font-weight:700;padding:8px 24px;border-radius:8px;margin-bottom:14px}
+.list-stack{max-width:1600px;width:88%}
+.list-stack .li{background:rgba(255,255,255,.06);backdrop-filter:blur(16px);border-radius:18px;padding:28px 40px;margin-bottom:16px;display:flex;align-items:center;gap:24px}
+.list-stack .li-n{font-size:42px;font-weight:900;color:#f97316;min-width:56px;text-align:center}
+.list-stack .li-t{font-size:36px;color:#f1f5f9;line-height:1.4}
+.ls-compact .li{padding:20px 32px;margin-bottom:12px}
+.ls-compact .li-n{font-size:36px;min-width:44px}
+.ls-compact .li-t{font-size:32px}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="83" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+
+  <audio id="narration" class="clip" data-start="0" data-duration="83" data-track-index="10" src="narration.mp3" data-volume="1.0"></audio>
+
+  <!-- S1: Hook + 数据对比 (0-8.0s) -->
+  <div class="scene" id="s1">
+    <div class="big-note" id="s1c">
+      <div class="bn" style="font-size:96px">六张板的订单</div>
+      <div style="display:flex;gap:60px;justify-content:center;align-items:center;margin:24px 0">
+        <div style="text-align:center">
+          <div class="num" style="color:#ef4444">7</div>
+          <div class="num-label">软件自动排</div>
+        </div>
+        <div style="font-size:48px;color:#475569">vs</div>
+        <div style="text-align:center">
+          <div class="num" style="color:#10b981">5.5</div>
+          <div class="num-label">师傅手排</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2: 调教观点 (8.0-14.8s) -->
+  <div class="scene" id="s2">
+    <div class="glass" id="s2c">
+      <div class="t" style="font-size:64px;color:#f97316">不是软件不好</div>
+      <div class="t" style="font-size:72px">是你还没学会调教它</div>
+      <div class="s" style="margin-top:24px">CAMduct自动排版有三个最容易翻车的地方</div>
+    </div>
+  </div>
+
+  <!-- S3: 坑1 — 超尺寸拼板 (14.8-21.7s) -->
+  <div class="scene" id="s3">
+    <div class="warn" id="s3c">
+      <div class="wt">坑一：超尺寸拼板方向</div>
+      <div class="ws" style="margin-top:14px">选错了方向 → 师傅上机一滚就裂口<br>整张板直接报废</div>
+      <div style="margin-top:22px;font-size:40px;color:#f1f5f9;font-weight:700">弯头外弧板 → 必须选"垂向"拼板</div>
+    </div>
+  </div>
+
+  <!-- S4: 坑2 — 边料 (21.7-29.7s) -->
+  <div class="scene" id="s4">
+    <div class="glass" id="s4c">
+      <div class="t" style="font-size:60px">坑二：边料管理</div>
+      <div class="s" style="font-size:40px;color:#f1f5f9;margin-top:14px">自动排版不管明天</div>
+      <div class="s" style="margin-top:10px">剩下的全给你切碎</div>
+      <div class="s" style="margin-top:20px;color:#f97316;font-weight:700;font-size:42px">但明天可能有个短节刚好用得上</div>
+    </div>
+  </div>
+
+  <!-- S5: 坑3 — 工艺限制 (29.7-35.6s) -->
+  <div class="scene" id="s5">
+    <div class="glass" id="s5c">
+      <div class="t" style="font-size:60px">坑三：工艺限制</div>
+      <div class="s" style="font-size:38px;color:#f1f5f9;margin-top:14px">软件不知道——</div>
+      <div class="s" style="margin-top:14px;font-size:36px">201# 1.0厚 不能咬口</div>
+      <div class="s" style="font-size:36px">圆管 &lt;100mm 翻不动边</div>
+      <div class="s" style="margin-top:16px;color:#fca5a5;font-size:38px">排出来看着没问题，车间做不了</div>
+    </div>
+  </div>
+
+  <!-- S6: 成果数据 (35.6-45.6s) -->
+  <div class="scene" id="s6">
+    <div class="big-note" id="s6c">
+      <div class="bn" style="font-size:78px">三年 · 从<span class="hl"> 82% </span>到<span class="hl"> 89%</span></div>
+      <div class="bn2">靠的不是换软件<br>是自动排完之后必须再过一遍<span class="hl">手工调整</span></div>
+    </div>
+  </div>
+
+  <!-- S7: 解决方案 (45.6-56.2s) -->
+  <div class="scene" id="s7">
+    <div class="list-stack ls-compact" id="s7c" style="width:88%">
+      <div style="font-size:52px;font-weight:900;color:#f1f5f9;text-align:center;margin-bottom:24px">规则清单</div>
+      <div class="li">
+        <div class="li-n">①</div>
+        <div class="li-t">超尺寸拼板的五个致命方向错误</div>
+      </div>
+      <div class="li">
+        <div class="li-n">②</div>
+        <div class="li-t">接缝选型的对照表</div>
+      </div>
+      <div class="li">
+        <div class="li-n">③</div>
+        <div class="li-t">末张板留边的判断标准</div>
+      </div>
+      <div style="font-size:34px;color:#10b981;text-align:center;margin-top:20px;font-weight:700">打印出来贴工位旁边，新人照表查</div>
+    </div>
+  </div>
+
+  <!-- S8: 行业观察 (56.2-67.7s) -->
+  <div class="scene" id="s8">
+    <div class="two-cols" id="s8c">
+      <div class="col">
+        <div class="ch">小厂为什么不上软件？</div>
+        <div class="cd">
+          不是买不起<br>
+          <span style="color:#f1f5f9;font-size:34px">是调不动</span><br><br>
+          排错一次毁一张板<br>
+          顶师傅半个月工钱
+        </div>
+      </div>
+      <div class="col" style="background:rgba(16,185,129,.08)">
+        <div class="ch" style="color:#10b981">奇美星的答案</div>
+        <div class="cd">
+          踩过的坑写成手册<br>
+          <span style="color:#f1f5f9;font-size:34px">人走了规则还在</span><br>
+          换个人也能干
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S9: 金句 (67.7-76.6s) -->
+  <div class="scene" id="s9">
+    <div class="glass" id="s9c">
+      <div class="t" style="font-size:68px;color:#f97316">好工具不怕用</div>
+      <div class="t" style="font-size:80px">怕的是"默认就行"</div>
+    </div>
+  </div>
+
+  <!-- S10: 互动+品牌 (76.6-83s) -->
+  <div class="scene" id="s10">
+    <div class="glass" id="s10c" style="padding:50px 64px">
+      <div class="t" style="font-size:48px;color:#94a3b8">你车间现在用的是手排还是软件排？</div>
+      <div class="t" style="font-size:48px;color:#94a3b8;margin-bottom:0">板材利用率多少？</div>
+      <div style="font-size:38px;color:#f97316;margin-top:16px;font-weight:700">评论区聊聊</div>
+      <div class="brand" style="margin-top:36px">
+        <div class="bn2">奇美星暖通风管制作</div>
+        <div class="bu">tangguoqi.top</div>
+        <div class="tag">每周分享风管厂技术实战</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var tl = gsap.timeline({paused:true});
+function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-12,y:50,scale:.82,filter:"blur(7px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.65,ease:"elastic.out(1,0.4)"},t);}
+function cardOut(id,t,boundary){tl.to(id,{opacity:0,scale:.88,y:-15,filter:"blur(4px)",duration:.3,ease:"power2.in"},t);tl.set(id,{visibility:"hidden"},boundary);}
+
+// S1: 0-8.0s
+tl.to("#s1",{opacity:1,duration:.2},0);
+cardIn("#s1c",.2);
+cardOut("#s1c",7.6,7.85);
+tl.to("#s1",{opacity:0,duration:.15},7.7);
+
+// S2: 8.0-14.8s
+tl.to("#s2",{opacity:1,duration:.2},8.0);
+cardIn("#s2c",8.2);
+cardOut("#s2c",14.4,14.65);
+tl.to("#s2",{opacity:0,duration:.15},14.5);
+
+// S3: 14.8-21.7s
+tl.to("#s3",{opacity:1,duration:.2},14.8);
+cardIn("#s3c",15.0);
+cardOut("#s3c",21.3,21.55);
+tl.to("#s3",{opacity:0,duration:.15},21.4);
+
+// S4: 21.7-29.7s
+tl.to("#s4",{opacity:1,duration:.2},21.7);
+cardIn("#s4c",21.9);
+cardOut("#s4c",29.3,29.55);
+tl.to("#s4",{opacity:0,duration:.15},29.4);
+
+// S5: 29.7-35.6s
+tl.to("#s5",{opacity:1,duration:.2},29.7);
+cardIn("#s5c",29.9);
+cardOut("#s5c",35.2,35.45);
+tl.to("#s5",{opacity:0,duration:.15},35.3);
+
+// S6: 35.6-45.6s
+tl.to("#s6",{opacity:1,duration:.2},35.6);
+cardIn("#s6c",35.8);
+cardOut("#s6c",45.2,45.45);
+tl.to("#s6",{opacity:0,duration:.15},45.3);
+
+// S7: 45.6-56.2s
+tl.to("#s7",{opacity:1,duration:.2},45.6);
+cardIn("#s7c",45.8);
+cardOut("#s7c",55.8,56.05);
+tl.to("#s7",{opacity:0,duration:.15},55.9);
+
+// S8: 56.2-67.7s
+tl.to("#s8",{opacity:1,duration:.2},56.2);
+cardIn("#s8c",56.4);
+cardOut("#s8c",67.3,67.55);
+tl.to("#s8",{opacity:0,duration:.15},67.4);
+
+// S9: 67.7-76.6s
+tl.to("#s9",{opacity:1,duration:.2},67.7);
+cardIn("#s9c",67.9);
+cardOut("#s9c",76.2,76.45);
+tl.to("#s9",{opacity:0,duration:.15},76.3);
+
+// S10: 76.6-83s
+tl.to("#s10",{opacity:1,duration:.2},76.6);
+cardIn("#s10c",76.8);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

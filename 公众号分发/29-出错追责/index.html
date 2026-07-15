@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920,height=1080" />
+<script src="gsap.min.js"></script>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#fff}
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#eff6ff,#f0f9ff,#eef2f2)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4}
+.o1{width:400px;height:400px;top:10%;left:5%;background:radial-gradient(circle,rgba(37,99,235,.6),transparent)}
+.o2{width:350px;height:350px;top:50%;right:8%;background:radial-gradient(circle,rgba(249,115,22,.5),transparent)}
+.o3{width:300px;height:300px;bottom:10%;left:40%;background:radial-gradient(circle,rgba(37,99,235,.4),transparent)}
+.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:60px}
+.glass{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.05);padding:36px 55px;text-align:center;max-width:1400px}
+.glass .t{font-size:52px;font-weight:900;color:#0f172a;line-height:1.3;margin-bottom:16px}
+.glass .t .o{color:#f97316}.glass .t .r{color:#dc2626}.glass .t .g{color:#10b981}
+.glass .s{font-size:32px;color:#475569;line-height:1.7}
+.glass .m{font-size:38px;opacity:0;color:#0f172a}
+.glass .m-sep{height:14px}
+.glass .btitle{font-size:52px;font-weight:900;color:#0f172a}
+
+/* 警告 + 大字 */
+.warn-full{text-align:center}
+.warn-full .wt{display:inline-block;background:#dc2626;color:#fff;font-size:30px;font-weight:700;padding:10px 28px;border-radius:8px;margin-bottom:18px}
+.warn-full .wtt{font-size:64px;font-weight:900;color:#0f172a;line-height:1.3}
+.warn-full .wtt .o{color:#f97316}
+.warn-full .ws{font-size:32px;color:#64748b;margin-top:14px}
+.warn-full .m{font-size:38px;opacity:0;color:#0f172a;margin-top:8px}
+.warn-full .m-sep{height:14px}
+.warn-full .btitle{font-size:52px;font-weight:900;color:#0f172a}
+
+/* 三栏 */
+.grid3{display:flex;gap:24px;width:100%;max-width:1500px}
+.gitem{flex:1;background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:18px;padding:26px 22px;text-align:center}
+.gitem .h{font-size:30px;font-weight:700;color:#0f172a;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid rgba(249,115,22,.3)}
+.gitem .h .o{color:#f97316}
+.gitem .d{font-size:24px;color:#64748b;line-height:1.5}
+.gitem .m{font-size:38px;opacity:0;color:#0f172a}
+.gitem .m-sep{height:14px}
+.gitem .btitle{font-size:52px;font-weight:900;color:#0f172a}
+
+/* 品牌 */
+.brand{text-align:center;margin-top:36px}
+.brand .bn{font-size:28px;color:#0f172a;font-weight:700}
+.brand .bu{font-size:24px;color:#2563eb;font-family:Consolas,monospace;margin-top:6px}
+
+/* 数字大卡 */
+.bignum{display:flex;gap:40px;justify-content:center;flex-wrap:wrap}
+.numcard{background:rgba(255,255,255,.22);backdrop-filter:blur(20px);border-radius:22px;padding:30px 45px;text-align:center;min-width:280px}
+.numcard .num{font-size:80px;font-weight:900;color:#f97316}
+.numcard .nlabel{font-size:26px;color:#64748b;margin-top:6px}
+</style>
+</head>
+<body>
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="147" data-width="1920" data-height="1080">
+  <div class="bg"></div>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+
+  <audio id="narration" class="clip" data-start="0" data-duration="147" data-track-index="10" src="narration.mp3" data-volume="1.0"></audio>
+
+  <!-- S1: 开场故事 0-20s -->
+  <div class="scene" id="s1">
+    <div class="warn-full">
+      <div class="wt">⚠️ 同一个错犯了三次</div>
+      <div class="wtt" id="s1t1">风管厂出了错<br>大部分不是<span class="o">技术问题</span></div>
+      <div class="ws" id="s1s1">包角做错了 → 推了三个人的手 → 6000块返工</div>
+      <div class="m" id="s1m1">三个月前同一个项目、同样的推诿链条</div>
+    </div>
+  </div>
+
+  <!-- S2: 问题的本质 20-43s -->
+  <div class="scene" id="s2">
+    <div class="glass">
+      <div class="t" id="s2t1"><span class="r">信息断层</span>才是最致命的</div>
+      <div class="s" id="s2s1">报价→排版→下单→车间，每转一手都漏信息</div>
+      <div class="m-sep"></div>
+      <div class="m" id="s2m1">同一个错犯了三次</div>
+      <div class="m" id="s2m2">我才决定自己写个系统管起来</div>
+      <div class="m" id="s2m3">这个系统叫出错登记</div>
+    </div>
+  </div>
+
+  <!-- S3: 三层设计 43-83s -->
+  <div class="scene" id="s3">
+    <div class="grid3">
+      <div class="gitem">
+        <div class="btitle" id="s3ti1">🗂️ 第一层</div>
+        <div class="m" id="s3m1">记录什么</div>
+        <div class="d" id="s3d1">项目名称 · 出错类型<br>责任是谁 · 连带谁<br>损耗成本自动算</div>
+      </div>
+      <div class="gitem">
+        <div class="btitle" id="s3ti2">🔗 第二层</div>
+        <div class="m" id="s3m2">怎么关联</div>
+        <div class="d" id="s3d2">关联个人绩效<br>关联项目档案<br>关联类型统计</div>
+      </div>
+      <div class="gitem">
+        <div class="btitle" id="s3ti3">✅ 第三层</div>
+        <div class="m" id="s3m3">怎么闭环</div>
+        <div class="d" id="s3d3">查到原因不是结束<br>标准不清→修规范<br>沟通漏→改流程</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4: 效果 83-115s -->
+  <div class="scene" id="s4">
+    <div class="glass">
+      <div class="t" id="s4t1">跑了快一年的<span class="g">效果</span></div>
+      <div class="m-sep"></div>
+      <div class="m" id="s4m1">出错率从每月十多起降到五六起</div>
+      <div class="m" id="s4m2">重复出错从三成降到不到一成</div>
+      <div class="m" id="s4m3">师傅们反而更愿意记录了</div>
+      <div class="m-sep"></div>
+      <div class="m" id="s4m4">Q1统计：出错最多的是"尺寸标注不清"</div>
+      <div class="m" id="s4m5">我们出了个培训课</div>
+    </div>
+  </div>
+
+  <!-- S5: 转变+结尾 115-147s -->
+  <div class="scene" id="s5">
+    <div class="glass">
+      <div class="t" id="s5t1">以前追责像<span class="r">审犯人</span></div>
+      <div class="m" id="s5m1">现在系统记录不带情绪</div>
+      <div class="m-sep"></div>
+      <div class="m" id="s5m2">新排版员查了系统记录</div>
+      <div class="m" id="s5m3">发现同样的事出了三次</div>
+      <div class="m" id="s5m4">主动来问：要不要加个流程图？</div>
+      <div class="m" id="s5m5">后来真贴出来了</div>
+      <div class="m-sep"></div>
+      <div class="brand" id="s5brand">
+        <div class="bn">奇美星暖通风管制作</div>
+        <div class="bu">tangguoqi.top</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var tl = gsap.timeline({paused:true});
+function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-15,y:60,scale:.85,filter:"blur(6px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.7,ease:"elastic.out(1,0.4)"},t);tl.to(id,{boxShadow:"0 0 40px rgba(37,99,235,0.25)",duration:.5},">-0.3");tl.to(id,{boxShadow:"0 8px 32px rgba(0,0,0,0.05)",duration:.8},">+0.2");}
+function cardOut(id,t,boundary){tl.to(id,{opacity:0,scale:.88,y:-15,filter:"blur(4px)",duration:.35,ease:"power2.in"},t);tl.set(id,{visibility:"hidden"},boundary);}
+function fadeIn(id,t){tl.fromTo(id,{opacity:0},{opacity:1,duration:.25,ease:"power1.out"},t)}
+function fadeOut(id,t){tl.to(id,{opacity:0,duration:.18,ease:"power1.in"},t)}
+
+// S1 (0-20s): 开场
+tl.to("#s1",{opacity:1,duration:.2},0);
+tl.fromTo("#s1t1",{opacity:0,y:-30},{opacity:1,y:0,duration:.4,ease:"power2.out"},.2);
+tl.fromTo("#s1s1",{opacity:0,y:20},{opacity:1,y:0,duration:.4,ease:"power2.out"},1);
+fadeIn("#s1m1",4);
+fadeOut("#s1m1",18.5);
+tl.to("#s1",{opacity:0,duration:.2},19.8);
+
+// S2 (20-43s): 问题本质
+tl.to("#s2",{opacity:1,duration:.2},20);
+tl.fromTo("#s2t1",{opacity:0,y:-20},{opacity:1,y:0,duration:.4,ease:"power2.out"},20.2);
+tl.fromTo("#s2s1",{opacity:0,y:15},{opacity:1,y:0,duration:.4,ease:"power2.out"},21);
+fadeIn("#s2m1",27);
+fadeIn("#s2m2",30);
+fadeIn("#s2m3",35);
+fadeOut("#s2m1",41.5);
+fadeOut("#s2m2",42);
+fadeOut("#s2m3",42.5);
+tl.to("#s2",{opacity:0,duration:.2},42.8);
+
+// S3 (43-83s): 三层设计
+tl.to("#s3",{opacity:1,duration:.2},43);
+cardIn("#s3ti1",43.5);
+fadeIn("#s3d1",44.5);
+cardIn("#s3ti2",51);
+fadeIn("#s3d2",52);
+cardIn("#s3ti3",65);
+fadeIn("#s3d3",66);
+cardOut("#s3ti1",82,82.3);
+cardOut("#s3ti2",82,82.3);
+cardOut("#s3ti3",82,82.3);
+tl.to("#s3",{opacity:0,duration:.2},82.8);
+
+// S4 (83-115s): 效果
+tl.to("#s4",{opacity:1,duration:.2},83);
+tl.fromTo("#s4t1",{opacity:0,y:-20},{opacity:1,y:0,duration:.4,ease:"power2.out"},83.2);
+fadeIn("#s4m1",86);
+fadeIn("#s4m2",90);
+fadeIn("#s4m3",94);
+fadeIn("#s4m4",100);
+fadeIn("#s4m5",104);
+fadeOut("#s4m1",113.5);
+fadeOut("#s4m2",114);
+fadeOut("#s4m3",114.3);
+fadeOut("#s4m4",114.5);
+fadeOut("#s4m5",114.8);
+tl.to("#s4",{opacity:0,duration:.2},115);
+
+// S5 (115-147s): 转变+结尾
+tl.to("#s5",{opacity:1,duration:.2},115);
+tl.fromTo("#s5t1",{opacity:0,y:-20},{opacity:1,y:0,duration:.4,ease:"power2.out"},115.2);
+fadeIn("#s5m1",118);
+fadeIn("#s5m2",122);
+fadeIn("#s5m3",125);
+fadeIn("#s5m4",128);
+fadeIn("#s5m5",132);
+cardIn("#s5brand",138);
+
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
