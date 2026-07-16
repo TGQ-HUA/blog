@@ -1,0 +1,19 @@
+{{ define "main" }}
+    {{- $paginator := partial "helper/paginator.html" . -}}
+
+    <section class="article-list">
+        {{ range $index, $element := $paginator.Pages }}
+            {{ partial "article-list/default" . }}
+        {{ end }}
+    </section>
+
+    {{- partial "pagination.html" . -}}
+    {{- partial "footer/footer" . -}}
+{{ end }}
+
+{{ define "right-sidebar" }}
+    <aside class="sidebar right-sidebar sticky">
+        {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+        {{ partial "sidebar/auth-widget.html" . }}
+    </aside>
+{{ end }}
