@@ -1,0 +1,25 @@
+<div id="auth-sidebar" style="margin-top:16px;padding:16px;background:var(--glass-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:16px;text-align:center">
+    <!-- 未登录 -->
+    <div id="auth-sb-out">
+        <p style="font-size:13px;color:#6b7280;margin:0 0 10px">登录后查看文章</p>
+        <a href="/login/" style="display:inline-block;padding:8px 20px;background:var(--accent-color);color:#fff;border-radius:10px;text-decoration:none;font-size:14px;font-weight:600">登录 / 注册</a>
+    </div>
+    <!-- 已登录 -->
+    <div id="auth-sb-in" style="display:none">
+        <p style="font-size:13px;color:#10b981;margin:0 0 4px">✓ 已登录</p>
+        <p style="font-size:12px;color:#374151;margin:0" id="auth-sb-email"></p>
+        <a href="#" onclick="document.cookie='session=;Max-Age=0;path=/';location.reload();return false" style="font-size:11px;color:#9ca3af;text-decoration:none">退出</a>
+    </div>
+</div>
+<script>
+(function(){
+    fetch('https://tangguoqi.top/auth/me',{credentials:'include'})
+    .then(r=>r.json()).then(d=>{
+        if(d.user){
+            document.getElementById('auth-sb-out').style.display='none';
+            document.getElementById('auth-sb-in').style.display='block';
+            document.getElementById('auth-sb-email').textContent=d.user.email;
+        }
+    });
+})();
+</script>

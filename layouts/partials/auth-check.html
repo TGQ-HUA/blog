@@ -1,0 +1,19 @@
+<script>
+// 访问控制：文章页需要登录
+(function(){
+    const AUTH = 'https://tangguoqi.top/auth';
+    const isHome = location.pathname === '/' || location.pathname === '/index.html';
+    const isLoginPage = location.pathname.startsWith('/login');
+    if (isHome || isLoginPage) return;
+
+    // 检查登录状态
+    fetch(AUTH + '/me', { credentials: 'include' })
+        .then(r => r.json())
+        .then(d => {
+            if (!d.user) {
+                localStorage.setItem('auth_back', location.href);
+                location.href = '/login/';
+            }
+        });
+})();
+</script>
