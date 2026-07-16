@@ -8,10 +8,5 @@
                 {{ partial (printf "widget/%s" .type) (dict "Context" $context "Params" $params) }}
             {{ end }}
         {{ end }}
-        {{ partial "sidebar/auth-widget.html" $context }}
-    </aside>
-{{- else -}}
-    <aside class="sidebar right-sidebar sticky">
-        {{ partial "sidebar/auth-widget.html" . }}
     </aside>
 {{ end }}
