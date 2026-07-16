@@ -10,7 +10,7 @@ export default {
       if (path === '/auth/login' && request.method === 'POST') return await handleLogin(request, env);
       if (path === '/auth/verify' && request.method === 'GET') return await handleVerify(url, env);
       if (path === '/auth/me' && request.method === 'GET') return await handleMe(request, env);
-      if (path === '/auth/logout' && request.method === 'POST') return handleLogout();
+      if (path === '/auth/logout') return handleLogout(request);
       return cors(new Response('Not Found', { status: 404 }));
     } catch(e) {
       return cors(json({ error: e.message }, 500));
@@ -82,9 +82,13 @@ async function handleMe(request, env) {
 }
 
 function handleLogout() {
-  const res = cors(json({ ok: true }));
-  res.headers.set('Set-Cookie', 'session=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0');
-  return res;
+  return new Response(null, {
+    status: 302,
+    headers: {
+      'Location': '/',
+      'Set-Cookie': 'session=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0'
+    }
+  });
 }
 
 async function sendEmail(to, code, env) {
