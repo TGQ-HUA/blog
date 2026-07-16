@@ -100,7 +100,7 @@ function handleLogin(){
 function handleVerify(){
     const code=document.getElementById('login-code').value;
     const m=document.getElementById('login-msg');
-    fetch(AUTH+'/verify?token='+code+'&t='+token,{credentials:'include'})
+    fetch(AUTH+'/verify?token='+code+'&t='+encodeURIComponent(token),{credentials:'include'})
     .then(r=>r.json()).then(d=>{
         if(d.ok) showDone(d.email);
         else{m.textContent=d.error||'验证失败';m.style.color='#dc2626';}

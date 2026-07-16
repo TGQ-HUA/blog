@@ -42,7 +42,7 @@ async function handleLogin(request, env) {
 
 async function handleVerify(url, env) {
   const code = url.searchParams.get('token');
-  const fullToken = url.searchParams.get('t') || '';
+  const fullToken = decodeURIComponent(url.searchParams.get('t') || '');
   if (!code) return cors(json({error:'缺少验证码'},400));
 
   let email;
