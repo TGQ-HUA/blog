@@ -19,6 +19,9 @@ export default {
       if (path === '/auth/comment' && request.method === 'POST') return await handleComment(request, env);
       if (path === '/auth/comment' && request.method === 'GET') return await getComments(url, env);
 
+      // 管理
+      if (path === '/auth/admin/users' && request.method === 'GET') return await adminUsers(url, env);
+
       return cors(new Response('Not Found', { status: 404 }));
     } catch(e) {
       return cors(json({ error: e.message }, 500));
@@ -37,6 +40,11 @@ async function ensureTables(env) {
     created_at TEXT DEFAULT (datetime('now'))
   )`).run();
   await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_comments_slug ON comments(article_slug)`).run();
+  await env.DB.prepare(`CREATE TABLE IF NOT EXISTS login_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL,
+    created_at TEXT DEFAULT (datetime('now'))
+  )`).run();
   tablesReady = true;
 }
 
@@ -145,6 +153,10 @@ async function handleVerify(url, env) {
   const sessionSig = await sign(sessionPayload, env.SECRET || 'blog-secret');
   const session = `${sessionPayload}|${sessionSig}`;
 
+  // 记录登录
+  await ensureTables(env);
+  await env.DB.prepare('INSERT INTO login_logs (email) VALUES (?)').bind(email).run();
+
   const res = cors(json({ ok: true, email, id: 1 }));
   res.headers.set('Set-Cookie', `session=${encodeURIComponent(session)}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800`);
   return res;
@@ -163,6 +175,19 @@ function handleLogout() {
       'Set-Cookie': 'session=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0'
     }
   });
+}
+
+// ====== 管理：查看登录用户 ======
+async function adminUsers(url, env) {
+  const key = url.searchParams.get('key');
+  if (key !== (env.ADMIN_KEY || 'tang-admin-2026')) return cors(json({error:'无权限'},403));
+
+  await ensureTables(env);
+  const { results } = await env.DB.prepare(
+    'SELECT email, MAX(created_at) as last_login, COUNT(*) as times FROM login_logs GROUP BY email ORDER BY last_login DESC'
+  ).all();
+
+  return cors(json({ users: results }));
 }
 
 // ====== 邮件 ======
