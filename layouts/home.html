@@ -12,8 +12,5 @@
 {{ end }}
 
 {{ define "right-sidebar" }}
-    <aside class="sidebar right-sidebar sticky">
-        {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
-        {{ partial "sidebar/auth-widget.html" . }}
-    </aside>
+    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
 {{ end }}
