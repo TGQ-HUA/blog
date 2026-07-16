@@ -35,8 +35,5 @@
 {{ end }}
 
 {{ define "right-sidebar" }}
-    <aside class="sidebar right-sidebar sticky">
-        {{ if .Scratch.Get "hasWidget" }}{{ partial "sidebar/right.html" (dict "Context" . "Scope" "page") }}{{ end }}
-        {{ partial "sidebar/auth-widget.html" . }}
-    </aside>
+    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "page") }}
 {{ end }}
