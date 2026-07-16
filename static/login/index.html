@@ -60,6 +60,7 @@
     <div id="login-form">
         <input id="login-email" type="email" placeholder="your@email.com" />
         <button id="login-send" class="btn btn-primary" onclick="handleLogin()">发送验证码</button>
+        <span id="login-countdown" style="display:none;font-size:13px;color:#6b7280;margin-left:8px"></span>
         <p class="msg" id="login-msg"></p>
         <div id="code-area" style="display:none">
             <input id="login-code" type="text" placeholder="输入6位验证码" maxlength="6" style="font-size:20px;text-align:center;letter-spacing:6px" />
@@ -83,17 +84,29 @@ fetch(AUTH+'/me',{credentials:'include'}).then(r=>r.json()).then(d=>{
     if(d.user) showDone(d.user.email);
 });
 
+let cooldown=0;
+
 function handleLogin(){
+    if(cooldown>0)return;
     const e=document.getElementById('login-email').value;
     const m=document.getElementById('login-msg');
     const b=document.getElementById('login-send');
+    const cd=document.getElementById('login-countdown');
     if(!e){m.textContent='请输入邮箱';m.style.color='#dc2626';return;}
     m.textContent='发送中...';m.style.color='#6b7280';b.disabled=true;
     fetch(AUTH+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e}),credentials:'include'})
     .then(r=>r.json()).then(d=>{
         b.disabled=false;
-        if(d.ok){token=d._t;m.textContent='验证码已发送，请查收邮件';m.style.color='#10b981';document.getElementById('code-area').style.display='block';}
-        else{m.textContent=d.error||'失败';m.style.color='#dc2626';}
+        if(d.ok){
+            token=d._t;m.textContent='验证码已发送，请查收邮件';m.style.color='#10b981';
+            document.getElementById('code-area').style.display='block';
+            // 60秒冷却
+            cooldown=60;cd.style.display='inline';cd.textContent=cooldown+'s';
+            let timer=setInterval(()=>{
+                cooldown--;cd.textContent=cooldown+'s';
+                if(cooldown<=0){clearInterval(timer);cd.style.display='none';}
+            },1000);
+        }else{m.textContent=d.error||'失败';m.style.color='#dc2626';}
     });
 }
 
