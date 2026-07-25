@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080,height=1920">
+<title>技术交底</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+  width:1080px; height:1920px; overflow:hidden; 
+  background: linear-gradient(145deg, #0b0e14 0%, #1a1f2c 100%);
+  font-family: 'Inter','Microsoft YaHei','PingFang SC',sans-serif;
+  display: flex; align-items: center; justify-content: center;
+}
+#stage {
+  position:relative; width:960px; height:1720px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.m { 
+  position:absolute; opacity:0; font-size:42px; line-height:1.5;
+  color:#e8edf5; text-align:center; width:880px;
+  padding:36px 44px; border-radius:22px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.btitle { font-size:88px; font-weight:900; color:#f0d060; text-shadow:0 0 40px rgba(240,208,96,0.3); }
+.bmid { font-size:72px; font-weight:700; color:#7ec8e3; }
+.bnum { font-size:100px; font-weight:900; color:#ff7e5f; }
+.m-sep { height:14px; }
+.card-accent { border-color:rgba(240,208,96,0.25); background:rgba(240,208,96,0.04); }
+.card-blue { border-color:rgba(126,200,227,0.25); background:rgba(126,200,227,0.04); }
+.card-orange { border-color:rgba(255,126,95,0.25); background:rgba(255,126,95,0.04); }
+</style>
+</head>
+<body>
+<div id="stage" data-composition-id="main" data-width="1080" data-height="1920" data-duration="135.6">
+<audio id="audio" src="narration.mp3" data-start="0" data-duration="136" data-track-index="0" data-volume="1"></audio>
+</div>
+
+<script src="../my-video/gsap.min.js"></script>
+<script>
+// ====== BEAT DATA ======
+// [start, end, type, text(s)]
+const beats = [
+  [0.100, 2.550, 'btitle', ['技术交底']],
+  [2.500, 4.432, 'bare', ['老李这个月第三次来找我了']],
+  [4.432, 7.546, 'card-orange', ['脸黑得跟锅底似的']],
+  [7.546, 9.328, 'card', ['防火板弯头的包角尺寸']],
+  [9.328, 11.793, 'card', ['又做错了。三个弯头全废了']],
+  [11.793, 14.571, 'bare', ['师傅说，是按交底单做的']],
+  [14.571, 18.704, 'card-blue', ['我翻出交底单一看，尺寸没错']],
+  [18.704, 21.157, 'card-blue', ['但没写清成型净尺寸和展开下料尺寸的区别']],
+  [21.157, 23.738, 'bare', ['老师傅按展开尺寸下了料']],
+  [23.738, 25.810, 'bare', ['成型后一量，短了十八毫米']],
+  [25.810, 28.078, 'btitle', ['三块防火板，白搭']],
+  [28.078, 31.377, 'card', ['这不是谁对谁错的问题']],
+  [31.377, 33.333, 'card', ['我以为说清楚了，他以为看懂了']],
+  [33.333, 36.631, 'btitle', ['中间差了十八条街']],
+  [36.631, 38.402, 'bmid', ['风管厂的技术交底']],
+  [38.402, 41.864, 'bmid', ['容易断在三个地方']],
+  [41.864, 44.942, 'btitle', ['第一，写了没人看']],
+  [44.942, 48.159, 'bare', ['技术部出的规范打印出来往车间一贴']],
+  [48.159, 51.400, 'card', ['前三天有人瞄一眼，一周后落灰']],
+  [51.400, 53.182, 'card', ['不是师傅不配合，是规范写得太厚了']],
+  [53.182, 56.319, 'bare', ['他要的是我这台机子今天这个活怎么干']],
+  [56.319, 59.212, 'btitle', ['第二，看了没人做']],
+  [59.212, 61.990, 'card-blue', ['一个批次五个师傅做出来的翻边宽度']],
+  [61.990, 64.456, 'card-blue', ['最小的六毫米，最大的十二毫米']],
+  [64.456, 67.557, 'bare', ['按国标，翻边不得小于六毫米']],
+  [67.557, 69.479, 'bare', ['不违反标准，但不均匀']],
+  [69.479, 71.655, 'card-blue', ['车间师傅觉得这么干又不是不能用']],
+  [71.655, 74.687, 'btitle', ['第三，做了没人验']],
+  [74.687, 75.937, 'bare', ['小厂哪有专职质检员']],
+  [75.937, 77.395, 'card-orange', ['等发现问题，管子已经在工地上了']],
+  [77.395, 78.935, 'btitle', ['怎么解决？']],
+  [78.935, 81.689, 'bmid', ['三个笨办法']],
+  [81.689, 84.687, 'btitle', ['一页纸原则']],
+  [84.687, 86.168, 'card', ['每条规范配一页实操速查表']],
+  [86.168, 90.405, 'card', ['只写这个场景怎么做，后果是什么']],
+  [90.405, 92.337, 'btitle', ['首件确认制']],
+  [92.337, 93.831, 'card-blue', ['新批次第一个件做完']],
+  [93.831, 97.557, 'card-blue', ['叫技术部看一眼再批量做']],
+  [97.557, 99.317, 'card-blue', ['批量返工少了六成']],
+  [99.317, 101.365, 'btitle', ['A-B角互检']],
+  [101.365, 104.571, 'card-orange', ['A排版，B核对，双方签字才上传下料']],
+  [104.571, 106.018, 'card-orange', ['出错率降了四成']],
+  [106.018, 108.843, 'bare', ['还有一个容易被忽略的']],
+  [108.843, 112.141, 'card', ['别等开工前一天把所有交底扔过去']],
+  [112.141, 115.162, 'bmid', ['分三批交']],
+  [115.162, 117.928, 'bare', ['开工前交：这个项目要注意什么']],
+  [117.928, 119.861, 'card-blue', ['首批做完交：验收中的共性问题']],
+  [119.861, 121.666, 'card-blue', ['下单前交：清量要调整的地方']],
+  [121.666, 124.409, 'bmid', ['一次交一点，车间消化得了']],
+  [124.409, 127.650, 'bare', ['老李后来改了流程']],
+  [127.650, 130.266, 'btitle', ['凡是防火板弯头']],
+  [130.266, 132.916, 'card', ['交底单上必须标注两个字段']],
+  [132.916, 135.520, 'card', ['成型后净尺寸和展开预留尺寸']],
+];
+
+// ====== BUILD DOM ======
+const stage = document.getElementById('stage');
+// Add a persistent title
+const titleEl = document.createElement('div');
+titleEl.id = 'b0';
+titleEl.style.cssText = 'position:absolute;opacity:1;width:880px;text-align:center;top:120px;';
+const titleSub = document.createElement('div');
+titleSub.className = 'm bmid';
+titleSub.textContent = '奇美星暖通风管制作';
+titleSub.style.fontSize = '32px';
+titleSub.style.background = 'none'; titleSub.style.backdropFilter = 'none'; titleSub.style.border = 'none';
+titleEl.appendChild(titleSub);
+stage.appendChild(titleEl);
+
+beats.forEach((b, idx) => {
+  const [start, end, type, texts] = b;
+  const div = document.createElement('div');
+  div.id = 'b' + (idx + 1);
+  div.style.cssText = 'position:absolute;opacity:0;width:880px;text-align:center;';
+  texts.forEach(t => {
+    const el = document.createElement('div');
+    if (type === 'btitle') { el.className = 'm btitle'; }
+    else if (type === 'bmid') { el.className = 'm bmid'; }
+    else if (type === 'bare') { 
+      el.className = 'm';
+      el.style.background = 'none'; el.style.backdropFilter = 'none'; el.style.border = 'none';
+    }
+    else if (type === 'card-blue') { el.className = 'm card-blue'; }
+    else if (type === 'card-orange') { el.className = 'm card-orange'; }
+    else { el.className = 'm card-accent'; }
+    el.textContent = t;
+    if (type === 'bare') el.style.fontSize = '44px';
+    div.appendChild(el);
+  });
+  stage.appendChild(div);
+});
+
+// ====== GSAP TIMELINE ======
+const tl = gsap.timeline({paused:true});
+beats.forEach((b, idx) => {
+  const [start, end] = b;
+  const el = '#b' + (idx + 1);
+  const holdDur = end - start - 0.3;
+  // Fade in with cardIn effect
+  tl.fromTo(el, { opacity:0, scale:0.85, rotationX:15, filter:'blur(8px)' }, 
+    { opacity:1, scale:1, rotationX:0, filter:'blur(0px)', duration:0.25, ease:'back.out(1.4)' }, start);
+  // Hold
+  if (holdDur > 0.05) {
+    tl.to({}, { duration: holdDur }, start + 0.25);
+  }
+  // Fade out
+  tl.to(el, { opacity:0, scale:0.92, filter:'blur(4px)', duration:0.15, ease:'power2.in' }, end - 0.15);
+});
+
+// Start the timeline
+tl.play();
+
+window.__timelines = window.__timelines || {};
+window.__timelines.main = tl;
+</script>
+</body>
+</html>

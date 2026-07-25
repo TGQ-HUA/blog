@@ -1,146 +1,156 @@
-<!doctype html>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=1920, height=1080" />
-<script src="gsap.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080,height=1920">
+<title>角铁法兰排版算法</title>
 <style>
-@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
-*{margin:0;padding:0;box-sizing:border-box}
-body{width:1920px;height:1080px;overflow:hidden;font-family:"Microsoft YaHei",Arial,sans-serif;color:#fff}
-.bg{position:absolute;inset:0;background:linear-gradient(150deg,#eff6ff,#f0f9ff,#eef2f2)}
-.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4}
-.o1{width:400px;height:400px;top:10%;left:5%;background:radial-gradient(circle,rgba(37,99,235,.6),transparent)}
-.o2{width:350px;height:350px;top:50%;right:8%;background:radial-gradient(circle,rgba(249,115,22,.5),transparent)}
-.o3{width:300px;height:300px;bottom:10%;left:40%;background:radial-gradient(circle,rgba(37,99,235,.4),transparent)}
-.scene{position:absolute;inset:0;opacity:0;display:flex;align-items:center;justify-content:center;padding:60px}
-.glass{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.05);padding:36px 55px;text-align:center}
-.glass .t{font-size:52px;font-weight:900;color:#0f172a;line-height:1.2;margin-bottom:16px}
-.glass .t .o{color:#f97316}.glass .t .r{color:#dc2626}.glass .t .g{color:#10b981}
-.glass .s{font-size:32px;color:#475569;line-height:1.7}
-.warn-full{text-align:center}
-.warn-full .wt{display:inline-block;background:#dc2626;color:#fff;font-size:30px;font-weight:700;padding:10px 28px;border-radius:8px;margin-bottom:18px}
-.warn-full .wtt{font-size:64px;font-weight:900;color:#0f172a;line-height:1.3}
-.warn-full .wtt .o{color:#f97316}
-.warn-full .ws{font-size:32px;color:#64748b;margin-top:14px}
-
-/* 三行要点 */
-.grid3{display:flex;gap:24px;width:100%;max-width:1500px}
-.gitem{flex:1;background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:18px;padding:26px 22px;text-align:center}
-.gitem .h{font-size:30px;font-weight:700;color:#0f172a;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid rgba(249,115,22,.3)}
-.gitem .h .o{color:#f97316}
-.gitem .d{font-size:24px;color:#64748b;line-height:1.5}
-
-/* 决策流程 */
-.flow{display:flex;align-items:center;gap:20px;justify-content:center}
-.flow-box{background:rgba(255,255,255,.22);backdrop-filter:blur(20px);border-radius:14px;padding:20px 28px;font-size:28px;font-weight:700;color:#0f172a}
-.flow-arrow{font-size:40px;color:#f97316}
-
-.brand{text-align:center;margin-top:36px}
-.brand .bn{font-size:28px;color:#0f172a;font-weight:700}
-.brand .bu{font-size:24px;color:#2563eb;font-family:Consolas,monospace;margin-top:6px}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+  width:1080px; height:1920px; overflow:hidden; 
+  background: linear-gradient(145deg, #0b0e14 0%, #1a1f2c 100%);
+  font-family: 'Inter','Microsoft YaHei','PingFang SC',sans-serif;
+  display: flex; align-items: center; justify-content: center;
+}
+#stage {
+  position:relative; width:960px; height:1720px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.m { 
+  position:absolute; opacity:0; font-size:42px; line-height:1.5;
+  color:#e8edf5; text-align:center; width:880px;
+  padding:36px 44px; border-radius:22px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.btitle { font-size:96px; font-weight:900; color:#f0d060; text-shadow:0 0 40px rgba(240,208,96,0.3); }
+.bmid { font-size:88px; font-weight:700; color:#7ec8e3; }
+.bnum { font-size:100px; font-weight:900; color:#ff7e5f; }
+.m-sep { height:14px; }
+.card-accent { border-color:rgba(240,208,96,0.25); background:rgba(240,208,96,0.04); }
+.card-blue { border-color:rgba(126,200,227,0.25); background:rgba(126,200,227,0.04); }
+.card-orange { border-color:rgba(255,126,95,0.25); background:rgba(255,126,95,0.04); }
 </style>
 </head>
 <body>
-<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="63" data-width="1920" data-height="1080">
-  <div class="bg"></div>
-  <div class="orb o1"></div>
-  <div class="orb o2"></div>
-  <div class="orb o3"></div>
-
-  <audio id="narration" class="clip" data-start="0" data-duration="63" data-track-index="10" src="narration.mp3" data-volume="1.0"></audio>
-
-  <!-- S1: 返工率+对齐方式 0-21.2s -->
-  <div class="scene" id="s1">
-    <div class="warn-full">
-      <div class="wt" id="w1">⚠️ 返工率排第二的管件</div>
-      <div class="wtt" id="w2">大小头排单<br><span class="o">八成是选错了对齐方式</span></div>
-      <div class="ws" id="w3">把两段不同大小的风管连起来——看着简单，坑最多</div>
-    </div>
-    <div class="grid3" id="g1s" style="position:absolute;bottom:120px;left:50%;transform:translateX(-50%);width:1400px;opacity:0">
-      <div class="gitem"><div class="h">🔹 <span class="o">对中</span></div><div class="d">默认选项<br>图纸没标注就走这个</div></div>
-      <div class="gitem"><div class="h">🔹 <span class="o">平边</span></div><div class="d">贴墙贴顶<br>一边对齐</div></div>
-      <div class="gitem"><div class="h">🔹 <span class="o">偏差</span></div><div class="d">两端不在线上<br>需要处理</div></div>
-    </div>
-  </div>
-
-  <!-- S2: 成型决策+偏差危害 21.2-34.8s -->
-  <div class="scene" id="s2">
-    <div class="glass" id="g2" style="max-width:1200px">
-      <div class="t" style="font-size:42px">成型决策 &amp; 偏差危害</div>
-      <div class="s" style="margin-top:10px;text-align:left;font-size:30px">
-        <span style="color:#f97316;font-weight:700">成型：</span><br>
-        宽高都不同 → <strong>四片式</strong>下料<br>
-        只变宽或只变高 → <strong>U+I型</strong>就行<br><br>
-        <span style="color:#dc2626;font-weight:700">偏差过大的后果：</span><br>
-        中段变小 → 风阻增大 → 风量减小 → 风机白做功
-      </div>
-    </div>
-  </div>
-
-  <!-- S3: 改善+换S弯 34.8-54.4s -->
-  <div class="scene" id="s3">
-    <div class="glass" id="g3" style="max-width:1300px">
-      <div class="t" style="font-size:42px;color:#10b981">三条改善措施</div>
-      <div class="s" style="margin-top:10px;text-align:left;font-size:30px">
-        <span style="color:#10b981;font-weight:700">①</span> 加长管件——五百改一千<br>
-        <span style="color:#10b981;font-weight:700">②</span> 查偏移量——对中两边一致，平边一边为零<br>
-        <span style="color:#10b981;font-weight:700">③</span> 高差太大，别硬做变径，<span style="color:#f97316;font-weight:700">改S弯</span>
-      </div>
-      <div style="margin-top:16px;padding:12px 20px;background:rgba(249,115,22,0.12);border-radius:10px;font-size:28px;color:#0f172a;text-align:center">
-        <span style="color:#dc2626;font-weight:700">什么时候换S弯？</span><br>
-        宽高同时变+有偏移 → S弯优先<br>
-        高差 &gt; 截面三成 → 果断换
-      </div>
-    </div>
-  </div>
-
-  <!-- S4: 口诀+品牌 54.4-58.6s -->
-  <div class="scene" id="s4">
-    <div class="glass" id="g4">
-      <div class="t" style="font-size:50px"><span class="o">先看对齐</span> → 再看尺寸 → 别硬做</div>
-      <div class="s" style="margin-top:10px">大小头排单三步口诀</div>
-      <div class="brand">
-        <div class="bn">奇美星暖通风管制作</div>
-        <div class="bu">tangguoqi.top</div>
-      </div>
-    </div>
-  </div>
+<div id="stage" data-composition-id="main" data-width="1080" data-height="1920" data-duration="128">
+<audio id="audio" src="narration.mp3" data-start="0" data-duration="128" data-track-index="0" data-volume="1"></audio>
 </div>
 
+<script src="gsap.min.js"></script>
 <script>
-var tl = gsap.timeline({paused:true});
-function cardIn(id,t){tl.fromTo(id,{opacity:0,rotationX:-15,y:60,scale:.85,filter:"blur(6px)"},{opacity:1,rotationX:0,y:0,scale:1,filter:"blur(0px)",duration:.7,ease:"elastic.out(1,0.4)"},t);tl.to(id,{boxShadow:"0 0 40px rgba(37,99,235,0.25)",duration:.5},">-0.3");tl.to(id,{boxShadow:"0 8px 32px rgba(0,0,0,0.05)",duration:.8},">+0.2");}
-function cardOut(id,t,boundary){tl.to(id,{opacity:0,scale:.88,y:-15,filter:"blur(4px)",duration:.35,ease:"power2.in"},t);tl.set(id,{visibility:"hidden"},boundary);}
+// ====== BEAT DATA ======
+// [start, end, type, text(s)]
+const beats = [
+  [0.1, 2.156, 'btitle', ['角铁法兰排版算法']],
+  [2.106, 3.703, 'btitle', ['数学题算不对']],
+  [3.703, 5.601, 'btitle', ['车间师傅全白干']],
+  [5.601, 7.627, 'card', ['🏭 库房里堆了一堆料头']],
+  [7.627, 9.062, 'card', ['长的两米多']],
+  [9.062, 10.347, 'card', ['短的半米']],
+  [10.347, 12.187, 'card', ['全是切割剩下的']],
+  [12.187, 13.692, 'bare', ['一个订单下来']],
+  [13.692, 16.446, 'bare', ['各种尺寸的法兰混在一起排']],
+  [16.446, 18.263, 'bare', ['谁先排谁后排']],
+  [18.263, 20.127, 'bare', ['全靠师傅凭感觉']],
+  [20.127, 21.354, 'card-blue', ['排到后面']],
+  [21.354, 23.738, 'card-blue', ['只剩一堆没法用的料头']],
+  [23.738, 25.034, 'card-blue', ['大材小用']],
+  [25.034, 26.388, 'card-blue', ['小材浪费']],
+  [26.388, 27.986, 'bare', ['一维下料问题']],
+  [27.986, 30.046, 'bare', ['学术圈研究了几十年']],
+  [30.046, 31.840, 'bare', ['但风管厂的解法']],
+  [31.840, 33.645, 'bare', ['和课本上不一样']],
+  [33.645, 35.578, 'bmid', ['我们有四个现实约束']],
+  [35.578, 37.476, 'card-blue', ['① 角钢有规格等级']],
+  [37.476, 39.317, 'card-blue', ['② 法兰有内尺调整']],
+  [39.317, 41.087, 'card-blue', ['③ 订单有优先级']],
+  [41.087, 42.928, 'card-blue', ['④ 料头有复用阈值']],
+  [42.928, 44.432, 'bmid', ['试了三个版本']],
+  [44.432, 45.729, 'bmid', ['才走对路']],
+  [45.729, 47.384, 'card-orange', ['第一版 · 贪心排']],
+  [47.384, 49.189, 'bare', ['尺寸从大到小']],
+  [49.189, 51.516, 'card', ['废料率超过 15%']],
+  [51.516, 54.560, 'card', ['"这不就是手动排版的结果吗？"']],
+  [54.560, 56.307, 'card-orange', ['第二版 · 整数规划']],
+  [56.307, 58.402, 'bare', ['用线性规划求解器']],
+  [58.402, 60.972, 'card', ['20种规格 ➔ 快时30秒']],
+  [60.972, 62.696, 'card', ['慢时要3分钟']],
+  [62.696, 65.092, 'card', ['改一种尺寸 ➔ 从头算']],
+  [65.092, 67.719, 'bmid', ['做工具最怕的']],
+  [67.719, 69.479, 'bmid', ['是做出来没人用']],
+  [69.479, 71.446, 'card-orange', ['第三版 · 分仓组合法']],
+  [71.446, 73.506, 'bare', ['灵感来自师傅一句话']],
+  [73.506, 76.146, 'card', ['"先把长料留出来做大规格"']],
+  [76.146, 78.113, 'card', ['"小规格从料头里找"']],
+  [78.113, 80.439, 'card-blue', ['① 按角钢规格分四组']],
+  [80.439, 82.048, 'card-blue', ['② 大料优先切']],
+  [82.048, 85.127, 'card-blue', ['③ 剩余≥500mm入库标记']],
+  [85.127, 87.175, 'card-blue', ['④ 新订单先匹配料头']],
+  [87.175, 89.317, 'bare', ['废料率']],
+  [89.317, 91.493, 'btitle', ['12~18% ➔ 6~8%']],
+  [91.493, 93.599, 'bare', ['代码不超过2000行']],
+  [93.599, 95.428, 'bare', ['核心就几个函数']],
+  [95.428, 97.210, 'card', ['但它每天都在跑']],
+  [97.210, 98.726, 'card', ['师傅们愿意用']],
+  [98.726, 99.780, 'bare', ['为什么？']],
+  [99.780, 100.844, 'bmid', ['因为快']],
+  [100.844, 101.967, 'bmid', ['因为稳']],
+  [101.967, 103.946, 'bmid', ['因为符合车间习惯']],
+  [103.946, 105.682, 'btitle', ['算法最操蛋的']],
+  [105.682, 107.615, 'bare', ['不是算不出最优解']],
+  [107.615, 109.398, 'bare', ['是算出来最优解']],
+  [109.398, 110.567, 'bare', ['师傅不用']],
+  [110.567, 112.442, 'bare', ['第三版之所以成了']],
+  [112.442, 114.409, 'card', ['不是数学比前两版好']],
+  [114.409, 116.851, 'card', ['是车间经验被代码化了']],
+  [116.851, 119.108, 'card', ['老李现在每天打开程序']],
+  [119.108, 121.377, 'card', ['看一眼料头表就去干活']],
+  [121.377, 123.391, 'card', ['不用拿计算机算了']],
+  [123.391, 125.069, 'btitle', ['这才是风管厂']],
+  [125.069, 127.080, 'btitle', ['自己写工具的意义']],
+];
 
-// S1 (0-21.2s): Hook + 对齐方式
-// S1 (0-22.3s): Hook + 对齐方式
-tl.to("#s1",{opacity:1,duration:.25},0);
-tl.fromTo("#w1",{opacity:0,y:-30},{opacity:1,y:0,duration:.4,ease:"power2.out"},.2);
-tl.fromTo("#w2",{opacity:0,scale:.8},{opacity:1,scale:1,duration:.5,ease:"back.out(1.5)"},.5);
-tl.fromTo("#w3",{opacity:0,y:20},{opacity:1,y:0,duration:.4,ease:"power2.out"},1.2);
-cardIn("#g1s",6);
-cardOut("#g1s",21.9,22.15);
-tl.to("#s1",{opacity:0,duration:.2},22.0);
+// ====== BUILD DOM ======
+const stage = document.getElementById('stage');
+beats.forEach((b, idx) => {
+  const [start, end, type, texts] = b;
+  const div = document.createElement('div');
+  div.id = 'b' + idx;
+  div.style.cssText = 'position:absolute;opacity:0;width:880px;text-align:center;';
+  texts.forEach(t => {
+    const el = document.createElement('div');
+    if (type === 'btitle') { el.className = 'm btitle'; }
+    else if (type === 'bmid') { el.className = 'm bmid'; }
+    else if (type === 'bare') { 
+      el.className = 'm';
+      el.style.background = 'none'; el.style.backdropFilter = 'none'; el.style.border = 'none';
+    }
+    else { el.className = 'm ' + (type === 'card-blue' ? 'card-blue' : type === 'card-orange' ? 'card-orange' : ''); }
+    el.textContent = t;
+    if (type === 'bare') el.style.fontSize = '44px';
+    div.appendChild(el);
+  });
+  stage.appendChild(div);
+});
 
-// S2 (22.3-36.5s): 成型+偏差危害
-tl.to("#s2",{opacity:1,duration:.2},22.3);
-cardIn("#g2",22.5);
-cardOut("#g2",36.1,36.35);
-tl.to("#s2",{opacity:0,duration:.2},36.2);
-
-// S3 (36.5-57.2s): 改善+换S弯
-tl.to("#s3",{opacity:1,duration:.2},36.5);
-cardIn("#g3",36.7);
-cardOut("#g3",56.8,57.05);
-tl.to("#s3",{opacity:0,duration:.2},56.9);
-
-// S4 (57.2-62.3s): 口诀+品牌
-tl.to("#s4",{opacity:1,duration:.2},57.2);
-cardIn("#g4",57.4);
+// ====== GSAP TIMELINE ======
+const tl = gsap.timeline({paused:false});
+beats.forEach((b, idx) => {
+  const [start, end, type] = b;
+  const el = '#b' + idx;
+  const dur = end - start - 0.3;
+  // Fade in
+  tl.to(el, { opacity:1, scale:1, duration:0.3, ease:'back.out(1.2)' }, start);
+  // Hold
+  tl.to({}, { duration: Math.max(0, dur) }, start + 0.3);
+  // Fade out
+  tl.to(el, { opacity:0, scale:0.95, duration:0.2, ease:'power2.in' }, end - 0.2);
+});
 
 window.__timelines = window.__timelines || {};
-window.__timelines["main"] = tl;
+window.__timelines.main = tl;
 </script>
 </body>
 </html>

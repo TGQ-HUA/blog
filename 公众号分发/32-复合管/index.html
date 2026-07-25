@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920,height=1080"/>
+<title>复合风管踩坑实录</title>
+<style>
+@font-face{font-family:'Microsoft YaHei';src:local('Microsoft YaHei')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;overflow:hidden;font-family:'Microsoft YaHei',sans-serif}
+.clip{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.clip>*{opacity:0}
+/* Background */
+.bg{position:absolute;inset:0;background:linear-gradient(150deg,#fef9ef,#f0fdf4,#ecfdf5)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.35}
+/* Glass card */
+.glass{background:rgba(255,255,255,.22);backdrop-filter:blur(20px) saturate(180%);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.05);padding:36px 50px;max-width:1500px;width:88%;text-align:center}
+.title{font-size:52px;font-weight:900;color:#1e293b;line-height:1.3;margin-bottom:16px}
+.sub{font-size:36px;font-weight:600;color:#2563eb;line-height:1.4;margin-bottom:12px}
+.body{font-size:34px;color:#475569;line-height:1.5;margin-bottom:8px}
+.m{font-size:38px;color:#475569;line-height:1.5;margin-bottom:10px;opacity:0}
+.m-sep{height:14px}
+.btitle{font-size:72px;font-weight:900;color:#1e293b;margin-bottom:16px;opacity:0}
+.big{font-size:80px;font-weight:900;color:#2563eb;margin-bottom:14px;opacity:0}
+.num{font-size:64px;font-weight:900;color:#dc2626;margin-bottom:10px;opacity:0}
+.small{font-size:32px;color:#64748b;line-height:1.4;opacity:0}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px}
+/* Grid layouts */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;width:100%}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;width:100%}
+.card-item{background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border-radius:16px;padding:24px 20px;text-align:center}
+.card-item .num{font-size:52px;color:#dc2626;margin-bottom:6px}
+.card-item .small{font-size:28px;color:#64748b}
+/* Full screen alert */
+.alert{background:rgba(220,38,38,.12);border:3px solid #dc2626;border-radius:22px;padding:40px 60px;text-align:center}
+.alert .btitle{color:#dc2626;font-size:60px}
+.alert .body{color:#7f1d1d;font-size:38px}
+/* Success alert */
+.success{background:rgba(22,163,74,.10);border:3px solid #16a34a;border-radius:22px;padding:40px 60px;text-align:center}
+.success .btitle{color:#16a34a;font-size:60px}
+.success .body{color:#14532d;font-size:38px}
+/* Number highlight */
+.nbox{display:inline-flex;align-items:center;justify-content:center;background:rgba(37,99,235,.10);border:2px solid #2563eb;border-radius:16px;padding:20px 40px;margin:8px}
+.nbox .num{font-size:72px;color:#2563eb;margin:0}
+.nlabel{font-size:30px;color:#64748b;margin-top:4px}
+</style>
+</head>
+<body>
+
+<div id="root" class="clip" data-composition-id="main" data-start="0" data-duration="187.2" data-width="1920" data-height="1080" style="position:relative;width:1920px;height:1080px;overflow:hidden">
+  <div class="bg"></div>
+  <div class="orb" style="width:500px;height:500px;top:-100px;right:-100px;background:radial-gradient(circle,rgba(37,99,235,.45),transparent)"></div>
+  <div class="orb" style="width:400px;height:400px;bottom:-80px;left:-80px;background:radial-gradient(circle,rgba(22,163,74,.35),transparent)"></div>
+  <div class="orb" style="width:300px;height:300px;top:50%;left:60%;background:radial-gradient(circle,rgba(99,102,241,.3),transparent)"></div>
+
+<!-- Beat 1: Opening - 0.1s to 4.9s -->
+<div id="b1" class="clip" data-start="0.1" data-duration="4.8" style="z-index:10">
+  <div class="center">
+    <div class="big" style="font-size:88px;color:#1e293b;">安装队的电话</div>
+    <div class="big" style="font-size:88px;color:#dc2626;margin-top:10px;">打到我桌上</div>
+  </div>
+</div>
+
+<!-- Beat 2: Problem statement - 4.9s to 11.4s -->
+<div id="b2" class="clip" data-start="4.9" data-duration="6.5" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="padding:44px 60px;">
+      <div class="m" style="font-size:44px;color:#dc2626;font-weight:700;">"你们做的复合风管"</div>
+      <div class="m" style="font-size:44px;color:#dc2626;font-weight:700;">"接不上啊"</div>
+      <div class="m-sep"></div>
+      <div class="m" style="font-size:36px;">外层内层差了一个夹层</div>
+      <div class="m" style="font-size:36px;">法兰锁不紧</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 3: Root cause - 11.4s to 19.0s -->
+<div id="b3" class="clip" data-start="11.4" data-duration="7.6" style="z-index:10">
+  <div class="center">
+    <div class="btitle" style="font-size:60px;">按金属管的习惯做的</div>
+    <div class="m" style="font-size:42px;margin-top:12px;color:#dc2626;">觉得"差不多"就行</div>
+    <div class="m-sep"></div>
+    <div class="m" style="font-size:36px;color:#64748b;">结果让安装队多焊了</div>
+    <div class="num" style="font-size:80px;">四个小时</div>
+  </div>
+</div>
+
+<!-- Beat 4: Core message - 19.0s to 21.7s -->
+<div id="b4" class="clip" data-start="19.0" data-duration="2.7" style="z-index:10">
+  <div class="center">
+    <div class="btitle" style="font-size:72px;color:#2563eb;">复合风管</div>
+    <div class="m" style="font-size:48px;margin-top:8px;">看着简单做着难</div>
+  </div>
+</div>
+
+<!-- Beat 5: Structure - 21.7s to 30.8s -->
+<div id="b5" class="clip" data-start="21.7" data-duration="9.1" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="max-width:1200px">
+      <div class="title" style="font-size:46px;">内层铁皮 + 保温棉 + 外层铁皮</div>
+      <div class="m-sep"></div>
+      <div class="grid3" style="margin-top:10px">
+        <div class="card-item"><div class="num" style="font-size:38px;color:#2563eb;">内层</div><div class="small">金属板</div></div>
+        <div class="card-item"><div class="num" style="font-size:38px;color:#f97316;">夹层</div><div class="small">保温棉</div></div>
+        <div class="card-item"><div class="num" style="font-size:38px;color:#16a34a;">外层</div><div class="small">金属板</div></div>
+      </div>
+      <div class="m" style="font-size:36px;margin-top:14px;">听着简单吧？每条都是坑</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 6: Pit #1 title - 30.8s to 37.5s -->
+<div id="b6" class="clip" data-start="30.8" data-duration="6.7" style="z-index:10">
+  <div class="center">
+    <div class="alert" style="max-width:900px">
+      <div class="btitle">坑一</div>
+      <div class="body">内外层尺寸配合</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 7: Rule explanation - 37.5s to 46.6s -->
+<div id="b7" class="clip" data-start="37.5" data-duration="9.1" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="max-width:1300px">
+      <div class="btitle" style="font-size:56px;color:#2563eb;">内层与外层管口平齐</div>
+      <div class="m-sep"></div>
+      <div class="m" style="font-size:38px;">两个法兰面在同一个平面上</div>
+      <div class="m-sep"></div>
+      <div class="m" style="font-size:34px;color:#64748b;">外层短一个夹层厚度</div>
+      <div class="m" style="font-size:34px;color:#64748b;">短直管有专门接口规则</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 8: First time mistake - 46.6s to 56.4s -->
+<div id="b8" class="clip" data-start="46.6" data-duration="9.8" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="max-width:1300px">
+      <div class="m" style="font-size:40px;">第一次做的时候</div>
+      <div class="m" style="font-size:40px;">师傅把外层做大、内层做小</div>
+      <div class="m-sep"></div>
+      <div class="m" style="font-size:40px;color:#dc2626;">结果装上去是歪的</div>
+      <div class="m" style="font-size:38px;color:#64748b;">保温棉被压变形</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 9: Pit #2 title - 56.4s to 64.2s -->
+<div id="b9" class="clip" data-start="56.4" data-duration="7.8" style="z-index:10">
+  <div class="center">
+    <div class="alert" style="max-width:900px">
+      <div class="btitle">坑二</div>
+      <div class="body">弯头 R 值</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 10: Metal vs composite - 64.2s to 72.0s -->
+<div id="b10" class="clip" data-start="64.2" data-duration="7.8" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="max-width:1100px">
+      <div class="grid2">
+        <div class="card-item">
+          <div class="num" style="font-size:40px;color:#16a34a;">金属管</div>
+          <div class="small">R值随便定</div>
+        </div>
+        <div class="card-item">
+          <div class="num" style="font-size:40px;color:#dc2626;">复合管</div>
+          <div class="small">不行</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 11: Formula - 72.0s to 78.2s -->
+<div id="b11" class="clip" data-start="72.0" data-duration="6.2" style="z-index:10">
+  <div class="center">
+    <div class="btitle" style="font-size:96px;color:#2563eb;">R = 50 + 夹层厚度</div>
+    <div class="m" style="font-size:40px;margin-top:14px;">夹层50mm → R最小100mm</div>
+  </div>
+</div>
+
+<!-- Beat 12: Consequence - 78.2s to 85.4s -->
+<div id="b12" class="clip" data-start="78.2" data-duration="7.2" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="max-width:1300px">
+      <div class="m" style="font-size:38px;">试过 R 做 80</div>
+      <div class="m" style="font-size:38px;">外观看着还行</div>
+      <div class="m" style="font-size:42px;color:#dc2626;font-weight:700;">风噪比直管大了两倍</div>
+      <div class="m-sep"></div>
+      <div class="m" style="font-size:34px;color:#64748b;">内层折出死褶</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 13: Variable elbow - 85.4s to 91.1s -->
+<div id="b13" class="clip" data-start="85.4" data-duration="5.7" style="z-index:10">
+  <div class="center">
+    <div class="btitle" style="font-size:60px;color:#dc2626;">变径弯头</div>
+    <div class="m" style="font-size:44px;margin-top:10px;color:#1e293b;">R 至少 150mm</div>
+    <div class="m" style="font-size:36px;color:#64748b;">低于这个数，真做不出来</div>
+  </div>
+</div>
+
+<!-- Beat 14: Pit #3 title - 91.1s to 97.7s -->
+<div id="b14" class="clip" data-start="91.1" data-duration="6.6" style="z-index:10">
+  <div class="center">
+    <div class="alert" style="max-width:900px">
+      <div class="btitle">坑三</div>
+      <div class="body">接咀位置</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 15: Comparison - 97.7s to 104.7s -->
+<div id="b15" class="clip" data-start="97.7" data-duration="7.0" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="max-width:1100px">
+      <div class="grid2">
+        <div class="card-item">
+          <div class="num" style="font-size:36px;color:#16a34a;">金属管</div>
+          <div class="small">开孔焊咀子就行</div>
+        </div>
+        <div class="card-item">
+          <div class="num" style="font-size:36px;color:#dc2626;">复合管</div>
+          <div class="small">内外层要对齐</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 16: Rules - 104.7s to 112.6s -->
+<div id="b16" class="clip" data-start="104.7" data-duration="7.9" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="max-width:1300px">
+      <div class="m" style="font-size:38px;">外层短一个夹层厚度</div>
+      <div class="m" style="font-size:38px;">接缝做大边 20</div>
+      <div class="m-sep"></div>
+      <div class="m" style="font-size:38px;color:#dc2626;">搞错一个就偏了</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 17: Story - 112.6s to 122.6s -->
+<div id="b17" class="clip" data-start="112.6" data-duration="10.0" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="max-width:1300px">
+      <div class="m" style="font-size:38px;">技术部小姑娘画了接咀</div>
+      <div class="m" style="font-size:38px;">车间照做</div>
+      <div class="m-sep"></div>
+      <div class="m" style="font-size:40px;color:#dc2626;">保温棉堵住了通风路径</div>
+      <div class="m-sep"></div>
+      <div class="m" style="font-size:34px;color:#2563eb;">必须画样图，不能只写尺寸</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 18: Why niche - 122.6s to 132.3s -->
+<div id="b18" class="clip" data-start="122.6" data-duration="9.7" style="z-index:10">
+  <div class="center">
+    <div class="btitle" style="font-size:56px;color:#1e293b;">为什么做的人少？</div>
+    <div class="m-sep"></div>
+    <div class="grid2" style="max-width:1200px;margin-top:10px">
+      <div class="card-item">
+        <div class="num" style="font-size:38px;color:#dc2626;">工序多一倍</div>
+      </div>
+      <div class="card-item">
+        <div class="num" style="font-size:38px;color:#dc2626;">利润少一半</div>
+      </div>
+    </div>
+    <div class="m" style="font-size:36px;color:#64748b;margin-top:12px;">车间一忙就忘了不一样</div>
+  </div>
+</div>
+
+<!-- Beat 19: Trend - 132.3s to 144.3s -->
+<div id="b19" class="clip" data-start="132.3" data-duration="12.0" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="max-width:1200px">
+      <div class="m" style="font-size:38px;">防排烟要求越来越严</div>
+      <div class="m" style="font-size:38px;color:#2563eb;font-weight:700;">需求在涨</div>
+      <div class="m-sep"></div>
+      <div class="m" style="font-size:42px;color:#dc2626;">"你这个管耐火等级够不够"</div>
+      <div class="m-sep"></div>
+      <div class="m" style="font-size:34px;color:#64748b;">迟早从可选项变必选项</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 20: Four rules intro - 144.3s to 149.7s -->
+<div id="b20" class="clip" data-start="144.3" data-duration="5.4" style="z-index:10">
+  <div class="center">
+    <div class="m" style="font-size:42px;">最难的不是技术</div>
+    <div class="btitle" style="font-size:60px;color:#2563eb;margin-top:8px;">是意识转变</div>
+  </div>
+</div>
+
+<!-- Beat 21: Four rules grid - 149.7s to 165.5s -->
+<div id="b21" class="clip" data-start="149.7" data-duration="15.8" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="max-width:1400px">
+      <div class="title" style="font-size:44px;margin-bottom:18px;">四条死规矩</div>
+      <div class="grid2" style="max-width:1200px">
+        <div class="card-item"><div class="num" style="font-size:38px;color:#2563eb;">①</div><div class="small">内外层尺寸分开算</div></div>
+        <div class="card-item"><div class="num" style="font-size:38px;color:#2563eb;">②</div><div class="small">R值不能小于公式</div></div>
+        <div class="card-item"><div class="num" style="font-size:38px;color:#2563eb;">③</div><div class="small">有接咀必须画样图</div></div>
+        <div class="card-item"><div class="num" style="font-size:38px;color:#2563eb;">④</div><div class="small">先看周长和高再选型</div></div>
+      </div>
+      <div class="m" style="font-size:34px;color:#16a34a;margin-top:14px;">返工率降了大半</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 22: Ending story - 165.5s to 179.6s -->
+<div id="b22" class="clip" data-start="165.5" data-duration="14.1" style="z-index:10">
+  <div class="center">
+    <div class="glass" style="max-width:1200px">
+      <div class="m" style="font-size:38px;">重新做了两个接咀段</div>
+      <div class="m" style="font-size:38px;">现场换了上去</div>
+      <div class="m-sep"></div>
+      <div class="m" style="font-size:36px;color:#64748b;">安装队嘴上骂骂咧咧</div>
+      <div class="m" style="font-size:36px;color:#64748b;">手上活没停</div>
+    </div>
+  </div>
+</div>
+
+<!-- Beat 23: Final - 179.6s to 187.2s -->
+<div id="b23" class="clip" data-start="179.6" data-duration="7.6" style="z-index:10">
+  <div class="center">
+    <div class="btitle" style="font-size:56px;">现在车间师傅做复合管</div>
+    <div class="m" style="font-size:48px;margin-top:12px;">第一件事拿卷尺量</div>
+    <div class="num" style="font-size:80px;color:#16a34a;margin-top:10px;">"不平？重做"</div>
+  </div>
+</div>
+
+</div>
+
+<!-- GSAP via CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+function cardIn(e,d){
+  return gsap.fromTo(e,{opacity:0,scale:.92,filter:'blur(8px)',rotateX:8},{opacity:1,scale:1,filter:'blur(0px)',rotateX:0,duration:d||.18,ease:'power2.out',clearProps:'transform'})
+}
+function cardOut(e,d){
+  return gsap.to(e,{opacity:0,scale:.96,filter:'blur(4px)',rotateX:-4,duration:d||.12,ease:'power1.in'})
+}
+function fadeIn(e,d){
+  return gsap.fromTo(e,{opacity:0},{opacity:1,duration:d||.12,ease:'power1.out'})
+}
+function fadeOut(e,d){
+  return gsap.to(e,{opacity:0,duration:d||.08,ease:'power1.in'})
+}
+function mods(id){
+  gsap.utils.toArray('#'+id+' .m').forEach(function(el,i){
+    var d=Math.min(.18,.12+.02*i);
+    cardIn(el,d);
+    if(i>0) setTimeout(function(){el.style.opacity=1},0);
+  });
+}
+function modsSimple(id){
+  gsap.utils.toArray('#'+id+' .m').forEach(function(el,i){
+    fadeIn(el,Math.min(.12,.08+.02*i));
+  });
+}
+function grids(id){
+  gsap.utils.toArray('#'+id+' .card-item').forEach(function(el,i){
+    cardIn(el,.15+.04*i);
+  });
+}
+// Timeline driven by composition duration
+var tl=gsap.timeline({paused:true});
+document.querySelectorAll('.clip[id^=b]').forEach(function(clip){
+  var start=parseFloat(clip.getAttribute('data-start')),
+      dur=parseFloat(clip.getAttribute('data-duration'));
+  // Load child elements
+  tl.call(function(){
+    var bt=clip.querySelector('.btitle');
+    if(bt) cardIn(bt,.2);
+    mods(clip.id);
+    var c=clip.querySelectorAll('.grid2 .card-item, .grid3 .card-item');
+    if(c.length) grids(clip.id);
+    var big=clip.querySelector('.big');
+    if(big) cardIn(big,.22);
+    var num=clip.querySelector('.num:not(.card-item .num)');
+    if(num) cardIn(num,.2);
+    var small=clip.querySelector('.small:not(.card-item .small)');
+    if(small) fadeIn(small,.15);
+    var sub=clip.querySelector('.sub');
+    if(sub) fadeIn(sub,.15);
+    var body=clip.querySelector('.body');
+    if(body) fadeIn(body,.15);
+    var alert=clip.querySelector('.alert .btitle');
+    if(alert) cardIn(alert,.25);
+  }, null, null, start);
+  // Fade out near end
+  tl.call(function(){
+    var all=clip.querySelectorAll('.btitle,.m,.big,.num,.small,.sub,.body,.card-item,.title');
+    gsap.to(all,{opacity:0,duration:.1,ease:'power1.in'});
+  }, null, null, start+dur-.12);
+});
+// Final state
+tl.call(function(){
+  document.querySelectorAll('.clip[id^=b]').forEach(function(c){
+    gsap.set(c.querySelectorAll('.btitle,.m,.big,.num,.small,.sub,.body,.card-item,.title'),{opacity:0});
+  });
+}, null, null, 187);
+</script>
+</body>
+</html>
