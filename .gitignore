@@ -3,5 +3,9 @@ resources/
 .hugo_build.lock
 
 # 公众号分发目录的 node_modules 不跟踪
-公众号分发/**/node_modules/
 **/node_modules/
+
+# 公众号分发视频素材不提交(本地保留)
+公众号分发/**/*.mp4
+公众号分发/**/*.mp3
+公众号分发/**/*.html
