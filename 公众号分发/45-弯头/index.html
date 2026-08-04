@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080,height=1920">
+<title>弯头R</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+  width:1080px; height:1920px; overflow:hidden; 
+  background: linear-gradient(145deg, #0b0e14 0%, #1a1f2c 100%);
+  font-family: 'Inter','Microsoft YaHei','PingFang SC',sans-serif;
+  display: flex; align-items: center; justify-content: center;
+}
+#stage {
+  position:relative; width:960px; height:1720px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.m { 
+  position:absolute; opacity:0; font-size:38px; line-height:1.5;
+  color:#e8edf5; text-align:center; width:880px;
+  padding:36px 44px; border-radius:22px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.btitle { font-size:86px; font-weight:900; color:#f0d060; text-shadow:0 0 40px rgba(240,208,96,0.3); }
+.bmid { font-size:72px; font-weight:700; color:#7ec8e3; }
+.bnum { font-size:110px; font-weight:900; color:#ff7e5f; text-shadow:0 0 40px rgba(255,126,95,0.3); }
+.m-sep { height:14px; }
+.card-accent { border-color:rgba(240,208,96,0.25); background:rgba(240,208,96,0.04); }
+.card-blue { border-color:rgba(126,200,227,0.25); background:rgba(126,200,227,0.04); }
+.card-orange { border-color:rgba(255,126,95,0.25); background:rgba(255,126,95,0.04); }
+</style>
+</head>
+<body>
+<div id="stage" data-composition-id="main" data-width="1080" data-height="1920" data-duration="246">
+<audio id="audio" src="narration.mp3" data-start="0" data-duration="246" data-track-index="0" data-volume="1"></audio>
+</div>
+
+<script src="gsap.min.js"></script>
+<script>
+// ====== BEAT DATA ======
+// [start, end, type, text(s)]
+const beats = [
+  [0.100, 2.735, 'card', ['上周二排版的小周报了个弯头']],
+  [2.685, 4.247, 'bnum', ['五百乘两百']],
+  [4.247, 5.717, 'bnum', ['R 填了八十']],
+  [5.717, 7.071, 'bare', ['下料下出来']],
+  [7.071, 8.993, 'card-orange', ['内弧板就巴掌宽']],
+  [8.993, 11.030, 'card-orange', ['滚圆机一压全是褶']],
+  [11.030, 12.847, 'card', ['咬口死活对不上']],
+  [12.847, 14.502, 'bare', ['老师傅看了一眼']],
+  [14.502, 16.828, 'card', ['R 小于一百要做内直角']],
+  [16.828, 18.472, 'card-blue', ['你按内弧下的料']],
+  [18.472, 19.803, 'btitle', ['不废才怪']],
+  [19.803, 21.284, 'bare', ['一张镀锌板']],
+  [21.284, 22.372, 'btitle', ['白瞎了']],
+  [22.372, 24.027, 'bare', ['其实不怪小周']],
+  [24.027, 27.719, 'card', ['客户单子上就写九十度弯头五百乘两百']],
+  [27.719, 29.814, 'card-blue', ['R 没人告诉他怎么定']],
+  [29.814, 32.222, 'card', ['矩形弯头不是一根弯管子']],
+  [32.222, 33.888, 'bnum', ['是四片板拼的']],
+  [33.888, 35.613, 'bare', ['扇形顶板底板']],
+  [35.613, 37.071, 'bare', ['加内外弧板']],
+  [37.071, 39.328, 'card', ['R 就是弯头的曲率半径']],
+  [39.328, 41.377, 'card-blue', ['决定这四片板的形状']],
+  [41.377, 42.939, 'card', ['R 大弯得缓']],
+  [42.939, 44.583, 'card-orange', ['R 小弯得急']],
+  [44.583, 46.400, 'bare', ['单子上不写 R']],
+  [46.400, 48.020, 'bnum', ['我们默认两百']],
+  [48.020, 50.185, 'bmid', ['弯头内边有三种做法']],
+  [50.185, 51.331, 'btitle', ['内弧形']],
+  [51.331, 52.893, 'bare', ['内外同心弧']],
+  [52.893, 55.057, 'card', ['气流最顺阻力最小']],
+  [55.057, 56.226, 'btitle', ['内菱角']],
+  [56.226, 58.437, 'card', ['内边是折线带个菱角']],
+  [58.437, 59.606, 'btitle', ['内直角']],
+  [59.606, 61.273, 'card', ['内边直接直角']],
+  [61.273, 63.554, 'bmid', ['为什么不能全做内弧形']],
+  [63.554, 64.780, 'bare', ['板太窄']],
+  [64.780, 66.597, 'card-orange', ['滚圆机一压就皱']],
+  [66.597, 67.858, 'card', ['板太宽']],
+  [67.858, 69.756, 'bnum', ['弧板超过一千四']],
+  [69.756, 71.435, 'card-orange', ['滚圆机滚不动']],
+  [71.435, 73.368, 'bmid', ['厂里的规矩是这样的']],
+  [73.368, 75.266, 'bnum', ['弧板超过一千四']],
+  [75.266, 76.620, 'card', ['做内菱角']],
+  [76.620, 78.287, 'bnum', ['R 小于一百五']],
+  [78.287, 79.641, 'card', ['做内菱角']],
+  [79.641, 81.168, 'bnum', ['R 小于一百']],
+  [81.168, 82.523, 'card', ['做内直角']],
+  [82.523, 84.374, 'bnum', ['R 直角小于五十']],
+  [84.374, 85.682, 'card', ['改做五十']],
+  [85.682, 87.314, 'bnum', ['小周填的八十']],
+  [87.314, 88.668, 'bnum', ['小于一百']],
+  [88.668, 90.138, 'card', ['该做内直角']],
+  [90.138, 91.886, 'bare', ['他按内弧下了料']],
+  [91.886, 93.043, 'card-orange', ['就废了']],
+  [93.043, 95.162, 'bmid', ['弯头还有一种更麻烦的']],
+  [95.162, 96.504, 'btitle', ['变径弯头']],
+  [96.504, 98.159, 'card', ['两头不一样高']],
+  [98.159, 100.208, 'bmid', ['高差小于等于一百']],
+  [100.208, 101.597, 'card', ['做内弧形']],
+  [101.597, 103.287, 'bmid', ['高差超过一百']],
+  [103.287, 104.641, 'card', ['做内菱角']],
+  [104.641, 105.983, 'bmid', ['变径弯头']],
+  [105.983, 108.009, 'card-orange', ['禁做内直角外直角']],
+  [108.009, 109.641, 'bare', ['我们以前图省事']],
+  [109.641, 112.141, 'card', ['给变径弯头上过内直角']],
+  [112.141, 114.699, 'card-orange', ['装到现场咬口开裂漏风']],
+  [114.699, 117.372, 'card-orange', ['直角处应力全集中在那一点']],
+  [117.372, 119.571, 'bmid', ['板子薄的根本扛不住']],
+  [119.571, 121.747, 'card-blue', ['这条后来写进了规范']],
+  [121.747, 123.136, 'btitle', ['国标怎么说']],
+  [123.136, 126.296, 'bmid', ['GB50243 第4.3.6条']],
+  [126.296, 128.460, 'card', ['矩形风管弯管宜采用']],
+  [128.460, 130.914, 'card-blue', ['曲率半径为一个平面边长']],
+  [130.914, 132.476, 'bare', ['内外同心弧']],
+  [132.476, 133.668, 'btitle', ['翻译一下']],
+  [133.668, 136.076, 'card', ['国标推荐的就是内弧形']],
+  [136.076, 138.449, 'card', ['但吊顶就那么大点地方']],
+  [138.449, 140.706, 'card-blue', ['R 全按一个平面边长做']],
+  [140.706, 142.372, 'card-orange', ['风管装不进去']],
+  [142.372, 145.312, 'card', ['厂里规则是国标和工艺的平衡']],
+  [145.312, 147.650, 'card', ['能做内弧就做内弧']],
+  [147.650, 149.340, 'card-blue', ['做不了才降级']],
+  [149.340, 150.624, 'btitle', ['记住一条']],
+  [150.624, 152.372, 'card', ['用了非同心弧']],
+  [152.372, 154.409, 'bmid', ['平面边长超过五百']],
+  [154.409, 156.400, 'card', ['国标要求加导流片']],
+  [156.400, 158.194, 'card-orange', ['直角弯没导流片']],
+  [158.194, 159.849, 'bare', ['风噪大阻力大']],
+  [159.849, 161.898, 'card-orange', ['验收还容易被挑出来']],
+  [161.898, 163.773, 'bmid', ['弯头 R 这个参数']],
+  [163.773, 165.196, 'card', ['设计院不写']],
+  [165.196, 166.481, 'card-blue', ['客户不写']],
+  [166.481, 168.622, 'bmid', ['全压在排版师傅身上']],
+  [168.622, 170.462, 'card', ['老师傅凭感觉填']],
+  [170.462, 172.395, 'card-blue', ['新来的照葫芦画瓢']],
+  [172.395, 173.807, 'bare', ['同一批弯头']],
+  [173.807, 175.937, 'bmid', ['两个师傅排出两种 R']],
+  [175.937, 177.731, 'card', ['这不是师傅的问题']],
+  [177.731, 179.374, 'btitle', ['是规则没落地']],
+  [179.374, 181.365, 'card', ['我们把规则定成表']],
+  [181.365, 183.194, 'card-blue', ['贴在排版工位上']],
+  [183.194, 184.872, 'btitle', ['谁来了都能查']],
+  [184.872, 186.226, 'bmid', ['风管这行']],
+  [186.226, 188.391, 'card', ['很多东西看着是经验']],
+  [188.391, 190.173, 'card-blue', ['拆开看都是规律']],
+  [190.173, 192.129, 'card', ['经验装在人脑子里']],
+  [192.129, 193.692, 'card-blue', ['规律写在纸上']],
+  [193.692, 196.041, 'bmid', ['有同行问弯头样式怎么定']],
+  [196.041, 197.337, 'btitle', ['就一张表']],
+  [197.337, 199.236, 'bnum', ['弧板超过一千四']],
+  [199.236, 200.405, 'card', ['内菱角']],
+  [200.405, 202.071, 'bnum', ['R 小于一百五']],
+  [202.071, 203.240, 'card', ['内菱角']],
+  [203.240, 204.768, 'bnum', ['R 小于一百']],
+  [204.768, 205.937, 'card', ['内直角']],
+  [205.937, 207.789, 'bnum', ['R 直角小于五十']],
+  [207.789, 209.097, 'card', ['改做五十']],
+  [209.097, 211.469, 'bmid', ['变径高差小于等于一百']],
+  [211.469, 212.615, 'card', ['内弧形']],
+  [212.615, 214.305, 'bmid', ['高差超过一百']],
+  [214.305, 215.474, 'card', ['内菱角']],
+  [215.474, 217.268, 'card-orange', ['变径禁做直角']],
+  [217.268, 218.611, 'btitle', ['再记三条']],
+  [218.611, 221.100, 'card', ['必须改成等高加大小头的']],
+  [221.100, 222.800, 'bare', ['超尺寸拼接缝']],
+  [222.800, 223.935, 'bare', ['带直位']],
+  [223.935, 225.335, 'card-blue', ['R 要直角']],
+  [225.335, 226.979, 'bare', ['单子没写 R']],
+  [226.979, 228.344, 'bnum', ['默认两百']],
+  [228.344, 230.324, 'card', ['水平弯写宽乘高']],
+  [230.324, 232.152, 'card-blue', ['立弯写高乘宽']],
+  [232.152, 233.310, 'card-orange', ['别写反']],
+  [233.310, 235.092, 'bmid', ['小周现在报弯头']],
+  [235.092, 236.793, 'card', ['先查表再填数']],
+  [236.793, 238.298, 'bare', ['那张废板子']],
+  [238.298, 240.208, 'card', ['他贴在工位墙上了']],
+  [240.208, 242.199, 'card-blue', ['说是给自己长记性']],
+  [242.199, 243.206, 'btitle', ['挺好']],
+  [243.206, 245.150, 'card-orange', ['比我骂他十句管用']],
+];
+
+// ====== BUILD DOM ======
+const stage = document.getElementById('stage');
+beats.forEach((b, idx) => {
+  const [start, end, type, texts] = b;
+  const div = document.createElement('div');
+  div.id = 'b' + idx;
+  div.style.cssText = 'position:absolute;opacity:0;width:880px;text-align:center;transform-style:preserve-3d;';
+  texts.forEach(t => {
+    const el = document.createElement('div');
+    if (type === 'btitle') { el.className = 'm btitle'; }
+    else if (type === 'bmid') { el.className = 'm bmid'; }
+    else if (type === 'bnum') { el.className = 'm bnum'; }
+    else if (type === 'bare') { 
+      el.className = 'm';
+      el.style.background = 'none'; el.style.backdropFilter = 'none'; el.style.border = 'none';
+      el.style.fontSize = '40px';
+    }
+    else if (type === 'card-blue') { el.className = 'm card-blue'; }
+    else if (type === 'card-orange') { el.className = 'm card-orange'; }
+    else { el.className = 'm'; }
+    el.textContent = t;
+    div.appendChild(el);
+  });
+  stage.appendChild(div);
+});
+
+// ====== GSAP TIMELINE (cardIn/cardOut 3D翻转) ======
+const tl = gsap.timeline({paused:false});
+beats.forEach((b, idx) => {
+  const [start, end, type] = b;
+  const el = '#b' + idx;
+  const isBare = (type === 'bare');
+  const dur = end - start - 0.3;
+  if (isBare) {
+    tl.fromTo(el, {opacity:0, y:24}, {opacity:1, y:0, duration:0.28, ease:'power2.out'}, start);
+  } else {
+    tl.fromTo(el, {opacity:0, rotationY:-18, scale:0.85}, {opacity:1, rotationY:0, scale:1, duration:0.32, ease:'back.out(1.4)'}, start);
+  }
+  tl.to({}, { duration: Math.max(0, dur) }, start + 0.3);
+  if (isBare) {
+    tl.to(el, {opacity:0, y:-16, duration:0.18, ease:'power2.in'}, end - 0.18);
+  } else {
+    tl.to(el, {opacity:0, rotationY:14, scale:0.92, duration:0.18, ease:'power2.in'}, end - 0.18);
+  }
+});
+
+window.__timelines = window.__timelines || {};
+window.__timelines.main = tl;
+</script>
+</body>
+</html>

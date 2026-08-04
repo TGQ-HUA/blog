@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920,height=1080">
+<title>防火板风管的坑</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+  width:1920px; height:1080px; overflow:hidden; 
+  background: linear-gradient(145deg, #0b0e14 0%, #1f2535 100%);
+  font-family: 'Inter','Microsoft YaHei','PingFang SC',sans-serif;
+  display: flex; align-items: center; justify-content: center;
+}
+#stage {
+  position:relative; width:1800px; height:900px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.m { 
+  position:absolute; opacity:0; font-size:42px; line-height:1.6;
+  color:#e8edf5; text-align:center; width:1650px;
+  padding:36px 44px; border-radius:22px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.btitle { font-size:96px; font-weight:900; color:#f0d060; text-shadow:0 0 40px rgba(240,208,96,0.3); }
+.btitle-s { font-size:72px; font-weight:700; color:#f0d060; text-shadow:0 0 30px rgba(240,208,96,0.2); }
+.bmid { font-size:88px; font-weight:700; color:#7ec8e3; }
+.bmid2 { font-size:88px; font-weight:700; color:#ff7e5f; }
+.num-lg { font-size:100px; font-weight:900; color:#f0d060; }
+.bare { background:none; backdrop-filter:none; border:none; font-size:44px; }
+.bare-s { background:none; backdrop-filter:none; border:none; font-size:40px; color:#b0b8c8; }
+.card-accent { border-color:rgba(240,208,96,0.25); background:rgba(240,208,96,0.04); }
+.card-blue { border-color:rgba(126,200,227,0.25); background:rgba(126,200,227,0.04); }
+.card-orange { border-color:rgba(255,126,95,0.25); background:rgba(255,126,95,0.04); }
+.m-sep { height:14px; }
+.m-sm { font-size:34px; color:#c0c8d8; }
+</style>
+</head>
+<body>
+<div id="stage" data-composition-id="main" data-width="1920" data-height="1080" data-duration="167">
+<audio id="audio" src="narration.mp3" data-start="0" data-duration="167" data-track-index="0" data-volume="1"></audio>
+</div>
+
+<script src="gsap.min.js"></script>
+<script>
+// ====== BEAT DATA ======
+// [start, end, type, text(s)]
+const beats = [
+  [0.100, 2.654, 'btitle', ['上个月来了个'], ['消防排烟的单子']],
+  [2.604, 6.597, 'card', ['两千多方', '弯头多、S弯多，还有几个四通']],
+  [6.597, 9.259, 'bare', ['报价比镀锌管每方贵出一截']],
+  [9.259, 14.571, 'card-accent', ['但车间去年试过一次防火板', '包角条贴不牢，内支撑打偏了两根']],
+  [14.571, 19.004, 'card-blue', ['甲方验收的时候看着不说话', '那个眼神我现在还记得']],
+
+  [19.004, 22.175, 'btitle-s', ['防火板风管', '利润看着比镀锌管好']],
+  [22.175, 24.224, 'bare', ['但敢做的厂没几家']],
+  [24.224, 27.546, 'card-orange', ['不是不想赚这个钱', '是这玩意儿坑太多']],
+
+  [27.546, 32.141, 'card', ['防火板用的是无机复合板', '板厚从八毫米到二十毫米']],
+  [32.141, 37.465, 'bare', ['按国标要求，防火风管的本体、框架、连接件', '必须用不燃材料']],
+  [37.465, 40.775, 'btitle-s', ['但材料是一回事', '做成型是另一回事']],
+
+  [40.775, 44.930, 'card-blue', ['镀锌铁皮风管下料错了', '卷圆机重新调一下就好']],
+  [44.930, 46.481, 'bare', ['防火板不一样']],
+  [46.481, 52.083, 'card', ['板材切一刀就是一板', '切错了一块八毫米厚的板子，一米多长，直接扔']],
+  [52.083, 58.425, 'card-accent', ['每块板需要包边条、包角条', 'H型接缝条、内支撑全套配上去']],
+  [58.425, 61.157, 'bare-s', ['少了任何一件，现场装不起来']],
+
+  [61.157, 63.900, 'btitle', ['我们踩了三个坑', '说出来都是泪']],
+
+  [63.900, 66.712, 'btitle-s', ['第一个坑'], ['内尺寸还是外尺寸']],
+  [66.712, 70.266, 'bare', ['设计图纸给的口径规格', '默认是外尺寸']],
+  [70.266, 74.745, 'card-orange', ['排版时按外尺寸直接排', '做完内空就少了两个板厚']],
+  [74.745, 81.111, 'card', ['图纸写 750×450，板厚 8mm', '你得输 766×466']],
+  [81.111, 84.340, 'card-blue', ['就这十六毫米的差别', '我们第一版废了一堆']],
+
+  [84.340, 86.724, 'btitle-s', ['第二个坑'], ['包角条贴不牢']],
+  [86.724, 90.173, 'card', ['防火板棱角容易磕碰', '要用包角条保护']],
+  [90.173, 92.836, 'bare', ['问题不在尺寸', '在贴的时机']],
+  [92.836, 96.516, 'card-accent', ['先贴包角再做拼装', '胶没干搬运就掉了']],
+  [96.516, 101.828, 'card-blue', ['后来改成拼装完成后贴', '先卡位再压紧，至少晾两小时']],
+
+  [101.828, 104.942, 'btitle-s', ['第三个坑'], ['排版不分批，车间翻车']],
+  [104.942, 109.039, 'card', ['防火板展开宽度超过一米二', '就得用H型条拼接']],
+  [109.039, 112.268, 'bare', ['排版量超过一百块时', '必须分三类']],
+  [112.268, 117.060, 'card-accent', ['三通四通 / 短直管+大小头', '/ 弯头+S弯']],
+  [117.060, 120.856, 'card-orange', ['不分批排出来', '切割路径乱，板材利用率低']],
+  [120.856, 123.333, 'bare', ['车间师傅一边骂一边返工']],
+
+  [123.333, 126.620, 'btitle-s', ['翻了一下国标'], ['防火风管的要求写了不少']],
+  [126.620, 131.262, 'card', ['但包角条怎么选型', '板材缩尺怎么算，拼板方式怎么做']],
+  [131.262, 134.166, 'bare', ['实际操作层面的细节', '一个都没提']],
+  [134.166, 138.645, 'card-blue', ['大部分厂的做法', '遇上了就硬来，做坏了下次不接了']],
+  [138.645, 144.386, 'card-orange', ['规范不写，厂里没规', '全靠师傅手感']],
+
+  [144.386, 148.739, 'card', ['那单两千方的防火板', '车间按新流程走了三周']],
+  [148.739, 152.025, 'bare', ['交货时甲方拍了张照就走了', '没说啥']],
+  [152.025, 157.407, 'card-blue', ['老周后来跟我说', '"早知道有这些规矩，去年那个单就不至于做成那样"']],
+  [157.407, 161.087, 'card-accent', ['我说，规矩一直有', '是我们以前没时间写下来']],
+
+  [161.087, 163.923, 'btitle', ['好风管不是算出来的'], ['是干出来的']],
+  [163.923, 166.307, 'btitle-s', ['但干之前', '先把坑给认了']],
+];
+
+// ====== BUILD DOM ======
+const stage = document.getElementById('stage');
+beats.forEach((b, idx) => {
+  const [start, end, type, ...texts] = b;
+  const div = document.createElement('div');
+  div.id = 'b' + idx;
+  div.style.cssText = 'position:absolute;opacity:0;width:1720px;text-align:center;left:40px;';
+  texts.flat().forEach(t => {
+    const el = document.createElement('div');
+    if (type === 'btitle') { el.className = 'm btitle'; }
+    else if (type === 'btitle-s') { el.className = 'm btitle-s'; }
+    else if (type === 'bmid') { el.className = 'm bmid'; }
+    else if (type === 'bmid2') { el.className = 'm bmid2'; }
+    else if (type === 'num-lg') { el.className = 'm num-lg'; }
+    else if (type === 'bare') { el.className = 'm bare'; }
+    else if (type === 'bare-s') { el.className = 'm bare-s'; }
+    else if (type === 'card-accent') { el.className = 'm card-accent'; }
+    else if (type === 'card-blue') { el.className = 'm card-blue'; }
+    else if (type === 'card-orange') { el.className = 'm card-orange'; }
+    else if (type === 'm-sm') { el.className = 'm m-sm'; }
+    else { el.className = 'm'; }
+    el.textContent = t;
+    div.appendChild(el);
+  });
+  stage.appendChild(div);
+});
+
+// ====== GSAP TIMELINE ======
+const tl = gsap.timeline({paused:false});
+beats.forEach((b, idx) => {
+  const [start, end] = b;
+  const el = '#b' + idx;
+  const dur = end - start - 0.18;
+  // cardIn: 3D flip + elastic
+  tl.fromTo(el, { rotationX: -30, scale:0.9, opacity:0 }, 
+    { rotationX:0, scale:1, opacity:1, duration:0.3, ease:'back.out(1.5)' }, start);
+  // Hold
+  tl.to({}, { duration: Math.max(0, dur) }, start + 0.3);
+  // cardOut: fade + shrink
+  tl.to(el, { opacity:0, scale:0.95, duration:0.18, ease:'power2.in' }, end - 0.18);
+});
+
+window.__timelines = window.__timelines || {};
+window.__timelines.main = tl;
+</script>
+</body>
+</html>

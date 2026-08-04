@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080,height=1920">
+<title>数据库</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+  width:1080px; height:1920px; overflow:hidden; 
+  background: linear-gradient(145deg, #0a0e16 0%, #14203a 100%);
+  font-family: 'Inter','Microsoft YaHei','PingFang SC',sans-serif;
+  display: flex; align-items: center; justify-content: center;
+}
+#stage {
+  position:relative; width:960px; height:1720px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.m { 
+  position:absolute; opacity:0; font-size:38px; line-height:1.5;
+  color:#e8edf5; text-align:center; width:880px;
+  padding:36px 44px; border-radius:22px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.btitle { font-size:86px; font-weight:900; color:#4dd0e1; text-shadow:0 0 40px rgba(77,208,225,0.35); }
+.bmid { font-size:72px; font-weight:700; color:#7ec8e3; }
+.bnum { font-size:110px; font-weight:900; color:#ff7e5f; text-shadow:0 0 40px rgba(255,126,95,0.3); }
+.m-sep { height:14px; }
+.card-accent { border-color:rgba(77,208,225,0.25); background:rgba(77,208,225,0.05); }
+.card-blue { border-color:rgba(126,200,227,0.25); background:rgba(126,200,227,0.05); }
+.card-orange { border-color:rgba(255,126,95,0.25); background:rgba(255,126,95,0.05); }
+</style>
+</head>
+<body>
+<div id="stage" data-composition-id="main" data-width="1080" data-height="1920" data-duration="193">
+<audio id="audio" src="narration.mp3" data-start="0" data-duration="193" data-track-index="0" data-volume="1"></audio>
+</div>
+
+<script src="gsap.min.js"></script>
+<script>
+// ====== BEAT DATA ======
+// [start, end, type, text(s)]
+const beats = [
+  [0.100, 3.348, 'card', ['上周二技术部小周拿着报价单来找我']],
+  [3.348, 4.699, 'btitle', ['一脸为难']],
+  [4.699, 7.407, 'card', ['这单要报零点八镀锌板的价格']],
+  [7.407, 8.981, 'bare', ['我翻了三份表']],
+  [8.981, 10.682, 'bnum', ['一份写着四十八']],
+  [10.682, 12.326, 'bnum', ['一份写着五十二']],
+  [12.326, 14.166, 'card-orange', ['还有一份五十点五']],
+  [14.166, 15.486, 'btitle', ['我该填哪个']],
+  [15.486, 17.557, 'card', ['三份表来源都不一样']],
+  [17.557, 19.270, 'bare', ['一份是去年留底']],
+  [19.270, 21.296, 'card-blue', ['一份是采购随口说的']],
+  [21.296, 24.224, 'card', ['还有一份是同事电脑里存的最新版']],
+  [24.224, 25.891, 'bare', ['三份都是真的']],
+  [25.891, 27.337, 'card-orange', ['也都过期了']],
+  [27.337, 29.340, 'card', ['风管厂干久了都懂']],
+  [29.340, 31.631, 'bmid', ['最乱的从来不是图纸']],
+  [31.631, 33.379, 'btitle', ['是那些基础数据']],
+  [33.379, 35.694, 'card', ['报价算量做损耗核算']],
+  [35.694, 37.719, 'bare', ['天天用的就是这几样']],
+  [37.719, 40.219, 'bmid', ['材质 厚度 单价 折算系数']],
+  [40.219, 42.083, 'bare', ['这东西看着简单']],
+  [42.083, 43.495, 'btitle', ['散起来要命']],
+  [43.495, 45.532, 'card', ['采购调价改一份表']],
+  [45.532, 48.194, 'card-blue', ['车间说损耗不对又改一份']],
+  [48.194, 49.664, 'bare', ['等真要报价']],
+  [49.664, 52.638, 'card-orange', ['谁都不知道手头这份是不是最新的']],
+  [52.638, 54.953, 'bmid', ['更麻烦的是折算系数']],
+  [54.953, 56.805, 'card', ['S弯弯头三通']],
+  [56.805, 58.773, 'bare', ['展开面积怎么折算']],
+  [58.773, 61.354, 'card', ['每个老师傅心里都有一本账']],
+  [61.354, 63.078, 'card-orange', ['账和账还不一样']],
+  [63.078, 65.520, 'card', ['我们试过共享文件夹统一']],
+  [65.520, 67.280, 'bare', ['结果一个最终版']],
+  [67.280, 69.861, 'card-orange', ['后面跟了五个最终版一号二号']],
+  [69.861, 72.152, 'card-blue', ['改的人以为大家都看见了']],
+  [72.152, 74.363, 'btitle', ['其实看见的只有他自己']],
+  [74.363, 77.581, 'bmid', ['后来我们把基础数据搬进了数据库']],
+  [77.581, 80.462, 'card', ['MySQL 装在局域网服务器上']],
+  [80.462, 82.337, 'bare', ['材料单价放进去']],
+  [82.337, 83.784, 'bare', ['采购改一次']],
+  [83.784, 86.608, 'card', ['所有人打开看到的就是同一个数']],
+  [86.608, 88.298, 'btitle', ['材质厚度单价']],
+  [88.298, 89.606, 'card', ['专人维护']],
+  [89.606, 92.268, 'card-blue', ['报价算量出错登记都在用']],
+  [92.268, 93.634, 'bmid', ['折算系数']],
+  [93.634, 95.289, 'card', ['技术主管维护']],
+  [95.289, 97.812, 'card-blue', ['绩效核算损耗计算都在用']],
+  [97.812, 100.023, 'btitle', ['出错损耗折算最省心']],
+  [100.023, 103.217, 'card', ['以前出了错损耗多少钱靠人估']],
+  [103.217, 105.451, 'card-orange', ['估多估少全凭感情']],
+  [105.451, 108.356, 'card', ['现在登记的时候选材质填平方']],
+  [108.356, 110.717, 'bare', ['单价从库里直接带出来']],
+  [110.717, 112.395, 'card', ['系统自动折算']],
+  [112.395, 114.930, 'btitle', ['数字摆在那谁都没话说']],
+  [114.930, 117.013, 'card', ['把 Excel 换成数据库']],
+  [117.013, 118.796, 'bare', ['表面是技术问题']],
+  [118.796, 120.798, 'card-orange', ['根子上是习惯问题']],
+  [120.798, 122.731, 'card', ['Excel 谁都会改']],
+  [122.731, 124.444, 'card-blue', ['双击就能编辑']],
+  [124.444, 126.562, 'card', ['数据库逼着你定规矩']],
+  [126.562, 128.090, 'bare', ['谁有权限改']],
+  [128.090, 129.953, 'card-orange', ['单位统一不统一']],
+  [129.953, 131.979, 'card', ['很多厂子卡在这一步']],
+  [131.979, 134.456, 'card-blue', ['嫌麻烦又退回 Excel 了']],
+  [134.456, 136.076, 'btitle', ['这规矩值得立']],
+  [136.076, 137.581, 'bare', ['含税不含税']],
+  [137.581, 139.861, 'card', ['按吨算还是按平方算']],
+  [139.861, 141.736, 'card-blue', ['以前靠嘴交代的事']],
+  [141.736, 144.178, 'card-orange', ['建表的时候就得明确下来']],
+  [144.178, 145.960, 'bmid', ['风管厂这类小厂']],
+  [145.960, 148.321, 'card', ['用不起几十万的 ERP']],
+  [148.321, 150.613, 'btitle', ['但 MySQL 是免费的']],
+  [150.613, 153.414, 'card', ['一台普通电脑当服务器就够用']],
+  [153.414, 155.011, 'bare', ['难的不是技术']],
+  [155.011, 157.430, 'card-orange', ['是下决心把数据管起来']],
+  [157.430, 159.641, 'card', ['人脑存得下两百个单价']],
+  [159.641, 162.222, 'card-blue', ['存不下哪个是最新这个事实']],
+  [162.222, 164.166, 'bmid', ['有同行问先搬什么']],
+  [164.166, 166.030, 'btitle', ['先搬单价和系数']],
+  [166.030, 167.743, 'card', ['单位必须定死']],
+  [167.743, 169.317, 'card-blue', ['一个人负责改']],
+  [169.317, 170.787, 'bare', ['其他人只读']],
+  [170.787, 172.025, 'card', ['每天备份']],
+  [172.025, 173.692, 'card-orange', ['出了事能回滚']],
+  [173.692, 175.543, 'card', ['昨天小周又来找我']],
+  [175.543, 177.303, 'bare', ['这回不是问价格']],
+  [177.303, 178.425, 'bmid', ['是问我']],
+  [178.425, 181.400, 'card', ['能不能把板厚公差也维护进去']],
+  [181.400, 182.523, 'btitle', ['我说行']],
+  [182.523, 184.050, 'bare', ['数据库这东西']],
+  [184.050, 185.370, 'bare', ['用顺手了']],
+  [185.370, 187.674, 'btitle', ['人自己会往里加东西']],
+  [187.674, 189.849, 'card', ['奇美星暖通风管制作']],
+  [189.849, 190.902, 'bare', ['关注我']],
+  [190.902, 192.824, 'card-orange', ['每天一条暖通干货']],
+];
+
+// ====== BUILD DOM ======
+const stage = document.getElementById('stage');
+beats.forEach((b, idx) => {
+  const [start, end, type, texts] = b;
+  const div = document.createElement('div');
+  div.id = 'b' + idx;
+  div.style.cssText = 'position:absolute;opacity:0;width:880px;text-align:center;transform-style:preserve-3d;';
+  texts.forEach(t => {
+    const el = document.createElement('div');
+    if (type === 'btitle') { el.className = 'm btitle'; }
+    else if (type === 'bmid') { el.className = 'm bmid'; }
+    else if (type === 'bnum') { el.className = 'm bnum'; }
+    else if (type === 'bare') { 
+      el.className = 'm';
+      el.style.background = 'none'; el.style.backdropFilter = 'none'; el.style.border = 'none';
+      el.style.fontSize = '40px';
+    }
+    else if (type === 'card-blue') { el.className = 'm card-blue'; }
+    else if (type === 'card-orange') { el.className = 'm card-orange'; }
+    else { el.className = 'm'; }
+    el.textContent = t;
+    div.appendChild(el);
+  });
+  stage.appendChild(div);
+});
+
+// ====== GSAP TIMELINE (cardIn/cardOut 3D翻转) ======
+const tl = gsap.timeline({paused:false});
+beats.forEach((b, idx) => {
+  const [start, end, type] = b;
+  const el = '#b' + idx;
+  const isBare = (type === 'bare');
+  const dur = end - start - 0.3;
+  if (isBare) {
+    tl.fromTo(el, {opacity:0, y:24}, {opacity:1, y:0, duration:0.28, ease:'power2.out'}, start);
+  } else {
+    tl.fromTo(el, {opacity:0, rotationY:-18, scale:0.85}, {opacity:1, rotationY:0, scale:1, duration:0.32, ease:'back.out(1.4)'}, start);
+  }
+  tl.to({}, { duration: Math.max(0, dur) }, start + 0.3);
+  if (isBare) {
+    tl.to(el, {opacity:0, y:-16, duration:0.18, ease:'power2.in'}, end - 0.18);
+  } else {
+    tl.to(el, {opacity:0, rotationY:14, scale:0.92, duration:0.18, ease:'power2.in'}, end - 0.18);
+  }
+});
+
+window.__timelines = window.__timelines || {};
+window.__timelines.main = tl;
+</script>
+</body>
+</html>

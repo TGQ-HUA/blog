@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080,height=1920">
+<title>知识库</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+  width:1080px; height:1920px; overflow:hidden; 
+  background: linear-gradient(145deg, #0b0e14 0%, #1a1f2c 100%);
+  font-family: 'Inter','Microsoft YaHei','PingFang SC',sans-serif;
+  display: flex; align-items: center; justify-content: center;
+}
+#stage {
+  position:relative; width:960px; height:1720px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.m { 
+  position:absolute; opacity:0; font-size:38px; line-height:1.5;
+  color:#e8edf5; text-align:center; width:880px;
+  padding:36px 44px; border-radius:22px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.btitle { font-size:86px; font-weight:900; color:#f0d060; text-shadow:0 0 40px rgba(240,208,96,0.3); }
+.bmid { font-size:72px; font-weight:700; color:#7ec8e3; }
+.bnum { font-size:110px; font-weight:900; color:#ff7e5f; text-shadow:0 0 40px rgba(255,126,95,0.3); }
+.m-sep { height:14px; }
+.card-accent { border-color:rgba(240,208,96,0.25); background:rgba(240,208,96,0.04); }
+.card-blue { border-color:rgba(126,200,227,0.25); background:rgba(126,200,227,0.04); }
+.card-orange { border-color:rgba(255,126,95,0.25); background:rgba(255,126,95,0.04); }
+</style>
+</head>
+<body>
+<div id="stage" data-composition-id="main" data-width="1080" data-height="1920" data-duration="255">
+<audio id="audio" src="narration.mp3" data-start="0" data-duration="255" data-track-index="0" data-volume="1"></audio>
+</div>
+
+<script src="gsap.min.js"></script>
+<script>
+// ====== BEAT DATA ======
+// [start, end, type, text(s)]
+const beats = [
+  [0.100, 2.144, 'btitle', ['上周新来的小李问我']],
+  [2.094, 3.715, 'bmid', ['共板法兰打孔']],
+  [3.715, 6.863, 'card-orange', ['孔距到底按新规则还是旧规则']],
+  [6.863, 8.912, 'bare', ['这个事我整理过文档']],
+  [8.912, 11.527, 'card', ['连表格带图写得明明白白']],
+  [11.527, 13.194, 'card-blue', ['可他想不起来看']],
+  [13.194, 15.567, 'bare', ['我也忘了放在哪个文件夹']],
+  [15.567, 18.587, 'card-orange', ['最后还是在微信聊天记录里翻出来的']],
+  [18.587, 20.474, 'btitle', ['三年前我踩过的坑']],
+  [20.474, 23.067, 'card', ['三年后新同事又踩一遍']],
+  [23.067, 24.664, 'bare', ['那一刻我就明白']],
+  [24.664, 26.944, 'card-blue', ['技术部的经验一直存在']],
+  [26.944, 28.807, 'card-orange', ['但存在的地方不对']],
+  [28.807, 30.416, 'bare', ['存在人脑子里']],
+  [30.416, 32.222, 'card', ['存在聊天记录里']],
+  [32.222, 34.756, 'card-blue', ['存在某个谁也不知道的U盘里']],
+  [34.756, 35.960, 'bare', ['这些东西']],
+  [35.960, 37.615, 'btitle', ['人一走就没了']],
+  [37.615, 39.467, 'bmid', ['老师傅脑子里的经验']],
+  [39.467, 41.875, 'card-orange', ['弯头展开留三毫米就够了']],
+  [41.875, 43.472, 'bare', ['多了咬口对不上']],
+  [43.472, 44.976, 'card', ['微信里的结论']],
+  [44.976, 47.280, 'card-blue', ['上次不是说了吗翻翻记录']],
+  [47.280, 49.050, 'bare', ['电脑角落里的文档']],
+  [49.050, 51.770, 'card-orange', ['最终版最终版2打死也不改版']],
+  [51.770, 53.854, 'btitle', ['这些东西有个共同点']],
+  [53.854, 55.300, 'card', ['都在人身上']],
+  [55.300, 56.689, 'card-blue', ['不在系统里']],
+  [56.689, 58.240, 'bare', ['老师傅一退休']],
+  [58.240, 59.745, 'card-orange', ['经验跟着走']],
+  [59.745, 61.805, 'bmid', ['最早我用Word写文档']],
+  [61.805, 63.969, 'bare', ['一个文件夹一个主题']],
+  [63.969, 65.601, 'card', ['整得挺像回事']],
+  [65.601, 67.337, 'card-orange', ['结果半年没人看']],
+  [67.337, 69.629, 'card-blue', ['找一篇笔记要翻半天']],
+  [69.629, 71.712, 'bare', ['还不如直接问老师傅']],
+  [71.712, 74.583, 'bmid', ['后来试过用Excel做经验台账']],
+  [74.583, 75.972, 'bare', ['倒是好查了']],
+  [75.972, 78.368, 'card', ['但一条经验拆成好几列']],
+  [78.368, 80.312, 'card-orange', ['写完自己都不想看']],
+  [80.312, 82.511, 'btitle', ['最后才轮到Obsidian']],
+  [82.511, 83.576, 'bare', ['说白了']],
+  [83.576, 86.296, 'card-blue', ['它就是本地Markdown笔记软件']],
+  [86.296, 88.460, 'btitle', ['但有三样特别适合我们厂']],
+  [88.460, 90.011, 'bmid', ['第一 全文搜索']],
+  [90.011, 91.793, 'bare', ['不管笔记在哪层']],
+  [91.793, 93.310, 'card', ['搜共板打孔']],
+  [93.310, 94.849, 'btitle', ['唰一下全出来']],
+  [94.849, 96.076, 'bmid', ['第二 双链']],
+  [96.076, 98.506, 'card-blue', ['一篇笔记可以链接另一篇']],
+  [98.506, 101.111, 'bare', ['共板打孔连着咬口预留量']],
+  [101.111, 103.784, 'card', ['连着GB50243条款']],
+  [103.784, 105.405, 'card-orange', ['像织了一张网']],
+  [105.405, 107.106, 'bmid', ['第三 本地存储']],
+  [107.106, 109.560, 'card', ['笔记就是一个个文本文件']],
+  [109.560, 111.388, 'bare', ['存在自己电脑里']],
+  [111.388, 112.974, 'card-blue', ['不怕平台倒闭']],
+  [112.974, 114.895, 'btitle', ['文件永远是自己的']],
+  [114.895, 116.782, 'bare', ['现在我的知识库里']],
+  [116.782, 118.553, 'bnum', ['200多篇笔记']],
+  [118.553, 121.284, 'card', ['从管件参数到CAD快捷键']],
+  [121.284, 122.465, 'card-orange', ['啥都有']],
+  [122.465, 124.259, 'btitle', ['当然我也踩过坑']],
+  [124.259, 125.393, 'bmid', ['第一个坑']],
+  [125.393, 127.858, 'card', ['把Obsidian当成第二个Word']],
+  [127.858, 129.745, 'bare', ['建了十几个文件夹']],
+  [129.745, 131.273, 'card-blue', ['结果笔记多了']],
+  [131.273, 133.726, 'card-orange', ['自己都想不起来归在哪']],
+  [133.726, 135.219, 'bare', ['后来想通了']],
+  [135.219, 136.828, 'card', ['不按文件夹分']],
+  [136.828, 138.217, 'card-blue', ['按标签分']],
+  [138.217, 139.710, 'card-orange', ['再靠搜索找']],
+  [139.710, 140.902, 'bmid', ['第二个坑']],
+  [140.902, 142.685, 'card', ['光收藏不消化']],
+  [142.685, 144.930, 'bare', ['看到好资料就往里扔']],
+  [144.930, 146.608, 'card-blue', ['后来定了个规矩']],
+  [146.608, 149.490, 'btitle', ['每篇必须有我厂做法']],
+  [149.490, 150.879, 'bare', ['没有这一段的']],
+  [150.879, 152.152, 'card-orange', ['不算笔记']],
+  [152.152, 153.437, 'bmid', ['第三个坑']],
+  [153.437, 155.127, 'card', ['笔记写得太规范']],
+  [155.127, 157.743, 'bare', ['标题分三级段落工工整整']],
+  [157.743, 159.386, 'card-blue', ['写得慢改得勤']],
+  [159.386, 161.539, 'card-orange', ['自己都不想看第二遍']],
+  [161.539, 163.402, 'bmid', ['后来改成大白话']],
+  [163.402, 164.849, 'card', ['问题是什么']],
+  [164.849, 166.203, 'card-blue', ['原因是什么']],
+  [166.203, 167.604, 'card-orange', ['厂里怎么干']],
+  [167.604, 169.270, 'card', ['当时踩了什么坑']],
+  [169.270, 171.516, 'bare', ['像跟同事说话一样写']],
+  [171.516, 173.275, 'btitle', ['翻看率反而高了']],
+  [173.275, 174.907, 'bmid', ['知识库建好了']],
+  [174.907, 176.365, 'card', ['最怕没人用']],
+  [176.365, 178.009, 'bare', ['我们厂的做法是']],
+  [178.009, 179.618, 'card-blue', ['不逼师傅们写']],
+  [179.618, 181.192, 'card-orange', ['先让师傅们查']],
+  [181.192, 182.824, 'bare', ['小李那次问完我']],
+  [182.824, 185.451, 'card', ['我让他自己去搜共板打孔']],
+  [185.451, 187.372, 'card-blue', ['他搜出来看了两遍']],
+  [187.372, 190.081, 'card', ['还顺手把咬口预留量也看了']],
+  [190.081, 191.342, 'bare', ['从那以后']],
+  [191.342, 193.564, 'btitle', ['他问我的问题明显少了']],
+  [193.564, 195.312, 'bmid', ['暖通行业的小厂']],
+  [195.312, 196.840, 'card', ['普遍有个毛病']],
+  [196.840, 198.680, 'bare', ['技术都靠老带新']],
+  [198.680, 200.127, 'card-blue', ['师傅带徒弟']],
+  [200.127, 202.256, 'card', ['师傅教什么徒弟会什么']],
+  [202.256, 204.803, 'card-orange', ['师傅藏一手徒弟就少一手']],
+  [204.803, 206.597, 'bare', ['不是师傅心眼小']],
+  [206.597, 209.479, 'btitle', ['是厂里没有沉淀知识的机制']],
+  [209.479, 211.145, 'card', ['等到老师傅一走']],
+  [211.145, 213.668, 'card-orange', ['这些东西就跟着进棺材了']],
+  [213.668, 215.578, 'bmid', ['有同行问我怎么建']],
+  [215.578, 217.592, 'bare', ['我建议别整太复杂']],
+  [217.592, 218.923, 'card', ['先跑起来']],
+  [218.923, 221.307, 'card-blue', ['按这个模板写二十篇再说']],
+  [221.307, 222.754, 'card', ['问题是什么']],
+  [222.754, 224.108, 'card-blue', ['原因是什么']],
+  [224.108, 225.868, 'card-orange', ['标准依据是什么']],
+  [225.868, 227.673, 'card', ['我厂做法是什么']],
+  [227.673, 229.016, 'card-blue', ['踩了什么坑']],
+  [229.016, 230.995, 'bare', ['一周哪怕只写一篇']],
+  [230.995, 232.951, 'bnum', ['一年也有五十篇家底']],
+  [232.951, 234.780, 'bmid', ['昨天小李又来找我']],
+  [234.780, 236.909, 'card', ['问防火阀检修口的事']],
+  [236.909, 238.344, 'bare', ['我刚想开口']],
+  [238.344, 240.092, 'card-blue', ['他自己接了一句']],
+  [240.092, 242.025, 'btitle', ['我先去知识库搜搜']],
+  [242.025, 243.576, 'card-orange', ['搜不到再问您']],
+  [243.576, 244.467, 'bare', ['行']],
+  [244.467, 245.833, 'bmid', ['这就算成了']],
+  [245.833, 248.344, 'card', ['小李现在问我的问题越来越少']],
+  [248.344, 249.988, 'card-blue', ['不是他没问题了']],
+  [249.988, 252.129, 'btitle', ['是他学会自己找答案了']],
+  [252.129, 254.808, 'card-orange', ['这比我多教他十个参数都值']],
+];
+
+// ====== BUILD DOM ======
+const stage = document.getElementById('stage');
+beats.forEach((b, idx) => {
+  const [start, end, type, texts] = b;
+  const div = document.createElement('div');
+  div.id = 'b' + idx;
+  div.style.cssText = 'position:absolute;opacity:0;width:880px;text-align:center;transform-style:preserve-3d;';
+  texts.forEach(t => {
+    const el = document.createElement('div');
+    if (type === 'btitle') { el.className = 'm btitle'; }
+    else if (type === 'bmid') { el.className = 'm bmid'; }
+    else if (type === 'bnum') { el.className = 'm bnum'; }
+    else if (type === 'bare') { 
+      el.className = 'm';
+      el.style.background = 'none'; el.style.backdropFilter = 'none'; el.style.border = 'none';
+      el.style.fontSize = '40px';
+    }
+    else if (type === 'card-blue') { el.className = 'm card-blue'; }
+    else if (type === 'card-orange') { el.className = 'm card-orange'; }
+    else { el.className = 'm'; }
+    el.textContent = t;
+    div.appendChild(el);
+  });
+  stage.appendChild(div);
+});
+
+// ====== GSAP TIMELINE (cardIn/cardOut 3D翻转) ======
+const tl = gsap.timeline({paused:false});
+beats.forEach((b, idx) => {
+  const [start, end, type] = b;
+  const el = '#b' + idx;
+  const isBare = (type === 'bare');
+  const dur = end - start - 0.3;
+  if (isBare) {
+    tl.fromTo(el, {opacity:0, y:24}, {opacity:1, y:0, duration:0.28, ease:'power2.out'}, start);
+  } else {
+    tl.fromTo(el, {opacity:0, rotationY:-18, scale:0.85}, {opacity:1, rotationY:0, scale:1, duration:0.32, ease:'back.out(1.4)'}, start);
+  }
+  tl.to({}, { duration: Math.max(0, dur) }, start + 0.3);
+  if (isBare) {
+    tl.to(el, {opacity:0, y:-16, duration:0.18, ease:'power2.in'}, end - 0.18);
+  } else {
+    tl.to(el, {opacity:0, rotationY:14, scale:0.92, duration:0.18, ease:'power2.in'}, end - 0.18);
+  }
+});
+
+window.__timelines = window.__timelines || {};
+window.__timelines.main = tl;
+</script>
+</body>
+</html>

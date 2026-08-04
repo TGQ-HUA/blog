@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080,height=1920">
+<title>圆管</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { 
+  width:1080px; height:1920px; overflow:hidden; 
+  background: linear-gradient(145deg, #0a0e16 0%, #14203a 100%);
+  font-family: 'Inter','Microsoft YaHei','PingFang SC',sans-serif;
+  display: flex; align-items: center; justify-content: center;
+}
+#stage {
+  position:relative; width:960px; height:1720px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.m { 
+  position:absolute; opacity:0; font-size:38px; line-height:1.5;
+  color:#e8edf5; text-align:center; width:880px;
+  padding:36px 44px; border-radius:22px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+}
+.btitle { font-size:86px; font-weight:900; color:#4dd0e1; text-shadow:0 0 40px rgba(77,208,225,0.35); }
+.bmid { font-size:72px; font-weight:700; color:#7ec8e3; }
+.bnum { font-size:110px; font-weight:900; color:#ff7e5f; text-shadow:0 0 40px rgba(255,126,95,0.3); }
+.m-sep { height:14px; }
+.card-accent { border-color:rgba(77,208,225,0.25); background:rgba(77,208,225,0.05); }
+.card-blue { border-color:rgba(126,200,227,0.25); background:rgba(126,200,227,0.05); }
+.card-orange { border-color:rgba(255,126,95,0.25); background:rgba(255,126,95,0.05); }
+</style>
+</head>
+<body>
+<div id="stage" data-composition-id="main" data-width="1080" data-height="1920" data-duration="242">
+<audio id="audio" src="narration.mp3" data-start="0" data-duration="242" data-track-index="0" data-volume="1"></audio>
+</div>
+
+<script src="gsap.min.js"></script>
+<script>
+// ====== BEAT DATA ======
+// [start, end, type, text(s)]
+const beats = [
+  [0.100, 2.052, 'card', ['上个月发走一批圆管']],
+  [2.002, 3.495, 'bare', ['到工地安装']],
+  [3.495, 5.219, 'card-blue', ['师傅打电话回来']],
+  [5.219, 6.666, 'bare', ['法兰装不上']],
+  [6.666, 7.916, 'bare', ['套不进去']],
+  [7.916, 9.618, 'bnum', ['整整差了一个口']],
+  [9.618, 11.412, 'card-orange', ['车间里谁都不信']],
+  [11.412, 13.981, 'card', ['下料尺寸是排版软件出的']],
+  [13.981, 15.185, 'bare', ['怎么会错']],
+  [15.185, 16.643, 'bare', ['后来查出来']],
+  [16.643, 18.681, 'bnum', ['问题是口径没调']],
+  [18.681, 21.145, 'card-blue', ['这批圆管配的是插接法兰']],
+  [21.145, 23.761, 'card-orange', ['排版按活法兰的尺寸下了料']],
+  [23.761, 26.168, 'bnum', ['插接法兰要收三毫米']],
+  [26.168, 29.016, 'bnum', ['活法兰两百五以上要放两毫米']],
+  [29.016, 30.243, 'bare', ['一收一放']],
+  [30.243, 31.655, 'btitle', ['差出五毫米']],
+  [31.655, 33.113, 'bare', ['看着不起眼']],
+  [33.113, 35.266, 'btitle', ['套上去就是死活不对']],
+  [35.266, 36.689, 'bare', ['圆管这东西']],
+  [36.689, 38.773, 'card', ['看着比矩形管简单']],
+  [38.773, 40.196, 'bare', ['一根圆筒嘛']],
+  [40.196, 41.643, 'bare', ['可真做起来']],
+  [41.643, 43.634, 'btitle', ['道道比矩形管还细']],
+  [43.634, 44.953, 'bmid', ['先说下料']],
+  [44.953, 47.882, 'card-blue', ['圆管下料尺寸都是按管径外尺']],
+  [47.882, 49.270, 'bare', ['同一个管径']],
+  [49.270, 50.902, 'bare', ['配不同的法兰']],
+  [50.902, 52.939, 'card-orange', ['口径要调的数不一样']],
+  [52.939, 54.328, 'bare', ['插接法兰']],
+  [54.328, 55.682, 'bnum', ['收三毫米']],
+  [55.682, 57.673, 'bnum', ['活法兰两百五以上']],
+  [57.673, 58.958, 'bare', ['放两毫米']],
+  [58.958, 60.370, 'bare', ['满焊法兰']],
+  [60.370, 61.770, 'bnum', ['放四毫米']],
+  [61.770, 62.916, 'bare', ['一根管']],
+  [62.916, 64.768, 'btitle', ['四种法兰四种数']],
+  [64.768, 66.585, 'card', ['排版软件里不改']],
+  [66.585, 67.986, 'btitle', ['下出来就废']],
+  [67.986, 69.282, 'bmid', ['再说接缝']],
+  [69.282, 70.983, 'bare', ['圆管是卷圆的']],
+  [70.983, 74.109, 'card-blue', ['接缝跟矩形管完全是两套逻辑']],
+  [74.109, 75.370, 'bare', ['料厚够的']],
+  [75.370, 76.770, 'bnum', ['零点七以上']],
+  [76.770, 78.124, 'card-orange', ['直接焊边']],
+  [78.124, 79.259, 'bare', ['不叠料']],
+  [79.259, 80.347, 'bare', ['料薄的']],
+  [80.347, 81.770, 'bnum', ['零点七以下']],
+  [81.770, 83.379, 'bnum', ['要叠五毫米焊']],
+  [83.379, 84.837, 'bare', ['不然焊穿了']],
+  [84.837, 86.261, 'bmid', ['还有几个特例']],
+  [86.261, 88.159, 'card', ['做单的人最容易漏']],
+  [88.159, 89.664, 'bare', ['方变圆主体']],
+  [89.664, 92.084, 'bnum', ['方口长边够大的用咬口']],
+  [92.084, 94.016, 'card-blue', ['不够大的用碰焊']],
+  [94.016, 95.983, 'card-orange', ['圆直管料薄又长的']],
+  [95.983, 97.418, 'bare', ['也得用咬口']],
+  [97.418, 99.097, 'bare', ['标准节圆直管']],
+  [99.097, 101.226, 'card', ['料厚够就直接焊边']],
+  [101.226, 103.403, 'bmid', ['接缝尺寸也得记牢']],
+  [103.403, 105.381, 'bnum', ['碰焊五是叠五毫米']],
+  [105.381, 108.020, 'bnum', ['拼接十五是两边各十五']],
+  [108.020, 109.988, 'card-blue', ['合计用料三十毫米']],
+  [109.988, 112.291, 'card-orange', ['圆管展开是一张长条']],
+  [112.291, 114.849, 'bnum', ['展开宽度超过一千二百五']],
+  [114.849, 116.157, 'bare', ['就得拼板']],
+  [116.157, 118.866, 'bnum', ['展开长度超过四千零八十']],
+  [118.866, 120.856, 'card', ['先问有没有五六米的料']],
+  [120.856, 122.870, 'card-blue', ['圆咀长度也别小看']],
+  [122.870, 124.548, 'bnum', ['常规八十毫米']],
+  [124.548, 127.233, 'card-orange', ['方变圆或者圆大小头太短的']],
+  [127.233, 128.553, 'bare', ['缩到五十']],
+  [128.553, 130.312, 'bmid', ['做风管这么多年']],
+  [130.312, 131.840, 'bare', ['发现一个现象']],
+  [131.840, 134.688, 'card', ['圆管在厂里总被当成配角']],
+  [134.688, 136.319, 'card-blue', ['矩形管是主力']],
+  [136.319, 137.928, 'bare', ['规则一套一套']],
+  [137.928, 139.062, 'bare', ['圆管呢']],
+  [139.062, 140.879, 'card-orange', ['很多厂干脆外购']],
+  [140.879, 142.754, 'bnum', ['自己做的厂不多']],
+  [142.754, 144.977, 'bnum', ['规则也就没人系统整理']],
+  [144.977, 147.152, 'card', ['但圆管恰恰最容易出']],
+  [147.152, 149.328, 'card-blue', ['看着对实际错的管件']],
+  [149.328, 150.798, 'bare', ['矩形管错了']],
+  [150.798, 152.372, 'bare', ['板子还能改改']],
+  [152.372, 155.150, 'bnum', ['圆管卷圆之前口径差三毫米']],
+  [155.150, 157.106, 'btitle', ['卷完就是一根废筒']],
+  [157.106, 159.409, 'bmid', ['国标里对圆管其实很细']],
+  [159.409, 161.099, 'card-orange', ['外径三百以内的']],
+  [161.099, 163.240, 'card', ['允许偏差正负两毫米']],
+  [163.240, 164.641, 'bare', ['三百以上的']],
+  [164.641, 166.157, 'bare', ['正负三毫米']],
+  [166.157, 168.946, 'bnum', ['椭圆度不能超过直径的千分之三']],
+  [168.946, 170.648, 'bnum', ['直径超过八百']],
+  [170.648, 172.372, 'bare', ['必须设加固环']],
+  [172.372, 174.456, 'bnum', ['圆形风管受力均匀']],
+  [174.456, 177.906, 'bnum', ['同条件下板材还能比矩形管减薄一级']],
+  [177.906, 179.756, 'card-blue', ['这条很多厂不知道']],
+  [179.756, 182.233, 'card-orange', ['一直按矩形管的板厚下料']],
+  [182.233, 183.506, 'btitle', ['白白费料']],
+  [183.506, 185.312, 'bmid', ['圆管不是边角料']],
+  [185.312, 187.523, 'btitle', ['是被当成边角料的管件']],
+  [187.523, 190.011, 'card', ['有同行问圆管做单注意啥']],
+  [190.011, 192.141, 'card-blue', ['先定法兰再定口径']],
+  [192.141, 193.599, 'bare', ['接缝看料厚']],
+  [193.599, 195.150, 'bare', ['拼板看宽度']],
+  [195.150, 196.678, 'bmid', ['圆咀看长度']],
+  [196.678, 198.715, 'bmid', ['圆弯头分段别想当然']],
+  [198.715, 200.706, 'card-orange', ['四十五度常规三段']],
+  [200.706, 202.569, 'card', ['九十度常规四段']],
+  [202.569, 204.282, 'bare', ['三十度做两段']],
+  [204.282, 206.388, 'bnum', ['圆S弯常规三节']],
+  [206.388, 208.171, 'card-blue', ['长度超过一千二']],
+  [208.171, 210.173, 'card-orange', ['或者偏差超过一千']],
+  [210.173, 211.724, 'bare', ['要改成五节']],
+  [211.724, 215.162, 'bnum', ['还得保证首段最短位置大于五十毫米']],
+  [215.162, 217.048, 'bnum', ['那天查完那批圆管']],
+  [217.048, 218.738, 'card', ['排版的小伙子说']],
+  [218.738, 220.555, 'card-blue', ['早知道有这张表']],
+  [220.555, 223.171, 'btitle', ['我就不用翻手机问老师傅了']],
+  [223.171, 224.664, 'bmid', ['现在这张表']],
+  [224.664, 226.817, 'bnum', ['就贴在排版电脑旁边']],
+  [226.817, 228.842, 'card-orange', ['下回再有圆管的单子']],
+  [228.842, 230.219, 'card', ['先看法兰']],
+  [230.219, 231.388, 'bare', ['再对数']],
+  [231.388, 232.812, 'bare', ['圆管这东西']],
+  [232.812, 234.143, 'btitle', ['其实不难']],
+  [234.143, 236.701, 'btitle', ['就是一直没人把它当回事']],
+  [236.701, 238.888, 'card-blue', ['奇美星暖通风管制作']],
+  [238.888, 239.942, 'bare', ['关注我']],
+  [239.942, 241.863, 'card-orange', ['每天一条暖通干货']],
+];
+
+// ====== BUILD DOM ======
+const stage = document.getElementById('stage');
+beats.forEach((b, idx) => {
+  const [start, end, type, texts] = b;
+  const div = document.createElement('div');
+  div.id = 'b' + idx;
+  div.style.cssText = 'position:absolute;opacity:0;width:880px;text-align:center;transform-style:preserve-3d;';
+  texts.forEach(t => {
+    const el = document.createElement('div');
+    if (type === 'btitle') { el.className = 'm btitle'; }
+    else if (type === 'bmid') { el.className = 'm bmid'; }
+    else if (type === 'bnum') { el.className = 'm bnum'; }
+    else if (type === 'bare') { 
+      el.className = 'm';
+      el.style.background = 'none'; el.style.backdropFilter = 'none'; el.style.border = 'none';
+      el.style.fontSize = '40px';
+    }
+    else if (type === 'card-blue') { el.className = 'm card-blue'; }
+    else if (type === 'card-orange') { el.className = 'm card-orange'; }
+    else { el.className = 'm'; }
+    el.textContent = t;
+    div.appendChild(el);
+  });
+  stage.appendChild(div);
+});
+
+// ====== GSAP TIMELINE (cardIn/cardOut 3D翻转) ======
+const tl = gsap.timeline({paused:false});
+beats.forEach((b, idx) => {
+  const [start, end, type] = b;
+  const el = '#b' + idx;
+  const isBare = (type === 'bare');
+  const dur = end - start - 0.3;
+  if (isBare) {
+    tl.fromTo(el, {opacity:0, y:24}, {opacity:1, y:0, duration:0.28, ease:'power2.out'}, start);
+  } else {
+    tl.fromTo(el, {opacity:0, rotationY:-18, scale:0.85}, {opacity:1, rotationY:0, scale:1, duration:0.32, ease:'back.out(1.4)'}, start);
+  }
+  tl.to({}, { duration: Math.max(0, dur) }, start + 0.3);
+  if (isBare) {
+    tl.to(el, {opacity:0, y:-16, duration:0.18, ease:'power2.in'}, end - 0.18);
+  } else {
+    tl.to(el, {opacity:0, rotationY:14, scale:0.92, duration:0.18, ease:'power2.in'}, end - 0.18);
+  }
+});
+
+window.__timelines = window.__timelines || {};
+window.__timelines.main = tl;
+</script>
+</body>
+</html>
