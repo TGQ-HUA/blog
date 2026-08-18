@@ -1,6 +1,7 @@
 ---
 title: "板切错了没人认账——我们写了个“出错登记”模块，谁的责任系统里见"
 date: 2026-08-18
+slug: "duct-error-registration-system"
 description: "技术部自研文件管理系统里的出错登记模块：从“出了错靠嘴说”到“系统里见真章”的转变，字段设计、损耗折算、绩效挂钩三条关键设计。"
 categories:
   - 编程工具
