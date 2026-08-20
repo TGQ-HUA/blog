@@ -5,7 +5,8 @@ slug: "system-adoption-digital-push-resistance"
 description: "今年春节后，我花了接近三周把技术部文件管理系统写出来。"
 categories: ["管理经验"]
 tags: ["管理系统", "数字化转型", "技术部管理", "风管厂", "IMS"]
-draft: false---
+draft: false
+---
 
 ## 系统写好了，没人点
 

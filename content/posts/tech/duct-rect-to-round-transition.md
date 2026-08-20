@@ -4,7 +4,8 @@ slug: "duct-rect-to-round-transition"
 date: 2026-08-15
 description: "前两天车间老张找到我，说一批方变圆到现场装不上了。"
 categories: ["暖通技术"]
-tags: ["方变圆", "天圆地方", "风管排版", "JGJ141-2017", "CAMduct"]---
+tags: ["方变圆", "天圆地方", "风管排版", "JGJ141-2017", "CAMduct"]
+---
 
 ## 引子：一个真实问题
 
