@@ -1,10 +1,10 @@
 ---
 title: "同一个错犯了三次，我才决定自己写个系统管起来"
 date: 2026-07-15
+description: "去年夏天，车间退回来一批弯头，包角全做错了——该用防火板的用了镀锌板，该做内菱角的没做。"
 categories: ["暖通技术"]
 slug: "error-tracking-system"
-draft: false
----
+draft: false---
 
 ## 引子：一个真实问题
 

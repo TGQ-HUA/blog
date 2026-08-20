@@ -1,10 +1,10 @@
 ---
 title: "焊接件还是咬口件？风管车间最容易被搞混的八件事"
 date: 2026-07-15
+description: "上周车间小王跑来找我，拿着一个单子一脸懵。"
 categories: ["暖通技术"]
 slug: "welding-vs-seaming-duct"
-draft: false
----
+draft: false---
 
 ## 引子：一个真实问题
 

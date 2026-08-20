@@ -2,10 +2,10 @@
 title: "技术部推数字化系统，没人用怎么办——风管厂的真实推坑史"
 date: 2026-07-27
 slug: "system-adoption-digital-push-resistance"
+description: "今年春节后，我花了接近三周把技术部文件管理系统写出来。"
 categories: ["管理经验"]
 tags: ["管理系统", "数字化转型", "技术部管理", "风管厂", "IMS"]
-draft: false
----
+draft: false---
 
 ## 系统写好了，没人点
 

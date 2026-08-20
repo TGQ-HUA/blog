@@ -2,10 +2,10 @@
 title: "风管测定孔：一个Φ100的小东西，为什么总能闹到安装现场去切割？"
 date: 2026-07-09
 slug: "duct-test-hole-rules"
+description: ""你们这风管做的什么东西？整段装完了才发现一个测试孔都没有！"
 categories: ["暖通技术"]
 tags: ["测定孔", "测试孔", "GB50243", "JGJT260", "漏风量测试", "检修口"]
-draft: false
----
+draft: false---
 
 ## 前几天安装队又打电话来骂人了
 

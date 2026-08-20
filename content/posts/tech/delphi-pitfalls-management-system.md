@@ -1,10 +1,10 @@
 ---
 title: "Delphi写了个管理系统，三个月后我自己都不敢改了"
 date: 2026-07-15
+description: "去年六月份，我干了一件蠢事。"
 categories: ["编程工具"]
 slug: "delphi-pitfalls-management-system"
-draft: false
----
+draft: false---
 
 ## 引子：一个真实问题
 

@@ -1,9 +1,9 @@
 ---
 title: "CAMduct自动排版，车间跑了三年才知道要「调教」"
 date: 2026-07-05
+description: "上周跟单跑过来问："六张板的弯头订单，软件自动排用了七张板，师傅手排五张半就够了，你们技术部到底行不行？""
 categories: ["暖通技术"]
-slug: "camduct-auto-layout-pitfalls"
----
+slug: "camduct-auto-layout-pitfalls"---
 
 ## 软件说能排，师傅说排不了
 

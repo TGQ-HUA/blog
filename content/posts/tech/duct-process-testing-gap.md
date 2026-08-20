@@ -2,14 +2,14 @@
 date: 2026-07-24
 title: "工艺性检测——GB50243写得明明白白，风管厂为什么都不做"
 slug: "duct-process-testing-gap"
+description: "上个月同行老刘打来电话，语气不对。"
 categories: ["行业观察"]
 tags:
   - GB50243
   - 工艺性检测
   - 漏风量
   - 行业观察
-  - 标准解读
----
+  - 标准解读---
 
 ## 上周接到一个电话
 

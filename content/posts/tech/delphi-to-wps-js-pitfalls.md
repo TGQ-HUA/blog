@@ -2,6 +2,7 @@
 title: "从Delphi转WPS JS宏，踩过的坑比想象中的深"
 date: 2026-07-23
 slug: "delphi-to-wps-js-pitfalls"
+description: "上个月车间日报那个宏跑的好好的，突然有一天罢工了。"
 categories: ["编程工具"]
 tags:
   - WPS
@@ -9,8 +10,7 @@ tags:
   - Delphi
   - 踩坑
   - 自研工具
-  - 风管厂
----
+  - 风管厂---
 
 ## 引子：一个"null"让我查了四个小时
 

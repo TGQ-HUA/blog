@@ -2,10 +2,10 @@
 title: "卖过家具的人管技术部，这12年我怎么过来的"
 slug: "retail-sales-to-duct-tech-lead"
 date: 2026-08-14
+description: "前天新来的小伙子问我：师傅，你大学学的啥专业？"
 categories: ["个人成长"]
 tags: ["转行", "个人成长", "技术部", "学习"]
-draft: false
----
+draft: false---
 
 前天新来的小伙子问我：师傅，你大学学的啥专业？
 

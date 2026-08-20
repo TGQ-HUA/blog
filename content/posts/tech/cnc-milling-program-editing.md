@@ -2,10 +2,10 @@
 title: "铣床程序里一行 T0 没删，一整块板白铣了——数控程序的坑，我们写成了规矩"
 slug: "cnc-milling-program-editing"
 date: 2026-08-12
+description: "上周三下午，车间小周跑上来找我，手里举着一块棱形弯头的外侧板，脸色不好看。"
 categories: ["编程工具"]
 tags: ["数控铣床", "CAMduct", "北京精雕", "踩坑实录"]
-draft: false
----
+draft: false---
 
 上周三下午，车间小周跑上来找我，手里举着一块棱形弯头的外侧板，脸色不好看。
 
