@@ -1,5 +1,6 @@
 ---
 title: '客户说"清个量"，我们差点把整套系统分了节——清量和分节，不是一回事'
+slug: duct-quantity-vs-sectioning
 date: 2026-08-22
 description: "一个词没对齐，技术部白干两天。图纸清量和系统分节的区别、对接流程和下单前的五连问。"
 categories: ["管理经验"]
