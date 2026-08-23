@@ -1,5 +1,6 @@
 ---
 title: "双层保温管，内胆外壁分开下料——那 200 毫米差在哪"
+slug: "double-layer-duct-inner-outer-dimensions"
 date: 2026-08-23
 description: "双层保温管的内胆外壁尺寸换算，外壁比实长短 200、内胆比外壁长 220，勾股偏差 20.7——一张表讲清楚"
 categories: ["暖通技术"]
