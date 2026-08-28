@@ -9,6 +9,7 @@ tags:
   - 内支撑
   - 通丝螺杆
   - 标准解读
+slug: "duct-internal-support-direction"
 ---
 
 ## 引子：一个装反了的螺杆
