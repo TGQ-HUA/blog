@@ -1,5 +1,6 @@
 ---
 title: "接油盆内折15、套管余106、沉水弯靠CAD放样——这三类件，排版软件帮不上忙"
+slug: fittings-software-cant-draw
 date: 2026-09-06
 description: "接油盆、套管、沉水弯看着不起眼，可排版软件偏偏出不齐它们的图。哪些能排、哪些得人补，一次说透。"
 categories:
