@@ -1,6 +1,6 @@
 ---
 title: "防火板CNC辅助工具 - 使用说明"
-date: 2026-09-25
+date: 2026-09-24
 slug: "防火板CNC辅助工具使用说明"
 categories: ["工具"]
 layout: "page"
